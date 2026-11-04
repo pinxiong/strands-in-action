@@ -1,0 +1,8 @@
+SDK_VERSION : 1.63.0
+TURN cycle=94b99f5d  messages=1
+     user[text]
+TURN cycle=f3dfd557  messages=3
+     user[text] | assistant[text+toolUse] | user[toolResult]
+FINAL       : user[text] | assistant[text+toolUse] | user[toolResult] | assistant[text]
+MESSAGES    : 4
+CYCLE_COUNT : 2

@@ -1,0 +1,6 @@
+BOTO_REGION             : us-east-1
+DEFAULT_BEDROCK_REGION  : us-west-2
+DEFAULT_BEDROCK_MODEL_ID: global.anthropic.claude-sonnet-4-6
+PREFIXED_VARIANT        : us.anthropic.claude-sonnet-4-6
+RESOLVED_MODEL_ID       : global.anthropic.claude-sonnet-4-6
+CLIENT_REGION           : us-east-1

@@ -1,0 +1,22 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1297 508" width="1297" height="508" role="img">
+<title>one cycle, 27 tokens</title>
+<defs>
+<linearGradient id="bg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#0a1024"/><stop offset="1" stop-color="#0d1c3a"/></linearGradient>
+</defs>
+<rect width="1297" height="508" rx="18" fill="url(#bg)"/>
+<rect x="0.5" y="0.5" width="1296" height="507" rx="18" fill="none" stroke="#1e2d4d"/>
+<rect x="0" y="0" width="1297" height="76" rx="18" fill="#0f1b33"/>
+<rect x="0" y="58" width="1297" height="18" fill="#0f1b33"/>
+<circle cx="34" cy="38" r="8" fill="#ff5f57"/>
+<circle cx="60" cy="38" r="8" fill="#febc2e"/>
+<circle cx="86" cy="38" r="8" fill="#28c840"/>
+<text x="648" y="46" text-anchor="middle" font-family="Menlo, monospace" font-size="24" fill="#7c8db5">one cycle, 27 tokens</text>
+<text xml:space="preserve" x="44" y="148" font-family="Menlo, monospace" font-size="28" font-weight="600" fill="#5eead4">$ python src/02_pinned.py</text>
+<text xml:space="preserve" x="44" y="191" font-family="Menlo, monospace" font-size="28" font-weight="400" fill="#dfe7f5"></text>
+<text xml:space="preserve" x="44" y="234" font-family="Menlo, monospace" font-size="28" font-weight="400" fill="#dfe7f5">SDK_VERSION : 1.63.0</text>
+<text xml:space="preserve" x="44" y="277" font-family="Menlo, monospace" font-size="28" font-weight="400" fill="#dfe7f5">STOP_REASON : end_turn</text>
+<text xml:space="preserve" x="44" y="320" font-family="Menlo, monospace" font-size="28" font-weight="400" fill="#dfe7f5">TEXT        : The largest ocean on Earth is the Pacific Ocean.</text>
+<text xml:space="preserve" x="44" y="363" font-family="Menlo, monospace" font-size="28" font-weight="400" fill="#dfe7f5">USAGE       : {'inputTokens': 16, 'outputTokens': 11, 'totalTokens': 27}</text>
+<text xml:space="preserve" x="44" y="406" font-family="Menlo, monospace" font-size="28" font-weight="400" fill="#dfe7f5">LATENCY     : 283</text>
+<text xml:space="preserve" x="44" y="449" font-family="Menlo, monospace" font-size="28" font-weight="400" fill="#dfe7f5">CYCLE_COUNT : 1</text>
+</svg>

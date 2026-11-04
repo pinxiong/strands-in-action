@@ -1,0 +1,44 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" width="1600" height="900" font-family="-apple-system, 'Helvetica Neue', Arial, sans-serif">
+  <defs>
+    <marker id="covArr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#2563eb"/>
+    </marker>
+  </defs>
+  <defs><pattern id="grid" width="44" height="44" patternUnits="userSpaceOnUse"><path d="M 44 0 L 0 0 0 44" fill="none" stroke="#d7e5f7" stroke-width="1"/></pattern></defs><rect width="1600" height="900" fill="#fbfdff"/><rect width="1600" height="900" fill="url(#grid)"/>
+  <circle cx="1520" cy="60" r="320" fill="#e8f0fc"/>
+  <circle cx="40" cy="880" r="260" fill="#eef4fc"/>
+
+  <!-- series tag -->
+  <rect x="110" y="104" width="300" height="40" rx="20" fill="#dbeafe"/>
+  <text x="260" y="130" font-size="17" font-weight="700" fill="#1d4ed8" text-anchor="middle" letter-spacing="2.5">STRANDS IN ACTION · 01</text>
+
+  <!-- title -->
+  <text x="108" y="316" font-size="68" font-weight="800" fill="#0f172a">How the Strands</text>
+  <text x="108" y="400" font-size="68" font-weight="800" fill="#2563eb">Agent Loop</text>
+  <text x="108" y="484" font-size="68" font-weight="800" fill="#0f172a">Actually Works</text>
+
+  <!-- subtitle -->
+  <text x="110" y="556" font-size="25" fill="#475569">Reading the loop off the SDK source — recursion,</text>
+  <text x="110" y="592" font-size="25" fill="#475569">thirteen stop reasons and the cost of a cycle.</text>
+
+  <!-- footer -->
+  <text x="110" y="796" font-family="ui-monospace, Menlo, monospace" font-size="19" fill="#64748b">strands-agents 1.63.0 · every line verified by running it</text>
+
+  <!-- right visual: nested cycles with recursion loop -->
+  <rect x="950" y="200" width="500" height="330" rx="18" fill="#ffffff" stroke="#2563eb" stroke-width="3"/>
+  <text x="990" y="252" font-size="24" font-weight="700" fill="#1e3a8a">cycle 1</text>
+
+  <rect x="1030" y="286" width="340" height="170" rx="14" fill="#eff6ff" stroke="#2563eb" stroke-width="2"/>
+  <text x="1070" y="338" font-size="22" font-weight="700" fill="#2563eb">cycle 2</text>
+  <text x="1070" y="378" font-family="ui-monospace, Menlo, monospace" font-size="17" fill="#475569">model &#8594; tool &#8594; model</text>
+  <text x="1070" y="410" font-family="ui-monospace, Menlo, monospace" font-size="17" fill="#64748b">parent: cycle 1</text>
+
+  <!-- recursion loop -->
+  <polyline points="1370,371 1500,371 1500,160 1210,160 1210,194" fill="none" stroke="#2563eb" stroke-width="3" stroke-dasharray="9,7" marker-end="url(#covArr)"/>
+  <text x="1235" y="148" font-family="ui-monospace, Menlo, monospace" font-size="18" fill="#2563eb">recurse_event_loop</text>
+
+  <!-- takeaway chip -->
+  <rect x="950" y="600" width="500" height="86" rx="14" fill="#ffffff" stroke="#bfdbfe" stroke-width="2"/>
+  <text x="1200" y="640" font-size="21" font-weight="600" fill="#0f172a" text-anchor="middle">The loop is not a loop.</text>
+  <text x="1200" y="670" font-family="ui-monospace, Menlo, monospace" font-size="17" fill="#64748b" text-anchor="middle">turn count = stack depth</text>
+</svg>

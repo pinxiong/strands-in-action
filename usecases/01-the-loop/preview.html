@@ -1,0 +1,416 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>How the Strands Agent Loop Actually Works</title>
+<style>
+  :root {
+    --ink: #1f2328;
+    --ink-soft: #4b535c;
+    --line: #dfe4ea;
+    --accent: #2f6fb0;
+    --accent-soft: #eef4fb;
+    --code-bg: #f6f8fa;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    padding: 32px 20px 96px;
+    background: #ffffff;
+    color: var(--ink);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans",
+                 "PingFang SC", "Helvetica Neue", Arial, sans-serif;
+    font-size: 17px;
+    line-height: 1.75;
+    -webkit-font-smoothing: antialiased;
+  }
+  .wrap { max-width: 780px; margin: 0 auto; }
+
+  .meta {
+    background: var(--accent-soft);
+    border: 1px solid #d3e3f4;
+    border-radius: 10px;
+    padding: 18px 22px;
+    margin-bottom: 36px;
+    font-size: 14.5px;
+    line-height: 1.6;
+    color: var(--ink-soft);
+  }
+  .meta h2 {
+    margin: 0 0 12px;
+    font-size: 13px;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    color: var(--accent);
+    font-weight: 700;
+  }
+  .meta dl { margin: 0; display: grid; grid-template-columns: 132px 1fr; gap: 6px 14px; }
+  .meta dt { color: #7b858f; }
+  .meta dd { margin: 0; color: var(--ink); word-break: break-word; }
+  .tag {
+    display: inline-block;
+    background: #ffffff;
+    border: 1px solid #cddff2;
+    color: var(--accent);
+    border-radius: 999px;
+    padding: 1px 10px;
+    margin-right: 6px;
+    font-size: 13px;
+  }
+
+  h1 {
+    font-size: 34px;
+    line-height: 1.25;
+    letter-spacing: -.01em;
+    margin: 0 0 18px;
+  }
+  h2 {
+    font-size: 24px;
+    margin: 46px 0 14px;
+    padding-bottom: 6px;
+    border-bottom: 1px solid var(--line);
+  }
+  h3 { font-size: 19px; margin: 30px 0 10px; }
+  p { margin: 0 0 18px; }
+  a { color: var(--accent); }
+
+  blockquote {
+    margin: 0 0 26px;
+    padding: 2px 0 2px 18px;
+    border-left: 3px solid #cddff2;
+    color: var(--ink-soft);
+    font-size: 16px;
+  }
+  blockquote p { margin: 8px 0; }
+
+  ul, ol { margin: 0 0 18px; padding-left: 24px; }
+  li { margin-bottom: 8px; }
+
+  code {
+    font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas,
+                 "Liberation Mono", monospace;
+    font-size: 14px;
+  }
+  p code, li code, td code {
+    background: var(--code-bg);
+    border: 1px solid var(--line);
+    border-radius: 4px;
+    padding: 1px 5px;
+  }
+  pre {
+    background: var(--code-bg);
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    padding: 14px 16px;
+    overflow-x: auto;
+    margin: 0 0 22px;
+    line-height: 1.55;
+  }
+  pre code { background: none; border: 0; padding: 0; font-size: 13.5px; }
+
+  figure { margin: 28px 0; }
+  figure img {
+    width: 100%;
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    display: block;
+  }
+  figcaption {
+    margin-top: 8px;
+    font-size: 14px;
+    color: #6b747d;
+    text-align: center;
+    line-height: 1.55;
+  }
+
+  table { border-collapse: collapse; width: 100%; margin: 0 0 22px; font-size: 15.5px; }
+  th, td { border: 1px solid var(--line); padding: 8px 12px; text-align: left; }
+  th { background: var(--code-bg); }
+
+  hr { border: 0; border-top: 1px solid var(--line); margin: 40px 0; }
+
+
+  pre.sourceCode span.kw, pre.sourceCode span.cf { color: #0550ae; font-weight: 600; }
+  pre.sourceCode span.dt, pre.sourceCode span.bu, pre.sourceCode span.ex { color: #953800; }
+  pre.sourceCode span.dv, pre.sourceCode span.fl, pre.sourceCode span.at { color: #0550ae; }
+  pre.sourceCode span.st, pre.sourceCode span.vs, pre.sourceCode span.ch { color: #0a7d32; }
+  pre.sourceCode span.co { color: #6b747d; font-style: italic; }
+  pre.sourceCode span.fu { color: #0b7285; }
+  pre.sourceCode span.im, pre.sourceCode span.va { color: #953800; }
+  pre.sourceCode span.op { color: #444c56; }
+  pre.sourceCode span.sc, pre.sourceCode span.ss { color: #0a7d32; }
+
+</style>
+</head>
+<body>
+<div class="wrap">
+<div class="meta">
+  <h2>Local preview &mdash; not published</h2>
+  <dl>
+    <dt>Title</dt><dd>How the Strands Agent Loop Actually Works</dd>
+    <dt>Subtitle</dt><dd>Starting from the smallest agent that runs and ending in the source where the loop turns out to be a recursion.</dd>
+    <dt>Tags</dt><dd><span class="tag">#ai</span> <span class="tag">#agents</span> <span class="tag">#strands</span> <span class="tag">#aws</span></dd>
+    <dt>Canonical</dt><dd>https://xiongpin.dev/posts/how-the-strands-agent-loop-works/</dd>
+    <dt>Generated</dt><dd>2026-11-04 14:56 &middot; from <code>article.md</code></dd>
+    <dt>Images</dt><dd>7 image(s), loaded from <code>images/</code> &mdash; keep this file next to that folder</dd>
+  </dl>
+</div>
+
+<h1 id="how-the-strands-agent-loop-actually-works">How the Strands Agent Loop Actually Works</h1>
+<blockquote>
+<p>Verified on 2026-11-01 against <code>strands-agents</code> 1.63.0, Python 3.11 and Bedrock in <code>us-east-1</code>. Every SDK source line quoted below comes from that version and carries its file and line. Every number came out of a run, and the setup steps live in <code>README.md</code>. The model is <code>deepseek.v3.2</code> on Amazon Bedrock.</p>
+</blockquote>
+<p>This is the foundation article of the series. The other seven start from a use case and work outward to what you can build. This one starts from the smallest agent that runs and works inward to the one function that makes Strands an agent framework rather than a chat client. Read this one and the other seven get easier.</p>
+<h2 id="the-smallest-agent-that-runs">The smallest agent that runs</h2>
+<p>Here is a complete agent. It answers a general-knowledge question on Amazon Bedrock.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> strands <span class="im">import</span> Agent</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> strands.models <span class="im">import</span> BedrockModel</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a>agent <span class="op">=</span> Agent(model<span class="op">=</span>BedrockModel(model_id<span class="op">=</span><span class="st">&quot;deepseek.v3.2&quot;</span>, region_name<span class="op">=</span><span class="st">&quot;us-east-1&quot;</span>))</span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>agent(<span class="st">&quot;What is the largest ocean on Earth?&quot;</span>)</span></code></pre></div>
+<p>The model and the region are pinned so the run is reproducible. Leave them out and <code>Agent()</code> picks its own defaults before any of your code runs and how it does that gets a section near the end.</p>
+<figure>
+<img src="images/S2-pinned.png" alt="One cycle, 27 tokens, end_turn" />
+<figcaption aria-hidden="true">One cycle, 27 tokens, end_turn</figcaption>
+</figure>
+<p>The Pacific Ocean. One cycle, 27 tokens, <code>end_turn</code>. The model never needed a tool, so the loop ran once and exited. Four lines of my code and the SDK did the rest.</p>
+<p>That output tells me what happened. It does not tell me who decided. I did not write a loop. Something called the model once, read the reply and stopped, and I cannot point at the line where that happened. So here is the question this article answers: in those four lines, <strong>where is the loop?</strong> Not what an agent loop is in the abstract. Which function holds it, what one turn does and what makes it stop. The rest of the article takes that one question down to the source and back up again.</p>
+<h2 id="where-the-loop-lives">Where the loop lives</h2>
+<p>I drew the chain I got from reading the source, then checked each hop against a run, because tracing five files by hand is how you end up misremembering them.</p>
+<figure>
+<img src="images/F2-call-chain.png" alt="The full descent from your code to a recursive cycle, with file and line for every hop" />
+<figcaption aria-hidden="true">The full descent from your code to a recursive cycle, with file and line for every hop</figcaption>
+</figure>
+<p>Start at the top. <code>__call__</code> does almost nothing; it hands the prompt to a coroutine and blocks.</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># agent.py:995, inside Agent.__call__</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="cf">return</span> run_async(<span class="kw">lambda</span>: <span class="va">self</span>._invoke_async_and_flush(prompt, ...))</span></code></pre></div>
+<div class="sourceCode" id="cb3"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># agent.py:1017, inside _invoke_async_and_flush</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="cf">return</span> <span class="cf">await</span> <span class="va">self</span>.invoke_async(prompt, <span class="op">**</span>kwargs)</span></code></pre></div>
+<p><code>invoke_async</code> delegates to <code>stream_async</code>, which wraps the work in a middleware chain: a list of wrappers around the real work, with a terminal stage at the center that does the work itself. The chain is invoked with that terminal attached:</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># agent.py:1765, inside stream_async</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="cf">async</span> <span class="cf">for</span> event <span class="kw">in</span> <span class="va">self</span>._middleware_registry.invoke(</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>    AgentStreamStage,</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>    middleware_context,</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>    <span class="va">self</span>._make_agent_stream_terminal(...),</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>):</span></code></pre></div>
+<p>The terminal is the last hop before the loop and its body is one call:</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># agent.py:1946, inside the AgentStreamStage terminal</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>events <span class="op">=</span> <span class="va">self</span>._execute_event_loop_cycle(ctx.invocation_state, structured_output_context, invocation_context)</span></code></pre></div>
+<p>That method is a thin wrapper with one real job: call the loop and retry if the context overflowed.</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># agent.py:1998, inside Agent._execute_event_loop_cycle</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a>events <span class="op">=</span> event_loop_cycle(</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>    agent<span class="op">=</span><span class="va">self</span>,</span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>    invocation_state<span class="op">=</span>invocation_state,</span>
+<span id="cb6-5"><a href="#cb6-5" aria-hidden="true" tabindex="-1"></a>    structured_output_context<span class="op">=</span>structured_output_context,</span>
+<span id="cb6-6"><a href="#cb6-6" aria-hidden="true" tabindex="-1"></a>    invocation_context<span class="op">=</span>invocation_context,</span>
+<span id="cb6-7"><a href="#cb6-7" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
+<p>So the loop is not in <code>Agent</code>. <code>Agent</code> owns the state, the tools and the history, and hands a mutable <code>invocation_state</code> dict to a free function named <code>event_loop_cycle</code>, in <code>strands/event_loop/event_loop.py</code>. Every turn happens there. The other two parameters in that call are companions you can ignore for now: <code>structured_output_context</code> carries typed output settings and <code>invocation_context</code> carries request-scoped values.</p>
+<h2 id="one-cycle-read-off-the-source">One cycle, read off the source</h2>
+<p>Here is the whole picture first. One cycle is six decisions and every one of them has a line number. The rest of this section walks the same path more slowly.</p>
+<figure>
+<img src="images/F3-cycle-internals.png" alt="The map this section walks: six decisions per cycle, with the line number for each" />
+<figcaption aria-hidden="true">The map this section walks: six decisions per cycle, with the line number for each</figcaption>
+</figure>
+<p>A cycle begins by giving itself an identity.</p>
+<div class="sourceCode" id="cb7"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># event_loop.py:229</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Initialize cycle state</span></span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>invocation_state[<span class="st">&quot;event_loop_cycle_id&quot;</span>] <span class="op">=</span> uuid.uuid4()</span></code></pre></div>
+<p>Then it decides whether it needs the model at all. If the newest message in history already carries a tool request, the tools have not run yet, so the cycle adopts that message instead of generating a new one.</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="co"># event_loop.py:271</span></span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Skip model invocation if the latest message contains ToolUse</span></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a><span class="cf">elif</span> _has_tool_use_in_latest_message(agent.messages):</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>    stop_reason <span class="op">=</span> <span class="st">&quot;tool_use&quot;</span></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>    message <span class="op">=</span> agent.messages[<span class="op">-</span><span class="dv">1</span>]</span></code></pre></div>
+<p>The check behind that name is four lines of dictionary walking.</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co"># event_loop.py:86, inside _has_tool_use_in_latest_message</span></span>
+<span id="cb9-2"><a href="#cb9-2" aria-hidden="true" tabindex="-1"></a>latest_message <span class="op">=</span> messages[<span class="op">-</span><span class="dv">1</span>]</span>
+<span id="cb9-3"><a href="#cb9-3" aria-hidden="true" tabindex="-1"></a>content_blocks <span class="op">=</span> latest_message.get(<span class="st">&quot;content&quot;</span>, [])</span>
+<span id="cb9-4"><a href="#cb9-4" aria-hidden="true" tabindex="-1"></a><span class="cf">for</span> content_block <span class="kw">in</span> content_blocks:</span>
+<span id="cb9-5"><a href="#cb9-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> <span class="st">&quot;toolUse&quot;</span> <span class="kw">in</span> content_block:</span>
+<span id="cb9-6"><a href="#cb9-6" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="va">True</span></span></code></pre></div>
+<p>Otherwise the cycle calls the model. What comes back is a stop event and the cycle keeps two things from it: why the model stopped and what it said.</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co"># event_loop.py:293</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a>stop_reason, message <span class="op">=</span> stop_event.stop_reason, stop_event.message</span></code></pre></div>
+<p>The model call behind that is not one request either. <code>_handle_model_execution</code> streams the response and yields a <code>ModelStopReason</code> at the end of it, and it carries a branch worth knowing about: a <code>BeforeModelCallEvent</code> hook (a callback you register on the agent) can deny the call outright, in which case no request is made and the cycle still ends cleanly.</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co"># event_loop.py:657, inside _handle_model_execution</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> before_model_call_event.cancel:</span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a>    message: Message <span class="op">=</span> {<span class="st">&quot;role&quot;</span>: <span class="st">&quot;assistant&quot;</span>, <span class="st">&quot;content&quot;</span>: [{<span class="st">&quot;text&quot;</span>: cancel_text}]}</span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a>    stop_reason: StopReason <span class="op">=</span> <span class="st">&quot;end_turn&quot;</span></span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">yield</span> ModelStopReason(stop_reason<span class="op">=</span>stop_reason, message<span class="op">=</span>message, usage<span class="op">=</span>usage, metrics<span class="op">=</span>metrics)</span></code></pre></div>
+<p>So <code>stop_reason</code> is not always the model’s decision. Your code can set it and the loop obeys it the same way. The snippet skips one detail: a second hook can still convert the cancel into a retry (<code>event_loop.py:672-684</code>), so a denied call is a decision and not necessarily an ending.</p>
+<p>Everything after that branches on <code>stop_reason</code>. A truncated response is not a loop condition, it is an error, and the cycle raises rather than repairing itself.</p>
+<div class="sourceCode" id="cb12"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co"># event_loop.py:301</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> stop_reason <span class="op">==</span> <span class="st">&quot;max_tokens&quot;</span>:</span>
+<span id="cb12-3"><a href="#cb12-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">raise</span> MaxTokensReachedException(...)</span></code></pre></div>
+<p>A tool request hands the turn to tool execution and ends this cycle.</p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># event_loop.py:312</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> stop_reason <span class="op">==</span> <span class="st">&quot;tool_use&quot;</span>:</span>
+<span id="cb13-3"><a href="#cb13-3" aria-hidden="true" tabindex="-1"></a>    tool_events <span class="op">=</span> _handle_tool_execution(stop_reason, message, agent<span class="op">=</span>agent, ...)</span>
+<span id="cb13-4"><a href="#cb13-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">async</span> <span class="cf">for</span> tool_event <span class="kw">in</span> tool_events:</span>
+<span id="cb13-5"><a href="#cb13-5" aria-hidden="true" tabindex="-1"></a>        <span class="cf">yield</span> tool_event</span>
+<span id="cb13-6"><a href="#cb13-6" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span></span></code></pre></div>
+<p>Anything else ends the invocation. This is the standard exit and the one your code normally sees.</p>
+<div class="sourceCode" id="cb14"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb14-1"><a href="#cb14-1" aria-hidden="true" tabindex="-1"></a><span class="co"># event_loop.py:371</span></span>
+<span id="cb14-2"><a href="#cb14-2" aria-hidden="true" tabindex="-1"></a><span class="cf">yield</span> EventLoopStopEvent(stop_reason, message, agent.event_loop_metrics, invocation_state[<span class="st">&quot;request_state&quot;</span>])</span></code></pre></div>
+<p>That is one cycle: take an id, maybe call the model, read why it stopped, then run tools, raise or stop. Three exits from one function, no scheduler.</p>
+<p>The SDK traces each cycle as a span, and the span tree of a two-cycle run shows the same shape the source just described:</p>
+<figure>
+<img src="images/F1-agent-loop.png" alt="A two-cycle run as the tracer recorded it, with cycle two naming cycle one as its parent" />
+<figcaption aria-hidden="true">A two-cycle run as the tracer recorded it, with cycle two naming cycle one as its parent</figcaption>
+</figure>
+<h2 id="what-the-model-sees-on-the-next-turn">What the model sees on the next turn</h2>
+<p>A tool does not return a value to the model. It returns a message, and that message is in the user role:</p>
+<div class="sourceCode" id="cb15"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb15-1"><a href="#cb15-1" aria-hidden="true" tabindex="-1"></a><span class="co"># event_loop.py:1087, at the end of _handle_tool_execution</span></span>
+<span id="cb15-2"><a href="#cb15-2" aria-hidden="true" tabindex="-1"></a>tool_result_message: Message <span class="op">=</span> {</span>
+<span id="cb15-3"><a href="#cb15-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;role&quot;</span>: <span class="st">&quot;user&quot;</span>,</span>
+<span id="cb15-4"><a href="#cb15-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;content&quot;</span>: [{<span class="st">&quot;toolResult&quot;</span>: result} <span class="cf">for</span> result <span class="kw">in</span> tool_results],</span>
+<span id="cb15-5"><a href="#cb15-5" aria-hidden="true" tabindex="-1"></a>}</span></code></pre></div>
+<p>Then it is appended to the same history the next cycle reads:</p>
+<div class="sourceCode" id="cb16"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co"># event_loop.py:1135</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="cf">await</span> agent._append_messages(tool_result_message, invocation_context<span class="op">=</span>invocation_context)</span></code></pre></div>
+<p>That is the whole mechanism. The model asks for a tool, the answer arrives addressed as if the user had sent it, and the model reads its own request and the answer back on the next turn. Nothing is threaded through arguments or hidden state; the conversation itself is the only channel. Printing the shape of that conversation on each turn makes it obvious:</p>
+<pre class="text"><code>TURN cycle=94b99f5d  messages=1
+     user[text]
+TURN cycle=f3dfd557  messages=3
+     user[text] | assistant[text+toolUse] | user[toolResult]
+FINAL       : user[text] | assistant[text+toolUse] | user[toolResult] | assistant[text]</code></pre>
+<p>Turn one sees one message. Turn two sees three, including the tool request the model wrote itself. The loop is a growing conversation, and that growth is the second half of the cost story below.</p>
+<h2 id="the-next-cycle-is-a-recursive-call-not-a-loop">The next cycle is a recursive call, not a loop</h2>
+<p>This is the part I had wrong. I expected a <code>while</code> somewhere. No <code>while</code> drives the cycles. After the tools finish, this cycle records itself as the parent of whatever comes next:</p>
+<div class="sourceCode" id="cb18"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="co"># event_loop.py:1109, at the end of _handle_tool_execution</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a>invocation_state[<span class="st">&quot;event_loop_parent_cycle_id&quot;</span>] <span class="op">=</span> invocation_state[<span class="st">&quot;event_loop_cycle_id&quot;</span>]</span></code></pre></div>
+<p>and then re-enters the same function, one frame deeper:</p>
+<div class="sourceCode" id="cb19"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="co"># event_loop.py:1231</span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a>events <span class="op">=</span> recurse_event_loop(</span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a>    agent<span class="op">=</span>agent,</span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a>    invocation_state<span class="op">=</span>invocation_state,</span>
+<span id="cb19-5"><a href="#cb19-5" aria-hidden="true" tabindex="-1"></a>    structured_output_context<span class="op">=</span>structured_output_context,</span>
+<span id="cb19-6"><a href="#cb19-6" aria-hidden="true" tabindex="-1"></a>    invocation_context<span class="op">=</span>invocation_context,</span>
+<span id="cb19-7"><a href="#cb19-7" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
+<p>The name is not a metaphor. <code>recurse_event_loop</code> calls <code>event_loop_cycle</code>, and it records the recursion the same way it records everything else, as a child trace:</p>
+<div class="sourceCode" id="cb20"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="co"># event_loop.py:556, inside recurse_event_loop</span></span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a>cycle_trace <span class="op">=</span> invocation_state[<span class="st">&quot;event_loop_cycle_trace&quot;</span>]</span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>recursive_trace <span class="op">=</span> Trace(<span class="st">&quot;Recursive call&quot;</span>, parent_id<span class="op">=</span>cycle_trace.<span class="bu">id</span>)</span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a>cycle_trace.add_child(recursive_trace)</span></code></pre></div>
+<p>That has a consequence you can measure: the number of turns an agent takes is also the depth of its Python stack. It also has a ceiling: each turn adds a few async-generator frames, so a very long tool chain hits Python’s recursion limit before any limit the SDK sets. Wrapping that one function is enough to watch it happen.</p>
+<pre class="text"><code>cycle 1 begins (recursion depth 1)
+  cycle 2 begins (recursion depth 2)
+  cycle 2 ends
+cycle 1 ends
+STOP_REASON : end_turn
+CYCLE_COUNT : 2</code></pre>
+<p>The two ids the source writes are readable too, without going near the tracer. A hook can print them straight out of <code>invocation_state</code>:</p>
+<pre class="text"><code>MODEL CALL  cycle=5e8cebb8  parent=-
+TOOL RESULT cycle=5e8cebb8  parent=-
+MODEL CALL  cycle=6913ddf0  parent=5e8cebb8</code></pre>
+<p>Cycle two names cycle one as its parent, which is exactly what <code>event_loop.py:1109</code> assigned. The span tree says the same thing, because the tracer reads the same dict.</p>
+<figure>
+<img src="images/S4-trace.png" alt="Every cycle carries the id of the cycle before it" />
+<figcaption aria-hidden="true">Every cycle carries the id of the cycle before it</figcaption>
+</figure>
+<p>If you want this as a test rather than a story, the counts and the ids are plain attributes:</p>
+<div class="sourceCode" id="cb23"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb23-1"><a href="#cb23-1" aria-hidden="true" tabindex="-1"></a><span class="cf">assert</span> result.stop_reason <span class="op">==</span> <span class="st">&quot;end_turn&quot;</span></span>
+<span id="cb23-2"><a href="#cb23-2" aria-hidden="true" tabindex="-1"></a><span class="cf">assert</span> result.metrics.cycle_count <span class="op">&gt;=</span> <span class="dv">2</span></span>
+<span id="cb23-3"><a href="#cb23-3" aria-hidden="true" tabindex="-1"></a><span class="cf">assert</span> <span class="st">&quot;calculator&quot;</span> <span class="kw">in</span> result.metrics.tool_metrics</span>
+<span id="cb23-4"><a href="#cb23-4" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(result.metrics.accumulated_usage)</span></code></pre></div>
+<p>Note <code>&gt;= 2</code> rather than <code>== 2</code>. The number of turns is an output of the model, so an exact assertion will flake.</p>
+<h2 id="every-way-the-loop-can-end">Every way the loop can end</h2>
+<p><code>stop_reason</code> is a closed set, and the type declares it in one place:</p>
+<div class="sourceCode" id="cb24"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb24-1"><a href="#cb24-1" aria-hidden="true" tabindex="-1"></a><span class="co"># types/event_loop.py:39</span></span>
+<span id="cb24-2"><a href="#cb24-2" aria-hidden="true" tabindex="-1"></a>StopReason <span class="op">=</span> Literal[</span>
+<span id="cb24-3"><a href="#cb24-3" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;cancelled&quot;</span>, <span class="st">&quot;checkpoint&quot;</span>, <span class="st">&quot;content_filtered&quot;</span>, <span class="st">&quot;end_turn&quot;</span>,</span>
+<span id="cb24-4"><a href="#cb24-4" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;guardrail_intervened&quot;</span>, <span class="st">&quot;interrupt&quot;</span>, <span class="st">&quot;limit_output_tokens&quot;</span>,</span>
+<span id="cb24-5"><a href="#cb24-5" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;limit_structured_output_attempts&quot;</span>, <span class="st">&quot;limit_total_tokens&quot;</span>, <span class="st">&quot;limit_turns&quot;</span>,</span>
+<span id="cb24-6"><a href="#cb24-6" aria-hidden="true" tabindex="-1"></a>    <span class="st">&quot;max_tokens&quot;</span>, <span class="st">&quot;stop_sequence&quot;</span>, <span class="st">&quot;tool_use&quot;</span>,</span>
+<span id="cb24-7"><a href="#cb24-7" aria-hidden="true" tabindex="-1"></a>]</span></code></pre></div>
+<p>Thirteen values and, in the common case, exactly one of them keeps the loop going. <code>tool_use</code> leads to another cycle. The one exception is structured output: when it is enabled, an <code>end_turn</code> routes through <code>_end_structured_output_turn</code> and can force one more cycle (<code>event_loop.py:356</code> and <code>:435</code>). Everything else ends the invocation.</p>
+<p>They fall into four groups and knowing which group a value belongs to tells you who decided:</p>
+<ul>
+<li><strong>The model decided</strong>: <code>end_turn</code> and <code>stop_sequence</code>. It answered and stopped.</li>
+<li><strong>You decided in advance</strong>: <code>limit_turns</code>, <code>limit_output_tokens</code>, <code>limit_total_tokens</code> and <code>limit_structured_output_attempts</code>, from the limits you pass to the call, plus <code>cancelled</code> from <code>agent.cancel()</code>.</li>
+<li><strong>The platform decided</strong>: <code>content_filtered</code> and <code>guardrail_intervened</code>.</li>
+<li><strong>Not an ending at all</strong>: <code>max_tokens</code> raises rather than returns, and <code>checkpoint</code> and <code>interrupt</code> pause the invocation so it can be resumed later.</li>
+</ul>
+<p>So “what makes the loop stop” has two halves. One value continues and two are the model’s own choices; the other ten are boundaries or pauses that you, the runtime, or a guardrail set. An agent that only stops when it feels like stopping is not something you can put in production and getting control of that is what the rest of this series is for.</p>
+<h2 id="why-it-is-built-this-way">Why it is built this way</h2>
+<p>Everything above is what the code does. This section is why I think it does it that way, inferred from the structure rather than stated anywhere by the SDK. Three choices, one each for the three findings above:</p>
+<ul>
+<li><strong>Why a recursion and not a <code>while</code>.</strong> Each cycle is a generator on the stack and events produced deep inside tool execution bubble up through every frame by a plain <code>yield</code>, with no queue and no dispatcher in between. The trace tree and the call stack end up with the same shape, so one structure serves debugging, metrics and the stream you subscribe to. A <code>while</code> loop would need an explicit event bus to buy the same property.</li>
+<li><strong>Why tool results arrive as a user message.</strong> Strands models its messages on the Bedrock Converse API, which has two roles and accepts tool results only on the user side. A tool’s answer is dressed as a user turn and appended to the same list the user already writes to. The payoff is that the whole state of the agent is one list of messages, which is why a restart needs nothing more than that list to resume.</li>
+<li><strong>Why <code>stop_reason</code> is a closed set of thirteen.</strong> Every exit from the loop has to be handled by something: a limit enforcer counts it, a hook can veto it, a tracer reports it and your test can assert on it. A fixed enumeration makes all four possible without parsing model prose, and it is what turns “the agent stopped” from an observation into an interface.</li>
+</ul>
+<h2 id="where-the-defaults-come-from-in-the-source">Where the defaults come from, in the source</h2>
+<p>The four lines at the top pinned the model and the region. An <code>Agent()</code> with neither resolves both on its own before any of your code runs, and the resolution is worth reading. The region resolves in one line, and it is a four-step fallback: your argument, then the boto session, then the environment, then a constant.</p>
+<div class="sourceCode" id="cb25"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb25-1"><a href="#cb25-1" aria-hidden="true" tabindex="-1"></a><span class="co"># bedrock.py:323</span></span>
+<span id="cb25-2"><a href="#cb25-2" aria-hidden="true" tabindex="-1"></a>resolved_region <span class="op">=</span> region_name <span class="kw">or</span> session.region_name <span class="kw">or</span> os.environ.get(<span class="st">&quot;AWS_REGION&quot;</span>) <span class="kw">or</span> DEFAULT_BEDROCK_REGION</span></code></pre></div>
+<div class="sourceCode" id="cb26"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb26-1"><a href="#cb26-1" aria-hidden="true" tabindex="-1"></a><span class="co"># bedrock.py:53</span></span>
+<span id="cb26-2"><a href="#cb26-2" aria-hidden="true" tabindex="-1"></a>DEFAULT_BEDROCK_MODEL_ID <span class="op">=</span> <span class="st">&quot;global.anthropic.claude-sonnet-4-6&quot;</span></span>
+<span id="cb26-3"><a href="#cb26-3" aria-hidden="true" tabindex="-1"></a>_DEFAULT_BEDROCK_MODEL_ID <span class="op">=</span> <span class="st">&quot;</span><span class="sc">{}</span><span class="st">.anthropic.claude-sonnet-4-6&quot;</span></span>
+<span id="cb26-4"><a href="#cb26-4" aria-hidden="true" tabindex="-1"></a>DEFAULT_BEDROCK_REGION <span class="op">=</span> <span class="st">&quot;us-west-2&quot;</span></span></code></pre></div>
+<p>Two constants for one default look redundant until you read the function that chooses. It builds a region-prefixed id for regions that need one and warns that the default may change:</p>
+<div class="sourceCode" id="cb27"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb27-1"><a href="#cb27-1" aria-hidden="true" tabindex="-1"></a><span class="co"># bedrock.py:1979, inside BedrockModel._get_default_model_with_warning</span></span>
+<span id="cb27-2"><a href="#cb27-2" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> DEFAULT_BEDROCK_MODEL_ID <span class="op">!=</span> _DEFAULT_BEDROCK_MODEL_ID.<span class="bu">format</span>(<span class="st">&quot;us&quot;</span>):</span>
+<span id="cb27-3"><a href="#cb27-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> DEFAULT_BEDROCK_MODEL_ID</span></code></pre></div>
+<p>In 1.63.0 that comparison is always true, because one constant is <code>global.</code>-prefixed and the other formats to <code>us.</code>. So the region-prefixed branch below it never runs, and the default model is a fixed string wherever you are. I read the branch first, assumed it applied, and was wrong; reading the two constants above it takes ten seconds.</p>
+<p>Constructing the provider confirms all of it, with no network call:</p>
+<pre class="text"><code>BOTO_REGION             : us-east-1
+DEFAULT_BEDROCK_REGION  : us-west-2
+DEFAULT_BEDROCK_MODEL_ID: global.anthropic.claude-sonnet-4-6
+PREFIXED_VARIANT        : us.anthropic.claude-sonnet-4-6
+RESOLVED_MODEL_ID       : global.anthropic.claude-sonnet-4-6
+CLIENT_REGION           : us-east-1</code></pre>
+<p>The region in the docs was never the region in my run. The SDK took the boto session’s <code>us-east-1</code> at step two of the fallback and never reached the constant. The source says which line did it.</p>
+<h2 id="what-one-cycle-costs">What one cycle costs</h2>
+<p>A cycle is not cheap, and the model is not the reason. The plain question cost 27 tokens. The same agent with one tool cost 5041, across three cycles. That is a different run from the recursion demo above: this time the model asked for the calculator twice, so three cycles instead of two.</p>
+<figure>
+<img src="images/S3-tools.png" alt="A tool forces the loop into three cycles and two calculator calls" />
+<figcaption aria-hidden="true">A tool forces the loop into three cycles and two calculator calls</figcaption>
+</figure>
+<p>Most of that is the tool’s schema, which rides along on every single turn. One calculator is 5500 characters of JSON before you ask it anything, because the docstring becomes the description and the type hints become the schema:</p>
+<pre class="text"><code>TOOL_COUNT  : 1
+TOOL_NAME   : calculator
+SPEC_CHARS  : 5500</code></pre>
+<p>The history travels with it too. Turn two sent three messages back rather than one, so the input side grows on every turn whether or not the question did.</p>
+<p>So the loop pays for your tools on every turn, not once per conversation. That is the half of the bill your tools control. The other half belongs to the model, and it is not tokens. I ran the same agent and the same question twice with one string swapped, the model id and kept everything else fixed:</p>
+<figure>
+<img src="images/S5-model-swap.png" alt="Same code, one string changed: the token counts nearly match and the latency does not" />
+<figcaption aria-hidden="true">Same code, one string changed: the token counts nearly match and the latency does not</figcaption>
+</figure>
+<p>The token counts land within four percent of each other and the latency differs by more than six times. Nothing in the loop explains that gap, and nothing in my code does either.</p>
+<h2 id="what-surprised-me">What surprised me</h2>
+<p>The loop is recursive. I assumed a <code>while</code> and spent an afternoon looking for one. A recursive loop means turn count is stack depth, and the context-overflow retry is a second recursion on top of it:</p>
+<div class="sourceCode" id="cb30"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb30-1"><a href="#cb30-1" aria-hidden="true" tabindex="-1"></a><span class="co"># agent.py:2022, on ContextWindowOverflowException</span></span>
+<span id="cb30-2"><a href="#cb30-2" aria-hidden="true" tabindex="-1"></a>events <span class="op">=</span> <span class="va">self</span>._execute_event_loop_cycle(invocation_state, structured_output_context, invocation_context)</span></code></pre></div>
+<p>The default model does not follow the region in this version, despite the branch that looks like it does. Read the constants, not the branch.</p>
+<p>The deprecation warning on <code>calculator</code> has teeth, and the replacement is not equivalent:</p>
+<pre class="text"><code>This does change the security boundary: calculator only ever evaluated an
+expression checked against an AST allowlist, while shell executes arbitrary
+commands, so review it against your threat model before switching.</code></pre>
+<div class="sourceCode" id="cb32"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb32-1"><a href="#cb32-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> strands_tools <span class="im">import</span> calculator            <span class="co"># AST allowlist, safe, deprecated</span></span>
+<span id="cb32-2"><a href="#cb32-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> strands.vended_tools <span class="im">import</span> shell          <span class="co"># arbitrary commands, supported</span></span></code></pre></div>
+<p>I stayed on <code>calculator</code> for this walkthrough on purpose. Swapping to <code>shell</code> to silence a warning is the kind of change that passes review and quietly widens what the agent may do.</p>
+<h2 id="when-not-to-use-this">When not to use this</h2>
+<p>Strands is a library that runs inside your process. It ships no scheduler, no database and no console of its own, and it does not want to. If what you need is a managed runtime, a gateway, identity brokering, or a catalog of agents shared across an organization, that is the layer above this one, which is where a service like Bedrock AgentCore sits. Reach for the loop when you want to own the loop.</p>
+<h2 id="try-it-yourself">Try it yourself</h2>
+<div class="sourceCode" id="cb33"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb33-1"><a href="#cb33-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> clone https://github.com/pinxiong/strands-in-action</span>
+<span id="cb33-2"><a href="#cb33-2" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> strands-in-action/usecases/01-the-loop</span>
+<span id="cb33-3"><a href="#cb33-3" aria-hidden="true" tabindex="-1"></a><span class="ex">uv</span> venv <span class="at">--python</span> 3.11</span>
+<span id="cb33-4"><a href="#cb33-4" aria-hidden="true" tabindex="-1"></a><span class="va">VIRTUAL_ENV</span><span class="op">=</span>.venv <span class="ex">uv</span> pip install strands-agents==1.63.0 strands-agents-tools==0.8.11</span></code></pre></div>
+<p>Confirm the pinned version landed before you trust any output.</p>
+<div class="sourceCode" id="cb34"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb34-1"><a href="#cb34-1" aria-hidden="true" tabindex="-1"></a><span class="ex">.venv/bin/python</span> <span class="at">-c</span> <span class="st">&quot;from importlib.metadata import version; print(version(&#39;strands-agents&#39;))&quot;</span></span></code></pre></div>
+<p>Then run the scripts that produced every number above.</p>
+<div class="sourceCode" id="cb35"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb35-1"><a href="#cb35-1" aria-hidden="true" tabindex="-1"></a><span class="ex">python</span> src/01_default.py     <span class="co"># fails on purpose: the default model is geo-gated</span></span>
+<span id="cb35-2"><a href="#cb35-2" aria-hidden="true" tabindex="-1"></a><span class="ex">python</span> src/02_pinned.py      <span class="co"># one cycle, one answer</span></span>
+<span id="cb35-3"><a href="#cb35-3" aria-hidden="true" tabindex="-1"></a><span class="ex">python</span> src/03_tools.py       <span class="co"># more cycles, one tool</span></span>
+<span id="cb35-4"><a href="#cb35-4" aria-hidden="true" tabindex="-1"></a><span class="ex">python</span> src/04_trace.py       <span class="co"># the span tree</span></span>
+<span id="cb35-5"><a href="#cb35-5" aria-hidden="true" tabindex="-1"></a><span class="ex">python</span> src/05_recursion.py   <span class="co"># the loop as stack depth</span></span>
+<span id="cb35-6"><a href="#cb35-6" aria-hidden="true" tabindex="-1"></a><span class="ex">python</span> src/06_cycle_ids.py   <span class="co"># cycle id and parent id per turn</span></span>
+<span id="cb35-7"><a href="#cb35-7" aria-hidden="true" tabindex="-1"></a><span class="ex">python</span> src/07_tool_schema.py <span class="co"># what one tool adds to every turn</span></span>
+<span id="cb35-8"><a href="#cb35-8" aria-hidden="true" tabindex="-1"></a><span class="ex">python</span> src/08_defaults.py    <span class="co"># the resolved region and model, no API call</span></span>
+<span id="cb35-9"><a href="#cb35-9" aria-hidden="true" tabindex="-1"></a><span class="ex">python</span> src/09_messages.py    <span class="co"># the conversation shape the model sees each turn</span></span></code></pre></div>
+<p>Takeaways, in the order the source hands them over. The loop lives in <code>event_loop_cycle</code>, not in <code>Agent</code>. A cycle calls the model, reads <code>stop_reason</code> and either runs tools, raises or stops. The next cycle is a recursive call, so turn count is stack depth. Tools answer as a user-role message, so the conversation the model reads grows on every turn. Only one of the thirteen stop reasons continues the loop (two if you count the structured-output retry), two are the model’s own choices and the rest are boundaries or pauses you, the runtime or a guardrail set. And the defaults behind an unpinned <code>Agent()</code> are one line each, at <code>bedrock.py:323</code> and <code>bedrock.py:1979</code>.</p>
+
+</div>
+</body>
+</html>

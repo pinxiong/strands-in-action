@@ -1,0 +1,5 @@
+DEPRECATION WARNING: calculator is deprecated. This warning becomes an error log in v0.9.0. To achieve similar functionality, use the shell tool vended by strands-agents (from strands.vended_tools import shell). This does change the security boundary: calculator only ever evaluated an expression checked against an AST allowlist, while shell executes arbitrary commands, so review it against your threat model before switching.
+DEPRECATION WARNING: calculator is deprecated. This warning becomes an error log in v0.9.0. To achieve similar functionality, use the shell tool vended by strands-agents (from strands.vended_tools import shell). This does change the security boundary: calculator only ever evaluated an expression checked against an AST allowlist, while shell executes arbitrary commands, so review it against your threat model before switching.
+SDK: 1.61.1
+deepseek.v3.2              cycles=2 tokens=3238 latency_ms=17956
+amazon.nova-pro-v1:0       cycles=2 tokens=3399 latency_ms=1402

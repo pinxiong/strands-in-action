@@ -1,0 +1,586 @@
+SDK_VERSION : 1.61.1
+{
+    "name": "chat",
+    "context": {
+        "trace_id": "0x81b5e385b93ecbf91f480a3f864b7f65",
+        "span_id": "0xa13b36c6d26ff8df",
+        "trace_state": "[]"
+    },
+    "kind": "SpanKind.INTERNAL",
+    "parent_id": "0xbf5532115574c8d8",
+    "start_time": "2026-11-01T09:19:58.337499Z",
+    "end_time": "2026-11-01T09:20:13.118786Z",
+    "status": {
+        "status_code": "OK"
+    },
+    "attributes": {
+        "gen_ai.event.start_time": "2026-11-01T09:19:58.337500+00:00",
+        "gen_ai.operation.name": "chat",
+        "gen_ai.system": "strands-agents",
+        "gen_ai.request.model": "deepseek.v3.2",
+        "gen_ai.event.end_time": "2026-11-01T09:20:13.118726+00:00",
+        "gen_ai.usage.prompt_tokens": 1505,
+        "gen_ai.usage.input_tokens": 1505,
+        "gen_ai.usage.completion_tokens": 81,
+        "gen_ai.usage.output_tokens": 81,
+        "gen_ai.usage.total_tokens": 1586,
+        "gen_ai.server.time_to_first_token": 13573,
+        "gen_ai.server.request.duration": 13789
+    },
+    "events": [
+        {
+            "name": "gen_ai.user.message",
+            "timestamp": "2026-11-01T09:19:58.337514Z",
+            "attributes": {
+                "content": "[{\"text\": \"What is the square root of 1764, plus 8?\"}]"
+            }
+        },
+        {
+            "name": "gen_ai.choice",
+            "timestamp": "2026-11-01T09:20:13.118710Z",
+            "attributes": {
+                "finish_reason": "tool_use",
+                "message": "[{\"text\": \"I'll calculate the square root of 1764 first, then add 8 to it.\\n\\n<\uff5cDSML\uff5cfunction_calls\"}, {\"toolUse\": {\"toolUseId\": \"tooluse_oKafeJ9M1OnwQ8RJ1yLqqo\", \"name\": \"calculator\", \"input\": {\"expression\": \"sqrt(1764)\", \"mode\": \"evaluate\"}}}]"
+            }
+        }
+    ],
+    "links": [],
+    "resource": {
+        "attributes": {
+            "telemetry.sdk.language": "python",
+            "telemetry.sdk.name": "opentelemetry",
+            "telemetry.sdk.version": "1.45.1",
+            "service.instance.id": "24bd310f-823d-4b2e-95b7-487c478c4c93",
+            "service.name": "strands-agents",
+            "service.version": "1.61.1"
+        },
+        "schema_url": ""
+    }
+}
+DEPRECATION WARNING: calculator is deprecated. This warning becomes an error log in v0.9.0. To achieve similar functionality, use the shell tool vended by strands-agents (from strands.vended_tools import shell). This does change the security boundary: calculator only ever evaluated an expression checked against an AST allowlist, while shell executes arbitrary commands, so review it against your threat model before switching.
+{
+    "name": "execute_tool calculator",
+    "context": {
+        "trace_id": "0x81b5e385b93ecbf91f480a3f864b7f65",
+        "span_id": "0x8fb016e024b1962c",
+        "trace_state": "[]"
+    },
+    "kind": "SpanKind.INTERNAL",
+    "parent_id": "0xbf5532115574c8d8",
+    "start_time": "2026-11-01T09:20:13.119982Z",
+    "end_time": "2026-11-01T09:20:13.140936Z",
+    "status": {
+        "status_code": "OK"
+    },
+    "attributes": {
+        "gen_ai.event.start_time": "2026-11-01T09:20:13.119987+00:00",
+        "gen_ai.operation.name": "execute_tool",
+        "gen_ai.system": "strands-agents",
+        "gen_ai.tool.name": "calculator",
+        "gen_ai.tool.call.id": "tooluse_oKafeJ9M1OnwQ8RJ1yLqqo",
+        "gen_ai.tool.description": "Calculator powered by SymPy for comprehensive mathematical operations.\n\nThis tool provides advanced mathematical functionality through multiple operation modes,\nincluding expression evaluation, equation solving, calculus operations (derivatives, integrals),\nlimits, series expansions, and matrix operations. Results are formatted with appropriate\nprecision and can be displayed in scientific notation when needed.\n\nHow It Works:\n------------\n1. The function parses the mathematical expression using SymPy's parser\n2. Based on the selected mode, it routes the expression to the appropriate handler\n3. Variables and constants are substituted with their values when provided\n4. The expression is evaluated symbolically and/or numerically as appropriate\n5. Results are formatted based on precision preferences and value magnitude\n6. Rich output is generated with operation details and formatted results\n\nOperation Modes:\n--------------\n- evaluate: Calculate the value of a mathematical expression\n- solve: Find solutions to an equation or system of equations\n- derive: Calculate derivatives of an expression\n- integrate: Find the indefinite integral of an expression\n- limit: Evaluate the limit of an expression at a point\n- series: Generate series expansion of an expression\n- matrix: Perform matrix operations\n\nCommon Usage Scenarios:\n---------------------\n- Basic calculations: Evaluating arithmetic expressions\n- Equation solving: Finding roots of polynomials or systems of equations\n- Calculus: Computing derivatives and integrals for analysis\n- Engineering analysis: Working with scientific notations and constants\n- Mathematics education: Visualizing step-by-step solutions\n- Data science: Matrix operations and statistical calculations\n\nReturns:\n    Dict containing status and response content in the format:\n    {\n        \"status\": \"success|error\",\n        \"content\": [{\"text\": \"Result: <calculated_result>\"}]\n    }\n\n    Success case: Returns the calculation result with appropriate formatting\n    Error case: Returns information about what went wrong during calculation\n\nNotes:\n    - For equation solving, set the expression equal to zero implicitly (x**2 + 1 means x**2 + 1 = 0)\n    - To solve a system of equations, pass the equations as a comma-separated\n      expression (e.g. \"x + y - 10, x - y - 2\"), which parses to a tuple of\n      expressions. Passing a quoted string list (e.g. \"['x + y - 10', ...]\") is\n      not supported because string literals are rejected during validation.\n    - Use 'pi' and 'e' for mathematical constants\n    - The 'wrt' parameter is required for differentiation and integration\n    - Matrix expressions use Python-like syntax: [[1, 2], [3, 4]]\n    - Precision control impacts display only, internal calculations use higher precision\n    - Symbolic results are returned when possible unless force_numeric=True",
+        "gen_ai.tool.json_schema": "{\"properties\": {\"expression\": {\"description\": \"A SymPy-compatible mathematical expression written in valid Python\\nsyntax. Use explicit operators and SymPy function names (e.g., \\\"2*x + 1\\\",\\n\\\"sin(pi/2)\\\", \\\"factorial(5)\\\", \\\"Abs(x)\\\", \\\"Eq(x**2, 4)\\\").\\nFor matrix operations, use Matrix() with functions like det(),\\ntranspose(), or trace().\\nString-literal arguments are rejected as a security hardening measure,\\nexcept as positional arguments to the symbol/number constructors that do\\nnot re-parse them through sympify: Symbol('x'), symbols('x y z'),\\nRational('1/3'), Integer('5') and Float('3.14') are supported.\", \"type\": \"string\"}, \"mode\": {\"default\": null, \"description\": \"The calculation mode to use. Options are:\\n- \\\"evaluate\\\": Compute the value of the expression (default)\\n- \\\"solve\\\": Solve an equation or system of equations\\n- \\\"derive\\\": Calculate the derivative of an expression\\n- \\\"integrate\\\": Find the indefinite integral of an expression\\n- \\\"limit\\\": Calculate the limit of an expression at a point\\n- \\\"series\\\": Generate a series expansion of an expression\\n- \\\"matrix\\\": Perform matrix operations\", \"type\": \"string\"}, \"precision\": {\"default\": null, \"description\": \"Number of decimal places for the result (default: 10).\\nHigher values provide more precise output but may impact performance.\", \"type\": \"integer\"}, \"scientific\": {\"default\": null, \"description\": \"Whether to use scientific notation for numbers (default: False).\\nWhen True, formats large and small numbers using scientific notation.\", \"type\": \"boolean\"}, \"force_numeric\": {\"default\": null, \"description\": \"Force numeric evaluation of symbolic expressions (default: False).\\nWhen True, tries to convert symbolic results to numeric values.\", \"type\": \"boolean\"}, \"variables\": {\"default\": null, \"description\": \"Optional dictionary of variable names and their values to substitute\\nin the expression, e.g., {\\\"a\\\": 1, \\\"b\\\": 2}.\", \"type\": \"object\"}, \"wrt\": {\"default\": null, \"description\": \"Variable to differentiate or integrate with respect to (required for\\n\\\"derive\\\" and \\\"integrate\\\" modes).\", \"type\": \"string\"}, \"point\": {\"default\": null, \"description\": \"Point at which to evaluate a limit (required for \\\"limit\\\" mode).\\nUse \\\"oo\\\" for infinity.\", \"type\": \"string\"}, \"order\": {\"default\": null, \"description\": \"Order of derivative or series expansion (optional for \\\"derive\\\" and\\n\\\"series\\\" modes, default is 1 for derivatives and 5 for series).\", \"type\": \"integer\"}}, \"required\": [\"expression\"], \"type\": \"object\"}",
+        "gen_ai.event.end_time": "2026-11-01T09:20:13.140909+00:00",
+        "gen_ai.tool.status": "success"
+    },
+    "events": [
+        {
+            "name": "gen_ai.tool.message",
+            "timestamp": "2026-11-01T09:20:13.120045Z",
+            "attributes": {
+                "role": "tool",
+                "content": "{\"expression\": \"sqrt(1764)\", \"mode\": \"evaluate\"}",
+                "id": "tooluse_oKafeJ9M1OnwQ8RJ1yLqqo"
+            }
+        },
+        {
+            "name": "gen_ai.choice",
+            "timestamp": "2026-11-01T09:20:13.140899Z",
+            "attributes": {
+                "message": "[{\"text\": \"Result: 42\"}]",
+                "id": "tooluse_oKafeJ9M1OnwQ8RJ1yLqqo"
+            }
+        }
+    ],
+    "links": [],
+    "resource": {
+        "attributes": {
+            "telemetry.sdk.language": "python",
+            "telemetry.sdk.name": "opentelemetry",
+            "telemetry.sdk.version": "1.45.1",
+            "service.instance.id": "24bd310f-823d-4b2e-95b7-487c478c4c93",
+            "service.name": "strands-agents",
+            "service.version": "1.61.1"
+        },
+        "schema_url": ""
+    }
+}
+{
+    "name": "execute_event_loop_cycle",
+    "context": {
+        "trace_id": "0x81b5e385b93ecbf91f480a3f864b7f65",
+        "span_id": "0xbf5532115574c8d8",
+        "trace_state": "[]"
+    },
+    "kind": "SpanKind.INTERNAL",
+    "parent_id": "0xc6807228b1260889",
+    "start_time": "2026-11-01T09:19:58.337357Z",
+    "end_time": "2026-11-01T09:20:13.141520Z",
+    "status": {
+        "status_code": "OK"
+    },
+    "attributes": {
+        "gen_ai.event.start_time": "2026-11-01T09:19:58.337358+00:00",
+        "gen_ai.operation.name": "execute_event_loop_cycle",
+        "gen_ai.system": "strands-agents",
+        "event_loop.cycle_id": "0fe7a770-0d2f-4995-b178-29a8081cdcb4",
+        "gen_ai.event.end_time": "2026-11-01T09:20:13.141511+00:00"
+    },
+    "events": [
+        {
+            "name": "gen_ai.user.message",
+            "timestamp": "2026-11-01T09:19:58.337374Z",
+            "attributes": {
+                "content": "[{\"text\": \"What is the square root of 1764, plus 8?\"}]"
+            }
+        },
+        {
+            "name": "gen_ai.choice",
+            "timestamp": "2026-11-01T09:20:13.141507Z",
+            "attributes": {
+                "message": "[{\"text\": \"I'll calculate the square root of 1764 first, then add 8 to it.\\n\\n<\uff5cDSML\uff5cfunction_calls\"}, {\"toolUse\": {\"toolUseId\": \"tooluse_oKafeJ9M1OnwQ8RJ1yLqqo\", \"name\": \"calculator\", \"input\": {\"expression\": \"sqrt(1764)\", \"mode\": \"evaluate\"}}}]",
+                "tool.result": "[{\"toolResult\": {\"status\": \"success\", \"content\": [{\"text\": \"Result: 42\"}], \"toolUseId\": \"tooluse_oKafeJ9M1OnwQ8RJ1yLqqo\"}}]"
+            }
+        }
+    ],
+    "links": [],
+    "resource": {
+        "attributes": {
+            "telemetry.sdk.language": "python",
+            "telemetry.sdk.name": "opentelemetry",
+            "telemetry.sdk.version": "1.45.1",
+            "service.instance.id": "24bd310f-823d-4b2e-95b7-487c478c4c93",
+            "service.name": "strands-agents",
+            "service.version": "1.61.1"
+        },
+        "schema_url": ""
+    }
+}
+{
+    "name": "chat",
+    "context": {
+        "trace_id": "0x81b5e385b93ecbf91f480a3f864b7f65",
+        "span_id": "0xc51fa67ea49080e6",
+        "trace_state": "[]"
+    },
+    "kind": "SpanKind.INTERNAL",
+    "parent_id": "0xca77c3d5ca5dc49b",
+    "start_time": "2026-11-01T09:20:13.142132Z",
+    "end_time": "2026-11-01T09:20:33.640894Z",
+    "status": {
+        "status_code": "OK"
+    },
+    "attributes": {
+        "gen_ai.event.start_time": "2026-11-01T09:20:13.142133+00:00",
+        "gen_ai.operation.name": "chat",
+        "gen_ai.system": "strands-agents",
+        "gen_ai.request.model": "deepseek.v3.2",
+        "gen_ai.event.end_time": "2026-11-01T09:20:33.640628+00:00",
+        "gen_ai.usage.prompt_tokens": 1612,
+        "gen_ai.usage.input_tokens": 1612,
+        "gen_ai.usage.completion_tokens": 72,
+        "gen_ai.usage.output_tokens": 72,
+        "gen_ai.usage.total_tokens": 1684,
+        "gen_ai.server.time_to_first_token": 17021,
+        "gen_ai.server.request.duration": 19993
+    },
+    "events": [
+        {
+            "name": "gen_ai.user.message",
+            "timestamp": "2026-11-01T09:20:13.142156Z",
+            "attributes": {
+                "content": "[{\"text\": \"What is the square root of 1764, plus 8?\"}]"
+            }
+        },
+        {
+            "name": "gen_ai.assistant.message",
+            "timestamp": "2026-11-01T09:20:13.142171Z",
+            "attributes": {
+                "content": "[{\"text\": \"I'll calculate the square root of 1764 first, then add 8 to it.\\n\\n<\uff5cDSML\uff5cfunction_calls\"}, {\"toolUse\": {\"toolUseId\": \"tooluse_oKafeJ9M1OnwQ8RJ1yLqqo\", \"name\": \"calculator\", \"input\": {\"expression\": \"sqrt(1764)\", \"mode\": \"evaluate\"}}}]"
+            }
+        },
+        {
+            "name": "gen_ai.tool.message",
+            "timestamp": "2026-11-01T09:20:13.142182Z",
+            "attributes": {
+                "content": "[{\"toolResult\": {\"status\": \"success\", \"content\": [{\"text\": \"Result: 42\"}], \"toolUseId\": \"tooluse_oKafeJ9M1OnwQ8RJ1yLqqo\"}}]"
+            }
+        },
+        {
+            "name": "gen_ai.choice",
+            "timestamp": "2026-11-01T09:20:33.640512Z",
+            "attributes": {
+                "finish_reason": "tool_use",
+                "message": "[{\"text\": \"Now I'll add 8 to 42:\\n\\n<\uff5cDSML\uff5cfunction_calls\"}, {\"toolUse\": {\"toolUseId\": \"tooluse_IvTmYLkqh9w1wqw6bEYLdT\", \"name\": \"calculator\", \"input\": {\"mode\": \"evaluate\", \"expression\": \"42 + 8\"}}}]"
+            }
+        }
+    ],
+    "links": [],
+    "resource": {
+        "attributes": {
+            "telemetry.sdk.language": "python",
+            "telemetry.sdk.name": "opentelemetry",
+            "telemetry.sdk.version": "1.45.1",
+            "service.instance.id": "24bd310f-823d-4b2e-95b7-487c478c4c93",
+            "service.name": "strands-agents",
+            "service.version": "1.61.1"
+        },
+        "schema_url": ""
+    }
+}
+DEPRECATION WARNING: calculator is deprecated. This warning becomes an error log in v0.9.0. To achieve similar functionality, use the shell tool vended by strands-agents (from strands.vended_tools import shell). This does change the security boundary: calculator only ever evaluated an expression checked against an AST allowlist, while shell executes arbitrary commands, so review it against your threat model before switching.
+{
+    "name": "execute_tool calculator",
+    "context": {
+        "trace_id": "0x81b5e385b93ecbf91f480a3f864b7f65",
+        "span_id": "0x73ce259a6aecafc1",
+        "trace_state": "[]"
+    },
+    "kind": "SpanKind.INTERNAL",
+    "parent_id": "0xca77c3d5ca5dc49b",
+    "start_time": "2026-11-01T09:20:33.645515Z",
+    "end_time": "2026-11-01T09:20:33.652859Z",
+    "status": {
+        "status_code": "OK"
+    },
+    "attributes": {
+        "gen_ai.event.start_time": "2026-11-01T09:20:33.645521+00:00",
+        "gen_ai.operation.name": "execute_tool",
+        "gen_ai.system": "strands-agents",
+        "gen_ai.tool.name": "calculator",
+        "gen_ai.tool.call.id": "tooluse_IvTmYLkqh9w1wqw6bEYLdT",
+        "gen_ai.tool.description": "Calculator powered by SymPy for comprehensive mathematical operations.\n\nThis tool provides advanced mathematical functionality through multiple operation modes,\nincluding expression evaluation, equation solving, calculus operations (derivatives, integrals),\nlimits, series expansions, and matrix operations. Results are formatted with appropriate\nprecision and can be displayed in scientific notation when needed.\n\nHow It Works:\n------------\n1. The function parses the mathematical expression using SymPy's parser\n2. Based on the selected mode, it routes the expression to the appropriate handler\n3. Variables and constants are substituted with their values when provided\n4. The expression is evaluated symbolically and/or numerically as appropriate\n5. Results are formatted based on precision preferences and value magnitude\n6. Rich output is generated with operation details and formatted results\n\nOperation Modes:\n--------------\n- evaluate: Calculate the value of a mathematical expression\n- solve: Find solutions to an equation or system of equations\n- derive: Calculate derivatives of an expression\n- integrate: Find the indefinite integral of an expression\n- limit: Evaluate the limit of an expression at a point\n- series: Generate series expansion of an expression\n- matrix: Perform matrix operations\n\nCommon Usage Scenarios:\n---------------------\n- Basic calculations: Evaluating arithmetic expressions\n- Equation solving: Finding roots of polynomials or systems of equations\n- Calculus: Computing derivatives and integrals for analysis\n- Engineering analysis: Working with scientific notations and constants\n- Mathematics education: Visualizing step-by-step solutions\n- Data science: Matrix operations and statistical calculations\n\nReturns:\n    Dict containing status and response content in the format:\n    {\n        \"status\": \"success|error\",\n        \"content\": [{\"text\": \"Result: <calculated_result>\"}]\n    }\n\n    Success case: Returns the calculation result with appropriate formatting\n    Error case: Returns information about what went wrong during calculation\n\nNotes:\n    - For equation solving, set the expression equal to zero implicitly (x**2 + 1 means x**2 + 1 = 0)\n    - To solve a system of equations, pass the equations as a comma-separated\n      expression (e.g. \"x + y - 10, x - y - 2\"), which parses to a tuple of\n      expressions. Passing a quoted string list (e.g. \"['x + y - 10', ...]\") is\n      not supported because string literals are rejected during validation.\n    - Use 'pi' and 'e' for mathematical constants\n    - The 'wrt' parameter is required for differentiation and integration\n    - Matrix expressions use Python-like syntax: [[1, 2], [3, 4]]\n    - Precision control impacts display only, internal calculations use higher precision\n    - Symbolic results are returned when possible unless force_numeric=True",
+        "gen_ai.tool.json_schema": "{\"properties\": {\"expression\": {\"description\": \"A SymPy-compatible mathematical expression written in valid Python\\nsyntax. Use explicit operators and SymPy function names (e.g., \\\"2*x + 1\\\",\\n\\\"sin(pi/2)\\\", \\\"factorial(5)\\\", \\\"Abs(x)\\\", \\\"Eq(x**2, 4)\\\").\\nFor matrix operations, use Matrix() with functions like det(),\\ntranspose(), or trace().\\nString-literal arguments are rejected as a security hardening measure,\\nexcept as positional arguments to the symbol/number constructors that do\\nnot re-parse them through sympify: Symbol('x'), symbols('x y z'),\\nRational('1/3'), Integer('5') and Float('3.14') are supported.\", \"type\": \"string\"}, \"mode\": {\"default\": null, \"description\": \"The calculation mode to use. Options are:\\n- \\\"evaluate\\\": Compute the value of the expression (default)\\n- \\\"solve\\\": Solve an equation or system of equations\\n- \\\"derive\\\": Calculate the derivative of an expression\\n- \\\"integrate\\\": Find the indefinite integral of an expression\\n- \\\"limit\\\": Calculate the limit of an expression at a point\\n- \\\"series\\\": Generate a series expansion of an expression\\n- \\\"matrix\\\": Perform matrix operations\", \"type\": \"string\"}, \"precision\": {\"default\": null, \"description\": \"Number of decimal places for the result (default: 10).\\nHigher values provide more precise output but may impact performance.\", \"type\": \"integer\"}, \"scientific\": {\"default\": null, \"description\": \"Whether to use scientific notation for numbers (default: False).\\nWhen True, formats large and small numbers using scientific notation.\", \"type\": \"boolean\"}, \"force_numeric\": {\"default\": null, \"description\": \"Force numeric evaluation of symbolic expressions (default: False).\\nWhen True, tries to convert symbolic results to numeric values.\", \"type\": \"boolean\"}, \"variables\": {\"default\": null, \"description\": \"Optional dictionary of variable names and their values to substitute\\nin the expression, e.g., {\\\"a\\\": 1, \\\"b\\\": 2}.\", \"type\": \"object\"}, \"wrt\": {\"default\": null, \"description\": \"Variable to differentiate or integrate with respect to (required for\\n\\\"derive\\\" and \\\"integrate\\\" modes).\", \"type\": \"string\"}, \"point\": {\"default\": null, \"description\": \"Point at which to evaluate a limit (required for \\\"limit\\\" mode).\\nUse \\\"oo\\\" for infinity.\", \"type\": \"string\"}, \"order\": {\"default\": null, \"description\": \"Order of derivative or series expansion (optional for \\\"derive\\\" and\\n\\\"series\\\" modes, default is 1 for derivatives and 5 for series).\", \"type\": \"integer\"}}, \"required\": [\"expression\"], \"type\": \"object\"}",
+        "gen_ai.event.end_time": "2026-11-01T09:20:33.652833+00:00",
+        "gen_ai.tool.status": "success"
+    },
+    "events": [
+        {
+            "name": "gen_ai.tool.message",
+            "timestamp": "2026-11-01T09:20:33.645585Z",
+            "attributes": {
+                "role": "tool",
+                "content": "{\"mode\": \"evaluate\", \"expression\": \"42 + 8\"}",
+                "id": "tooluse_IvTmYLkqh9w1wqw6bEYLdT"
+            }
+        },
+        {
+            "name": "gen_ai.choice",
+            "timestamp": "2026-11-01T09:20:33.652825Z",
+            "attributes": {
+                "message": "[{\"text\": \"Result: 50\"}]",
+                "id": "tooluse_IvTmYLkqh9w1wqw6bEYLdT"
+            }
+        }
+    ],
+    "links": [],
+    "resource": {
+        "attributes": {
+            "telemetry.sdk.language": "python",
+            "telemetry.sdk.name": "opentelemetry",
+            "telemetry.sdk.version": "1.45.1",
+            "service.instance.id": "24bd310f-823d-4b2e-95b7-487c478c4c93",
+            "service.name": "strands-agents",
+            "service.version": "1.61.1"
+        },
+        "schema_url": ""
+    }
+}
+{
+    "name": "execute_event_loop_cycle",
+    "context": {
+        "trace_id": "0x81b5e385b93ecbf91f480a3f864b7f65",
+        "span_id": "0xca77c3d5ca5dc49b",
+        "trace_state": "[]"
+    },
+    "kind": "SpanKind.INTERNAL",
+    "parent_id": "0xc6807228b1260889",
+    "start_time": "2026-11-01T09:20:13.141822Z",
+    "end_time": "2026-11-01T09:20:33.653492Z",
+    "status": {
+        "status_code": "OK"
+    },
+    "attributes": {
+        "gen_ai.event.start_time": "2026-11-01T09:20:13.141825+00:00",
+        "gen_ai.operation.name": "execute_event_loop_cycle",
+        "gen_ai.system": "strands-agents",
+        "event_loop.cycle_id": "8308d3b8-b31e-4184-be47-6294b764f8e5",
+        "event_loop.parent_cycle_id": "0fe7a770-0d2f-4995-b178-29a8081cdcb4",
+        "gen_ai.event.end_time": "2026-11-01T09:20:33.653472+00:00"
+    },
+    "events": [
+        {
+            "name": "gen_ai.user.message",
+            "timestamp": "2026-11-01T09:20:13.141852Z",
+            "attributes": {
+                "content": "[{\"text\": \"What is the square root of 1764, plus 8?\"}]"
+            }
+        },
+        {
+            "name": "gen_ai.assistant.message",
+            "timestamp": "2026-11-01T09:20:13.141873Z",
+            "attributes": {
+                "content": "[{\"text\": \"I'll calculate the square root of 1764 first, then add 8 to it.\\n\\n<\uff5cDSML\uff5cfunction_calls\"}, {\"toolUse\": {\"toolUseId\": \"tooluse_oKafeJ9M1OnwQ8RJ1yLqqo\", \"name\": \"calculator\", \"input\": {\"expression\": \"sqrt(1764)\", \"mode\": \"evaluate\"}}}]"
+            }
+        },
+        {
+            "name": "gen_ai.tool.message",
+            "timestamp": "2026-11-01T09:20:13.141886Z",
+            "attributes": {
+                "content": "[{\"toolResult\": {\"status\": \"success\", \"content\": [{\"text\": \"Result: 42\"}], \"toolUseId\": \"tooluse_oKafeJ9M1OnwQ8RJ1yLqqo\"}}]"
+            }
+        },
+        {
+            "name": "gen_ai.choice",
+            "timestamp": "2026-11-01T09:20:33.653467Z",
+            "attributes": {
+                "message": "[{\"text\": \"Now I'll add 8 to 42:\\n\\n<\uff5cDSML\uff5cfunction_calls\"}, {\"toolUse\": {\"toolUseId\": \"tooluse_IvTmYLkqh9w1wqw6bEYLdT\", \"name\": \"calculator\", \"input\": {\"mode\": \"evaluate\", \"expression\": \"42 + 8\"}}}]",
+                "tool.result": "[{\"toolResult\": {\"status\": \"success\", \"content\": [{\"text\": \"Result: 50\"}], \"toolUseId\": \"tooluse_IvTmYLkqh9w1wqw6bEYLdT\"}}]"
+            }
+        }
+    ],
+    "links": [],
+    "resource": {
+        "attributes": {
+            "telemetry.sdk.language": "python",
+            "telemetry.sdk.name": "opentelemetry",
+            "telemetry.sdk.version": "1.45.1",
+            "service.instance.id": "24bd310f-823d-4b2e-95b7-487c478c4c93",
+            "service.name": "strands-agents",
+            "service.version": "1.61.1"
+        },
+        "schema_url": ""
+    }
+}
+{
+    "name": "chat",
+    "context": {
+        "trace_id": "0x81b5e385b93ecbf91f480a3f864b7f65",
+        "span_id": "0x476e7b48a0bfd878",
+        "trace_state": "[]"
+    },
+    "kind": "SpanKind.INTERNAL",
+    "parent_id": "0x3380e75232288deb",
+    "start_time": "2026-11-01T09:20:33.654454Z",
+    "end_time": "2026-11-01T09:20:50.318386Z",
+    "status": {
+        "status_code": "OK"
+    },
+    "attributes": {
+        "gen_ai.event.start_time": "2026-11-01T09:20:33.654456+00:00",
+        "gen_ai.operation.name": "chat",
+        "gen_ai.system": "strands-agents",
+        "gen_ai.request.model": "deepseek.v3.2",
+        "gen_ai.event.end_time": "2026-11-01T09:20:50.318176+00:00",
+        "gen_ai.usage.prompt_tokens": 1710,
+        "gen_ai.usage.input_tokens": 1710,
+        "gen_ai.usage.completion_tokens": 42,
+        "gen_ai.usage.output_tokens": 42,
+        "gen_ai.usage.total_tokens": 1752,
+        "gen_ai.server.time_to_first_token": 15664,
+        "gen_ai.server.request.duration": 16217
+    },
+    "events": [
+        {
+            "name": "gen_ai.user.message",
+            "timestamp": "2026-11-01T09:20:33.654496Z",
+            "attributes": {
+                "content": "[{\"text\": \"What is the square root of 1764, plus 8?\"}]"
+            }
+        },
+        {
+            "name": "gen_ai.assistant.message",
+            "timestamp": "2026-11-01T09:20:33.654516Z",
+            "attributes": {
+                "content": "[{\"text\": \"I'll calculate the square root of 1764 first, then add 8 to it.\\n\\n<\uff5cDSML\uff5cfunction_calls\"}, {\"toolUse\": {\"toolUseId\": \"tooluse_oKafeJ9M1OnwQ8RJ1yLqqo\", \"name\": \"calculator\", \"input\": {\"expression\": \"sqrt(1764)\", \"mode\": \"evaluate\"}}}]"
+            }
+        },
+        {
+            "name": "gen_ai.tool.message",
+            "timestamp": "2026-11-01T09:20:33.654530Z",
+            "attributes": {
+                "content": "[{\"toolResult\": {\"status\": \"success\", \"content\": [{\"text\": \"Result: 42\"}], \"toolUseId\": \"tooluse_oKafeJ9M1OnwQ8RJ1yLqqo\"}}]"
+            }
+        },
+        {
+            "name": "gen_ai.assistant.message",
+            "timestamp": "2026-11-01T09:20:33.654548Z",
+            "attributes": {
+                "content": "[{\"text\": \"Now I'll add 8 to 42:\\n\\n<\uff5cDSML\uff5cfunction_calls\"}, {\"toolUse\": {\"toolUseId\": \"tooluse_IvTmYLkqh9w1wqw6bEYLdT\", \"name\": \"calculator\", \"input\": {\"mode\": \"evaluate\", \"expression\": \"42 + 8\"}}}]"
+            }
+        },
+        {
+            "name": "gen_ai.tool.message",
+            "timestamp": "2026-11-01T09:20:33.654562Z",
+            "attributes": {
+                "content": "[{\"toolResult\": {\"status\": \"success\", \"content\": [{\"text\": \"Result: 50\"}], \"toolUseId\": \"tooluse_IvTmYLkqh9w1wqw6bEYLdT\"}}]"
+            }
+        },
+        {
+            "name": "gen_ai.choice",
+            "timestamp": "2026-11-01T09:20:50.318094Z",
+            "attributes": {
+                "finish_reason": "end_turn",
+                "message": "[{\"text\": \"The square root of 1764 is 42, and when you add 8, you get **50**.\\n\\nSo: \u221a1764 + 8 = 42 + 8 = **50**\"}]"
+            }
+        }
+    ],
+    "links": [],
+    "resource": {
+        "attributes": {
+            "telemetry.sdk.language": "python",
+            "telemetry.sdk.name": "opentelemetry",
+            "telemetry.sdk.version": "1.45.1",
+            "service.instance.id": "24bd310f-823d-4b2e-95b7-487c478c4c93",
+            "service.name": "strands-agents",
+            "service.version": "1.61.1"
+        },
+        "schema_url": ""
+    }
+}
+{
+    "name": "execute_event_loop_cycle",
+    "context": {
+        "trace_id": "0x81b5e385b93ecbf91f480a3f864b7f65",
+        "span_id": "0x3380e75232288deb",
+        "trace_state": "[]"
+    },
+    "kind": "SpanKind.INTERNAL",
+    "parent_id": "0xc6807228b1260889",
+    "start_time": "2026-11-01T09:20:33.653924Z",
+    "end_time": "2026-11-01T09:20:50.320596Z",
+    "status": {
+        "status_code": "OK"
+    },
+    "attributes": {
+        "gen_ai.event.start_time": "2026-11-01T09:20:33.653928+00:00",
+        "gen_ai.operation.name": "execute_event_loop_cycle",
+        "gen_ai.system": "strands-agents",
+        "event_loop.cycle_id": "eaf71e93-67f4-437a-8a5e-0f5706f1d18a",
+        "event_loop.parent_cycle_id": "8308d3b8-b31e-4184-be47-6294b764f8e5",
+        "gen_ai.event.end_time": "2026-11-01T09:20:50.320563+00:00"
+    },
+    "events": [
+        {
+            "name": "gen_ai.user.message",
+            "timestamp": "2026-11-01T09:20:33.653970Z",
+            "attributes": {
+                "content": "[{\"text\": \"What is the square root of 1764, plus 8?\"}]"
+            }
+        },
+        {
+            "name": "gen_ai.assistant.message",
+            "timestamp": "2026-11-01T09:20:33.653997Z",
+            "attributes": {
+                "content": "[{\"text\": \"I'll calculate the square root of 1764 first, then add 8 to it.\\n\\n<\uff5cDSML\uff5cfunction_calls\"}, {\"toolUse\": {\"toolUseId\": \"tooluse_oKafeJ9M1OnwQ8RJ1yLqqo\", \"name\": \"calculator\", \"input\": {\"expression\": \"sqrt(1764)\", \"mode\": \"evaluate\"}}}]"
+            }
+        },
+        {
+            "name": "gen_ai.tool.message",
+            "timestamp": "2026-11-01T09:20:33.654015Z",
+            "attributes": {
+                "content": "[{\"toolResult\": {\"status\": \"success\", \"content\": [{\"text\": \"Result: 42\"}], \"toolUseId\": \"tooluse_oKafeJ9M1OnwQ8RJ1yLqqo\"}}]"
+            }
+        },
+        {
+            "name": "gen_ai.assistant.message",
+            "timestamp": "2026-11-01T09:20:33.654035Z",
+            "attributes": {
+                "content": "[{\"text\": \"Now I'll add 8 to 42:\\n\\n<\uff5cDSML\uff5cfunction_calls\"}, {\"toolUse\": {\"toolUseId\": \"tooluse_IvTmYLkqh9w1wqw6bEYLdT\", \"name\": \"calculator\", \"input\": {\"mode\": \"evaluate\", \"expression\": \"42 + 8\"}}}]"
+            }
+        },
+        {
+            "name": "gen_ai.tool.message",
+            "timestamp": "2026-11-01T09:20:33.654050Z",
+            "attributes": {
+                "content": "[{\"toolResult\": {\"status\": \"success\", \"content\": [{\"text\": \"Result: 50\"}], \"toolUseId\": \"tooluse_IvTmYLkqh9w1wqw6bEYLdT\"}}]"
+            }
+        }
+    ],
+    "links": [],
+    "resource": {
+        "attributes": {
+            "telemetry.sdk.language": "python",
+            "telemetry.sdk.name": "opentelemetry",
+            "telemetry.sdk.version": "1.45.1",
+            "service.instance.id": "24bd310f-823d-4b2e-95b7-487c478c4c93",
+            "service.name": "strands-agents",
+            "service.version": "1.61.1"
+        },
+        "schema_url": ""
+    }
+}
+{
+    "name": "invoke_agent Strands Agents",
+    "context": {
+        "trace_id": "0x81b5e385b93ecbf91f480a3f864b7f65",
+        "span_id": "0xc6807228b1260889",
+        "trace_state": "[]"
+    },
+    "kind": "SpanKind.INTERNAL",
+    "parent_id": null,
+    "start_time": "2026-11-01T09:19:58.336932Z",
+    "end_time": "2026-11-01T09:20:50.321619Z",
+    "status": {
+        "status_code": "OK"
+    },
+    "attributes": {
+        "gen_ai.event.start_time": "2026-11-01T09:19:58.336936+00:00",
+        "gen_ai.operation.name": "invoke_agent",
+        "gen_ai.system": "strands-agents",
+        "gen_ai.agent.name": "Strands Agents",
+        "gen_ai.request.model": "deepseek.v3.2",
+        "gen_ai.agent.tools": "[\"calculator\"]",
+        "gen_ai.event.end_time": "2026-11-01T09:20:50.321592+00:00",
+        "gen_ai.usage.prompt_tokens": 4827,
+        "gen_ai.usage.completion_tokens": 195,
+        "gen_ai.usage.input_tokens": 4827,
+        "gen_ai.usage.output_tokens": 195,
+        "gen_ai.usage.total_tokens": 5022,
+        "gen_ai.usage.cache_read.input_tokens": 0,
+        "gen_ai.usage.cache_creation.input_tokens": 0,
+        "gen_ai.usage.cache_read_input_tokens": 0,
+        "gen_ai.usage.cache_write_input_tokens": 0
+    },
+    "events": [
+        {
+            "name": "gen_ai.user.message",
+            "timestamp": "2026-11-01T09:19:58.337250Z",
+            "attributes": {
+                "content": "[{\"text\": \"What is the square root of 1764, plus 8?\"}]"
+            }
+        },
+        {
+            "name": "gen_ai.choice",
+            "timestamp": "2026-11-01T09:20:50.321544Z",
+            "attributes": {
+                "message": "The square root of 1764 is 42, and when you add 8, you get **50**.\n\nSo: \u221a1764 + 8 = 42 + 8 = **50**\n",
+                "finish_reason": "end_turn"
+            }
+        }
+    ],
+    "links": [],
+    "resource": {
+        "attributes": {
+            "telemetry.sdk.language": "python",
+            "telemetry.sdk.name": "opentelemetry",
+            "telemetry.sdk.version": "1.45.1",
+            "service.instance.id": "24bd310f-823d-4b2e-95b7-487c478c4c93",
+            "service.name": "strands-agents",
+            "service.version": "1.61.1"
+        },
+        "schema_url": ""
+    }
+}
+CYCLE_COUNT : 3
+TOTAL_TOKENS: 5022

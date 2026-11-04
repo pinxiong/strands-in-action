@@ -1,0 +1,66 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 950" width="1440" height="950" role="img">
+<title>From one line of user code to a recursive event loop cycle</title>
+<desc>agent(question) calls Agent.__call__, which runs invoke_async through stream_async and the middleware terminal into _execute_event_loop_cycle. That calls event_loop_cycle, where one cycle gets an id, calls the model and reads the stop reason. A tool_use stop reason runs _handle_tool_execution, records the parent cycle id and calls recurse_event_loop, which re-enters event_loop_cycle one stack frame deeper. An end_turn stop reason yields EventLoopStopEvent and the recursion unwinds.</desc>
+<defs>
+<marker id="arr" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+<path d="M0,0 L10,5 L0,10 z" fill="#64748b"/>
+</marker>
+<marker id="arrBlue" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+<path d="M0,0 L10,5 L0,10 z" fill="#2563eb"/>
+</marker>
+</defs>
+
+<rect width="1440" height="950" fill="#ffffff"/>
+
+<text x="720" y="46" font-family="sans-serif" font-size="20" font-weight="600" fill="#111827" text-anchor="middle">From one line of your code to the loop, four hops down</text>
+<text x="720" y="72" font-family="ui-monospace, Menlo, monospace" font-size="13" fill="#64748b" text-anchor="middle">file and line from strands-agents 1.63.0</text>
+
+<line x1="720" y1="152" x2="720" y2="178" stroke="#64748b" stroke-width="1.5" marker-end="url(#arr)"/>
+<line x1="720" y1="244" x2="720" y2="270" stroke="#64748b" stroke-width="1.5" marker-end="url(#arr)"/>
+<line x1="720" y1="336" x2="720" y2="362" stroke="#64748b" stroke-width="1.5" marker-end="url(#arr)"/>
+<line x1="720" y1="428" x2="720" y2="454" stroke="#64748b" stroke-width="1.5" marker-end="url(#arr)"/>
+<line x1="720" y1="520" x2="720" y2="546" stroke="#64748b" stroke-width="1.5" marker-end="url(#arr)"/>
+<line x1="720" y1="612" x2="720" y2="638" stroke="#64748b" stroke-width="1.5" marker-end="url(#arr)"/>
+<line x1="720" y1="704" x2="720" y2="730" stroke="#64748b" stroke-width="1.5" marker-end="url(#arr)"/>
+
+<rect x="330" y="90" width="780" height="62" rx="8" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.5"/>
+<text x="720" y="114" font-family="ui-monospace, Menlo, monospace" font-size="15" fill="#111827" text-anchor="middle">agent("What is the square root of 1764, plus 8?")</text>
+<text x="720" y="136" font-family="ui-monospace, Menlo, monospace" font-size="12.5" fill="#64748b" text-anchor="middle">your code</text>
+
+<rect x="330" y="182" width="780" height="62" rx="8" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.5"/>
+<text x="720" y="206" font-family="ui-monospace, Menlo, monospace" font-size="15" fill="#111827" text-anchor="middle">Agent.__call__ &#8594; run_async(...)</text>
+<text x="720" y="228" font-family="ui-monospace, Menlo, monospace" font-size="12.5" fill="#64748b" text-anchor="middle">agent.py:995</text>
+
+<rect x="330" y="274" width="780" height="62" rx="8" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.5"/>
+<text x="720" y="298" font-family="ui-monospace, Menlo, monospace" font-size="15" fill="#111827" text-anchor="middle">Agent.stream_async &#8594; middleware chain</text>
+<text x="720" y="320" font-family="ui-monospace, Menlo, monospace" font-size="12.5" fill="#64748b" text-anchor="middle">agent.py:1438</text>
+
+<rect x="330" y="366" width="780" height="62" rx="8" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.5"/>
+<text x="720" y="390" font-family="ui-monospace, Menlo, monospace" font-size="15" fill="#111827" text-anchor="middle">terminal() &#8594; self._execute_event_loop_cycle(...)</text>
+<text x="720" y="412" font-family="ui-monospace, Menlo, monospace" font-size="12.5" fill="#64748b" text-anchor="middle">agent.py:1946</text>
+
+<rect x="330" y="458" width="780" height="62" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+<text x="720" y="482" font-family="ui-monospace, Menlo, monospace" font-size="15" fill="#111827" text-anchor="middle">event_loop_cycle(agent=self, invocation_state=...)</text>
+<text x="720" y="504" font-family="ui-monospace, Menlo, monospace" font-size="12.5" fill="#64748b" text-anchor="middle">agent.py:1998</text>
+
+<rect x="330" y="550" width="780" height="62" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+<text x="720" y="574" font-family="ui-monospace, Menlo, monospace" font-size="15" fill="#111827" text-anchor="middle">one cycle: id = uuid4() &#183; model call &#183; stop_reason</text>
+<text x="720" y="596" font-family="ui-monospace, Menlo, monospace" font-size="12.5" fill="#64748b" text-anchor="middle">event_loop.py:229</text>
+
+<rect x="330" y="642" width="780" height="62" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+<text x="720" y="666" font-family="ui-monospace, Menlo, monospace" font-size="15" fill="#111827" text-anchor="middle">tool_use &#8594; _handle_tool_execution</text>
+<text x="720" y="688" font-family="ui-monospace, Menlo, monospace" font-size="12.5" fill="#64748b" text-anchor="middle">event_loop.py:312</text>
+
+<rect x="330" y="734" width="780" height="62" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+<text x="720" y="758" font-family="ui-monospace, Menlo, monospace" font-size="15" fill="#111827" text-anchor="middle">parent_cycle_id = cycle_id &#8594; recurse_event_loop(...)</text>
+<text x="720" y="780" font-family="ui-monospace, Menlo, monospace" font-size="12.5" fill="#64748b" text-anchor="middle">event_loop.py:1109</text>
+
+<polyline points="1110,765 1350,765 1350,581 1116,581" fill="none" stroke="#2563eb" stroke-width="1.5" stroke-dasharray="5,4" marker-end="url(#arrBlue)"/>
+<text x="1230" y="566" font-family="ui-monospace, Menlo, monospace" font-size="13" fill="#2563eb" text-anchor="middle">depth + 1</text>
+
+<text x="720" y="836" font-family="sans-serif" font-size="13" fill="#64748b" text-anchor="middle">or, when the model is done:</text>
+
+<rect x="330" y="850" width="780" height="62" rx="8" fill="#f0fdf4" stroke="#16a34a" stroke-width="1.5"/>
+<text x="720" y="874" font-family="ui-monospace, Menlo, monospace" font-size="15" fill="#111827" text-anchor="middle">end_turn &#8594; EventLoopStopEvent(stop_reason, message)</text>
+<text x="720" y="896" font-family="ui-monospace, Menlo, monospace" font-size="12.5" fill="#64748b" text-anchor="middle">event_loop.py:371</text>
+</svg>

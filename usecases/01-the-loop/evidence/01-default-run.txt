@@ -1,0 +1,93 @@
+MODEL_ID : global.anthropic.claude-sonnet-4-6
+Traceback (most recent call last):
+  File "/Users/pinxiong/WorkBuddy/2026-10-20-22-25-37/strands-in-action/usecases/01-the-loop/src/hello.py", line 13, in <module>
+    result = agent("In one sentence, what is the largest ocean on Earth?")
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/pinxiong/WorkBuddy/2026-10-20-22-25-37/strands-in-action/.venv/lib/python3.11/site-packages/strands/agent/agent.py", line 919, in __call__
+    return run_async(
+           ^^^^^^^^^^
+  File "/Users/pinxiong/WorkBuddy/2026-10-20-22-25-37/strands-in-action/.venv/lib/python3.11/site-packages/strands/_async.py", line 45, in run_async
+    return future.result()
+           ^^^^^^^^^^^^^^^
+  File "/Users/pinxiong/.local/share/uv/python/cpython-3.11.15-macos-aarch64-none/lib/python3.11/concurrent/futures/_base.py", line 456, in result
+    return self.__get_result()
+           ^^^^^^^^^^^^^^^^^^^
+  File "/Users/pinxiong/.local/share/uv/python/cpython-3.11.15-macos-aarch64-none/lib/python3.11/concurrent/futures/_base.py", line 401, in __get_result
+    raise self._exception
+  File "/Users/pinxiong/.local/share/uv/python/cpython-3.11.15-macos-aarch64-none/lib/python3.11/concurrent/futures/thread.py", line 58, in run
+    result = self.fn(*self.args, **self.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/pinxiong/WorkBuddy/2026-10-20-22-25-37/strands-in-action/.venv/lib/python3.11/site-packages/opentelemetry/instrumentation/threading/__init__.py", line 162, in wrapped_func
+    return original_func(*func_args, **func_kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/pinxiong/WorkBuddy/2026-10-20-22-25-37/strands-in-action/.venv/lib/python3.11/site-packages/strands/_async.py", line 38, in execute
+    return asyncio.run(execute_async())
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/pinxiong/.local/share/uv/python/cpython-3.11.15-macos-aarch64-none/lib/python3.11/asyncio/runners.py", line 190, in run
+    return runner.run(main)
+           ^^^^^^^^^^^^^^^^
+  File "/Users/pinxiong/.local/share/uv/python/cpython-3.11.15-macos-aarch64-none/lib/python3.11/asyncio/runners.py", line 118, in run
+    return self._loop.run_until_complete(task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/pinxiong/.local/share/uv/python/cpython-3.11.15-macos-aarch64-none/lib/python3.11/asyncio/base_events.py", line 654, in run_until_complete
+    return future.result()
+           ^^^^^^^^^^^^^^^
+  File "/Users/pinxiong/WorkBuddy/2026-10-20-22-25-37/strands-in-action/.venv/lib/python3.11/site-packages/strands/_async.py", line 33, in execute_async
+    return await async_func()
+           ^^^^^^^^^^^^^^^^^^
+  File "/Users/pinxiong/WorkBuddy/2026-10-20-22-25-37/strands-in-action/.venv/lib/python3.11/site-packages/strands/agent/agent.py", line 940, in _invoke_async_and_flush
+    return await self.invoke_async(prompt, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/pinxiong/WorkBuddy/2026-10-20-22-25-37/strands-in-action/.venv/lib/python3.11/site-packages/strands/agent/agent.py", line 1022, in invoke_async
+    async for event in events:
+  File "/Users/pinxiong/WorkBuddy/2026-10-20-22-25-37/strands-in-action/.venv/lib/python3.11/site-packages/strands/agent/agent.py", line 1445, in stream_async
+    async for event in events:
+  File "/Users/pinxiong/WorkBuddy/2026-10-20-22-25-37/strands-in-action/.venv/lib/python3.11/site-packages/strands/agent/agent.py", line 1591, in _run_loop
+    async for event in self._middleware_registry.invoke(
+  File "/Users/pinxiong/WorkBuddy/2026-10-20-22-25-37/strands-in-action/.venv/lib/python3.11/site-packages/strands/_middleware/registry.py", line 167, in invoke
+    async for event in gen:
+  File "/Users/pinxiong/WorkBuddy/2026-10-20-22-25-37/strands-in-action/.venv/lib/python3.11/site-packages/strands/agent/agent.py", line 1746, in terminal
+    async for event in events:
+  File "/Users/pinxiong/WorkBuddy/2026-10-20-22-25-37/strands-in-action/.venv/lib/python3.11/site-packages/strands/agent/agent.py", line 1801, in _execute_event_loop_cycle
+    async for event in events:
+  File "/Users/pinxiong/WorkBuddy/2026-10-20-22-25-37/strands-in-action/.venv/lib/python3.11/site-packages/strands/event_loop/event_loop.py", line 302, in event_loop_cycle
+    async for model_event in model_events:
+  File "/Users/pinxiong/WorkBuddy/2026-10-20-22-25-37/strands-in-action/.venv/lib/python3.11/site-packages/strands/event_loop/event_loop.py", line 691, in _handle_model_execution
+    raise e
+  File "/Users/pinxiong/WorkBuddy/2026-10-20-22-25-37/strands-in-action/.venv/lib/python3.11/site-packages/strands/event_loop/event_loop.py", line 609, in _handle_model_execution
+    async for event in agent._middleware_registry.invoke(
+  File "/Users/pinxiong/WorkBuddy/2026-10-20-22-25-37/strands-in-action/.venv/lib/python3.11/site-packages/strands/_middleware/registry.py", line 167, in invoke
+    async for event in gen:
+  File "/Users/pinxiong/WorkBuddy/2026-10-20-22-25-37/strands-in-action/.venv/lib/python3.11/site-packages/strands/event_loop/event_loop.py", line 740, in terminal
+    async for event in stream_messages(
+  File "/Users/pinxiong/WorkBuddy/2026-10-20-22-25-37/strands-in-action/.venv/lib/python3.11/site-packages/strands/event_loop/streaming.py", line 573, in stream_messages
+    async for event in process_stream(chunks, start_time, cancel_signal):
+  File "/Users/pinxiong/WorkBuddy/2026-10-20-22-25-37/strands-in-action/.venv/lib/python3.11/site-packages/strands/event_loop/streaming.py", line 461, in process_stream
+    async for chunk in chunks:
+  File "/Users/pinxiong/WorkBuddy/2026-10-20-22-25-37/strands-in-action/.venv/lib/python3.11/site-packages/strands/models/bedrock.py", line 1451, in stream
+    await task
+  File "/Users/pinxiong/.local/share/uv/python/cpython-3.11.15-macos-aarch64-none/lib/python3.11/asyncio/threads.py", line 25, in to_thread
+    return await loop.run_in_executor(None, func_call)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/pinxiong/.local/share/uv/python/cpython-3.11.15-macos-aarch64-none/lib/python3.11/concurrent/futures/thread.py", line 58, in run
+    result = self.fn(*self.args, **self.kwargs)
+             ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/pinxiong/WorkBuddy/2026-10-20-22-25-37/strands-in-action/.venv/lib/python3.11/site-packages/opentelemetry/instrumentation/threading/__init__.py", line 162, in wrapped_func
+    return original_func(*func_args, **func_kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/pinxiong/WorkBuddy/2026-10-20-22-25-37/strands-in-action/.venv/lib/python3.11/site-packages/strands/models/bedrock.py", line 1611, in _stream
+    raise e
+  File "/Users/pinxiong/WorkBuddy/2026-10-20-22-25-37/strands-in-action/.venv/lib/python3.11/site-packages/strands/models/bedrock.py", line 1501, in _stream
+    response = converse_method(**request)
+               ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/pinxiong/WorkBuddy/2026-10-20-22-25-37/strands-in-action/.venv/lib/python3.11/site-packages/botocore/client.py", line 606, in _api_call
+    return self._make_api_call(operation_name, kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/pinxiong/WorkBuddy/2026-10-20-22-25-37/strands-in-action/.venv/lib/python3.11/site-packages/botocore/context.py", line 123, in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/pinxiong/WorkBuddy/2026-10-20-22-25-37/strands-in-action/.venv/lib/python3.11/site-packages/botocore/client.py", line 1094, in _make_api_call
+    raise error_class(parsed_response, operation_name)
+botocore.errorfactory.ValidationException: An error occurred (ValidationException) when calling the ConverseStream operation: Access to Anthropic models is not allowed from unsupported countries, regions, or territories. Please refer to https://www.anthropic.com/supported-countries for more information on the countries and regions Anthropic currently supports.
+└ Bedrock region: us-east-1
+└ Model id: global.anthropic.claude-sonnet-4-6

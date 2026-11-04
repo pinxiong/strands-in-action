@@ -1,0 +1,6 @@
+SDK_VERSION : 1.61.1
+STOP_REASON : end_turn
+TEXT        : The largest ocean on Earth is the Pacific Ocean.
+USAGE       : {'inputTokens': 16, 'outputTokens': 11, 'totalTokens': 27}
+LATENCY     : 10263
+CYCLE_COUNT : 1

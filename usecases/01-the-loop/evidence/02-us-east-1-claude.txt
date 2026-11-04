@@ -1,0 +1,8 @@
+  File "/Users/pinxiong/WorkBuddy/2026-10-20-22-25-37/strands-in-action/.venv/lib/python3.11/site-packages/botocore/context.py", line 123, in wrapper
+    return func(*args, **kwargs)
+           ^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/pinxiong/WorkBuddy/2026-10-20-22-25-37/strands-in-action/.venv/lib/python3.11/site-packages/botocore/client.py", line 1094, in _make_api_call
+    raise error_class(parsed_response, operation_name)
+botocore.errorfactory.ValidationException: An error occurred (ValidationException) when calling the ConverseStream operation: Access to Anthropic models is not allowed from unsupported countries, regions, or territories. Please refer to https://www.anthropic.com/supported-countries for more information on the countries and regions Anthropic currently supports.
+└ Bedrock region: us-east-1
+└ Model id: us.anthropic.claude-sonnet-4-6

@@ -1,0 +1,12 @@
+DEPRECATION WARNING: calculator is deprecated. This warning becomes an import error in v0.9.0. To achieve similar functionality, use the shell tool vended by strands-agents (from strands.vended_tools import shell). This does change the security boundary: calculator only ever evaluated an expression checked against an AST allowlist, while shell executes arbitrary commands, so review it against your threat model before switching.
+DEPRECATION WARNING: calculator is deprecated. This warning becomes an import error in v0.9.0. To achieve similar functionality, use the shell tool vended by strands-agents (from strands.vended_tools import shell). This does change the security boundary: calculator only ever evaluated an expression checked against an AST allowlist, while shell executes arbitrary commands, so review it against your threat model before switching.
+SDK_VERSION : 1.63.0
+STOP_REASON : end_turn
+TEXT        : Perfect! So:
+- √1764 = 42
+- 42 + 8 = 50
+
+Therefore, **the square root of 1764 plus 8 is 50**.
+USAGE       : {'inputTokens': 4839, 'outputTokens': 202, 'totalTokens': 5041}
+CYCLE_COUNT : 3
+TOOL        : calculator calls=2 success=2 error=0

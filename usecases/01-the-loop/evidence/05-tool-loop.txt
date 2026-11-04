@@ -1,0 +1,12 @@
+The square root of 1764, plus 8, is 50.STOP_REASON : end_turn
+TEXT : The square root of 1764, plus 8, is 50.
+USAGE : {'inputTokens': 3276, 'outputTokens': 99, 'totalTokens': 3375}
+CYCLE_COUNT : 2
+Traceback (most recent call last):
+  File "/Users/pinxiong/WorkBuddy/2026-10-20-22-25-37/strands-in-action/usecases/01-the-loop/src/trace_loop.py", line 18, in <module>
+    print("TOOL_NAMES  :", [m.name for m in result.metrics.tool_metrics])
+                           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/pinxiong/WorkBuddy/2026-10-20-22-25-37/strands-in-action/usecases/01-the-loop/src/trace_loop.py", line 18, in <listcomp>
+    print("TOOL_NAMES  :", [m.name for m in result.metrics.tool_metrics])
+                            ^^^^^^
+AttributeError: 'str' object has no attribute 'name'

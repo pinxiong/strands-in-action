@@ -1,0 +1,62 @@
+SDK_VERSION : 1.63.0
+TOOL_COUNT  : 1
+TOOL_NAME   : calculator
+SPEC_CHARS  : 5500
+{
+  "name": "calculator",
+  "description": "Calculator powered by SymPy for comprehensive mathematical operations.\n\nThis tool provides advanced mathematical functionality through multiple operation modes,\nincluding expression evaluation, equation solving, calculus operations (derivatives, integrals),\nlimits, series expansions, and matrix operations. Results are formatted with appropriate\nprecision and can be displayed in scientific notation when needed.\n\nHow It Works:\n------------\n1. The function parses the mathematical expression using SymPy's parser\n2. Based on the selected mode, it routes the expression to the appropriate handler\n3. Variables and constants are substituted with their values when provided\n4. The expression is evaluated symbolically and/or numerically as appropriate\n5. Results are formatted based on precision preferences and value magnitude\n6. Rich output is generated with operation details and formatted results\n\nOperation Modes:\n--------------\n- evaluate: Calculate the value of a mathematical expression\n- solve: Find solutions to an equation or system of equations\n- derive: Calculate derivatives of an expression\n- integrate: Find the indefinite integral of an expression\n- limit: Evaluate the limit of an expression at a point\n- series: Generate series expansion of an expression\n- matrix: Perform matrix operations\n\nCommon Usage Scenarios:\n---------------------\n- Basic calculations: Evaluating arithmetic expressions\n- Equation solving: Finding roots of polynomials or systems of equations\n- Calculus: Computing derivatives and integrals for analysis\n- Engineering analysis: Working with scientific notations and constants\n- Mathematics education: Visualizing step-by-step solutions\n- Data science: Matrix operations and statistical calculations\n\nReturns:\n    Dict containing status and response content in the format:\n    {\n        \"status\": \"success|error\",\n        \"content\": [{\"text\": \"Result: <calculated_result>\"}]\n    }\n\n    Success case: Returns the calculation result with appropriate formatting\n    Error case: Returns information about what went wrong during calculation\n\nNotes:\n    - For equation solving, set the expression equal to zero implicitly (x**2 + 1 means x**2 + 1 = 0)\n    - To solve a system of equations, pass the equations as a comma-separated\n      expression (e.g. \"x + y - 10, x - y - 2\"), which parses to a tuple of\n      expressions. Passing a quoted string list (e.g. \"['x + y - 10', ...]\") is\n      not supported because string literals are rejected during validation.\n    - Use 'pi' and 'e' for mathematical constants\n    - The 'wrt' parameter is required for differentiation and integration\n    - Matrix expressions use Python-like syntax: [[1, 2], [3, 4]]\n    - Precision control impacts display only, internal calculations use higher precision\n    - Symbolic results are returned when possible unless force_numeric=True",
+  "inputSchema": {
+    "json": {
+      "properties": {
+        "expression": {
+          "description": "A SymPy-compatible mathematical expression written in valid Python\nsyntax. Use explicit operators and SymPy function names (e.g., \"2*x + 1\",\n\"sin(pi/2)\", \"factorial(5)\", \"Abs(x)\", \"Eq(x**2, 4)\").\nFor matrix operations, use Matrix() with functions like det(),\ntranspose(), or trace().\nString-literal arguments are rejected as a security hardening measure,\nexcept as positional arguments to the symbol/number constructors that do\nnot re-parse them through sympify: Symbol('x'), symbols('x y z'),\nRational('1/3'), Integer('5') and Float('3.14') are supported.",
+          "type": "string"
+        },
+        "mode": {
+          "default": null,
+          "description": "The calculation mode to use. Options are:\n- \"evaluate\": Compute the value of the expression (default)\n- \"solve\": Solve an equation or system of equations\n- \"derive\": Calculate the derivative of an expression\n- \"integrate\": Find the indefinite integral of an expression\n- \"limit\": Calculate the limit of an expression at a point\n- \"series\": Generate a series expansion of an expression\n- \"matrix\": Perform matrix operations",
+          "type": "string"
+        },
+        "precision": {
+          "default": null,
+          "description": "Number of decimal places for the result (default: 10).\nHigher values provide more precise output but may impact performance.",
+          "type": "integer"
+        },
+        "scientific": {
+          "default": null,
+          "description": "Whether to use scientific notation for numbers (default: False).\nWhen True, formats large and small numbers using scientific notation.",
+          "type": "boolean"
+        },
+        "force_numeric": {
+          "default": null,
+          "description": "Force numeric evaluation of symbolic expressions (default: False).\nWhen True, tries to convert symbolic results to numeric values.",
+          "type": "boolean"
+        },
+        "variables": {
+          "default": null,
+          "description": "Optional dictionary of variable names and their values to substitute\nin the expression, e.g., {\"a\": 1, \"b\": 2}.",
+          "type": "object"
+        },
+        "wrt": {
+          "default": null,
+          "description": "Variable to differentiate or integrate with respect to (required for\n\"derive\" and \"integrate\" modes).",
+          "type": "string"
+        },
+        "point": {
+          "default": null,
+          "description": "Point at which to evaluate a limit (required for \"limit\" mode).\nUse \"oo\" for infinity.",
+          "type": "string"
+        },
+        "order": {
+          "default": null,
+          "description": "Order of derivative or series expansion (optional for \"derive\" and\n\"series\" modes, default is 1 for derivatives and 5 for series).",
+          "type": "integer"
+        }
+      },
+      "required": [
+        "expression"
+      ],
+      "type": "object"
+    }
+  }
+}
