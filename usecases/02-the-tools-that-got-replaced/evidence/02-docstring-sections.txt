@@ -1,0 +1,14 @@
+=== full docstring -> description ===
+Count lines under a directory.
+
+Returns:
+    this Returns sentence SHOULD still be visible to the model
+
+Raises:
+    this Raises sentence SHOULD still be visible to the model
+
+Examples:
+    this Examples sentence SHOULD still be visible to the model
+
+=== bare docstring -> description ===
+Count lines under a directory.

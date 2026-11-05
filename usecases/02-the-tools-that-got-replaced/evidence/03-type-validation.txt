@@ -1,0 +1,4 @@
+INPUT_MODEL : Count_linesTool
+VALID       : {'path': '/tmp', 'extension': '.py'}
+REJECTED    : extension
+MISSING     : path

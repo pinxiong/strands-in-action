@@ -1,0 +1,7 @@
+STRANDS_TOOLS_MODULES : 46
+DEPRECATED_COUNT      : 38
+VENDED_COUNT          : 17
+
+DEPRECATED: a2a_client, agent_core_memory, batch, bright_data, calculator, chat_video, cron, current_time, diagram, editor, elasticsearch_memory, environment, exa, generate_image, generate_image_stability, handoff_to_user, http_request, image_reader, journal, load_tool, mcp_client, mem0_memory, memory, nova_reels, python_repl, retrieve, rss, search_video, shell, slack, sleep, speak, swarm, tavily, think, use_agent, use_computer, use_llm
+
+VENDED    : a2a_client, edit, file_editor, graph, handoff_to_user, http_request, mcp_router, notebook, python_repl, read, shell, sleep, stop, subagent, swarm, web_fetch, write

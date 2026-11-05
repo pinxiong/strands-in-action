@@ -1,0 +1,53 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 900" width="1600" height="900" font-family="-apple-system, 'Helvetica Neue', Arial, sans-serif">
+  <defs>
+    <linearGradient id="bgDark2" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#0b2547"/>
+      <stop offset="1" stop-color="#14407c"/>
+    </linearGradient>
+    <marker id="covArr2" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#7db4ff"/>
+    </marker>
+  </defs>
+  <rect width="1600" height="900" fill="url(#bgDark2)"/>
+  <circle cx="1520" cy="60" r="320" fill="#16407a"/>
+  <circle cx="40" cy="880" r="260" fill="#103258"/>
+
+  <!-- series tag -->
+  <rect x="110" y="104" width="300" height="40" rx="20" fill="#1d4ed8"/>
+  <text x="260" y="130" font-size="17" font-weight="700" fill="#ffffff" text-anchor="middle" letter-spacing="2.5">STRANDS IN ACTION · 02</text>
+
+  <!-- title -->
+  <text x="108" y="316" font-size="68" font-weight="800" fill="#ffffff">The Tools That</text>
+  <text x="108" y="400" font-size="68" font-weight="800" fill="#7db4ff">Got Replaced</text>
+
+  <!-- subtitle -->
+  <text x="110" y="486" font-size="25" fill="#c3d6f2">Your @tool is twelve lines. What the model reads</text>
+  <text x="110" y="522" font-size="25" fill="#c3d6f2">is a contract written in your docstring.</text>
+
+  <!-- footer -->
+  <text x="110" y="796" font-family="ui-monospace, Menlo, monospace" font-size="19" fill="#8fb3e3">strands-agents 1.63.0 · every claim verified by running it</text>
+
+  <!-- right visual: docstring splits into two destinations -->
+  <rect x="950" y="160" width="470" height="200" rx="14" fill="#123a6b" stroke="#4f8ff7" stroke-width="2"/>
+  <text x="985" y="200" font-family="ui-monospace, Menlo, monospace" font-size="17" fill="#ffffff">"""Count lines under a dir.</text>
+  <text x="985" y="232" font-family="ui-monospace, Menlo, monospace" font-size="17" fill="#8fb3e3">Args: path, extension</text>
+  <text x="985" y="264" font-family="ui-monospace, Menlo, monospace" font-size="17" fill="#8fb3e3">Returns: the total</text>
+  <text x="985" y="296" font-family="ui-monospace, Menlo, monospace" font-size="17" fill="#c3d6f2">Examples: ..."""</text>
+  <text x="985" y="334" font-size="13" fill="#5f83b8" font-family="ui-monospace, Menlo, monospace">your docstring</text>
+
+  <line x1="1060" y1="360" x2="1060" y2="452" stroke="#7db4ff" stroke-width="2.5" marker-end="url(#covArr2)"/>
+  <line x1="1310" y1="360" x2="1310" y2="452" stroke="#7db4ff" stroke-width="2.5" marker-end="url(#covArr2)"/>
+
+  <rect x="950" y="460" width="225" height="96" rx="12" fill="#1a4a8f" stroke="#4f8ff7" stroke-width="2"/>
+  <text x="1062" y="500" font-size="19" font-weight="700" fill="#ffffff" text-anchor="middle">description</text>
+  <text x="1062" y="528" font-size="13.5" fill="#9cc2ff" text-anchor="middle">the prompt it reads</text>
+
+  <rect x="1195" y="460" width="255" height="96" rx="12" fill="#1a4a8f" stroke="#4f8ff7" stroke-width="2"/>
+  <text x="1322" y="494" font-size="19" font-weight="700" fill="#ffffff" text-anchor="middle">inputSchema</text>
+  <text x="1322" y="522" font-size="13.5" fill="#9cc2ff" text-anchor="middle">the contract it must fill</text>
+
+  <!-- takeaway chip -->
+  <rect x="950" y="616" width="470" height="92" rx="14" fill="#123a6b" stroke="#4f8ff7" stroke-width="2"/>
+  <text x="1185" y="656" font-size="21" font-weight="600" fill="#ffffff" text-anchor="middle">38 of 46 built-ins deprecated</text>
+  <text x="1185" y="686" font-family="ui-monospace, Menlo, monospace" font-size="16" fill="#8fb3e3" text-anchor="middle">import error at v0.9.0</text>
+</svg>

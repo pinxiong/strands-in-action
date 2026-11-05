@@ -1,0 +1,384 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Tools That Got Replaced</title>
+<style>
+  :root {
+    --ink: #1f2328;
+    --ink-soft: #4b535c;
+    --line: #dfe4ea;
+    --accent: #2f6fb0;
+    --accent-soft: #eef4fb;
+    --code-bg: #f6f8fa;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    padding: 32px 20px 96px;
+    background: #ffffff;
+    color: var(--ink);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans",
+                 "PingFang SC", "Helvetica Neue", Arial, sans-serif;
+    font-size: 17px;
+    line-height: 1.75;
+    -webkit-font-smoothing: antialiased;
+  }
+  .wrap { max-width: 780px; margin: 0 auto; }
+
+  .meta {
+    background: var(--accent-soft);
+    border: 1px solid #d3e3f4;
+    border-radius: 10px;
+    padding: 18px 22px;
+    margin-bottom: 36px;
+    font-size: 14.5px;
+    line-height: 1.6;
+    color: var(--ink-soft);
+  }
+  .meta h2 {
+    margin: 0 0 12px;
+    font-size: 13px;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    color: var(--accent);
+    font-weight: 700;
+  }
+  .meta dl { margin: 0; display: grid; grid-template-columns: 132px 1fr; gap: 6px 14px; }
+  .meta dt { color: #7b858f; }
+  .meta dd { margin: 0; color: var(--ink); word-break: break-word; }
+  .tag {
+    display: inline-block;
+    background: #ffffff;
+    border: 1px solid #cddff2;
+    color: var(--accent);
+    border-radius: 999px;
+    padding: 1px 10px;
+    margin-right: 6px;
+    font-size: 13px;
+  }
+
+  h1 {
+    font-size: 34px;
+    line-height: 1.25;
+    letter-spacing: -.01em;
+    margin: 0 0 18px;
+  }
+  h2 {
+    font-size: 24px;
+    margin: 46px 0 14px;
+    padding-bottom: 6px;
+    border-bottom: 1px solid var(--line);
+  }
+  h3 { font-size: 19px; margin: 30px 0 10px; }
+  p { margin: 0 0 18px; }
+  a { color: var(--accent); }
+
+  blockquote {
+    margin: 0 0 26px;
+    padding: 2px 0 2px 18px;
+    border-left: 3px solid #cddff2;
+    color: var(--ink-soft);
+    font-size: 16px;
+  }
+  blockquote p { margin: 8px 0; }
+
+  ul, ol { margin: 0 0 18px; padding-left: 24px; }
+  li { margin-bottom: 8px; }
+
+  code {
+    font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas,
+                 "Liberation Mono", monospace;
+    font-size: 14px;
+  }
+  p code, li code, td code {
+    background: var(--code-bg);
+    border: 1px solid var(--line);
+    border-radius: 4px;
+    padding: 1px 5px;
+  }
+  pre {
+    background: var(--code-bg);
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    padding: 14px 16px;
+    overflow-x: auto;
+    margin: 0 0 22px;
+    line-height: 1.55;
+  }
+  pre code { background: none; border: 0; padding: 0; font-size: 13.5px; }
+
+  figure { margin: 28px 0; }
+  figure img {
+    width: 100%;
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    display: block;
+  }
+  figcaption {
+    margin-top: 8px;
+    font-size: 14px;
+    color: #6b747d;
+    text-align: center;
+    line-height: 1.55;
+  }
+
+  table { border-collapse: collapse; width: 100%; margin: 0 0 22px; font-size: 15.5px; }
+  th, td { border: 1px solid var(--line); padding: 8px 12px; text-align: left; }
+  th { background: var(--code-bg); }
+
+  hr { border: 0; border-top: 1px solid var(--line); margin: 40px 0; }
+
+
+  pre.sourceCode span.kw, pre.sourceCode span.cf { color: #0550ae; font-weight: 600; }
+  pre.sourceCode span.dt, pre.sourceCode span.bu, pre.sourceCode span.ex { color: #953800; }
+  pre.sourceCode span.dv, pre.sourceCode span.fl, pre.sourceCode span.at { color: #0550ae; }
+  pre.sourceCode span.st, pre.sourceCode span.vs, pre.sourceCode span.ch { color: #0a7d32; }
+  pre.sourceCode span.co { color: #6b747d; font-style: italic; }
+  pre.sourceCode span.fu { color: #0b7285; }
+  pre.sourceCode span.im, pre.sourceCode span.va { color: #953800; }
+  pre.sourceCode span.op { color: #444c56; }
+  pre.sourceCode span.sc, pre.sourceCode span.ss { color: #0a7d32; }
+  pre.sourceCode span.er { color: inherit; }  /* error token: keep neutral, never let a theme paint it red */
+
+</style>
+</head>
+<body>
+<div class="wrap">
+<div class="meta">
+  <h2>Local preview &mdash; not published</h2>
+  <dl>
+    <dt>Title</dt><dd>The Tools That Got Replaced</dd>
+    <dt>Subtitle</dt><dd>A @tool function is twelve lines. What the model receives is a contract written in your docstring — and 38 of the 46 built-in tools are being replaced.</dd>
+    <dt>Tags</dt><dd><span class="tag">#ai</span> <span class="tag">#agents</span> <span class="tag">#strands</span> <span class="tag">#aws</span></dd>
+    <dt>Canonical</dt><dd>https://xiongpin.dev/posts/the-tools-that-got-replaced/</dd>
+    <dt>Generated</dt><dd>2026-11-04 20:43 &middot; from <code>article.md</code></dd>
+    <dt>Images</dt><dd>5 image(s), loaded from <code>images/</code> &mdash; keep this file next to that folder</dd>
+  </dl>
+</div>
+
+<h1 id="the-tools-that-got-replaced">The Tools That Got Replaced</h1>
+<blockquote>
+<p>Verified on 2026-11-04 against <code>strands-agents</code> 1.63.0, <code>strands-agents-tools</code> 0.8.11, <code>mcp</code> 2.3.0, Python 3.11 and Bedrock in <code>us-east-1</code>. Every SDK source line quoted below comes from that version and carries its file and line. Every number came out of a run, and the setup steps live in <code>README.md</code>. The model is <code>deepseek.v3.2</code> on Amazon Bedrock.</p>
+</blockquote>
+<p>Article 01 showed how a tool’s answer travels back to the model as a user-role message. This article is about the other direction: how the tool is described to the model in the first place. Read 01 first if you have not; everything here assumes the loop from it.</p>
+<h2 id="the-smallest-tool-that-works">The smallest tool that works</h2>
+<p>A tool is a function with a decorator. This one counts lines of code under a directory.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> strands <span class="im">import</span> Agent, tool</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> strands.models <span class="im">import</span> BedrockModel</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="at">@tool</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> count_lines(path: <span class="bu">str</span>, extension: <span class="bu">str</span> <span class="op">=</span> <span class="st">&quot;.py&quot;</span>) <span class="op">-&gt;</span> <span class="bu">int</span>:</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>    <span class="co">&quot;&quot;&quot;Count total lines in all files with a given extension under a directory.</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="co">    Use this when the user asks how large a codebase or a folder is.</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a><span class="co">    Args:</span></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="co">        path: directory to scan, relative or absolute</span></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="co">        extension: file extension filter, defaults to .py</span></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a><span class="co">    Returns:</span></span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a><span class="co">        the summed line count across matching files</span></span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a><span class="co">    &quot;&quot;&quot;</span></span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>    <span class="im">import</span> pathlib</span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="bu">sum</span>(<span class="bu">len</span>(p.read_text().splitlines())</span>
+<span id="cb1-19"><a href="#cb1-19" aria-hidden="true" tabindex="-1"></a>               <span class="cf">for</span> p <span class="kw">in</span> pathlib.Path(path).rglob(<span class="ss">f&quot;*</span><span class="sc">{</span>extension<span class="sc">}</span><span class="ss">&quot;</span>) <span class="cf">if</span> p.is_file())</span>
+<span id="cb1-20"><a href="#cb1-20" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-21"><a href="#cb1-21" aria-hidden="true" tabindex="-1"></a>agent <span class="op">=</span> Agent(model<span class="op">=</span>BedrockModel(model_id<span class="op">=</span><span class="st">&quot;deepseek.v3.2&quot;</span>, region_name<span class="op">=</span><span class="st">&quot;us-east-1&quot;</span>),</span>
+<span id="cb1-22"><a href="#cb1-22" aria-hidden="true" tabindex="-1"></a>              tools<span class="op">=</span>[count_lines])</span></code></pre></div>
+<p>Twelve lines including the docstring. The function body is ordinary Python and the model never sees it. What the model sees is something else entirely, and the rest of this article is about that something.</p>
+<h2 id="what-the-model-actually-receives">What the model actually receives</h2>
+<p>Printing the tool’s spec takes no API call:</p>
+<figure>
+<img src="images/S1-tool-spec.png" alt="The spec the model receives: the description keeps the Returns section and the schema carries the argument prose" />
+<figcaption aria-hidden="true">The spec the model receives: the description keeps the Returns section and the schema carries the argument prose</figcaption>
+</figure>
+<p>Read that slowly. The model never sees your code. It sees a name, a prose description and a JSON schema, all of it harvested from your docstring and your type hints. Together those three fields form the SDK’s <code>ToolSpec</code>, the one shape every tool takes by the time the model hears about it. The docstring is not documentation. It is the contract the model reads before deciding to call you.</p>
+<p>Notice two things already:</p>
+<ul>
+<li>The <code>Returns:</code> section is inside the description.</li>
+<li>The <code>Args:</code> section is not, but each argument’s description landed in the schema’s <code>properties</code>.</li>
+</ul>
+<p>Two sections of one docstring go to two different places and the split is deliberate.</p>
+<h2 id="the-three-way-extraction-in-the-source">The three-way extraction, in the source</h2>
+<p>Here is the whole picture first: one docstring splits into two destinations and one Pydantic model does both jobs.</p>
+<figure>
+<img src="images/F1-extraction.png" alt="One docstring, two destinations: prose sections to the description, argument prose to the schema, and one Pydantic model doing both jobs" />
+<figcaption aria-hidden="true">One docstring, two destinations: prose sections to the description, argument prose to the schema, and one Pydantic model doing both jobs</figcaption>
+</figure>
+<p>The decorator builds the spec from three sources at import time:</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="co"># decorator.py:103-111, inside FunctionToolMetadata.__init__</span></span>
+<span id="cb2-2"><a href="#cb2-2" aria-hidden="true" tabindex="-1"></a><span class="va">self</span>.signature <span class="op">=</span> inspect.signature(func)</span>
+<span id="cb2-3"><a href="#cb2-3" aria-hidden="true" tabindex="-1"></a><span class="va">self</span>.type_hints <span class="op">=</span> get_type_hints(func, include_extras<span class="op">=</span><span class="va">True</span>)</span>
+<span id="cb2-4"><a href="#cb2-4" aria-hidden="true" tabindex="-1"></a>...</span>
+<span id="cb2-5"><a href="#cb2-5" aria-hidden="true" tabindex="-1"></a>doc_str <span class="op">=</span> inspect.getdoc(func) <span class="kw">or</span> <span class="st">&quot;&quot;</span></span>
+<span id="cb2-6"><a href="#cb2-6" aria-hidden="true" tabindex="-1"></a><span class="va">self</span>.doc <span class="op">=</span> docstring_parser.parse(doc_str)</span></code></pre></div>
+<ul>
+<li>The signature gives parameter names and defaults.</li>
+<li>The type hints give types.</li>
+<li>The parsed docstring gives prose.</li>
+</ul>
+<p>All three merge into a Pydantic model that validates every call:</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="co"># decorator.py:117</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="va">self</span>.input_model <span class="op">=</span> <span class="va">self</span>._create_input_model()</span></code></pre></div>
+<div class="sourceCode" id="cb4"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="co"># decorator.py:230-233, inside _create_input_model</span></span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> field_definitions:</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> create_model(model_name, <span class="op">**</span>field_definitions)</span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a><span class="cf">else</span>:</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> create_model(model_name)</span></code></pre></div>
+<p>Then the schema comes straight out of that model:</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="co"># decorator.py:306, inside extract_metadata</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a>input_schema <span class="op">=</span> <span class="va">self</span>.input_model.model_json_schema()</span></code></pre></div>
+<p>So the JSON schema the model reads is not hand-written or separately maintained. It is the same Pydantic model that will later validate the model’s own arguments. One model, two jobs: describe to the model, then judge the model. That is why the schema cannot drift from the validation.</p>
+<h2 id="the-args-section-gets-cut-the-rest-does-not">The Args section gets cut, the rest does not</h2>
+<p>The description is extracted by a hand-rolled line scanner, and its choice of what to drop is worth reading carefully:</p>
+<div class="sourceCode" id="cb6"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb6-1"><a href="#cb6-1" aria-hidden="true" tabindex="-1"></a><span class="co"># decorator.py:258-260, inside _extract_description_from_docstring</span></span>
+<span id="cb6-2"><a href="#cb6-2" aria-hidden="true" tabindex="-1"></a><span class="cf">if</span> stripped_line.lower().startswith((<span class="st">&quot;args:&quot;</span>, <span class="st">&quot;arguments:&quot;</span>, <span class="st">&quot;parameters:&quot;</span>, <span class="st">&quot;param:&quot;</span>, <span class="st">&quot;params:&quot;</span>)):</span>
+<span id="cb6-3"><a href="#cb6-3" aria-hidden="true" tabindex="-1"></a>    skip_args_section <span class="op">=</span> <span class="va">True</span></span>
+<span id="cb6-4"><a href="#cb6-4" aria-hidden="true" tabindex="-1"></a>    <span class="cf">continue</span></span></code></pre></div>
+<div class="sourceCode" id="cb7"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb7-1"><a href="#cb7-1" aria-hidden="true" tabindex="-1"></a><span class="co"># decorator.py:263-271</span></span>
+<span id="cb7-2"><a href="#cb7-2" aria-hidden="true" tabindex="-1"></a><span class="cf">elif</span> (</span>
+<span id="cb7-3"><a href="#cb7-3" aria-hidden="true" tabindex="-1"></a>    stripped_line.lower().startswith((<span class="st">&quot;returns:&quot;</span>, <span class="st">&quot;return:&quot;</span>, <span class="st">&quot;yields:&quot;</span>, <span class="st">&quot;yield:&quot;</span>))</span>
+<span id="cb7-4"><a href="#cb7-4" aria-hidden="true" tabindex="-1"></a>    <span class="kw">or</span> stripped_line.lower().startswith((<span class="st">&quot;raises:&quot;</span>, <span class="st">&quot;raise:&quot;</span>, <span class="st">&quot;except:&quot;</span>, <span class="st">&quot;exceptions:&quot;</span>))</span>
+<span id="cb7-5"><a href="#cb7-5" aria-hidden="true" tabindex="-1"></a>    <span class="kw">or</span> stripped_line.lower().startswith((<span class="st">&quot;examples:&quot;</span>, <span class="st">&quot;example:&quot;</span>, <span class="st">&quot;note:&quot;</span>, <span class="st">&quot;notes:&quot;</span>))</span>
+<span id="cb7-6"><a href="#cb7-6" aria-hidden="true" tabindex="-1"></a>    <span class="kw">or</span> stripped_line.lower().startswith((<span class="st">&quot;see also:&quot;</span>, <span class="st">&quot;seealso:&quot;</span>, <span class="st">&quot;references:&quot;</span>, <span class="st">&quot;ref:&quot;</span>))</span>
+<span id="cb7-7"><a href="#cb7-7" aria-hidden="true" tabindex="-1"></a>):</span>
+<span id="cb7-8"><a href="#cb7-8" aria-hidden="true" tabindex="-1"></a>    skip_args_section <span class="op">=</span> <span class="va">False</span></span>
+<span id="cb7-9"><a href="#cb7-9" aria-hidden="true" tabindex="-1"></a>    result_lines.append(line)</span>
+<span id="cb7-10"><a href="#cb7-10" aria-hidden="true" tabindex="-1"></a>    <span class="cf">continue</span></span></code></pre></div>
+<p>Args is cut because the arguments already have their own channel, the schema’s <code>properties</code>. Duplicating them into the description would say everything twice. But the scanner keeps every section it recognizes. I fed it a docstring with all four sections:</p>
+<pre class="text"><code>=== full docstring -&gt; description ===
+Count lines under a directory.
+
+Returns:
+    this Returns sentence SHOULD still be visible to the model
+
+Raises:
+    this Raises sentence SHOULD still be visible to the model
+
+Examples:
+    this Examples sentence SHOULD still be visible to the model</code></pre>
+<p>Returns, Raises and Examples go to the model verbatim. That example code you wrote into the docstring for human readers is now part of the model’s prompt. Write it like it will be read by the model, because it is.</p>
+<h2 id="your-docstring-is-a-prompt">Your docstring is a prompt</h2>
+<p>This is not a metaphor. I ran the same function twice with two docstrings and asked for the same conversion: 199950 cents to dollars.</p>
+<p>Neutral docstring:</p>
+<div class="sourceCode" id="cb9"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb9-1"><a href="#cb9-1" aria-hidden="true" tabindex="-1"></a><span class="co">&quot;Format a price given in cents as a dollar string.&quot;</span></span></code></pre></div>
+<p>Same function, same question, one sentence added to the docstring:</p>
+<div class="sourceCode" id="cb10"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="co">&quot;Format a price given in cents as a dollar string. Do NOT use this for amounts</span></span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="er">over 10000 cents; it is inaccurate for large amounts.&quot;</span></span></code></pre></div>
+<figure>
+<img src="images/S2-docstring-prompt.png" alt="Same function, same question, two docstrings: the restricted docstring ends up quoted back in the answer" />
+<figcaption aria-hidden="true">Same function, same question, two docstrings: the restricted docstring ends up quoted back in the answer</figcaption>
+</figure>
+<p>The model called the tool both times, but the second run absorbed my invented warning into its answer and passed it on to the user as fact. Nothing in the function changed. The only thing that changed was the text the model read about the function. Every word in your docstring is an instruction to something that cannot tell instruction from truth.</p>
+<h2 id="where-bad-parameters-die">Where bad parameters die</h2>
+<p>The model writes JSON arguments. Something has to check them before your function runs, and it is the same Pydantic model from the extraction:</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="co"># decorator.py:631, inside DecoratedFunctionTool.stream</span></span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a>validated_input <span class="op">=</span> <span class="va">self</span>._metadata.validate_input(tool_input)</span></code></pre></div>
+<div class="sourceCode" id="cb12"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb12-1"><a href="#cb12-1" aria-hidden="true" tabindex="-1"></a><span class="co"># decorator.py:388, inside validate_input</span></span>
+<span id="cb12-2"><a href="#cb12-2" aria-hidden="true" tabindex="-1"></a>validated <span class="op">=</span> <span class="va">self</span>.input_model(<span class="op">**</span>input_data)</span></code></pre></div>
+<p>A failure does not reach your code, and it does not surface as a Pydantic error either:</p>
+<div class="sourceCode" id="cb13"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb13-1"><a href="#cb13-1" aria-hidden="true" tabindex="-1"></a><span class="co"># decorator.py:395</span></span>
+<span id="cb13-2"><a href="#cb13-2" aria-hidden="true" tabindex="-1"></a><span class="cf">raise</span> <span class="pp">ValueError</span>(<span class="ss">f&quot;Validation failed for input parameters: </span><span class="sc">{</span>error_msg<span class="sc">}</span><span class="ss">&quot;</span>) <span class="im">from</span> e</span></code></pre></div>
+<p>Feeding it directly shows all three behaviors:</p>
+<pre class="text"><code>INPUT_MODEL : Count_linesTool
+VALID       : {&#39;path&#39;: &#39;/tmp&#39;, &#39;extension&#39;: &#39;.py&#39;}
+REJECTED    : extension
+MISSING     : path</code></pre>
+<ul>
+<li>A good call passes.</li>
+<li>A wrong type names the field.</li>
+<li>A missing required field names the field.</li>
+</ul>
+<p>The rejection happens inside the SDK, before your function body, and the loop reports it back to the model as a failed tool result so the model can retry with fixed arguments. Your function only ever sees valid data.</p>
+<h2 id="thirty-eight-of-the-forty-six-tools-are-being-replaced">Thirty-eight of the forty-six tools are being replaced</h2>
+<p>Everything above is how a tool works. Now the part with a deadline.</p>
+<p>The <code>strands-agents-tools</code> package ships 46 tool modules, one per tool. I counted the ones carrying <code>_DEPRECATION_MESSAGE</code> in this version:</p>
+<figure>
+<img src="images/S4-census.png" alt="38 of 46 tool modules carry a deprecation message; the 17 vended replacements are generic tools" />
+<figcaption aria-hidden="true">38 of 46 tool modules carry a deprecation message; the 17 vended replacements are generic tools</figcaption>
+</figure>
+<p>Thirty-eight of forty-six. That is 83 percent of the package, and every one of them prints this on every invocation, as <code>calculator</code> already did in article 01:</p>
+<pre class="text"><code>DEPRECATION WARNING: calculator is deprecated. This warning becomes an import error in v0.9.0.</code></pre>
+<p>Python ignores <code>DeprecationWarning</code> unless you explicitly opt in, so the authors warn twice, once for your IDE and once for your logs. The comment above the function says so itself:</p>
+<div class="sourceCode" id="cb16"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb16-1"><a href="#cb16-1" aria-hidden="true" tabindex="-1"></a><span class="co"># strands_tools/calculator.py:791-795</span></span>
+<span id="cb16-2"><a href="#cb16-2" aria-hidden="true" tabindex="-1"></a><span class="co"># @deprecated surfaces in IDEs and type checkers; the logger.warning below is what</span></span>
+<span id="cb16-3"><a href="#cb16-3" aria-hidden="true" tabindex="-1"></a><span class="co"># users actually see, since DeprecationWarning raised from inside the SDK&#39;s tool</span></span>
+<span id="cb16-4"><a href="#cb16-4" aria-hidden="true" tabindex="-1"></a><span class="co"># invocation path is suppressed by Python&#39;s default warning filter. The message is</span></span>
+<span id="cb16-5"><a href="#cb16-5" aria-hidden="true" tabindex="-1"></a><span class="co"># spelled out here rather than passed as _DEPRECATION_MESSAGE because mypy only</span></span>
+<span id="cb16-6"><a href="#cb16-6" aria-hidden="true" tabindex="-1"></a><span class="co"># reports @deprecated when the argument is a string literal.</span></span></code></pre></div>
+<p>The <code>@deprecated</code> decorator talks to your IDE and your type checker. The <code>logger.warning</code> at <code>calculator.py:906</code>, inside the function body, is what you actually see at runtime, because Python’s default warning filters would swallow a <code>DeprecationWarning</code> raised from inside the SDK. The comment even explains why the message is spelled out inline: mypy only reports <code>@deprecated</code> when the argument is a string literal, so it cannot be passed as the shared constant. One message, two delivery systems and a comment that tells you why both exist.</p>
+<p>The more interesting story is in the two lists. The replacements live in <code>strands.vended_tools</code>, the new in-tree namespace inside <code>strands-agents</code> itself, and they are seventeen generic tools: <code>shell</code>, <code>python_repl</code>, <code>http_request</code>, <code>edit</code>, <code>read</code>, <code>write</code>, <code>file_editor</code>, <code>notebook</code>, <code>graph</code>, <code>swarm</code>, <code>subagent</code>, <code>web_fetch</code>, <code>sleep</code>, <code>stop</code>, <code>handoff_to_user</code>, <code>mcp_router</code> and <code>a2a_client</code>. The deprecated list reads like an app store: <code>slack</code>, <code>exa</code>, <code>tavily</code>, <code>bright_data</code>, <code>rss</code>, <code>generate_image</code>, <code>mem0_memory</code>, <code>elasticsearch_memory</code>, <code>mongodb_memory</code>, <code>nova_reels</code>. This is not a rename. It is a contraction. The SDK is keeping the tools that are universally useful and dropping the ones that are really clients for somebody else’s service. If you built on a SaaS-flavored tool, there is no vended replacement waiting for you; the replacement is an MCP server. And notice what else has no vended replacement: every memory tool. That absence is not an oversight, and article 04 is where it gets explained.</p>
+<h2 id="the-security-boundary-moved">The security boundary moved</h2>
+<p><code>calculator</code>’s replacement is <code>shell</code>, and the warning itself tells you the two are not equivalent:</p>
+<pre class="text"><code>This does change the security boundary: calculator only ever evaluated an
+expression checked against an AST allowlist, while shell executes arbitrary
+commands, so review it against your threat model before switching.</code></pre>
+<div class="sourceCode" id="cb18"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb18-1"><a href="#cb18-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> strands_tools <span class="im">import</span> calculator            <span class="co"># AST allowlist, safe, deprecated</span></span>
+<span id="cb18-2"><a href="#cb18-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> strands.vended_tools <span class="im">import</span> shell          <span class="co"># arbitrary commands, supported</span></span></code></pre></div>
+<p>An allowlisted arithmetic evaluator became an arbitrary command executor. That is not a migration, it is a trade: you get a maintained tool and you pay for it with a wider blast radius. <code>vended_tools</code> does ship a <code>make_shell</code> for wrapping the execution in your own constraints and that wrapped version is the one I would run anywhere near production. Do not switch imports just to silence a warning.</p>
+<h2 id="mcp-one-client-three-transports">MCP: one client, three transports</h2>
+<p>The drop-everything-else direction makes MCP the way to bring your own tools. The client hides all three transports behind one constructor and picks from the fields you give it:</p>
+<div class="sourceCode" id="cb19"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb19-1"><a href="#cb19-1" aria-hidden="true" tabindex="-1"></a><span class="co"># mcp_client.py:161-163, inside the MCPServerConfig schema docs</span></span>
+<span id="cb19-2"><a href="#cb19-2" aria-hidden="true" tabindex="-1"></a><span class="co"># Provide either &#39;command&#39; (stdio) or &#39;url&#39; (streamable-http/sse), not both. When</span></span>
+<span id="cb19-3"><a href="#cb19-3" aria-hidden="true" tabindex="-1"></a><span class="co"># &#39;transport&#39; is omitted it is auto-detected from the fields present. String values</span></span>
+<span id="cb19-4"><a href="#cb19-4" aria-hidden="true" tabindex="-1"></a><span class="co"># support &#39;${VAR}&#39; / &#39;${env:VAR}&#39; interpolation</span></span></code></pre></div>
+<p>A command gets you a subprocess on stdio. A URL gets you HTTP. The server side for my test is nine lines:</p>
+<div class="sourceCode" id="cb20"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb20-1"><a href="#cb20-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> mcp.server.mcpserver <span class="im">import</span> MCPServer</span>
+<span id="cb20-2"><a href="#cb20-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-3"><a href="#cb20-3" aria-hidden="true" tabindex="-1"></a>mcp <span class="op">=</span> MCPServer(<span class="st">&quot;repo-tools&quot;</span>)</span>
+<span id="cb20-4"><a href="#cb20-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-5"><a href="#cb20-5" aria-hidden="true" tabindex="-1"></a><span class="at">@mcp.tool</span>()</span>
+<span id="cb20-6"><a href="#cb20-6" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> word_count(text: <span class="bu">str</span>) <span class="op">-&gt;</span> <span class="bu">int</span>:</span>
+<span id="cb20-7"><a href="#cb20-7" aria-hidden="true" tabindex="-1"></a>    <span class="co">&quot;&quot;&quot;Count the number of words in a piece of text.&quot;&quot;&quot;</span></span>
+<span id="cb20-8"><a href="#cb20-8" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="bu">len</span>(text.split())</span>
+<span id="cb20-9"><a href="#cb20-9" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb20-10"><a href="#cb20-10" aria-hidden="true" tabindex="-1"></a>mcp.run(transport<span class="op">=</span><span class="st">&quot;stdio&quot;</span>)</span></code></pre></div>
+<p>One detail that cost me a traceback: this environment has <code>mcp</code> 2.3.0, and in 2.x the server class is <code>MCPServer</code> from <code>mcp.server.mcpserver</code>. Every tutorial still says <code>from mcp.server.fastmcp import FastMCP</code>, and that import now raises by design. If your MCP server dies before the handshake, check the import first.</p>
+<p>The client spawns the server as a subprocess and the agent treats its tools like any other:</p>
+<figure>
+<img src="images/S3-mcp.png" alt="One stdio MCP server exposes word_count; the agent calls it in two cycles" />
+<figcaption aria-hidden="true">One stdio MCP server exposes word_count; the agent calls it in two cycles</figcaption>
+</figure>
+<p>Two cycles, same as a local tool. The model cannot tell the difference between a function in your process and a subprocess speaking JSON-RPC over a pipe, because by the time the loop sees them, both arrive as the same <code>ToolSpec</code> shape: yours extracted from your docstring, the server’s converted from its own published spec by <code>MCPAgentTool</code>, an adapter that wraps each remote MCP tool so it looks local. That uniformity is the point of MCP: your tool can live anywhere that speaks the protocol.</p>
+<h2 id="structured-output-is-a-tool-in-disguise">Structured output is a tool in disguise</h2>
+<p>One more thing that is a tool under the hood. Article 01 mentioned that an <code>end_turn</code> can force one more cycle when structured output is on. The mechanism is this: your Pydantic output model is converted into a synthetic tool, the model is forced to “call” it and the tool’s validated input becomes your typed result. The schema extraction you saw in this article and the forced retry you saw in 01 are the same machinery wearing two hats. When you ask for structured output you are not adding a feature, you are adding one more tool to the loop.</p>
+<h2 id="what-surprised-me">What surprised me</h2>
+<ul>
+<li><strong>The <code>Args</code> section is the only one cut.</strong> I assumed descriptions were docstring-minus-Args at a coarse level and the schema carried the rest; the Returns section living in the description is the kind of detail you only find by printing the spec.</li>
+<li><strong>DeepSeek’s native function-call syntax leaks into streamed output.</strong> During the docstring experiment the raw stream contained literal <code>&lt;|DSML|function_calls</code> markers (a DeepSeek-specific markup dialect, shown here with ASCII pipes) before the SDK translated them into <code>toolUse</code> events. Harmless, but if you print raw deltas you will see model-specific dialects before the provider normalizes them.</li>
+<li><strong>Thirty-eight of forty-six.</strong> I expected a tidy rename with a matching vended tool for every deprecated one. The real mapping is 38 down to 17, and the missing 21 are mostly SaaS clients. The migration guide you actually need is not a table, it is a decision: generic tool, MCP server or drop the feature.</li>
+</ul>
+<h2 id="when-not-to-use-this">When not to use this</h2>
+<ul>
+<li><strong>Do</strong> write a <code>@tool</code> when the capability is yours: your code, your filesystem, your API keys.</li>
+<li><strong>Do not</strong> write one for somebody else’s SaaS if an MCP server already exists for it, because that is precisely the category AWS just stopped maintaining for you.</li>
+<li><strong>Do not</strong> reach for <code>shell</code> when a narrower tool does the job. Every tool you hand the model is part of its reachable surface and the smallest surface that solves the problem is the one to ship.</li>
+</ul>
+<h2 id="try-it-yourself">Try it yourself</h2>
+<div class="sourceCode" id="cb21"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb21-1"><a href="#cb21-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> clone https://github.com/pinxiong/strands-in-action</span>
+<span id="cb21-2"><a href="#cb21-2" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> strands-in-action/usecases/02-the-tools-that-got-replaced</span>
+<span id="cb21-3"><a href="#cb21-3" aria-hidden="true" tabindex="-1"></a><span class="ex">uv</span> venv <span class="at">--python</span> 3.11</span>
+<span id="cb21-4"><a href="#cb21-4" aria-hidden="true" tabindex="-1"></a><span class="va">VIRTUAL_ENV</span><span class="op">=</span>.venv <span class="ex">uv</span> pip install strands-agents==1.63.0 strands-agents-tools==0.8.11</span></code></pre></div>
+<p>Then run the scripts that produced every number above.</p>
+<div class="sourceCode" id="cb22"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb22-1"><a href="#cb22-1" aria-hidden="true" tabindex="-1"></a><span class="ex">python</span> src/01_tool_spec.py            <span class="co"># the spec the model receives</span></span>
+<span id="cb22-2"><a href="#cb22-2" aria-hidden="true" tabindex="-1"></a><span class="ex">python</span> src/02_docstring_sections.py   <span class="co"># which docstring sections survive</span></span>
+<span id="cb22-3"><a href="#cb22-3" aria-hidden="true" tabindex="-1"></a><span class="ex">python</span> src/03_type_validation.py      <span class="co"># where bad parameters die</span></span>
+<span id="cb22-4"><a href="#cb22-4" aria-hidden="true" tabindex="-1"></a><span class="ex">python</span> src/04_docstring_is_prompt.py  <span class="co"># two docstrings, two behaviors (calls Bedrock)</span></span>
+<span id="cb22-5"><a href="#cb22-5" aria-hidden="true" tabindex="-1"></a><span class="ex">python</span> src/05_mcp_stdio.py            <span class="co"># one stdio MCP server, one agent (calls Bedrock)</span></span>
+<span id="cb22-6"><a href="#cb22-6" aria-hidden="true" tabindex="-1"></a><span class="ex">python</span> src/06_deprecated_census.py    <span class="co"># 38 of 46, counted on your machine</span></span></code></pre></div>
+<p>Takeaways, in the order the source hands them over:</p>
+<ul>
+<li>The model never sees your code, only a name, a description and a schema extracted from your docstring and type hints.</li>
+<li>The Args section goes to the schema’s properties and every other section goes into the prompt.</li>
+<li>The same Pydantic model that describes your tool also validates the model’s arguments before your code runs.</li>
+<li>Your docstring is a prompt and the model will repeat it back as fact.</li>
+<li>Eighty-three percent of the old tools package is deprecated with a v0.9.0 deadline and the replacement layer is a contraction rather than a rename. <code>calculator</code> to <code>shell</code> is a security trade, not a migration.</li>
+<li>MCP hides stdio, SSE and streamable-http behind one client and your tutorial’s <code>FastMCP</code> import is dead in mcp 2.x.</li>
+<li>Structured output is a synthetic tool, so everything in this article applies to it too.</li>
+</ul>
+
+</div>
+</body>
+</html>

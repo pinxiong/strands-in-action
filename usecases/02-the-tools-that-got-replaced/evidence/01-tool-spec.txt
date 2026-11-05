@@ -1,0 +1,27 @@
+NAME       : count_lines
+DESCRIPTION:
+Count total lines in all files with a given extension under a directory.
+
+Use this when the user asks how large a codebase or a folder is.
+
+Returns:
+    the summed line count across matching files
+---
+INPUT_SCHEMA:
+{
+  "properties": {
+    "path": {
+      "description": "directory to scan, relative or absolute",
+      "type": "string"
+    },
+    "extension": {
+      "default": ".py",
+      "description": "file extension filter, defaults to .py",
+      "type": "string"
+    }
+  },
+  "required": [
+    "path"
+  ],
+  "type": "object"
+}
