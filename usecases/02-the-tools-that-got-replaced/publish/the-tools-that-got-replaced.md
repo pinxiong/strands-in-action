@@ -302,9 +302,13 @@ from strands.vended_tools import shell          # arbitrary commands, supported
 
 An allowlisted arithmetic evaluator became an arbitrary command executor. That is not a
 migration, it is a trade: you get a maintained tool and you pay for it with a wider blast
-radius. `vended_tools` does ship a `make_shell` for wrapping the execution in your own
-constraints and that wrapped version is the one I would run anywhere near production. Do
-not switch imports just to silence a warning.
+radius. `vended_tools` does ship a `make_shell`, but the factory takes no allowlist. Its
+arguments are `sandbox`, `name` and `description`. The model still fills in `command` and
+`timeout`. What the factory does is bind execution to a sandbox you supply, such as a
+`DockerSandbox` with a read-only mount and no network. An allowlist belongs in a
+`BeforeToolCallEvent` hook, which sees the command before execution and can refuse the
+call. That combination is the one I would run anywhere near production. Do not switch
+imports just to silence a warning.
 
 ## MCP: one client, three transports
 
