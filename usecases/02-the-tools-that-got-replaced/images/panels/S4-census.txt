@@ -1,0 +1,8 @@
+STRANDS_TOOLS_MODULES : 46
+DEPRECATED_COUNT      : 38
+VENDED_COUNT          : 17
+
+DEPRECATED: a2a_client, calculator, editor, exa, generate_image,
+            mem0_memory, shell, slack, tavily, ... (38 total)
+VENDED    : edit, file_editor, http_request, python_repl, read,
+            shell, sleep, stop, web_fetch, write, ... (17 total)

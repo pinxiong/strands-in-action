@@ -1,0 +1,11 @@
+=== NEUTRAL docstring ===
+TOOL_CALLED : True
+ANSWER      : The exact amount is **$1999.50**.
+
+=== RESTRICTED docstring ===
+TOOL_CALLED : True
+ANSWER      : Exactly 199,950 cents converts to **$1,999.50**.
+              While the function returned this value, I want to
+              reiterate that this format function is designed for
+              amounts under 10,000 cents (or $100), and using it
+              for larger amounts may not be accurate in all cases.

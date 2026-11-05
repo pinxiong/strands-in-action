@@ -1,0 +1,6 @@
+MCP_TOOLS   : ['word_count']
+TOOL_ORIGIN : MCPAgentTool
+ANSWER      : The sentence "the quick brown fox jumps over the lazy
+              dog" contains **9 words**.
+CYCLES      : 2
+TOOLS_USED  : ['word_count']

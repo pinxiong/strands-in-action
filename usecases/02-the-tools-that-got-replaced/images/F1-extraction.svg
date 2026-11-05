@@ -1,0 +1,82 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1440 940" width="1440" height="940" font-family="-apple-system, 'Helvetica Neue', Arial, sans-serif">
+  <defs>
+    <marker id="arrT" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#64748b"/>
+    </marker>
+    <marker id="arrRed" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#dc2626"/>
+    </marker>
+  </defs>
+  <rect width="1440" height="940" fill="#ffffff"/>
+
+  <text x="720" y="46" font-size="20" font-weight="600" fill="#111827" text-anchor="middle">One docstring, two destinations — and one model doing two jobs</text>
+  <text x="720" y="72" font-size="13" fill="#64748b" text-anchor="middle" font-family="ui-monospace, Menlo, monospace">extraction at import time (decorator.py:103–111) · validation at call time (:631 → :388)</text>
+
+  <!-- left: the docstring -->
+  <text x="270" y="118" font-size="14" font-weight="600" fill="#475569" text-anchor="middle">your docstring</text>
+
+  <rect x="80" y="132" width="380" height="84" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="270" y="158" font-size="14" fill="#111827" text-anchor="middle">main description</text>
+  <text x="270" y="180" font-size="12.5" fill="#64748b" text-anchor="middle">what the tool does and when to use it</text>
+  <text x="270" y="200" font-size="11.5" fill="#64748b" text-anchor="middle" font-family="ui-monospace, Menlo, monospace">kept</text>
+
+  <rect x="80" y="232" width="380" height="84" rx="8" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.5" stroke-dasharray="5,4"/>
+  <text x="270" y="258" font-size="14" fill="#111827" text-anchor="middle">Args: / Parameters:</text>
+  <text x="270" y="280" font-size="12.5" fill="#64748b" text-anchor="middle">per-argument prose</text>
+  <text x="270" y="300" font-size="11.5" fill="#dc2626" text-anchor="middle" font-family="ui-monospace, Menlo, monospace">cut from the description (:258)</text>
+
+  <rect x="80" y="332" width="380" height="84" rx="8" fill="#f0fdf4" stroke="#16a34a" stroke-width="1.5"/>
+  <text x="270" y="358" font-size="14" fill="#111827" text-anchor="middle">Returns: / Raises:</text>
+  <text x="270" y="380" font-size="12.5" fill="#64748b" text-anchor="middle">what comes back and what can fail</text>
+  <text x="270" y="400" font-size="11.5" fill="#16a34a" text-anchor="middle" font-family="ui-monospace, Menlo, monospace">kept — goes to the model verbatim</text>
+
+  <rect x="80" y="432" width="380" height="84" rx="8" fill="#f0fdf4" stroke="#16a34a" stroke-width="1.5"/>
+  <text x="270" y="458" font-size="14" fill="#111827" text-anchor="middle">Examples:</text>
+  <text x="270" y="480" font-size="12.5" fill="#64748b" text-anchor="middle">sample usage you wrote for humans</text>
+  <text x="270" y="500" font-size="11.5" fill="#16a34a" text-anchor="middle" font-family="ui-monospace, Menlo, monospace">kept — becomes part of the prompt</text>
+
+  <!-- middle: extraction -->
+  <rect x="560" y="240" width="320" height="130" rx="8" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.5"/>
+  <text x="720" y="266" font-size="15" font-weight="600" fill="#111827" text-anchor="middle">FunctionToolMetadata</text>
+  <text x="720" y="292" font-size="12.5" fill="#64748b" text-anchor="middle" font-family="ui-monospace, Menlo, monospace">signature :103</text>
+  <text x="720" y="314" font-size="12.5" fill="#64748b" text-anchor="middle" font-family="ui-monospace, Menlo, monospace">type_hints :104</text>
+  <text x="720" y="336" font-size="12.5" fill="#64748b" text-anchor="middle" font-family="ui-monospace, Menlo, monospace">docstring_parser :111</text>
+  <text x="720" y="358" font-size="12.5" fill="#64748b" text-anchor="middle" font-family="ui-monospace, Menlo, monospace">decorator.py:80</text>
+
+  <!-- right: destinations -->
+  <rect x="980" y="132" width="380" height="150" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="1170" y="160" font-size="15" font-weight="600" fill="#111827" text-anchor="middle">description</text>
+  <text x="1170" y="186" font-size="12.5" fill="#475569" text-anchor="middle">main + Returns + Raises + Examples</text>
+  <text x="1170" y="208" font-size="12.5" fill="#475569" text-anchor="middle">the prompt the model reads about you</text>
+  <text x="1170" y="240" font-size="11.5" fill="#64748b" text-anchor="middle" font-family="ui-monospace, Menlo, monospace">extract_metadata :285</text>
+
+  <rect x="980" y="318" width="380" height="150" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="1170" y="346" font-size="15" font-weight="600" fill="#111827" text-anchor="middle">inputSchema (JSON)</text>
+  <text x="1170" y="372" font-size="12.5" fill="#475569" text-anchor="middle">Args prose → properties.description</text>
+  <text x="1170" y="394" font-size="12.5" fill="#475569" text-anchor="middle">type hints → types · defaults → default</text>
+  <text x="1170" y="426" font-size="11.5" fill="#64748b" text-anchor="middle" font-family="ui-monospace, Menlo, monospace">model_json_schema() :306</text>
+
+  <!-- arrows: left to middle/right -->
+  <line x1="460" y1="174" x2="552" y2="240" stroke="#64748b" stroke-width="1.5" marker-end="url(#arrT)"/>
+  <line x1="460" y1="274" x2="552" y2="290" stroke="#64748b" stroke-width="1.5" marker-end="url(#arrT)"/>
+  <line x1="460" y1="374" x2="552" y2="330" stroke="#64748b" stroke-width="1.5" marker-end="url(#arrT)"/>
+  <line x1="460" y1="474" x2="552" y2="350" stroke="#64748b" stroke-width="1.5" marker-end="url(#arrT)"/>
+
+  <line x1="880" y1="270" x2="972" y2="207" stroke="#64748b" stroke-width="1.5" marker-end="url(#arrT)"/>
+  <line x1="880" y1="330" x2="972" y2="393" stroke="#64748b" stroke-width="1.5" marker-end="url(#arrT)"/>
+
+  <!-- bottom: one model, two jobs -->
+  <rect x="330" y="560" width="780" height="110" rx="8" fill="#ffffff" stroke="#2563eb" stroke-width="2"/>
+  <text x="720" y="590" font-size="16" font-weight="600" fill="#111827" text-anchor="middle">input_model — one Pydantic model, two jobs</text>
+  <text x="720" y="616" font-size="13" fill="#475569" text-anchor="middle">job 1: render the schema the model reads (:306)</text>
+  <text x="720" y="640" font-size="13" fill="#475569" text-anchor="middle">job 2: validate the arguments the model writes (:631 → :388)</text>
+
+  <line x1="720" y1="468" x2="720" y2="552" stroke="#64748b" stroke-width="1.5" marker-end="url(#arrT)"/>
+  <text x="734" y="516" font-size="12.5" fill="#64748b" font-family="ui-monospace, Menlo, monospace">created at :117</text>
+
+  <rect x="510" y="720" width="420" height="84" rx="8" fill="#fef2f2" stroke="#dc2626" stroke-width="1.5"/>
+  <text x="720" y="750" font-size="14" fill="#111827" text-anchor="middle">bad arguments never reach your code</text>
+  <text x="720" y="774" font-size="12.5" fill="#64748b" text-anchor="middle" font-family="ui-monospace, Menlo, monospace">Pydantic error → ValueError (:395)</text>
+
+  <line x1="720" y1="670" x2="720" y2="712" stroke="#dc2626" stroke-width="1.5" marker-end="url(#arrRed)"/>
+</svg>

@@ -1,0 +1,33 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1381 981" width="1381" height="981" role="img">
+<title>the spec the model receives</title>
+<defs>
+<linearGradient id="bg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#0a1024"/><stop offset="1" stop-color="#0d1c3a"/></linearGradient>
+</defs>
+<rect width="1381" height="981" rx="18" fill="url(#bg)"/>
+<rect x="0.5" y="0.5" width="1380" height="980" rx="18" fill="none" stroke="#1e2d4d"/>
+<rect x="0" y="0" width="1381" height="76" rx="18" fill="#0f1b33"/>
+<rect x="0" y="58" width="1381" height="18" fill="#0f1b33"/>
+<circle cx="34" cy="38" r="8" fill="#ff5f57"/>
+<circle cx="60" cy="38" r="8" fill="#febc2e"/>
+<circle cx="86" cy="38" r="8" fill="#28c840"/>
+<text x="690" y="46" text-anchor="middle" font-family="Menlo, monospace" font-size="24" fill="#7c8db5">the spec the model receives</text>
+<text xml:space="preserve" x="44" y="148" font-family="Menlo, monospace" font-size="28" font-weight="600" fill="#5eead4">$ python src/01_tool_spec.py</text>
+<text xml:space="preserve" x="44" y="191" font-family="Menlo, monospace" font-size="28" font-weight="400" fill="#dfe7f5"></text>
+<text xml:space="preserve" x="44" y="234" font-family="Menlo, monospace" font-size="28" font-weight="400" fill="#dfe7f5">NAME       : count_lines</text>
+<text xml:space="preserve" x="44" y="277" font-family="Menlo, monospace" font-size="28" font-weight="400" fill="#dfe7f5">DESCRIPTION:</text>
+<text xml:space="preserve" x="44" y="320" font-family="Menlo, monospace" font-size="28" font-weight="400" fill="#dfe7f5">Count total lines in all files with a given extension under a directory.</text>
+<text xml:space="preserve" x="44" y="363" font-family="Menlo, monospace" font-size="28" font-weight="400" fill="#dfe7f5"></text>
+<text xml:space="preserve" x="44" y="406" font-family="Menlo, monospace" font-size="28" font-weight="400" fill="#dfe7f5">Use this when the user asks how large a codebase or a folder is.</text>
+<text xml:space="preserve" x="44" y="449" font-family="Menlo, monospace" font-size="28" font-weight="400" fill="#dfe7f5"></text>
+<text xml:space="preserve" x="44" y="492" font-family="Menlo, monospace" font-size="28" font-weight="400" fill="#dfe7f5">Returns:</text>
+<text xml:space="preserve" x="44" y="535" font-family="Menlo, monospace" font-size="28" font-weight="400" fill="#dfe7f5">    the summed line count across matching files</text>
+<text xml:space="preserve" x="44" y="578" font-family="Menlo, monospace" font-size="28" font-weight="400" fill="#dfe7f5">---</text>
+<text xml:space="preserve" x="44" y="621" font-family="Menlo, monospace" font-size="28" font-weight="400" fill="#dfe7f5">INPUT_SCHEMA:</text>
+<text xml:space="preserve" x="44" y="664" font-family="Menlo, monospace" font-size="28" font-weight="400" fill="#dfe7f5">{</text>
+<text xml:space="preserve" x="44" y="707" font-family="Menlo, monospace" font-size="28" font-weight="400" fill="#dfe7f5">  "properties": {</text>
+<text xml:space="preserve" x="44" y="750" font-family="Menlo, monospace" font-size="28" font-weight="400" fill="#dfe7f5">    "path":      { "description": "directory to scan...", "type": "string" },</text>
+<text xml:space="preserve" x="44" y="793" font-family="Menlo, monospace" font-size="28" font-weight="400" fill="#dfe7f5">    "extension": { "default": ".py", "type": "string" }</text>
+<text xml:space="preserve" x="44" y="836" font-family="Menlo, monospace" font-size="28" font-weight="400" fill="#dfe7f5">  },</text>
+<text xml:space="preserve" x="44" y="879" font-family="Menlo, monospace" font-size="28" font-weight="400" fill="#dfe7f5">  "required": ["path"]</text>
+<text xml:space="preserve" x="44" y="922" font-family="Menlo, monospace" font-size="28" font-weight="400" fill="#dfe7f5">}</text>
+</svg>
