@@ -144,6 +144,15 @@ strands-in-action/
 图片根路径 `/images/<slug>/`；账号 ID 脱敏 `123456789012`；
 **代码用代码块、运行结果用图**（终端面板 SVG→2880 宽 PNG，见 `agentcore-figures`）。
 
+### 6.1 文件命名约定（2026-11-05 用户拍板）
+
+`src/` 与 `evidence/` 下的文件一律用**语义文件名，不加数字前缀**：
+`tool_spec.py`、`mcp_stdio.py`、`tool-spec.txt`，不是 `01_tool_spec.py`。
+
+理由：终端面板图只抽样展示部分脚本（UC02 六脚本只画了四张），文件名的数字会让读者
+看到 `01` 之后直接跳到 `04`，误以为缺内容。阅读顺序由 README 表格与正文 `Try it yourself`
+的排列表达，不靠文件名。UC01/UC02 已发布，保持原样不返工；**UC03 起执行**。
+
 ## 7. 发布矩阵（沿用）
 
 GitHub Pages（xiongpin.dev，单一真相源）→ Dev.to（主阵地，canonical 指回）→
