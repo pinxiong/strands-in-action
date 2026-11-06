@@ -1,0 +1,54 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 672" width="1600" height="672" font-family="-apple-system, 'Helvetica Neue', Arial, sans-serif">
+  <defs>
+    <linearGradient id="bgDark4" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#0b2547"/>
+      <stop offset="1" stop-color="#14407c"/>
+    </linearGradient>
+    <marker id="covArr4" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="8" markerHeight="8" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#7db4ff"/>
+    </marker>
+  </defs>
+  <rect width="1600" height="672" fill="url(#bgDark4)"/>
+  <circle cx="1560" cy="-40" r="280" fill="#16407a"/>
+  <circle cx="30" cy="700" r="220" fill="#103258"/>
+
+  <!-- series tag -->
+  <rect x="110" y="72" width="280" height="36" rx="18" fill="#1d4ed8"/>
+  <text x="250" y="96" font-size="15" font-weight="700" fill="#ffffff" text-anchor="middle" letter-spacing="2.5">STRANDS IN ACTION · 04</text>
+
+  <!-- title -->
+  <text x="108" y="212" font-size="56" font-weight="800" fill="#ffffff">It Remembers Across Restarts,</text>
+  <text x="108" y="284" font-size="56" font-weight="800" fill="#7db4ff">and Forgets Mid-Conversation</text>
+
+  <!-- subtitle -->
+  <text x="110" y="366" font-size="23" fill="#c3d6f2">Session files, agent state, and the window the model actually sees</text>
+  <text x="110" y="400" font-size="23" fill="#c3d6f2">are three different things. Each one fails alone.</text>
+
+  <!-- footer -->
+  <text x="110" y="596" font-family="ui-monospace, Menlo, monospace" font-size="17" fill="#8fb3e3">strands-agents 1.63.0 · every claim verified by running it</text>
+
+  <g transform="translate(410, 55) scale(0.72)">
+  <!-- right visual: the restart it survives -->
+  <rect x="950" y="150" width="470" height="180" rx="14" fill="#123a6b" stroke="#4f8ff7" stroke-width="2"/>
+  <text x="985" y="190" font-family="ui-monospace, Menlo, monospace" font-size="17" fill="#8fb3e3">p1  plants  "My name is Pin"</text>
+  <text x="985" y="222" font-family="ui-monospace, Menlo, monospace" font-size="17" fill="#8fb3e3">p1  exits</text>
+  <text x="985" y="254" font-family="ui-monospace, Menlo, monospace" font-size="17" fill="#8fb3e3">p2  fresh agent, same session id</text>
+  <text x="985" y="286" font-family="ui-monospace, Menlo, monospace" font-size="17" fill="#ffffff">p2  answers  "Your name is Pin"</text>
+  <text x="985" y="316" font-size="13" fill="#5f83b8" font-family="ui-monospace, Menlo, monospace">the restart it survives</text>
+
+  <line x1="1185" y1="330" x2="1185" y2="412" stroke="#7db4ff" stroke-width="2.5" marker-end="url(#covArr4)"/>
+
+  <rect x="950" y="420" width="225" height="96" rx="12" fill="#1a4a8f" stroke="#4f8ff7" stroke-width="2"/>
+  <text x="1062" y="464" font-size="30" font-weight="700" fill="#9cc2ff" text-anchor="middle">14</text>
+  <text x="1062" y="492" font-size="13.5" fill="#9cc2ff" text-anchor="middle">messages stored on disk</text>
+
+  <rect x="1195" y="420" width="255" height="96" rx="12" fill="#1a4a8f" stroke="#4f8ff7" stroke-width="2"/>
+  <text x="1322" y="464" font-size="30" font-weight="700" fill="#ffffff" text-anchor="middle">6</text>
+  <text x="1322" y="492" font-size="13.5" fill="#9cc2ff" text-anchor="middle">visible to the model</text>
+
+  <!-- takeaway chip -->
+  <rect x="950" y="576" width="470" height="92" rx="14" fill="#123a6b" stroke="#4f8ff7" stroke-width="2"/>
+  <text x="1185" y="616" font-size="21" font-weight="600" fill="#ffffff" text-anchor="middle">on disk, out of view</text>
+  <text x="1185" y="646" font-family="ui-monospace, Menlo, monospace" font-size="16" fill="#8fb3e3" text-anchor="middle">stored 14, seen 6, turn seven asks for it</text>
+  </g>
+</svg>

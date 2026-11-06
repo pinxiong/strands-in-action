@@ -244,8 +244,14 @@ each with a known blind spot. Pick the one that covers the failure you actually 
 
 ## Try it yourself
 
-Run these from `usecases/03-execution-limits/` with this use case's virtualenv active. Setup and
-credentials are in the top-level `README.md`.
+```bash
+git clone https://github.com/pinxiong/strands-in-action
+cd strands-in-action/usecases/03-execution-limits
+uv venv --python 3.11
+VIRTUAL_ENV=.venv uv pip install strands-agents==1.63.0
+```
+
+Run with AWS credentials that can call `amazon.nova-pro-v1:0` in `us-east-1`:
 
 ```bash
 python src/turn_limit.py          # turn cap, three probes

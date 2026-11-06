@@ -1,0 +1,21 @@
+$ curl -sX POST https://mcp.moretes.com/mcp -d @requirements_check.json
+{
+  "kind": "heuristic-design-aid",
+  "validated": false,
+  "limitation": "Validate assumptions and current AWS documentation. This is not an official AWS review, security audit, deployment or price quote.",
+  "requirements": [],
+  "constraints": [],
+  "decisionsToClarify": [
+    "Business outcome and workload owner",
+    "Data classification, residency and retention",
+    "Traffic: normal/peak RPS, payloads and growth",
+    "SLO, p95/p99 latency, RTO and RPO",
+    "Authentication, authorization and tenancy",
+    "Monthly budget, currency and pricing region",
+    "Team skills, dependencies and migration constraints"
+  ],
+  "nextTools": ["architecture_pattern", "aws_knowledge_search", "decision_record"]
+}
+# brief: order API, 500 rps peak, budget / SLO / RTO / RPO undefined
+# result: requirements [] and constraints [] stay empty. no invented SLO.
+# the gap stayed a gap, and it came back as seven questions, not seven answers.

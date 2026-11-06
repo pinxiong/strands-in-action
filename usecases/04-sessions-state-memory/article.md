@@ -327,11 +327,16 @@ will not be so lucky.
 
 ## Try it yourself
 
-Run these from `usecases/04-sessions-state-memory/` with this use case's virtualenv active, and
-have AWS credentials with `amazon.nova-pro-v1:0` available in `us-east-1`; setup is in the
-top-level `README.md`. Delete `src/sessions_tmp/` and `src/snapshots_tmp/` before every rerun: the
-session ids are hard-coded, so a second `first` appends to the previous transcript and the file
-counts above stop matching.
+```bash
+git clone https://github.com/pinxiong/strands-in-action
+cd strands-in-action/usecases/04-sessions-state-memory
+uv venv --python 3.11
+VIRTUAL_ENV=.venv uv pip install strands-agents==1.63.0
+```
+
+Run with AWS credentials that can call `amazon.nova-pro-v1:0` in `us-east-1`. Delete
+`src/sessions_tmp/` and `src/snapshots_tmp/` before every rerun: the session ids are hard-coded,
+so a second `first` appends to the previous transcript and the file counts above stop matching.
 
 ```bash
 rm -rf src/sessions_tmp src/snapshots_tmp

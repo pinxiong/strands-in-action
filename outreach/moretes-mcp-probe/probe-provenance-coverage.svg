@@ -1,0 +1,29 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1297 809" width="1297" height="809" role="img">
+<title>tools/list · which outputs carry provenance fields</title>
+<defs>
+<linearGradient id="bg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#0a1024"/><stop offset="1" stop-color="#0d1c3a"/></linearGradient>
+</defs>
+<rect width="1297" height="809" rx="18" fill="url(#bg)"/>
+<rect x="0.5" y="0.5" width="1296" height="808" rx="18" fill="none" stroke="#1e2d4d"/>
+<rect x="0" y="0" width="1297" height="76" rx="18" fill="#0f1b33"/>
+<rect x="0" y="58" width="1297" height="18" fill="#0f1b33"/>
+<circle cx="34" cy="38" r="8" fill="#ff5f57"/>
+<circle cx="60" cy="38" r="8" fill="#febc2e"/>
+<circle cx="86" cy="38" r="8" fill="#28c840"/>
+<text x="120" y="46" text-anchor="start" font-family="Menlo, monospace" font-size="24" fill="#7c8db5">tools/list · which outputs carry provenance fields</text>
+<text xml:space="preserve" x="44" y="148" font-family="Menlo, monospace" font-size="28" font-weight="600" fill="#5eead4">$ curl -sX POST https://mcp.moretes.com/mcp -d '{"method":"tools/list"}'</text>
+<text xml:space="preserve" x="44" y="191" font-family="Menlo, monospace" font-size="28" font-weight="400" fill="#dfe7f5">tools: 48</text>
+<text xml:space="preserve" x="44" y="234" font-family="Menlo, monospace" font-size="28" font-weight="400" fill="#dfe7f5">  validated + limitation + sources .............. 28</text>
+<text xml:space="preserve" x="44" y="277" font-family="Menlo, monospace" font-size="28" font-weight="400" fill="#dfe7f5">  outputSchema, other field names ............... 14</text>
+<text xml:space="preserve" x="44" y="320" font-family="Menlo, monospace" font-size="28" font-weight="400" fill="#dfe7f5">  no outputSchema (AWS Knowledge, GitHub) ......... 6</text>
+<text xml:space="preserve" x="44" y="363" font-family="Menlo, monospace" font-size="28" font-weight="400" fill="#dfe7f5"></text>
+<text xml:space="preserve" x="44" y="406" font-family="Menlo, monospace" font-size="28" font-weight="400" fill="#dfe7f5"># the 14, by name:</text>
+<text xml:space="preserve" x="44" y="449" font-family="Menlo, monospace" font-size="28" font-weight="400" fill="#dfe7f5">capacity_plan  cost_model  latency_budget  retry_policy  slo_budget</text>
+<text xml:space="preserve" x="44" y="492" font-family="Menlo, monospace" font-size="28" font-weight="400" fill="#dfe7f5">storage_growth  queue_sizing  finops_unit_economics  postmortem</text>
+<text xml:space="preserve" x="44" y="535" font-family="Menlo, monospace" font-size="28" font-weight="400" fill="#dfe7f5">runbook  architecture_diagram  service_equivalents</text>
+<text xml:space="preserve" x="44" y="578" font-family="Menlo, monospace" font-size="28" font-weight="400" fill="#dfe7f5">integration_catalog  integration_config</text>
+<text xml:space="preserve" x="44" y="621" font-family="Menlo, monospace" font-size="28" font-weight="400" fill="#dfe7f5"></text>
+<text xml:space="preserve" x="44" y="664" font-family="Menlo, monospace" font-size="28" font-weight="400" fill="#dfe7f5"># capacity_plan returns  assumptions + limitations</text>
+<text xml:space="preserve" x="44" y="707" font-family="Menlo, monospace" font-size="28" font-weight="400" fill="#dfe7f5"># requirements_check returns  validated + limitation + sources</text>
+<text xml:space="preserve" x="44" y="750" font-family="Menlo, monospace" font-size="28" font-weight="400" fill="#dfe7f5"># same idea, two field names, so a client badge needs a per-schema rule</text>
+</svg>

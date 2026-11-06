@@ -1,0 +1,15 @@
+$ curl -sX POST https://mcp.moretes.com/mcp -d '{"method":"tools/list"}'
+tools: 48
+  validated + limitation + sources .............. 28
+  outputSchema, other field names ............... 14
+  no outputSchema (AWS Knowledge, GitHub) ......... 6
+
+# the 14, by name:
+capacity_plan  cost_model  latency_budget  retry_policy  slo_budget
+storage_growth  queue_sizing  finops_unit_economics  postmortem
+runbook  architecture_diagram  service_equivalents
+integration_catalog  integration_config
+
+# capacity_plan returns  assumptions + limitations
+# requirements_check returns  validated + limitation + sources
+# same idea, two field names, so a client badge needs a per-schema rule

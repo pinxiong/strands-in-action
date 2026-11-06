@@ -1,0 +1,36 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 2120 1110" width="2120" height="1110" role="img">
+<title>requirements_check · 500 rps order API, no SLO/RTO/RPO declared</title>
+<defs>
+<linearGradient id="bg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#0a1024"/><stop offset="1" stop-color="#0d1c3a"/></linearGradient>
+</defs>
+<rect width="2120" height="1110" rx="18" fill="url(#bg)"/>
+<rect x="0.5" y="0.5" width="2119" height="1109" rx="18" fill="none" stroke="#1e2d4d"/>
+<rect x="0" y="0" width="2120" height="76" rx="18" fill="#0f1b33"/>
+<rect x="0" y="58" width="2120" height="18" fill="#0f1b33"/>
+<circle cx="34" cy="38" r="8" fill="#ff5f57"/>
+<circle cx="60" cy="38" r="8" fill="#febc2e"/>
+<circle cx="86" cy="38" r="8" fill="#28c840"/>
+<text x="120" y="46" text-anchor="start" font-family="Menlo, monospace" font-size="24" fill="#7c8db5">requirements_check · 500 rps order API, no SLO/RTO/RPO declared</text>
+<text xml:space="preserve" x="44" y="148" font-family="Menlo, monospace" font-size="28" font-weight="600" fill="#5eead4">$ curl -sX POST https://mcp.moretes.com/mcp -d @requirements_check.json</text>
+<text xml:space="preserve" x="44" y="191" font-family="Menlo, monospace" font-size="28" font-weight="400" fill="#dfe7f5">{</text>
+<text xml:space="preserve" x="44" y="234" font-family="Menlo, monospace" font-size="28" font-weight="400" fill="#dfe7f5">  "kind": "heuristic-design-aid",</text>
+<text xml:space="preserve" x="44" y="277" font-family="Menlo, monospace" font-size="28" font-weight="400" fill="#dfe7f5">  "validated": false,</text>
+<text xml:space="preserve" x="44" y="320" font-family="Menlo, monospace" font-size="28" font-weight="400" fill="#dfe7f5">  "limitation": "Validate assumptions and current AWS documentation. This is not an official AWS review, security audit,↵</text>
+<text xml:space="preserve" x="44" y="363" font-family="Menlo, monospace" font-size="28" font-weight="400" fill="#dfe7f5">  deployment or price quote.",</text>
+<text xml:space="preserve" x="44" y="406" font-family="Menlo, monospace" font-size="28" font-weight="400" fill="#dfe7f5">  "requirements": [],</text>
+<text xml:space="preserve" x="44" y="449" font-family="Menlo, monospace" font-size="28" font-weight="400" fill="#dfe7f5">  "constraints": [],</text>
+<text xml:space="preserve" x="44" y="492" font-family="Menlo, monospace" font-size="28" font-weight="400" fill="#dfe7f5">  "decisionsToClarify": [</text>
+<text xml:space="preserve" x="44" y="535" font-family="Menlo, monospace" font-size="28" font-weight="400" fill="#dfe7f5">    "Business outcome and workload owner",</text>
+<text xml:space="preserve" x="44" y="578" font-family="Menlo, monospace" font-size="28" font-weight="400" fill="#dfe7f5">    "Data classification, residency and retention",</text>
+<text xml:space="preserve" x="44" y="621" font-family="Menlo, monospace" font-size="28" font-weight="400" fill="#dfe7f5">    "Traffic: normal/peak RPS, payloads and growth",</text>
+<text xml:space="preserve" x="44" y="664" font-family="Menlo, monospace" font-size="28" font-weight="400" fill="#dfe7f5">    "SLO, p95/p99 latency, RTO and RPO",</text>
+<text xml:space="preserve" x="44" y="707" font-family="Menlo, monospace" font-size="28" font-weight="400" fill="#dfe7f5">    "Authentication, authorization and tenancy",</text>
+<text xml:space="preserve" x="44" y="750" font-family="Menlo, monospace" font-size="28" font-weight="400" fill="#dfe7f5">    "Monthly budget, currency and pricing region",</text>
+<text xml:space="preserve" x="44" y="793" font-family="Menlo, monospace" font-size="28" font-weight="400" fill="#dfe7f5">    "Team skills, dependencies and migration constraints"</text>
+<text xml:space="preserve" x="44" y="836" font-family="Menlo, monospace" font-size="28" font-weight="400" fill="#dfe7f5">  ],</text>
+<text xml:space="preserve" x="44" y="879" font-family="Menlo, monospace" font-size="28" font-weight="400" fill="#dfe7f5">  "nextTools": ["architecture_pattern", "aws_knowledge_search", "decision_record"]</text>
+<text xml:space="preserve" x="44" y="922" font-family="Menlo, monospace" font-size="28" font-weight="400" fill="#dfe7f5">}</text>
+<text xml:space="preserve" x="44" y="965" font-family="Menlo, monospace" font-size="28" font-weight="400" fill="#dfe7f5"># brief: order API, 500 rps peak, budget / SLO / RTO / RPO undefined</text>
+<text xml:space="preserve" x="44" y="1008" font-family="Menlo, monospace" font-size="28" font-weight="400" fill="#dfe7f5"># result: requirements [] and constraints [] stay empty. no invented SLO.</text>
+<text xml:space="preserve" x="44" y="1051" font-family="Menlo, monospace" font-size="28" font-weight="400" fill="#dfe7f5"># the gap stayed a gap, and it came back as seven questions, not seven answers.</text>
+</svg>
