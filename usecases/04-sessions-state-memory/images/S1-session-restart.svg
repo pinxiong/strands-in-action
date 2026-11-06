@@ -1,0 +1,35 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 2204 1067" width="2204" height="1067" role="img">
+<title>Two processes, one session id · FileSessionManager</title>
+<defs>
+<linearGradient id="bg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#0a1024"/><stop offset="1" stop-color="#0d1c3a"/></linearGradient>
+</defs>
+<rect width="2204" height="1067" rx="18" fill="url(#bg)"/>
+<rect x="0.5" y="0.5" width="2203" height="1066" rx="18" fill="none" stroke="#1e2d4d"/>
+<rect x="0" y="0" width="2204" height="76" rx="18" fill="#0f1b33"/>
+<rect x="0" y="58" width="2204" height="18" fill="#0f1b33"/>
+<circle cx="34" cy="38" r="8" fill="#ff5f57"/>
+<circle cx="60" cy="38" r="8" fill="#febc2e"/>
+<circle cx="86" cy="38" r="8" fill="#28c840"/>
+<text x="120" y="46" text-anchor="start" font-family="Menlo, monospace" font-size="24" fill="#7c8db5">Two processes, one session id · FileSessionManager</text>
+<text xml:space="preserve" x="44" y="148" font-family="Menlo, monospace" font-size="28" font-weight="600" fill="#5eead4">$ python src/session_restart.py first &amp;&amp; python src/session_restart.py second</text>
+<text xml:space="preserve" x="44" y="191" font-family="Menlo, monospace" font-size="28" font-weight="400" fill="#dfe7f5"></text>
+<text xml:space="preserve" x="44" y="234" font-family="Menlo, monospace" font-size="28" font-weight="400" fill="#dfe7f5">PHASE       : first (fresh process, fresh session)</text>
+<text xml:space="preserve" x="44" y="277" font-family="Menlo, monospace" font-size="28" font-weight="400" fill="#dfe7f5">REPLY       : Hello Pin, it's great to know that 42 is your favorite number! </text>
+<text xml:space="preserve" x="44" y="320" font-family="Menlo, monospace" font-size="28" font-weight="400" fill="#dfe7f5">MSG_COUNT   : 2</text>
+<text xml:space="preserve" x="44" y="363" font-family="Menlo, monospace" font-size="28" font-weight="400" fill="#dfe7f5">FILES_ON_DISK:</text>
+<text xml:space="preserve" x="44" y="406" font-family="Menlo, monospace" font-size="28" font-weight="400" fill="#dfe7f5">  session_restart-demo/session.json  (165 bytes)</text>
+<text xml:space="preserve" x="44" y="449" font-family="Menlo, monospace" font-size="28" font-weight="400" fill="#dfe7f5">  session_restart-demo/agents/agent_default/agent.json  (447 bytes)</text>
+<text xml:space="preserve" x="44" y="492" font-family="Menlo, monospace" font-size="28" font-weight="400" fill="#dfe7f5">  session_restart-demo/agents/agent_default/messages/message_0.json  (390 bytes)</text>
+<text xml:space="preserve" x="44" y="535" font-family="Menlo, monospace" font-size="28" font-weight="400" fill="#dfe7f5">  session_restart-demo/agents/agent_default/messages/message_1.json  (594 bytes)</text>
+<text xml:space="preserve" x="44" y="578" font-family="Menlo, monospace" font-size="28" font-weight="400" fill="#dfe7f5">PHASE       : second (fresh process, same session id)</text>
+<text xml:space="preserve" x="44" y="621" font-family="Menlo, monospace" font-size="28" font-weight="400" fill="#dfe7f5">REPLY       : Your name is Pin and your favorite number is 42. It's important to note that I can't store personal information↵</text>
+<text xml:space="preserve" x="44" y="664" font-family="Menlo, monospace" font-size="28" font-weight="400" fill="#dfe7f5">  about users unless it's provided within the same conversation, and this data doesn't leave the interaction context. </text>
+<text xml:space="preserve" x="44" y="707" font-family="Menlo, monospace" font-size="28" font-weight="400" fill="#dfe7f5">MSG_COUNT   : 4</text>
+<text xml:space="preserve" x="44" y="750" font-family="Menlo, monospace" font-size="28" font-weight="400" fill="#dfe7f5">FILES_ON_DISK:</text>
+<text xml:space="preserve" x="44" y="793" font-family="Menlo, monospace" font-size="28" font-weight="400" fill="#dfe7f5">  session_restart-demo/session.json  (165 bytes)</text>
+<text xml:space="preserve" x="44" y="836" font-family="Menlo, monospace" font-size="28" font-weight="400" fill="#dfe7f5">  session_restart-demo/agents/agent_default/agent.json  (447 bytes)</text>
+<text xml:space="preserve" x="44" y="879" font-family="Menlo, monospace" font-size="28" font-weight="400" fill="#dfe7f5">  session_restart-demo/agents/agent_default/messages/message_0.json  (390 bytes)</text>
+<text xml:space="preserve" x="44" y="922" font-family="Menlo, monospace" font-size="28" font-weight="400" fill="#dfe7f5">  session_restart-demo/agents/agent_default/messages/message_1.json  (594 bytes)</text>
+<text xml:space="preserve" x="44" y="965" font-family="Menlo, monospace" font-size="28" font-weight="400" fill="#dfe7f5">  session_restart-demo/agents/agent_default/messages/message_2.json  (347 bytes)</text>
+<text xml:space="preserve" x="44" y="1008" font-family="Menlo, monospace" font-size="28" font-weight="400" fill="#dfe7f5">  session_restart-demo/agents/agent_default/messages/message_3.json  (760 bytes)</text>
+</svg>

@@ -1,0 +1,18 @@
+PHASE       : first (fresh process, fresh session)
+REPLY       : Hello Pin, it's great to know that 42 is your favorite number! 
+MSG_COUNT   : 2
+FILES_ON_DISK:
+  session_restart-demo/session.json  (165 bytes)
+  session_restart-demo/agents/agent_default/agent.json  (447 bytes)
+  session_restart-demo/agents/agent_default/messages/message_0.json  (390 bytes)
+  session_restart-demo/agents/agent_default/messages/message_1.json  (594 bytes)
+PHASE       : second (fresh process, same session id)
+REPLY       : Your name is Pin and your favorite number is 42. It's important to note that I can't store personal information about users unless it's provided within the same conversation, and this data doesn't leave the interaction context. 
+MSG_COUNT   : 4
+FILES_ON_DISK:
+  session_restart-demo/session.json  (165 bytes)
+  session_restart-demo/agents/agent_default/agent.json  (447 bytes)
+  session_restart-demo/agents/agent_default/messages/message_0.json  (390 bytes)
+  session_restart-demo/agents/agent_default/messages/message_1.json  (594 bytes)
+  session_restart-demo/agents/agent_default/messages/message_2.json  (347 bytes)
+  session_restart-demo/agents/agent_default/messages/message_3.json  (760 bytes)

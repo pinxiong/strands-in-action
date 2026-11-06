@@ -6,3 +6,5 @@ __pycache__/
 *.egg-info/
 .DS_Store
 .pytest_cache/
+usecases/*/src/sessions_tmp/
+usecases/*/src/snapshots_tmp/

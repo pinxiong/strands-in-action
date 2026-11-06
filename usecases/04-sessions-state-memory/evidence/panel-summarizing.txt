@@ -1,0 +1,10 @@
+Proactive summarization failed, continuing: Cannot summarize: only the previous summary is old enough
+TURN 1 plant   | msgs= 2 | Acknowledged. 
+TURN 2 filler  | msgs= 4 | OK.   If you have any specific questions or need assistance with something, feel free to let me know! 
+TURN 3 filler  | msgs= 6 | OK.  Again, if there's anything specific you'd like to discuss or any help you need, just let me know. 
+TURN 4 filler  | msgs= 7 | OK.  If you have any tasks or questions, I'm here to help. 
+TURN 5 filler  | msgs= 8 | OK.  Please feel free to share any tasks or questions you have. 
+TURN 6 filler  | msgs= 9 | OK.  Let me know how I can assist you further. 
+TURN 7 ask     | msgs= 9 | Your codename is ORION, as previously identified in our conversation. If you have any tasks or need further assistance, please let me know. 
+ROLES_IN_WINDOW: ['user', 'user', 'assistant', 'user', 'assistant', 'user', 'assistant', 'user', 'assistant']
+ORION_VISIBLE_TO_MODEL: True

@@ -1,0 +1,50 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1600 960" width="1600" height="960">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0%" stop-color="#0a1024"/>
+      <stop offset="100%" stop-color="#0d1c3a"/>
+    </linearGradient>
+    <marker id="arrow" viewBox="0 0 10 10" refX="8" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#5b7bb5"/>
+    </marker>
+  </defs>
+
+  <rect width="1600" height="960" fill="url(#bg)"/>
+
+  <text x="100" y="86" font-family="Helvetica Neue, Arial, sans-serif" font-size="44" font-weight="700" fill="#eef4ff">Three kinds of memory in one agent</text>
+  <text x="100" y="128" font-family="Helvetica Neue, Arial, sans-serif" font-size="24" fill="#8fa3c4">strands-agents 1.63.0 · strands/session · strands/agent/state.py</text>
+
+  <!-- lane 1: session -->
+  <rect x="100" y="180" width="1400" height="180" rx="14" fill="#101c33" stroke="#1e2d4d" stroke-width="2"/>
+  <rect x="128" y="208" width="212" height="40" rx="8" fill="#2563eb"/>
+  <text x="234" y="235" text-anchor="middle" font-family="Helvetica Neue, Arial, sans-serif" font-size="21" font-weight="700" fill="#ffffff">SESSION · DISK</text>
+  <text x="360" y="236" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="23" fill="#dbe6f7">session_restart-demo/agents/agent_default/messages/</text>
+  <text x="360" y="276" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="23" fill="#9fb3d1">message_0.json … message_13.json · one file per message</text>
+  <text x="360" y="322" font-family="Helvetica Neue, Arial, sans-serif" font-size="22" fill="#7fd7a5">durable · survives the process · 14 files after seven turns</text>
+
+  <!-- arrow 1 -->
+  <line x1="800" y1="360" x2="800" y2="418" stroke="#5b7bb5" stroke-width="3" marker-end="url(#arrow)"/>
+  <text x="826" y="398" font-family="Helvetica Neue, Arial, sans-serif" font-size="21" fill="#8fa3c4">restored at startup when the session id matches</text>
+
+  <!-- lane 2: window -->
+  <rect x="100" y="424" width="1400" height="180" rx="14" fill="#0f1e2c" stroke="#1e3d4d" stroke-width="2"/>
+  <rect x="128" y="452" width="212" height="40" rx="8" fill="#0d9488"/>
+  <text x="234" y="479" text-anchor="middle" font-family="Helvetica Neue, Arial, sans-serif" font-size="21" font-weight="700" fill="#ffffff">WINDOW · MEMORY</text>
+  <text x="360" y="480" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="23" fill="#dbe6f7">agent.messages  →  len(messages) &lt;= window_size ? keep : trim</text>
+  <text x="360" y="520" font-family="Helvetica Neue, Arial, sans-serif" font-size="22" fill="#9fb3d1">window_size=6 in the demo, 40 by default, applied at the end of each invocation</text>
+  <text x="360" y="566" font-family="Helvetica Neue, Arial, sans-serif" font-size="22" fill="#ffd08a">the only thing the model can see · 6 of 14 messages</text>
+
+  <!-- arrow 2 -->
+  <line x1="800" y1="604" x2="800" y2="662" stroke="#5b7bb5" stroke-width="3" marker-end="url(#arrow)"/>
+  <text x="826" y="642" font-family="Helvetica Neue, Arial, sans-serif" font-size="21" fill="#8fa3c4">never enters the prompt: no path from state to messages</text>
+
+  <!-- lane 3: state -->
+  <rect x="100" y="668" width="1400" height="180" rx="14" fill="#2a1c12" stroke="#4d321e" stroke-width="2"/>
+  <rect x="128" y="696" width="212" height="40" rx="8" fill="#ea580c"/>
+  <text x="234" y="723" text-anchor="middle" font-family="Helvetica Neue, Arial, sans-serif" font-size="21" font-weight="700" fill="#ffffff">STATE · AGENT.JSON</text>
+  <text x="360" y="724" font-family="ui-monospace, SFMono-Regular, Menlo, monospace" font-size="23" fill="#dbe6f7">state: { "visits": 1, "user": { "name": "Pin", "plan": "pro" } }</text>
+  <text x="360" y="764" font-family="Helvetica Neue, Arial, sans-serif" font-size="22" fill="#9fb3d1">same file also holds conversation_manager_state and interrupt state</text>
+  <text x="360" y="810" font-family="Helvetica Neue, Arial, sans-serif" font-size="22" fill="#ffb37a">for your code, not for the model · JSON only, rejected at write time</text>
+
+  <text x="100" y="906" font-family="Helvetica Neue, Arial, sans-serif" font-size="22" fill="#6d82a5">Each lane fails on its own: a restart restores lane 1 into lane 2, and lane 2 can still drop the fact the session kept.</text>
+</svg>

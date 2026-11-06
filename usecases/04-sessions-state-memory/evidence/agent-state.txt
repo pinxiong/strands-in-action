@@ -1,0 +1,8 @@
+PHASE       : first
+VISITS      : 1
+USER        : {'name': 'Pin', 'plan': 'pro'}
+NON_JSON    : ValueError Value is not JSON serializable: object. Only JSON-compatible types (str, int, float, bool, list, dict, None) are allowed
+MSG_COUNT   : 2
+PHASE       : second (fresh process, same session id)
+VISITS      : 1
+USER        : {'name': 'Pin', 'plan': 'pro'}

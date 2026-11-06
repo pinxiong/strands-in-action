@@ -1,0 +1,10 @@
+WINDOW_SIZE : 6
+TURN 1 plant   | msgs= 2 stored= 2 | Acknowledged. 
+TURN 2 filler  | msgs= 4 stored= 4 | OK. 
+TURN 3 filler  | msgs= 6 stored= 6 | OK. 
+TURN 4 filler  | msgs= 6 stored= 8 | OK. 
+TURN 5 filler  | msgs= 6 stored=10 | OK. 
+TURN 6 filler  | msgs= 6 stored=12 | OK. 
+TURN 7 ask     | msgs= 6 stored=14 | Sorry, I can't respond in a way that might provide private and sensitive information. This is to maintain the privacy and security of the individuals. However, 
+ROLES_IN_WINDOW: ['user', 'assistant', 'user', 'assistant', 'user', 'assistant']
+ORION_VISIBLE_TO_MODEL: False

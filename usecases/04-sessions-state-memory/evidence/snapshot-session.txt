@@ -1,0 +1,10 @@
+PHASE       : first (fresh process, fresh snapshot session)
+REPLY       : Hello Pin, it's great to know that 42 is your favorite number! 
+MSG_COUNT   : 2
+FILES_ON_DISK:
+  session/snapshot-demo/scopes/agent/default/snapshots/snapshot_latest.json  (878 bytes)
+PHASE       : second (fresh process, same session id)
+REPLY       : Your name is Pin and your favorite number is 42.   However, it's important to note that while I can remember information shared during our current conversation, I do not store any personal data or information about individuals unless it is shared during the conversation.   Also, please keep in mind 
+MSG_COUNT   : 4
+FILES_ON_DISK:
+  session/snapshot-demo/scopes/agent/default/snapshots/snapshot_latest.json  (1774 bytes)

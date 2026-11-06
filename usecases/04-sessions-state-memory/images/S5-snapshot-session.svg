@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 2322 766" width="2322" height="766" role="img">
+<title>SnapshotSessionManager · one blob instead of a file per message</title>
+<defs>
+<linearGradient id="bg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#0a1024"/><stop offset="1" stop-color="#0d1c3a"/></linearGradient>
+</defs>
+<rect width="2322" height="766" rx="18" fill="url(#bg)"/>
+<rect x="0.5" y="0.5" width="2321" height="765" rx="18" fill="none" stroke="#1e2d4d"/>
+<rect x="0" y="0" width="2322" height="76" rx="18" fill="#0f1b33"/>
+<rect x="0" y="58" width="2322" height="18" fill="#0f1b33"/>
+<circle cx="34" cy="38" r="8" fill="#ff5f57"/>
+<circle cx="60" cy="38" r="8" fill="#febc2e"/>
+<circle cx="86" cy="38" r="8" fill="#28c840"/>
+<text x="120" y="46" text-anchor="start" font-family="Menlo, monospace" font-size="24" fill="#7c8db5">SnapshotSessionManager · one blob instead of a file per message</text>
+<text xml:space="preserve" x="44" y="148" font-family="Menlo, monospace" font-size="28" font-weight="600" fill="#5eead4">$ python src/snapshot_session.py first &amp;&amp; python src/snapshot_session.py second</text>
+<text xml:space="preserve" x="44" y="191" font-family="Menlo, monospace" font-size="28" font-weight="400" fill="#dfe7f5"></text>
+<text xml:space="preserve" x="44" y="234" font-family="Menlo, monospace" font-size="28" font-weight="400" fill="#dfe7f5">PHASE       : first (fresh process, fresh snapshot session)</text>
+<text xml:space="preserve" x="44" y="277" font-family="Menlo, monospace" font-size="28" font-weight="400" fill="#dfe7f5">REPLY       : Hello Pin, it's great to know that 42 is your favorite number! </text>
+<text xml:space="preserve" x="44" y="320" font-family="Menlo, monospace" font-size="28" font-weight="400" fill="#dfe7f5">MSG_COUNT   : 2</text>
+<text xml:space="preserve" x="44" y="363" font-family="Menlo, monospace" font-size="28" font-weight="400" fill="#dfe7f5">FILES_ON_DISK:</text>
+<text xml:space="preserve" x="44" y="406" font-family="Menlo, monospace" font-size="28" font-weight="400" fill="#dfe7f5">  session/snapshot-demo/scopes/agent/default/snapshots/snapshot_latest.json  (878 bytes)</text>
+<text xml:space="preserve" x="44" y="449" font-family="Menlo, monospace" font-size="28" font-weight="400" fill="#dfe7f5">PHASE       : second (fresh process, same session id)</text>
+<text xml:space="preserve" x="44" y="492" font-family="Menlo, monospace" font-size="28" font-weight="400" fill="#dfe7f5">REPLY       : Your name is Pin and your favorite number is 42.   However, it's important to note that while I can remember↵</text>
+<text xml:space="preserve" x="44" y="535" font-family="Menlo, monospace" font-size="28" font-weight="400" fill="#dfe7f5">  information shared during our current conversation, I do not store any personal data or information about individuals unless it is↵</text>
+<text xml:space="preserve" x="44" y="578" font-family="Menlo, monospace" font-size="28" font-weight="400" fill="#dfe7f5">  shared during the conversation.   Also, please keep in mind </text>
+<text xml:space="preserve" x="44" y="621" font-family="Menlo, monospace" font-size="28" font-weight="400" fill="#dfe7f5">MSG_COUNT   : 4</text>
+<text xml:space="preserve" x="44" y="664" font-family="Menlo, monospace" font-size="28" font-weight="400" fill="#dfe7f5">FILES_ON_DISK:</text>
+<text xml:space="preserve" x="44" y="707" font-family="Menlo, monospace" font-size="28" font-weight="400" fill="#dfe7f5">  session/snapshot-demo/scopes/agent/default/snapshots/snapshot_latest.json  (1774 bytes)</text>
+</svg>

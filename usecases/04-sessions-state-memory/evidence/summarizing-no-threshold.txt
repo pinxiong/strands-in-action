@@ -1,0 +1,11 @@
+THRESHOLD   : 0.001
+TURN 1 plant   | msgs= 2 | Acknowledged. 
+TURN 2 filler  | msgs= 4 | OK. 
+TURN 3 filler  | msgs= 6 | OK. 
+TURN 4 filler  | msgs= 8 | OK. 
+TURN 5 filler  | msgs=10 | OK. 
+TURN 6 filler  | msgs=12 | OK. 
+TURN 7 ask     | msgs=14 | Your codename is ORION, as you previously stated. Is there anything else I can assist you with? 
+ROLES_IN_WINDOW: ['user', 'assistant', 'user', 'assistant', 'user', 'assistant', 'user', 'assistant', 'user', 'assistant', 'user', 'assistant', 'user', 'assistant']
+ORION_VISIBLE_TO_MODEL: True
+OLDEST_MESSAGE_IN_WINDOW: {"role": "user", "content": [{"text": "My codename is ORION. Acknowledge in one word."}], "tracking_id": "d935cdd3-5083-4508-91ea-498ae3d79521"}
