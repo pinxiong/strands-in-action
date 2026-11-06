@@ -1,0 +1,28 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 980 766" width="980" height="766" role="img">
+<title>token_budget.py · two probes</title>
+<defs>
+<linearGradient id="bg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#0a1024"/><stop offset="1" stop-color="#0d1c3a"/></linearGradient>
+</defs>
+<rect width="980" height="766" rx="18" fill="url(#bg)"/>
+<rect x="0.5" y="0.5" width="979" height="765" rx="18" fill="none" stroke="#1e2d4d"/>
+<rect x="0" y="0" width="980" height="76" rx="18" fill="#0f1b33"/>
+<rect x="0" y="58" width="980" height="18" fill="#0f1b33"/>
+<circle cx="34" cy="38" r="8" fill="#ff5f57"/>
+<circle cx="60" cy="38" r="8" fill="#febc2e"/>
+<circle cx="86" cy="38" r="8" fill="#28c840"/>
+<text x="120" y="46" text-anchor="start" font-family="Menlo, monospace" font-size="24" fill="#7c8db5">token_budget.py · two probes</text>
+<text xml:space="preserve" x="44" y="148" font-family="Menlo, monospace" font-size="28" font-weight="600" fill="#5eead4">$ python src/token_budget.py</text>
+<text xml:space="preserve" x="44" y="191" font-family="Menlo, monospace" font-size="28" font-weight="400" fill="#dfe7f5"></text>
+<text xml:space="preserve" x="44" y="234" font-family="Menlo, monospace" font-size="28" font-weight="400" fill="#dfe7f5">CAP         : 80</text>
+<text xml:space="preserve" x="44" y="277" font-family="Menlo, monospace" font-size="28" font-weight="400" fill="#dfe7f5">STOP_REASON : end_turn</text>
+<text xml:space="preserve" x="44" y="320" font-family="Menlo, monospace" font-size="28" font-weight="400" fill="#dfe7f5">OUTPUT_TOK  : 255</text>
+<text xml:space="preserve" x="44" y="363" font-family="Menlo, monospace" font-size="28" font-weight="400" fill="#dfe7f5">OVERSHOOT   : 175</text>
+<text xml:space="preserve" x="44" y="406" font-family="Menlo, monospace" font-size="28" font-weight="400" fill="#dfe7f5">TURNS_TAKEN : 1</text>
+<text xml:space="preserve" x="44" y="449" font-family="Menlo, monospace" font-size="28" font-weight="400" fill="#dfe7f5">=== B: tool loop, cap binds at the next boundary ===</text>
+<text xml:space="preserve" x="44" y="492" font-family="Menlo, monospace" font-size="28" font-weight="400" fill="#dfe7f5">CAP         : 100</text>
+<text xml:space="preserve" x="44" y="535" font-family="Menlo, monospace" font-size="28" font-weight="400" fill="#dfe7f5">STOP_REASON : limit_output_tokens</text>
+<text xml:space="preserve" x="44" y="578" font-family="Menlo, monospace" font-size="28" font-weight="400" fill="#dfe7f5">OUTPUT_TOK  : 109</text>
+<text xml:space="preserve" x="44" y="621" font-family="Menlo, monospace" font-size="28" font-weight="400" fill="#dfe7f5">OVERSHOOT   : 9</text>
+<text xml:space="preserve" x="44" y="664" font-family="Menlo, monospace" font-size="28" font-weight="400" fill="#dfe7f5">TURNS_TAKEN : 2</text>
+<text xml:space="preserve" x="44" y="707" font-family="Menlo, monospace" font-size="28" font-weight="400" fill="#dfe7f5">TOTAL_TOK   : 1091</text>
+</svg>

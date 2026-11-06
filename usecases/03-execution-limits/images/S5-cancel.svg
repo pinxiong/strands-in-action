@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 980 637" width="980" height="637" role="img">
+<title>cancel_watchdog.py</title>
+<defs>
+<linearGradient id="bg" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#0a1024"/><stop offset="1" stop-color="#0d1c3a"/></linearGradient>
+</defs>
+<rect width="980" height="637" rx="18" fill="url(#bg)"/>
+<rect x="0.5" y="0.5" width="979" height="636" rx="18" fill="none" stroke="#1e2d4d"/>
+<rect x="0" y="0" width="980" height="76" rx="18" fill="#0f1b33"/>
+<rect x="0" y="58" width="980" height="18" fill="#0f1b33"/>
+<circle cx="34" cy="38" r="8" fill="#ff5f57"/>
+<circle cx="60" cy="38" r="8" fill="#febc2e"/>
+<circle cx="86" cy="38" r="8" fill="#28c840"/>
+<text x="120" y="46" text-anchor="start" font-family="Menlo, monospace" font-size="24" fill="#7c8db5">cancel_watchdog.py</text>
+<text xml:space="preserve" x="44" y="148" font-family="Menlo, monospace" font-size="28" font-weight="600" fill="#5eead4">$ python src/cancel_watchdog.py</text>
+<text xml:space="preserve" x="44" y="191" font-family="Menlo, monospace" font-size="28" font-weight="400" fill="#dfe7f5"></text>
+<text xml:space="preserve" x="44" y="234" font-family="Menlo, monospace" font-size="28" font-weight="400" fill="#dfe7f5">DEADLINE_S  : 3</text>
+<text xml:space="preserve" x="44" y="277" font-family="Menlo, monospace" font-size="28" font-weight="400" fill="#dfe7f5">ELAPSED_S   : 3.0</text>
+<text xml:space="preserve" x="44" y="320" font-family="Menlo, monospace" font-size="28" font-weight="400" fill="#dfe7f5">STOP_REASON : cancelled</text>
+<text xml:space="preserve" x="44" y="363" font-family="Menlo, monospace" font-size="28" font-weight="400" fill="#dfe7f5">FINAL       : Deadline of 3 s reached. </text>
+<text xml:space="preserve" x="44" y="406" font-family="Menlo, monospace" font-size="28" font-weight="400" fill="#dfe7f5">=== B: cancel while a sync tool is running ===</text>
+<text xml:space="preserve" x="44" y="449" font-family="Menlo, monospace" font-size="28" font-weight="400" fill="#dfe7f5">DEADLINE_S  : 5</text>
+<text xml:space="preserve" x="44" y="492" font-family="Menlo, monospace" font-size="28" font-weight="400" fill="#dfe7f5">ELAPSED_S   : 21.9</text>
+<text xml:space="preserve" x="44" y="535" font-family="Menlo, monospace" font-size="28" font-weight="400" fill="#dfe7f5">STOP_REASON : cancelled</text>
+<text xml:space="preserve" x="44" y="578" font-family="Menlo, monospace" font-size="28" font-weight="400" fill="#dfe7f5">FINAL       : Deadline of 5 s reached. </text>
+</svg>

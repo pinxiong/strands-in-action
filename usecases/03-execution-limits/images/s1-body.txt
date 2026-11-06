@@ -1,0 +1,12 @@
+=== A: no limits, the tool text is the only stop ===
+STOP_REASON : end_turn
+TURNS_TAKEN : 9
+TOOL_CALLS  : 8
+=== B: limits turns=3, cap binds at turn 3 ===
+STOP_REASON : limit_turns
+TURNS_TAKEN : 3
+TOOL_CALLS  : 3
+=== C: limits turns=1, cap cuts after one turn ===
+STOP_REASON : limit_turns
+TURNS_TAKEN : 1
+TOOL_CALLS  : 1

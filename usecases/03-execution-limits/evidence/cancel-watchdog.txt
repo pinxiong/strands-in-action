@@ -1,0 +1,15 @@
+Lighthouses have a rich and fascinating history that spans centuries, evolving from simple beacons of light to sophisticated navigational aids. The concept of guiding mariners with light dates back to ancient civilizations. The earliest known lighthouse, the Pharos of Alexandria, was constructed around 280 BCE in Egypt. This monumental structure, one of the Seven Wonders of the Ancient World, stood at over 100 meters tall and used a mirror to reflect sunlight during=== A: cancel during model streaming ===
+DEADLINE_S  : 3
+ELAPSED_S   : 3.0
+STOP_REASON : cancelled
+FINAL       : Deadline of 3 s reached. 
+
+<thinking> To fulfill the user's request, I need to generate the compliance report using the `slow_report` tool and then relay the contents of the report to the user. </thinking>
+
+Tool #1: slow_report
+=== B: cancel while a sync tool is running ===
+DEADLINE_S  : 5
+ELAPSED_S   : 21.9
+STOP_REASON : cancelled
+FINAL       : Deadline of 5 s reached. 
+

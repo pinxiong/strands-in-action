@@ -1,0 +1,3 @@
+[unknown key] TypeError: limits keys ['tuns'] are not recognized limits, expected one of 'turns', 'output_tokens', 'total_tokens', 'structured_output_attempts'
+[zero] TypeError: limits['turns'] must be a positive int, got 0
+[bool] TypeError: limits['turns'] must be a positive int, got True

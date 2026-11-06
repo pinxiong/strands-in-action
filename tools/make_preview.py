@@ -34,6 +34,7 @@ HIGHLIGHT_CSS = """
   pre.sourceCode span.im, pre.sourceCode span.va { color: #953800; }
   pre.sourceCode span.op { color: #444c56; }
   pre.sourceCode span.sc, pre.sourceCode span.ss { color: #0a7d32; }
+  pre.sourceCode span.er { color: inherit; }  /* error token: keep neutral, never let a theme paint it red */
 """
 
 TEMPLATE = """<!DOCTYPE html>

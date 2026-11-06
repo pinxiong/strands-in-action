@@ -1,0 +1,10 @@
+=== A: sequential prompt ===
+STOP_REASON : end_turn
+TURNS_TAKEN : 9
+TOOL_CALLS  : 8
+CALLS/TURN  : 0.9
+=== B: parallel prompt ===
+STOP_REASON : end_turn
+TURNS_TAKEN : 3
+TOOL_CALLS  : 8
+CALLS/TURN  : 2.7

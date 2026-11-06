@@ -1,0 +1,8 @@
+QUOTA       : 2
+ATTEMPTED   : {'tick': 3}
+BLOCKED     : {'tick': 1}
+EXECUTED_OK : 2
+STOP_REASON : end_turn
+  [success] Recorded 1/8 ticks. 7 remain. Call tick again with progress=1.
+  [success] Recorded 2/8 ticks. 6 remain. Call tick again with progress=2.
+  [error] quota exceeded: tick allows 2 calls per request, this was attempt 3

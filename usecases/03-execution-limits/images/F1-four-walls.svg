@@ -1,0 +1,65 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 950 830" width="950" height="830" font-family="-apple-system, 'Helvetica Neue', Arial, sans-serif">
+  <defs>
+    <marker id="arrT" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse">
+      <path d="M0,0 L10,5 L0,10 z" fill="#64748b"/>
+    </marker>
+  </defs>
+  <rect x="1" y="1" width="948" height="828" rx="18" fill="#ffffff" stroke="#e2e8f0" stroke-width="1.5"/>
+
+  <text x="475" y="42" font-size="26" font-weight="600" fill="#111827" text-anchor="middle">Four boundaries, four different things they measure</text>
+  <text x="475" y="70" font-size="15" fill="#64748b" text-anchor="middle" font-family="ui-monospace, Menlo, monospace">cycle check (event_loop/event_loop.py:217) · tool gate (hooks/events.py:221-247)</text>
+  <text x="475" y="92" font-size="15" fill="#64748b" text-anchor="middle" font-family="ui-monospace, Menlo, monospace">cancel checkpoint (event_loop/event_loop.py:1166)</text>
+
+  <!-- the loop spine -->
+  <rect x="285" y="115" width="380" height="78" rx="10" fill="#eff6ff" stroke="#2563eb" stroke-width="2"/>
+  <text x="475" y="148" font-size="16.5" font-weight="600" fill="#111827" text-anchor="middle">one turn = one model call</text>
+  <text x="475" y="172" font-size="13.5" fill="#475569" text-anchor="middle" font-family="ui-monospace, Menlo, monospace">+ any tool execution that follows</text>
+
+  <line x1="475" y1="193" x2="475" y2="220" stroke="#64748b" stroke-width="1.5" marker-end="url(#arrT)"/>
+
+  <rect x="285" y="224" width="380" height="78" rx="10" fill="#f8fafc" stroke="#cbd5e1" stroke-width="1.5"/>
+  <text x="475" y="257" font-size="16.5" font-weight="600" fill="#111827" text-anchor="middle">tool batch</text>
+  <text x="475" y="281" font-size="13.5" fill="#475569" text-anchor="middle" font-family="ui-monospace, Menlo, monospace">1..n calls per turn, the model picks n</text>
+
+  <line x1="475" y1="302" x2="475" y2="330" stroke="#64748b" stroke-width="1.5" marker-end="url(#arrT)"/>
+
+  <rect x="285" y="334" width="380" height="96" rx="10" fill="#fef2f2" stroke="#dc2626" stroke-width="1.5"/>
+  <text x="475" y="364" font-size="15.5" font-weight="600" fill="#111827" text-anchor="middle">no next cycle if a limit is reached</text>
+  <text x="475" y="388" font-size="13" fill="#475569" text-anchor="middle" font-family="ui-monospace, Menlo, monospace">_take_turn: check and count in one step</text>
+  <text x="475" y="410" font-size="13" fill="#475569" text-anchor="middle" font-family="ui-monospace, Menlo, monospace">invocation_context.py:87-103</text>
+
+  <path d="M 665 382 C 800 382 800 154 665 154" fill="none" stroke="#64748b" stroke-width="1.5" marker-end="url(#arrT)"/>
+  <text x="812" y="272" font-size="13" fill="#64748b" text-anchor="middle">loop</text>
+
+  <!-- four walls -->
+  <text x="475" y="470" font-size="16" font-weight="600" fill="#475569" text-anchor="middle">what each wall actually bounds</text>
+
+  <rect x="45" y="487" width="420" height="128" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="255" y="517" font-size="15" font-weight="600" fill="#111827" text-anchor="middle" font-family="ui-monospace, Menlo, monospace">limits={"turns": n}</text>
+  <text x="255" y="545" font-size="15" fill="#475569" text-anchor="middle">bounds model calls</text>
+  <text x="255" y="567" font-size="15" fill="#dc2626" text-anchor="middle">not tool invocations</text>
+  <text x="255" y="592" font-size="13.5" fill="#64748b" text-anchor="middle" font-family="ui-monospace, Menlo, monospace">checked before each turn</text>
+
+  <rect x="485" y="487" width="420" height="128" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="695" y="517" font-size="15" font-weight="600" fill="#111827" text-anchor="middle" font-family="ui-monospace, Menlo, monospace">limits={"total_tokens": n}</text>
+  <text x="695" y="545" font-size="15" fill="#475569" text-anchor="middle">bounds token spend</text>
+  <text x="695" y="567" font-size="15" fill="#dc2626" text-anchor="middle">one-turn answers never reach the check</text>
+  <text x="695" y="592" font-size="13.5" fill="#64748b" text-anchor="middle" font-family="ui-monospace, Menlo, monospace">output_tokens: same check, same point</text>
+
+  <rect x="45" y="632" width="420" height="128" rx="8" fill="#eff6ff" stroke="#2563eb" stroke-width="1.5"/>
+  <text x="255" y="662" font-size="15" font-weight="600" fill="#111827" text-anchor="middle" font-family="ui-monospace, Menlo, monospace">agent.cancel()</text>
+  <text x="255" y="690" font-size="15" fill="#475569" text-anchor="middle">bounds wall-clock time</text>
+  <text x="255" y="712" font-size="15" fill="#dc2626" text-anchor="middle">waits at safe points only</text>
+  <text x="255" y="737" font-size="13.5" fill="#64748b" text-anchor="middle" font-family="ui-monospace, Menlo, monospace">agent/agent.py:686-690</text>
+
+  <rect x="485" y="632" width="420" height="128" rx="8" fill="#f0fdf4" stroke="#16a34a" stroke-width="1.5"/>
+  <text x="695" y="662" font-size="15" font-weight="600" fill="#111827" text-anchor="middle" font-family="ui-monospace, Menlo, monospace">quota hook</text>
+  <text x="695" y="690" font-size="15" fill="#475569" text-anchor="middle">bounds calls of one tool</text>
+  <text x="695" y="712" font-size="15" fill="#dc2626" text-anchor="middle">stops the tool, not the loop</text>
+  <text x="695" y="737" font-size="13.5" fill="#64748b" text-anchor="middle" font-family="ui-monospace, Menlo, monospace">BeforeToolCallEvent.cancel_tool</text>
+
+  <line x1="45" y1="774" x2="905" y2="774" stroke="#e2e8f0" stroke-width="1"/>
+
+  <text x="475" y="796" font-size="14" fill="#64748b" text-anchor="middle" font-family="ui-monospace, Menlo, monospace">priority among limits keys: turns &gt; total_tokens &gt; output_tokens &gt; structured_output_attempts</text>
+  <text x="475" y="816" font-size="14" fill="#64748b" text-anchor="middle" font-family="ui-monospace, Menlo, monospace">cancel and quota are not in this queue</text>
+</svg>

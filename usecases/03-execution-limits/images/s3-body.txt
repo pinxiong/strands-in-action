@@ -1,0 +1,12 @@
+CAP         : 80
+STOP_REASON : end_turn
+OUTPUT_TOK  : 255
+OVERSHOOT   : 175
+TURNS_TAKEN : 1
+=== B: tool loop, cap binds at the next boundary ===
+CAP         : 100
+STOP_REASON : limit_output_tokens
+OUTPUT_TOK  : 109
+OVERSHOOT   : 9
+TURNS_TAKEN : 2
+TOTAL_TOK   : 1091

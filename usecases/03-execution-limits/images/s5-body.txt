@@ -1,0 +1,9 @@
+DEADLINE_S  : 3
+ELAPSED_S   : 3.0
+STOP_REASON : cancelled
+FINAL       : Deadline of 3 s reached. 
+=== B: cancel while a sync tool is running ===
+DEADLINE_S  : 5
+ELAPSED_S   : 21.9
+STOP_REASON : cancelled
+FINAL       : Deadline of 5 s reached. 

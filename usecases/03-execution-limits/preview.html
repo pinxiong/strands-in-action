@@ -1,0 +1,295 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>The Limits That Don&#x27;t Limit</title>
+<style>
+  :root {
+    --ink: #1f2328;
+    --ink-soft: #4b535c;
+    --line: #dfe4ea;
+    --accent: #2f6fb0;
+    --accent-soft: #eef4fb;
+    --code-bg: #f6f8fa;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    padding: 32px 20px 96px;
+    background: #ffffff;
+    color: var(--ink);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans",
+                 "PingFang SC", "Helvetica Neue", Arial, sans-serif;
+    font-size: 17px;
+    line-height: 1.75;
+    -webkit-font-smoothing: antialiased;
+  }
+  .wrap { max-width: 780px; margin: 0 auto; }
+
+  .meta {
+    background: var(--accent-soft);
+    border: 1px solid #d3e3f4;
+    border-radius: 10px;
+    padding: 18px 22px;
+    margin-bottom: 36px;
+    font-size: 14.5px;
+    line-height: 1.6;
+    color: var(--ink-soft);
+  }
+  .meta h2 {
+    margin: 0 0 12px;
+    font-size: 13px;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    color: var(--accent);
+    font-weight: 700;
+  }
+  .meta dl { margin: 0; display: grid; grid-template-columns: 132px 1fr; gap: 6px 14px; }
+  .meta dt { color: #7b858f; }
+  .meta dd { margin: 0; color: var(--ink); word-break: break-word; }
+  .tag {
+    display: inline-block;
+    background: #ffffff;
+    border: 1px solid #cddff2;
+    color: var(--accent);
+    border-radius: 999px;
+    padding: 1px 10px;
+    margin-right: 6px;
+    font-size: 13px;
+  }
+
+  h1 {
+    font-size: 34px;
+    line-height: 1.25;
+    letter-spacing: -.01em;
+    margin: 0 0 18px;
+  }
+  h2 {
+    font-size: 24px;
+    margin: 46px 0 14px;
+    padding-bottom: 6px;
+    border-bottom: 1px solid var(--line);
+  }
+  h3 { font-size: 19px; margin: 30px 0 10px; }
+  p { margin: 0 0 18px; }
+  a { color: var(--accent); }
+
+  blockquote {
+    margin: 0 0 26px;
+    padding: 2px 0 2px 18px;
+    border-left: 3px solid #cddff2;
+    color: var(--ink-soft);
+    font-size: 16px;
+  }
+  blockquote p { margin: 8px 0; }
+
+  ul, ol { margin: 0 0 18px; padding-left: 24px; }
+  li { margin-bottom: 8px; }
+
+  code {
+    font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas,
+                 "Liberation Mono", monospace;
+    font-size: 14px;
+  }
+  p code, li code, td code {
+    background: var(--code-bg);
+    border: 1px solid var(--line);
+    border-radius: 4px;
+    padding: 1px 5px;
+  }
+  pre {
+    background: var(--code-bg);
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    padding: 14px 16px;
+    overflow-x: auto;
+    margin: 0 0 22px;
+    line-height: 1.55;
+  }
+  pre code { background: none; border: 0; padding: 0; font-size: 13.5px; }
+
+  figure { margin: 28px 0; }
+  figure img {
+    width: 100%;
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    display: block;
+  }
+  figcaption {
+    margin-top: 8px;
+    font-size: 14px;
+    color: #6b747d;
+    text-align: center;
+    line-height: 1.55;
+  }
+
+  table { border-collapse: collapse; width: 100%; margin: 0 0 22px; font-size: 15.5px; }
+  th, td { border: 1px solid var(--line); padding: 8px 12px; text-align: left; }
+  th { background: var(--code-bg); }
+
+  hr { border: 0; border-top: 1px solid var(--line); margin: 40px 0; }
+
+
+  pre.sourceCode span.kw, pre.sourceCode span.cf { color: #0550ae; font-weight: 600; }
+  pre.sourceCode span.dt, pre.sourceCode span.bu, pre.sourceCode span.ex { color: #953800; }
+  pre.sourceCode span.dv, pre.sourceCode span.fl, pre.sourceCode span.at { color: #0550ae; }
+  pre.sourceCode span.st, pre.sourceCode span.vs, pre.sourceCode span.ch { color: #0a7d32; }
+  pre.sourceCode span.co { color: #6b747d; font-style: italic; }
+  pre.sourceCode span.fu { color: #0b7285; }
+  pre.sourceCode span.im, pre.sourceCode span.va { color: #953800; }
+  pre.sourceCode span.op { color: #444c56; }
+  pre.sourceCode span.sc, pre.sourceCode span.ss { color: #0a7d32; }
+  pre.sourceCode span.er { color: inherit; }  /* error token: keep neutral, never let a theme paint it red */
+
+</style>
+</head>
+<body>
+<div class="wrap">
+<div class="meta">
+  <h2>Local preview &mdash; not published</h2>
+  <dl>
+    <dt>Title</dt><dd>The Limits That Don&#x27;t Limit</dd>
+    <dt>Subtitle</dt><dd>Four boundaries exist to stop a runaway agent. None of them measures what its name promises.</dd>
+    <dt>Tags</dt><dd><span class="tag">#ai</span> <span class="tag">#agents</span> <span class="tag">#strands</span> <span class="tag">#aws</span></dd>
+    <dt>Canonical</dt><dd>https://xiongpin.dev/posts/execution-limits/</dd>
+    <dt>Generated</dt><dd>2026-11-05 15:52 &middot; from <code>article.md</code></dd>
+    <dt>Images</dt><dd>7 image(s), loaded from <code>images/</code> &mdash; keep this file next to that folder</dd>
+  </dl>
+</div>
+
+<h1 id="the-limits-that-dont-limit">The Limits That Don’t Limit</h1>
+<blockquote>
+<p>Verified on 2026-11-05 against <code>strands-agents</code> 1.63.0, Python 3.11 and Bedrock in <code>us-east-1</code>. Every number below came out of a run, and the setup steps live in <code>README.md</code>. The model is <code>amazon.nova-pro-v1:0</code> on Amazon Bedrock.</p>
+</blockquote>
+<p><a href="https://xiongpin.dev/posts/how-the-strands-agent-loop-works/">Article 01</a> walked one cycle and counted thirteen stop reasons. Four of them start with <code>limit_</code>: <code>limit_turns</code>, <code>limit_output_tokens</code>, <code>limit_total_tokens</code> and <code>limit_structured_output_attempts</code>. That post treated them as outcomes. This one is about how to cause them, and about how little each boundary guarantees once you look at what it measures. Read 01 first; everything here starts one level up, at the configuration you pass to a single call.</p>
+<h2 id="the-agent-that-never-stops-on-its-own">The agent that never stops on its own</h2>
+<p>Here is a tool that asks to be called again. It records one tick of a batch job, then reports how many remain.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> strands <span class="im">import</span> Agent, tool</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> strands.models <span class="im">import</span> BedrockModel</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a><span class="at">@tool</span></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> tick(progress: <span class="bu">int</span>) <span class="op">-&gt;</span> <span class="bu">str</span>:</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>    <span class="co">&quot;&quot;&quot;Record one tick of a batch job.</span></span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a><span class="co">    Args:</span></span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a><span class="co">        progress: how many ticks were already recorded before this call.</span></span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-11"><a href="#cb1-11" aria-hidden="true" tabindex="-1"></a><span class="co">    Returns:</span></span>
+<span id="cb1-12"><a href="#cb1-12" aria-hidden="true" tabindex="-1"></a><span class="co">        The total recorded so far and how many remain in the batch.</span></span>
+<span id="cb1-13"><a href="#cb1-13" aria-hidden="true" tabindex="-1"></a><span class="co">    &quot;&quot;&quot;</span></span>
+<span id="cb1-14"><a href="#cb1-14" aria-hidden="true" tabindex="-1"></a>    done <span class="op">=</span> <span class="bu">min</span>(progress <span class="op">+</span> <span class="dv">1</span>, <span class="dv">8</span>)</span>
+<span id="cb1-15"><a href="#cb1-15" aria-hidden="true" tabindex="-1"></a>    remaining <span class="op">=</span> <span class="dv">8</span> <span class="op">-</span> done</span>
+<span id="cb1-16"><a href="#cb1-16" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> remaining <span class="op">&gt;</span> <span class="dv">0</span>:</span>
+<span id="cb1-17"><a href="#cb1-17" aria-hidden="true" tabindex="-1"></a>        <span class="cf">return</span> <span class="ss">f&quot;Recorded </span><span class="sc">{</span>done<span class="sc">}</span><span class="ss">/8 ticks. </span><span class="sc">{</span>remaining<span class="sc">}</span><span class="ss"> remain. Call tick again with progress=</span><span class="sc">{</span>done<span class="sc">}</span><span class="ss">.&quot;</span></span>
+<span id="cb1-18"><a href="#cb1-18" aria-hidden="true" tabindex="-1"></a>    <span class="cf">return</span> <span class="ss">f&quot;Recorded </span><span class="sc">{</span>done<span class="sc">}</span><span class="ss">/8 ticks. Batch complete.&quot;</span></span></code></pre></div>
+<p>Run an agent on it with no limits and the loop finishes after 9 turns and 8 tool calls, at <code>end_turn</code>. The ninth turn is the final answer, the one with no tool call in it. The reason it stopped is the last line of the tool output: the batch was complete. Nothing in the SDK decided that. If the tool had kept asking for another call, the loop would have kept serving it.</p>
+<p>That is the shape of the problem. An agent is a loop whose exit condition is a sentence the model reads, which is why four walls exist to replace that sentence with something you control. Two of them come from keys in the <code>limits</code> dict below: <code>turns</code> and the two token budgets. Two live outside it: a deadline is a manual <code>agent.cancel()</code> call, and a quota is a hook. <code>structured_output_attempts</code> is a fourth key in the same dict. It caps how many failed attempts at a structured response a request may accumulate (<code>types/agent.py:185</code>), so it stays out of this article.</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a>agent(prompt, limits<span class="op">=</span>{<span class="st">&quot;turns&quot;</span>: <span class="dv">3</span>, <span class="st">&quot;total_tokens&quot;</span>: <span class="dv">20000</span>})</span></code></pre></div>
+<p>The rest of this article is one section per boundary, because each one bounds something different from what its name suggests.</p>
+<h2 id="what-a-turn-actually-counts">What a turn actually counts</h2>
+<p>The type definition answers this in one line: a turn is “one model call plus any tool execution that follows” (<code>types/agent.py:177-178</code>). So a turn limit counts model calls. It does not count tool calls, and the gap between the two is decided by the model, not by you.</p>
+<p>Two runs make the gap visible. Same tool, same eight calls, two prompts. A prompt that asks for one call at a time produces nine turns over eight calls. A prompt that permits several calls in one response produces three turns over the same eight calls.</p>
+<figure>
+<img src="images/S2-turn-batching.png" alt="Same eight tool calls under two prompts: 0.9 calls per turn against 2.7" />
+<figcaption aria-hidden="true">Same eight tool calls under two prompts: 0.9 calls per turn against 2.7</figcaption>
+</figure>
+<p>A <code>turns</code> cap of 3 would have allowed the second run to finish its work and cut the first one off after three of them. The cap was identical. What it protected was not.</p>
+<p>So the cap itself is exact when it fires. With <code>turns=3</code>, the loop stops with <code>limit_turns</code> after three turns and three calls. With <code>turns=1</code> it stops after one turn and one call, and the run ends without a summary. A cycle runs in a fixed order: check the limits, call the model, run the tools it asked for. The check sits at the top of that cycle, before the model call. That placement is what lets the source promise something useful. A cap that fires at the next cycle’s top fires after the previous turn’s tools completed. <code>agent.messages</code> also stays valid for another call, with no assistant message left pointing at tool calls that never ran (<code>types/agent.py:168-169</code>, <code>event_loop/event_loop.py:217</code>).</p>
+<figure>
+<img src="images/S1-turn-limit.png" alt="Three probes of the turn limit: no limits ends at 9 turns, turns=3 stops with limit_turns, turns=1 cuts after one turn" />
+<figcaption aria-hidden="true">Three probes of the turn limit: no limits ends at 9 turns, turns=3 stops with limit_turns, turns=1 cuts after one turn</figcaption>
+</figure>
+<p>In short, the practical reading is uncomfortable. A turn limit is a budget on model calls. If your cost driver is tool invocations, this wall is in the wrong place.</p>
+<h2 id="the-token-cap-that-never-sees-the-answer">The token cap that never sees the answer</h2>
+<p><code>output_tokens</code> and <code>total_tokens</code> look like the answer to that problem. They are documented as soft limits, and the docstring is blunt about why: a single oversized response can overshoot, more so when nested calls run in parallel (<code>types/agent.py:179-186</code>).</p>
+<p>The softness is larger than that sentence suggests, because both limits are checked in the same place as the turn cap, at a cycle boundary. A call that answers in one turn never reaches a boundary after the model speaks, so the check never sees the tokens it produced.</p>
+<p>One probe makes it concrete. An eighty-token output cap on a single-turn answer. The run produces 255 output tokens and stops with <code>end_turn</code>, because a plain answer ends the loop before the check comes round again. The cap was not enforced. Its only comparison happened before the model spoke, against zero tokens.</p>
+<figure>
+<img src="images/S3-token-budget.png" alt="Two token probes: a single-turn answer sails past an 80-token cap with end_turn, a tool loop stops at limit_output_tokens" />
+<figcaption aria-hidden="true">Two token probes: a single-turn answer sails past an 80-token cap with end_turn, a tool loop stops at limit_output_tokens</figcaption>
+</figure>
+<p>Put a hundred-token cap on a loop and it binds, late but visibly. That cap stops the tick loop with <code>limit_output_tokens</code> at 109 tokens, nine past the line, on the second turn. That overshoot is one part of one response, which is why the price of checking between turns is paid inside them.</p>
+<p>Total tokens compound faster, because every model call re-reads the whole conversation. In the same tick loop the input per cycle climbs 434, 559, 657, 755. Four cycles spend 2,648 tokens against a 2,600 cap and stop with <code>limit_total_tokens</code>. That total is 2,405 input plus 243 output. The cap was set on total spend and the growth curve is what pushed through it.</p>
+<figure>
+<img src="images/S4-total-tokens.png" alt="Token spend compounds: per-cycle input grows 434 to 755 and the total crosses the cap at 2648" />
+<figcaption aria-hidden="true">Token spend compounds: per-cycle input grows 434 to 755 and the total crosses the cap at 2648</figcaption>
+</figure>
+<p>In other words, if you need a hard ceiling on one response, the <code>limits</code> dict you pass to <code>agent()</code> is the wrong tool. The model’s own <code>max_tokens</code> (a <code>BedrockModel</code> parameter) caps a single call. Those limits check a conversation, and they check it one boundary late.</p>
+<h2 id="the-deadline-that-waits">The deadline that waits</h2>
+<p>Wall-clock time is the boundary people assume is absolute. It is the most cooperative of the four. There is also no time key in the <code>limits</code> dict: a deadline is a timer thread you own that calls <code>agent.cancel()</code>. Here that thread is a watchdog.</p>
+<p>Two probes, same <code>agent.cancel()</code>, different phases of the loop. In the first, the watchdog cancels three seconds into a long answer. Streaming is a cancellation safe point, so the call returns in 3.0 seconds with <code>stop_reason</code> set to <code>cancelled</code> and the cancel message as the final assistant message.</p>
+<p>In the second, the watchdog fires five seconds into a tool that sleeps twenty seconds. The tool keeps sleeping. The call returns after 21.9 seconds, still <code>cancelled</code>, still carrying the message. The deadline was five seconds. The observed latency was more than four times that.</p>
+<figure>
+<img src="images/S5-cancel.png" alt="Same cancel, two latencies: 3.0 seconds during streaming, 21.9 seconds inside a sync tool" />
+<figcaption aria-hidden="true">Same cancel, two latencies: 3.0 seconds during streaming, 21.9 seconds inside a sync tool</figcaption>
+</figure>
+<p>The source lists the safe points: during model response streaming, before tool execution, during MCP tool execution, after tool execution and before the next model call (<code>agent/agent.py:686-690</code>). A running synchronous tool is not on that list. Cancellation there means the agent stops as soon as control comes back.</p>
+<p>So a deadline is only as good as the code under it. Record the deadline when the call starts and have the tool check <code>time.monotonic()</code> against it or hand it to the timeout parameter of the HTTP client, database driver or subprocess. Without that, the wall you built has a door in it. The cancel message is worth using too: it becomes the text the caller sees, which beats a generic timeout error.</p>
+<h2 id="the-quota-the-loop-cannot-enforce">The quota the loop cannot enforce</h2>
+<p>Taken together, none of the three boundaries above can enforce a count on how often one tool runs inside a single turn. The turn cap counts model calls, the token caps count tokens, and the deadline only stops tools that have not started yet: one already running keeps the loop waiting until it returns. A tool with side effects needs its own wall.</p>
+<p>The SDK exposes one through hooks. A <code>BeforeToolCallEvent</code> callback fires before each tool call and can set <code>cancel_tool</code>, which turns that call into a tool result with error status (<code>hooks/events.py:221-247</code>). Count the calls yourself and stop at your number.</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> collections <span class="im">import</span> defaultdict</span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> strands.hooks <span class="im">import</span> BeforeToolCallEvent</span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>attempted <span class="op">=</span> defaultdict(<span class="bu">int</span>)  <span class="co"># one dict per request: reset it if you reuse the agent</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a><span class="kw">def</span> quota(event: BeforeToolCallEvent) <span class="op">-&gt;</span> <span class="va">None</span>:</span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>    name <span class="op">=</span> event.tool_use[<span class="st">&quot;name&quot;</span>]</span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>    attempted[name] <span class="op">+=</span> <span class="dv">1</span></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>    <span class="cf">if</span> attempted[name] <span class="op">&gt;</span> <span class="dv">2</span>:</span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>        event.cancel_tool <span class="op">=</span> (</span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>            <span class="ss">f&quot;quota exceeded: </span><span class="sc">{</span>name<span class="sc">}</span><span class="ss"> allows 2 calls per request, &quot;</span></span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>            <span class="ss">f&quot;this was attempt </span><span class="sc">{</span>attempted[name]<span class="sc">}</span><span class="ss">&quot;</span></span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>        )</span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>agent.add_hook(quota, BeforeToolCallEvent)</span></code></pre></div>
+<p>With a quota of two on the tick tool, the run makes three attempts: two execute, one is blocked, and the model reads the error and changes its answer. It reports two ticks recorded and explains the limit back to the caller. The loop then ends with <code>end_turn</code>.</p>
+<figure>
+<img src="images/S6-tool-quota.png" alt="A quota hook: three attempts, two successes, one blocked call the model reads and adapts to" />
+<figcaption aria-hidden="true">A quota hook: three attempts, two successes, one blocked call the model reads and adapts to</figcaption>
+</figure>
+<p>That last detail matters for how you place this wall, because the quota stops the tool, not the invocation. The model keeps its turn, sees a failure and decides what to do. For a payment API or a shell command, that is the right shape: the model gets a clear refusal it can reason about, and the loop is not killed mid-thought.</p>
+<h2 id="four-walls-one-priority">Four walls, one priority</h2>
+<p>Because all four <code>limits</code> checks run at the same cycle boundary, reaching several at once is the normal case rather than a rare one. The stop reason then follows a fixed order: <code>turns</code> first, then <code>total_tokens</code>, then <code>output_tokens</code>, then <code>structured_output_attempts</code> (<code>agent/invocation_context.py:229-262</code>). Cross both <code>turns</code> and <code>total_tokens</code> in one cycle and the run reports <code>limit_turns</code> only. Each check maps to its own <code>limit_*</code> reason in the stop set (<code>types/event_loop.py:42-74</code>).</p>
+<figure>
+<img src="images/F1-four-walls.png" alt="The loop with four boundaries: where each check sits and what it bounds" />
+<figcaption aria-hidden="true">The loop with four boundaries: where each check sits and what it bounds</figcaption>
+</figure>
+<p>Misconfiguration is caught before any of this runs. The limits payload is validated when the request starts: unknown keys raise <code>TypeError</code> with the accepted key list in the message, while zero, boolean and non-integer values raise <code>TypeError</code> with the offending key and value (<code>agent/invocation_context.py:160-181</code>). Three payloads, three errors, zero model calls:</p>
+<pre class="text"><code>TypeError: limits keys [&#39;tuns&#39;] are not recognized limits, expected one of &#39;turns&#39;, &#39;output_tokens&#39;, &#39;total_tokens&#39;, &#39;structured_output_attempts&#39;
+TypeError: limits[&#39;turns&#39;] must be a positive int, got 0
+TypeError: limits[&#39;turns&#39;] must be a positive int, got True</code></pre>
+<p>A typo in a limit name is the worst kind of boundary bug when nothing validates it, because the call succeeds and the wall is simply absent. Validation closes that hole.</p>
+<h2 id="what-surprised-me">What surprised me</h2>
+<p>The official production guide links its tool quota advice to a “Limit Tool Counts” section of the hooks page. That anchor does not exist. The page has tool interception but no quota example, so the mechanism is real while the documented pattern is missing. The hook in the section above is built from <code>BeforeToolCallEvent.cancel_tool</code> and verified by a run.</p>
+<p>My first pass at these experiments ran on <code>deepseek.v3.2</code>, the model from Articles 01 and 02. It failed in a way worth reporting. Some runs printed the tool call as literal text, complete with the model’s internal markup, instead of requesting a tool. The loop read a plain answer and ended. A turn cap cannot demonstrate anything on a run that stops at turn three for the wrong reason, so every experiment here is pinned to <code>amazon.nova-pro-v1:0</code>. Boundary experiments are only as stable as the model’s tool calling.</p>
+<p>The last surprise is granularity. Five identical runs, one call per turn, 0.9 calls per turn every time. Change one sentence of the prompt and the same eight calls fit into three turns. The number your turn cap protects against is partly a property of your prompt.</p>
+<h2 id="when-not-to-use-this">When not to use this</h2>
+<p>A single-turn question and answer needs no turn cap. Adding one changes nothing that a <code>max_tokens</code> setting would not fix better. The <code>limits</code> budgets pay off in loops: retrieval agents, repair agents, anything that can call tools repeatedly.</p>
+<p>In contrast, a quota hook is for tools with cost or side effects. Putting one on a pure function adds a failure mode for no gain. A deadline is only worth setting where you can also propagate it downstream, because inside a blocking tool it is a suggestion.</p>
+<p>And do not treat these four as a checklist to fill in. Treat them as four different instruments, each with a known blind spot. Pick the one that covers the failure you actually fear.</p>
+<h2 id="try-it-yourself">Try it yourself</h2>
+<p>Run these from <code>usecases/03-execution-limits/</code> with this use case’s virtualenv active. Setup and credentials are in the top-level <code>README.md</code>.</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="ex">python</span> src/turn_limit.py          <span class="co"># turn cap, three probes</span></span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a><span class="ex">python</span> src/turn_batching.py       <span class="co"># same calls, two prompts</span></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a><span class="ex">python</span> src/turn_granularity.py    <span class="co"># five identical runs</span></span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a><span class="ex">python</span> src/token_budget.py        <span class="co"># single turn against a loop</span></span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a><span class="ex">python</span> src/total_token_budget.py  <span class="co"># compounding spend</span></span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a><span class="ex">python</span> src/cancel_watchdog.py     <span class="co"># cancellation latencies</span></span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a><span class="ex">python</span> src/tool_quota.py          <span class="co"># quota hook</span></span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a><span class="ex">python</span> src/limits_validation.py   <span class="co"># no model calls needed</span></span></code></pre></div>
+<h2 id="takeaways">Takeaways</h2>
+<ul>
+<li>A turn is one model call plus its tools, so a turn cap bounds model calls, not tool calls.</li>
+<li>The same eight tool calls took 9 turns under one prompt and 3 under another.</li>
+<li>Token caps are checked at turn boundaries: a single-turn answer never reaches the check.</li>
+<li>A token cap can overshoot by part of one response, and <code>total_tokens</code> compounds every turn.</li>
+<li>Cancellation is cooperative. A five-second deadline took 21.9 seconds inside a sync tool.</li>
+<li>A quota hook stops one tool call, returns an error the model can read and leaves the loop alive.</li>
+<li>Unknown limit keys fail loudly at request start, which is the only failure mode worth having.</li>
+</ul>
+
+</div>
+</body>
+</html>
