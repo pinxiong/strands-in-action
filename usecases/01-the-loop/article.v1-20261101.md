@@ -204,7 +204,7 @@ Bedrock AgentCore sits. Reach for the loop when you want to own the loop.
 ## Try it yourself
 
 ```bash
-git clone https://github.com/pinxiong/strands-in-action
+git clone https://github.com/pinxiong/strands-in-action.git
 cd strands-in-action/usecases/01-the-loop
 uv venv --python 3.11
 VIRTUAL_ENV=.venv uv pip install strands-agents==1.63.0 strands-agents-tools==0.8.11

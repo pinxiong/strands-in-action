@@ -335,7 +335,7 @@ will not be so lucky.
 ## Try it yourself
 
 ```bash
-git clone https://github.com/pinxiong/strands-in-action
+git clone https://github.com/pinxiong/strands-in-action.git
 cd strands-in-action/usecases/04-sessions-state-memory
 uv venv --python 3.11
 VIRTUAL_ENV=.venv uv pip install strands-agents==1.63.0

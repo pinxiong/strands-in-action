@@ -395,7 +395,7 @@ one more tool to the loop.
 ## Try it yourself
 
 ```bash
-git clone https://github.com/pinxiong/strands-in-action
+git clone https://github.com/pinxiong/strands-in-action.git
 cd strands-in-action/usecases/02-the-tools-that-got-replaced
 uv venv --python 3.11
 VIRTUAL_ENV=.venv uv pip install strands-agents==1.63.0 strands-agents-tools==0.8.11

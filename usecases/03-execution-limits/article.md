@@ -245,7 +245,7 @@ each with a known blind spot. Pick the one that covers the failure you actually 
 ## Try it yourself
 
 ```bash
-git clone https://github.com/pinxiong/strands-in-action
+git clone https://github.com/pinxiong/strands-in-action.git
 cd strands-in-action/usecases/03-execution-limits
 uv venv --python 3.11
 VIRTUAL_ENV=.venv uv pip install strands-agents==1.63.0
