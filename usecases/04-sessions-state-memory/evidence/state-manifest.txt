@@ -1,0 +1,12 @@
+WINDOW_SIZE : 6
+TURN 1 plant   | msgs= 2 stored= 2 | Acknowledged. 
+STATE_ON_DISK  | profile={'codename': 'ORION'}
+TURN 2 filler  | msgs= 4 stored= 4 | OK. 
+TURN 3 filler  | msgs= 6 stored= 6 | OK. 
+TURN 4 filler  | msgs= 6 stored= 8 | OK. 
+TURN 5 filler  | msgs= 6 stored=10 | OK. 
+TURN 6 filler  | msgs= 6 stored=12 | OK. 
+ORION_IN_MESSAGES_BEFORE_ASK: False
+ROLES_BEFORE_ASK: ['user', 'assistant', 'user', 'assistant', 'user', 'assistant']
+TURN 7 ask     | msgs= 6 stored=14 | ORION 
+ORION_IN_SYSTEM_PROMPT: True
