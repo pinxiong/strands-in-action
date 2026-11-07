@@ -1,0 +1,176 @@
+=== 01 requirements_check structuredContent ===
+{
+ "kind": "heuristic-design-aid",
+ "validated": false,
+ "limitation": "Validate assumptions and current AWS documentation. This is not an official AWS review, security audit, deployment or price quote.",
+ "sources": [
+  "https://docs.aws.amazon.com/wellarchitected/latest/framework/welcome.html"
+ ],
+ "workload": "Order API for an e-commerce team. Expected peak of 500 requests per second. The team has not defined budget, SLO, RTO or RPO.",
+ "requirements": [],
+ "constraints": [],
+ "decisionsToClarify": [
+  "Business outcome and workload owner",
+  "Data classification, residency and retention",
+  "Traffic: normal/peak RPS, payloads and growth",
+  "SLO, p95/p99 latency, RTO and RPO",
+  "Authentication, authorization and tenancy",
+  "Monthly budget, currency and pricing region",
+  "Team skills, dependencies and migration constraints"
+ ],
+ "nextTools": [
+  "architecture_pattern",
+  "aws_knowledge_search",
+  "decision_record"
+ ]
+}
+
+=== 03-pattern-serverless.json : every number found anywhere ===
+  .structuredContent.validated = False
+  keys: ['kind', 'validated', 'limitation', 'sources', 'workload', 'services', 'fit', 'tradeoffs', 'nodes', 'questions', 'provider', 'serviceMapping', 'mermaid']
+
+=== 04-pattern-container.json : every number found anywhere ===
+  .structuredContent.validated = False
+  keys: ['kind', 'validated', 'limitation', 'sources', 'workload', 'services', 'fit', 'tradeoffs', 'nodes', 'questions', 'provider', 'serviceMapping', 'mermaid']
+
+=== 05 service_compare ===
+keys: ['kind', 'validated', 'limitation', 'sources', 'constraints', 'options', 'decisionRequired']
+  kind: heuristic-design-aid
+  validated: False
+  limitation: Validate assumptions and current AWS documentation. This is not an official AWS review, security audit, deployment or price quote.
+  sources: list of 1
+  constraints: list of 0
+  options: list of 3
+  decisionRequired: Collect workload evidence and current pricing before selecting.
+
+=== 06 capacity rejection (raw text) ===
+Invalid tool input: durationMs: Invalid input: expected number, received undefined; payloadKB: Invalid input: expected number, received undefined
+isError: True
+
+=== 07 capacity structuredContent ===
+{
+ "kind": "calculation",
+ "assumptions": {
+  "requestsPerSecond": 500,
+  "durationMs": 250,
+  "payloadKB": 4,
+  "headroom": 1.3
+ },
+ "averageConcurrency": 125,
+ "plannedConcurrency": 163,
+ "dailyRequests": 43200000,
+ "dailyPayloadGB": 172.8,
+ "limitations": [
+  "Assumes sustained rate all day; separate burst and average inputs",
+  "Validate quotas, tail latency, downstream capacity, storage overhead and retries"
+ ]
+}
+
+=== 02 architect_panel: knownFacts / synthesis / cost scan ===
+knownFacts: ['peak 500 requests per second', 'budget not defined', 'SLO not defined', 'RTO not defined', 'RPO not defined']
+synthesis: ["Resolve conflicts between roles explicitly (e.g. cost versus resilience) in a decision_record", "Every finding needs an owner, evidence and a validation criterion", "Unknown stays unknown; do not fill gaps with assumptions"]
+  01-requirements-check.json: numeric-with-unit hits=['"2.0"'] money-number hits=[]
+  02-architect-panel.json: numeric-with-unit hits=['"2.0"'] money-number hits=[]
+  03-pattern-serverless.json: numeric-with-unit hits=['"2.0"'] money-number hits=[]
+  04-pattern-container.json: numeric-with-unit hits=['"2.0"'] money-number hits=[]
+  05-service-compare.json: numeric-with-unit hits=['"2.0"'] money-number hits=[]
+
+=== limitation strings across 01-05 ===
+  01-requirements-check.json: Validate assumptions and current AWS documentation. This is not an official AWS review, security audit, deployment or price quote.
+      sources=['https://docs.aws.amazon.com/wellarchitected/latest/framework/welcome.html']
+  02-architect-panel.json: Validate assumptions and current AWS documentation. This is not an official AWS review, security audit, deployment or price quote.
+      sources=['https://docs.aws.amazon.com/wellarchitected/latest/framework/welcome.html']
+  03-pattern-serverless.json: Validate assumptions and current AWS documentation. This is not an official AWS review, security audit, deployment or price quote.
+      sources=['https://docs.aws.amazon.com/wellarchitected/latest/framework/welcome.html']
+  04-pattern-container.json: Validate assumptions and current AWS documentation. This is not an official AWS review, security audit, deployment or price quote.
+      sources=['https://docs.aws.amazon.com/wellarchitected/latest/framework/welcome.html']
+  05-service-compare.json: Validate assumptions and current AWS documentation. This is not an official AWS review, security audit, deployment or price quote.
+      sources=['https://docs.aws.amazon.com/wellarchitected/latest/framework/welcome.html']
+
+=== 48-tool field table (outputSchema properties) ===
+  architect_panel                    schema=yes flags[V,L,P,S]=VL-S props=['artifactType', 'availableRoles', 'howToUse', 'kind', 'knownFacts', 'limitation', 'panel', 'sources', 'subject', 'synthesis', 'validated']
+  code_review_architecture           schema=yes flags[V,L,P,S]=VLPS props=['architectureQuestions', 'filename', 'findings', 'kind', 'language', 'limitation', 'limitations', 'metrics', 'sources', 'summary', 'truncated', 'validated']
+  dependency_manifest_review         schema=yes flags[V,L,P,S]=VLPS props=['dependencies', 'filename', 'findings', 'kind', 'limitation', 'limitations', 'rules', 'sources', 'summary', 'validated']
+  requirements_check                 schema=yes flags[V,L,P,S]=VL-S props=['constraints', 'decisionsToClarify', 'kind', 'limitation', 'nextTools', 'requirements', 'sources', 'validated', 'workload']
+  architecture_pattern               schema=yes flags[V,L,P,S]=VL-S props=['fit', 'kind', 'limitation', 'mermaid', 'nodes', 'provider', 'questions', 'serviceMapping', 'services', 'sources', 'tradeoffs', 'validated', 'workload']
+  service_compare                    schema=yes flags[V,L,P,S]=VL-S props=['constraints', 'decisionRequired', 'kind', 'limitation', 'options', 'sources', 'validated']
+  decision_record                    schema=yes flags[V,L,P,S]=VL-S props=['kind', 'limitation', 'markdown', 'sources', 'validated']
+  well_architected_review            schema=yes flags[V,L,P,S]=VL-S props=['controls', 'kind', 'limitation', 'missingPillars', 'next', 'sources', 'summary', 'validated', 'workload']
+  threat_model                       schema=yes flags[V,L,P,S]=VL-S props=['assets', 'boundaries', 'dataClassification', 'kind', 'limitation', 'sources', 'threats', 'validated']
+  failure_rehearsal                  schema=yes flags[V,L,P,S]=VL-S props=['acceptance', 'failure', 'kind', 'limitation', 'operation', 'preconditions', 'sources', 'steps', 'target', 'validated']
+  capacity_plan                      schema=yes flags[V,L,P,S]=--P- props=['assumptions', 'averageConcurrency', 'dailyPayloadGB', 'dailyRequests', 'kind', 'limitations', 'plannedConcurrency']
+  cost_model                         schema=yes flags[V,L,P,S]=---- props=['contingencyPercent', 'creditWarning', 'currency', 'excluded', 'items', 'kind', 'subtotal', 'totalWithContingency']
+  slo_budget                         schema=yes flags[V,L,P,S]=-L-- props=['allowedDowntimeMinutes', 'availabilityPercent', 'exhausted', 'kind', 'limitation', 'periodDays', 'remainingMinutes', 'usedDowntimeMinutes']
+  migration_plan                     schema=yes flags[V,L,P,S]=VL-S props=['constraints', 'integration', 'kind', 'limitation', 'nextTools', 'phases', 'source', 'sources', 'strategy', 'target', 'validated']
+  architecture_diagram               schema=yes flags[V,L,P,S]=-L-- props=['limitation', 'mermaid']
+  implementation_plan                schema=yes flags[V,L,P,S]=VL-S props=['decision', 'deliverables', 'kind', 'limitation', 'sources', 'stages', 'validated']
+  agent_tool_contract                schema=yes flags[V,L,P,S]=VL-S props=['approvalRequired', 'contract', 'kind', 'limitation', 'maxDurationSeconds', 'operation', 'resourceScope', 'reversible', 'sources', 'validated']
+  c4_model                           schema=yes flags[V,L,P,S]=VL-S props=['elements', 'kind', 'level', 'limitation', 'mermaid', 'nextLevel', 'sources', 'unreferenced', 'validated']
+  sequence_diagram                   schema=yes flags[V,L,P,S]=VL-S props=['kind', 'limitation', 'mermaid', 'messages', 'sources', 'validated']
+  service_equivalents                schema=yes flags[V,L,P,S]=-L-- props=['categories', 'from', 'kind', 'limitation', 'rows', 'snapshotDate']
+  data_classification                schema=yes flags[V,L,P,S]=VL-S props=['highestSensitivity', 'items', 'jurisdictions', 'kind', 'limitation', 'nextTools', 'sources', 'summary', 'system', 'validated']
+  openapi_review                     schema=yes flags[V,L,P,S]=VLPS props=['findings', 'kind', 'limitation', 'limitations', 'openapi', 'operations', 'paths', 'securitySchemes', 'sources', 'summary', 'validated']
+  event_contract                     schema=yes flags[V,L,P,S]=VL-S props=['consumers', 'envelope', 'eventName', 'jsonSchema', 'kind', 'limitation', 'nextTools', 'rules', 'sources', 'validated', 'warnings']
+  latency_budget                     schema=yes flags[V,L,P,S]=--P- props=['estimatedTotalMs', 'hops', 'kind', 'limitations', 'parallelGroups', 'percentile', 'remainingMs', 'suggestions', 'targetMs', 'utilizationPercent', 'withinBudget']
+  queue_sizing                       schema=yes flags[V,L,P,S]=--P- props=['backlogDrainSeconds', 'consumersForTargetUtilization', 'formulas', 'inputs', 'kind', 'limitations', 'meanInSystem', 'offeredLoadErlangs', 'stable', 'totalCapacity', 'utilizationPercent', 'visibilityTimeoutHintSeconds', 'waitProbability', 'warnings']
+  dr_strategy                        schema=yes flags[V,L,P,S]=VL-S props=['checks', 'initialFullCopyHours', 'kind', 'limitation', 'nextTools', 'objectives', 'recommendedStartingPoint', 'sources', 'tiers', 'validated', 'workload']
+  retry_policy                       schema=yes flags[V,L,P,S]=---S props=['attemptsThatFitDeadline', 'guidance', 'inputs', 'kind', 'retriesAfterFirstAttempt', 'sources', 'worstCaseWaitMs']
+  storage_growth                     schema=yes flags[V,L,P,S]=--P- props=['assumptions', 'finalStoredGB', 'finalStoredTB', 'kind', 'limitations', 'series', 'steadyState', 'tiering']
+  finops_unit_economics              schema=yes flags[V,L,P,S]=--P- props=['breakEvenVolumeForTarget', 'currency', 'kind', 'limitations', 'marginalCostPerPrimaryUnit', 'perUnit', 'period', 'reading', 'totals']
+  postmortem                         schema=yes flags[V,L,P,S]=---- props=['coverage', 'kind', 'markdown', 'metrics', 'warnings']
+  runbook                            schema=yes flags[V,L,P,S]=---- props=['kind', 'markdown', 'missing', 'nextTools']
+  agent_eval_plan                    schema=yes flags[V,L,P,S]=VL-S props=['agent', 'goldenSet', 'judgeRubric', 'kind', 'limitation', 'metrics', 'mutatingTools', 'nextTools', 'redTeam', 'requirements', 'sources', 'validated']
+  prompt_injection_checklist         schema=yes flags[V,L,P,S]=VL-S props=['agent', 'blockers', 'controls', 'kind', 'limitation', 'paths', 'sources', 'validated']
+  rag_pipeline_plan                  schema=yes flags[V,L,P,S]=VL-S props=['costDrivers', 'kind', 'limitation', 'nextTools', 'openQuestions', 'sizing', 'sources', 'stages', 'useCase', 'validated']
+  mcp_server_review                  schema=yes flags[V,L,P,S]=VLPS props=['approxContextTokens', 'findings', 'kind', 'limitation', 'limitations', 'recommendedAllowlist', 'server', 'sources', 'summary', 'tools', 'validated', 'verdict']
+  mcp_config_review                  schema=yes flags[V,L,P,S]=VLPS props=['findings', 'kind', 'limitation', 'limitations', 'rules', 'servers', 'sources', 'summary', 'validated']
+  iam_policy_review                  schema=yes flags[V,L,P,S]=VLPS props=['findings', 'kind', 'limitation', 'limitations', 'provider', 'sources', 'validated']
+  cloudformation_review              schema=yes flags[V,L,P,S]=VLPS props=['findings', 'kind', 'limitation', 'limitations', 'resourceCount', 'sources', 'validated']
+  terraform_plan_review              schema=yes flags[V,L,P,S]=VLPS props=['actions', 'findings', 'gate', 'kind', 'limitation', 'limitations', 'resources', 'sources', 'summary', 'terraformVersion', 'validated']
+  kubernetes_manifest_review         schema=yes flags[V,L,P,S]=VLPS props=['findings', 'kind', 'kinds', 'limitation', 'limitations', 'objects', 'sources', 'summary', 'validated']
+  aws_knowledge_search               schema=NO  flags[V,L,P,S]=---- props=[]
+  aws_knowledge_read                 schema=NO  flags[V,L,P,S]=---- props=[]
+  aws_regions                        schema=NO  flags[V,L,P,S]=---- props=[]
+  aws_regional_availability          schema=NO  flags[V,L,P,S]=---- props=[]
+  aws_skill                          schema=NO  flags[V,L,P,S]=---- props=[]
+  integration_catalog                schema=yes flags[V,L,P,S]=---- props=['boundary', 'retrievedAt', 'servers', 'source', 'total']
+  integration_config                 schema=yes flags[V,L,P,S]=---- props=['configuration', 'next', 'python', 'source', 'status', 'warning']
+  github_public_repository           schema=NO  flags[V,L,P,S]=---- props=[]
+
+=== capacity_plan input schema ===
+{
+ "$schema": "https://json-schema.org/draft/2020-12/schema",
+ "type": "object",
+ "properties": {
+  "requestsPerSecond": {
+   "type": "number",
+   "minimum": 0,
+   "maximum": 1000000000
+  },
+  "durationMs": {
+   "type": "number",
+   "minimum": 0,
+   "maximum": 86400000
+  },
+  "payloadKB": {
+   "type": "number",
+   "minimum": 0,
+   "maximum": 1000000000
+  },
+  "headroom": {
+   "default": 1.3,
+   "type": "number",
+   "minimum": 1,
+   "maximum": 10
+  }
+ },
+ "required": [
+  "requestsPerSecond",
+  "durationMs",
+  "payloadKB",
+  "headroom"
+ ],
+ "additionalProperties": false
+}
+=== capacity_plan outputSchema properties === ['assumptions', 'averageConcurrency', 'dailyPayloadGB', 'dailyRequests', 'kind', 'limitations', 'plannedConcurrency']
+=== requirements_check outputSchema properties === ['constraints', 'decisionsToClarify', 'kind', 'limitation', 'nextTools', 'requirements', 'sources', 'validated', 'workload']

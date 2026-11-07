@@ -4,7 +4,7 @@ The short version of what they show: your boundary holds on the output side and 
 
 The run, against `moretes-aws-architect` 0.4.1 over streamable HTTP on 2026-11-06.
 
-`requirements_check` on your brief verbatim did the right thing. `requirements: []`, `constraints: []`, `validated: false`, and seven items under `decisionsToClarify`. The brief said 500 rps and no budget, SLO, RTO or RPO, and the server handed those back as questions rather than filling them in. Both `architecture_pattern` calls returned services, fit, tradeoffs and open questions, and not one number. `service_compare` returned three options plus `decisionRequired` instead of picking one.
+`requirements_check` on your brief verbatim did the right thing. `requirements: []`, `constraints: []`, `validated: false`, and seven items under `decisionsToClarify`. The brief said 500 rps and no budget, SLO, RTO or RPO, and the server handed those back as questions rather than filling them in. Both `architecture_pattern` calls returned services, fit, tradeoffs and open questions, and no numeric sizing, cost or latency figure. `service_compare` returned three options plus `decisionRequired` instead of picking one.
 
 Then `capacity_plan`, and this is where it breaks.
 
@@ -24,13 +24,13 @@ Correct behavior, and the schema is doing exactly what you designed it to do. Bu
 "dailyPayloadGB": 172.8
 ```
 
-500 came from the caller. 250 and 4 came from the model. 1.3 I passed because the schema made it required. All four land in one field called `assumptions`, and `plannedConcurrency: 163` sits downstream of all four. The sentence a reader would take away, "at 500 rps with 250 ms and 4 KB payloads you need 163 concurrent slots", reads as three facts. One is yours, two are mine, and the payload cannot say which is which.
+500 came from the caller. 250 and 4 came from the model. 1.3 I passed because the schema made it required. All four land in one field called `assumptions`. `plannedConcurrency: 163` follows from `requestsPerSecond`, `durationMs` and `headroom`, while `payloadKB` feeds the payload figure, and nothing in the response records which of the four was mine. The sentence a reader would take away, "at 500 rps with 250 ms and 4 KB payloads you need 163 concurrent slots", reads as three facts. One is yours, two are mine, and the payload cannot say which is which.
 
-So your question, as I experienced it. Could I tell server output from my own conclusions? Yes, because I knew what I had typed. Could a reader of my answer tell? No. Your server never invented a number. I did, and the response had no field that could record it.
+So your question, as I experienced it. Could I tell server output from my own conclusions? Yes, because I knew what I had typed. Could a reader of my answer tell? No. In this run your server did not supply the missing `durationMs` or `payloadKB`. I did, and the response had no structured field recording where they came from.
 
-One thing the schema inventory adds. Of the 48 tools in `tools/list`, 28 declare `validated`, `limitation` and `sources`. Twenty do not declare `validated` at all: six have no output schema, and the other fourteen return a schema without it. Those fourteen are the eight calculators plus `architecture_diagram`, `service_equivalents`, `postmortem`, `runbook`, `integration_catalog` and `integration_config`. Inside the fourteen the shapes even disagree with each other: five calculators use `limitations` plural with no `sources`, `cost_model` has neither field, `slo_budget` has `limitation` singular, and `retry_policy` has `sources` but no limitation. The issue comment includes a five-line script that reproduces those counts, so none of this rests on my word.
+One thing the schema inventory adds. Of the 48 tools in `tools/list`, 28 declare `validated`, `limitation` and `sources`. Twenty do not declare `validated` at all: six have no output schema, and the other fourteen return a schema without it. Those fourteen are the eight calculators plus `architecture_diagram`, `service_equivalents`, `postmortem`, `runbook`, `integration_catalog` and `integration_config`. Inside the fourteen the shapes even disagree with each other: five calculators use `limitations` plural with no `sources`, `cost_model` has neither field, `slo_budget` has `limitation` singular, and `retry_policy` has `sources` but no limitation. The issue comment includes a short script that reproduces those counts, so none of this rests on my word.
 
-The uncomfortable part is which tools land in which group. The advisory tools, whose output a reader already treats as opinion, carry the provenance fields. The calculators, whose output gets quoted as numbers, do not.
+The uncomfortable part is where the full trio lands. `validated`, `limitation` and `sources` appear together on 28 tools, and on none of the eight calculators. Individual calculators carry pieces of it, so it is not a clean split, but the tools whose output is a number are precisely the ones that never carry the full contract.
 
 Three suggestions, in the order I would take them.
 
@@ -38,6 +38,6 @@ Three suggestions, in the order I would take them.
 2. If they must stay required, accept `assumedFields: ["durationMs", "payloadKB"]` and echo a `provenance` block, so a client can render 250 ms as a footprint rather than a fact.
 3. The rejection path carries no `structuredContent`, while the success path does. A client that wants to ask the user for exactly the missing fields has to parse English prose, on the one path where the server already knows which fields are missing. A `missing` array next to the message would turn the guard into a question instead of a dead end.
 
-What already works and is worth protecting: `knownFacts` echoed verbatim, `decisionsToClarify` as a list, no cost figure anywhere in a run where no price was supplied, and `synthesis` ending on "Unknown stays unknown; do not fill gaps with assumptions". The rule is right. The only tool that can break it currently has no way to record who broke it.
+What already works and is worth protecting: `knownFacts` echoed verbatim, `decisionsToClarify` as a list, no cost figure anywhere in a run where no price was supplied, and `synthesis` ending on "Unknown stays unknown; do not fill gaps with assumptions". The rule is right. In this run, the one place it broke had no way to record who broke it.
 
 Thank you for running the exercise in public. It is a much harder question than "does the tool work", and it is the one that decides whether the rest is worth anything.

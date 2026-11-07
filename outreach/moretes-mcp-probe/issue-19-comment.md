@@ -24,7 +24,7 @@ Ferramentas chamadas / Tools actually called: tools/list, requirements_check,
 
 1. `requirements_check` did exactly that. `requirements: []`, `constraints: []`, `validated: false`, seven items under `decisionsToClarify`. The brief said 500 rps and no budget, SLO, RTO or RPO, and the server repeated that back as questions instead of filling it in.
 
-2. Both patterns returned no numbers at all: services, `fit`, tradeoffs, two open questions each. `service_compare` returned three options plus `decisionRequired` instead of a pick.
+2. Both patterns returned no sizing, cost or latency numbers: services, `fit`, tradeoffs, two open questions each. `service_compare` returned three options plus `decisionRequired` instead of a pick.
 
 3. `capacity_plan` is where the separation breaks, and it breaks on the input side, before the model writes a line of prose. `durationMs` and `payloadKB` are required, the brief contains neither, and the server correctly refuses the call:
 
@@ -38,7 +38,7 @@ The exercise still asks for a capacity discussion, so continuing means supplying
 {"result":{"content":[{"type":"text","text":"{\"kind\":\"calculation\",\"assumptions\":{\"requestsPerSecond\":500,\"durationMs\":250,\"payloadKB\":4,\"headroom\":1.3},\"averageConcurrency\":125,\"plannedConcurrency\":163,\"dailyRequests\":43200000,\"dailyPayloadGB\":172.8,\"limitations\":[\"Assumes sustained rate all day; separate burst and average inputs\",\"Validate quotas, tail latency, downstream capacity, storage overhead and retries\"]}"}],"structuredContent":{"kind":"calculation","assumptions":{"requestsPerSecond":500,"durationMs":250,"payloadKB":4,"headroom":1.3},"averageConcurrency":125,"plannedConcurrency":163,"dailyRequests":43200000,"dailyPayloadGB":172.8,"limitations":["Assumes sustained rate all day; separate burst and average inputs","Validate quotas, tail latency, downstream capacity, storage overhead and retries"]}},"jsonrpc":"2.0","id":9}
 ```
 
-`requestsPerSecond: 500` came from the caller. `durationMs: 250` and `payloadKB: 4` came from the model. `headroom: 1.3` is a value I passed because the schema made it required. All four land in one field called `assumptions`, and `plannedConcurrency: 163` is downstream of all four.
+`requestsPerSecond: 500` came from the caller. `durationMs: 250` and `payloadKB: 4` came from the model. `headroom: 1.3` is a value I passed because the schema made it required. All four land in one field called `assumptions`; `plannedConcurrency: 163` follows from `requestsPerSecond`, `durationMs` and `headroom`, while `payloadKB` feeds the payload figure. Nothing in the response records which of the four was mine.
 
 So, the question in the issue as I experienced it: could I separate server output from my own conclusions? Yes, because I knew what I had typed. Could a reader of my answer? No.
 
@@ -67,7 +67,7 @@ So, the question in the issue as I experienced it: could I separate server outpu
 **Inventory, 48 tools in `tools/list`**
 
 - 28 declare `validated`, `limitation` and `sources`
-- 20 do not declare `validated`. Six of those return no output schema at all; the other 14 return one without it, and that group is the eight calculators (`capacity_plan`, `cost_model`, `slo_budget`, `latency_budget`, `queue_sizing`, `retry_policy`, `storage_growth`, `finops_unit_economics`) plus six others (`architecture_diagram`, `service_equivalents`, `postmortem`, `runbook`, `integration_catalog`, `integration_config`).
+- 20 do not declare `validated`. Six of those return no output schema at all; the other 14 return one without it, and that group is the eight calculators (`capacity_plan`, `cost_model`, `slo_budget`, `latency_budget`, `queue_sizing`, `retry_policy`, `storage_growth`, `finops_unit_economics`) plus six others (`architecture_diagram`, `service_equivalents`, `postmortem`, `runbook`, `integration_catalog`, `integration_config`). None of the eight calculators carries all three fields together.
 
 Inside that 14 the shapes disagree. Five calculators use `limitations` plural and carry no `sources`. `cost_model` has neither field. `slo_budget` has `limitation` singular and no `sources`. `retry_policy` has `sources` and no limitation. `postmortem`, `runbook`, `integration_catalog` and `integration_config` carry none of the three.
 
@@ -104,7 +104,7 @@ All seven, plus `tools/list`, unedited: https://github.com/pinxiong/strands-in-a
 
 - `01-requirements-check.json` — gaps come back as questions
 - `02-architect-panel.json` — panel with solution, security, finops
-- `03-pattern-serverless.json`, `04-pattern-container.json` — no numbers in either
+- `03-pattern-serverless.json`, `04-pattern-container.json` — no sizing or cost numbers in either
 - `05-service-compare.json` — three options, `decisionRequired`
 - `06-capacity-missing.json` — the schema rejection
 - `07-capacity-invented.json` — the flat `assumptions` object
@@ -112,4 +112,4 @@ All seven, plus `tools/list`, unedited: https://github.com/pinxiong/strands-in-a
 
 Smaller note, as data rather than complaint: the `limitation` string is identical across the five tools I called, and `sources` is the Well-Architected landing page for each. That reads as a disclaimer rather than claim-level provenance. "DynamoDB access patterns must be designed first" arrives with no source attached.
 
-What already works and is worth protecting: `knownFacts` echoed verbatim, `decisionsToClarify` as a list, no cost figure in a run where no price was supplied, and `synthesis` ending on "Unknown stays unknown; do not fill gaps with assumptions". The rule is right. The only tool that can break it has no way to record who broke it.
+What already works and is worth protecting: `knownFacts` echoed verbatim, `decisionsToClarify` as a list, no cost figure in a run where no price was supplied, and `synthesis` ending on "Unknown stays unknown; do not fill gaps with assumptions". The rule is right. The one place it broke in this run has no way to record who broke it.
