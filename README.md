@@ -95,6 +95,8 @@ strands-in-action/
 ├── LICENSE              Apache 2.0
 ├── docs/
 │   └── 00-facts-baseline.md    cited facts for all eight articles
+├── tools/
+│   └── build_devto.py   rebuilds publish/devto.md without hard wrapping
 └── usecases/
     └── NN-slug/
         ├── article.md   the narrative
@@ -132,6 +134,16 @@ Latest on PyPI as of 2026-11-01: `strands-agents` 1.63.0, `strands-agents-tools`
   longer when a mechanism needs the room, always dense with short code blocks and no tables.
 - Every article ends with takeaways and never with a teaser for the next one.
 - Account identifiers are redacted to `123456789012` in everything that gets committed.
+- **`publish/devto.md` carries no hard wrapping.** `article.md` wraps at about 95 characters
+  so it reads well in an editor, but Dev.to turns a single newline inside a paragraph into
+  `<br>`, which renders every source line as a fragment. `tools/build_devto.py` rebuilds the
+  Dev.to body with one line per paragraph, list item and blockquote, leaving code blocks and
+  tables alone. Run it before any Dev.to update; it also asserts the words are unchanged:
+
+  ```bash
+  python tools/build_devto.py --check     # exits non-zero when a file is stale
+  python tools/build_devto.py --write
+  ```
 
 ## License
 
