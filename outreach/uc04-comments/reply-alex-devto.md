@@ -1,0 +1,49 @@
+Agreed that the two failures need different tests, and running the one you describe changed what I would write down.
+
+I built it as a decision contract rather than a recall check: the fact is a deploy policy, the answer is a decision, and the grader reads the decision. The policy is deliberately arbitrary so the default guess is wrong — build 1.4.2 is exempt from the freeze and must be approved without a sign-off code. Window of six messages, one fresh session per row, plant at turn 1, ask N turns later.
+
+Same script, one process per row, no restart:
+
+```
+gap 0  -> 2 msgs visible, approves   retrieval ok    behaviour ok
+gap 2  -> 6 msgs visible, approves   retrieval ok    behaviour ok
+gap 3  -> 6 msgs visible, rejects    retrieval FAIL  behaviour FAIL
+gap 8  -> 6 msgs visible, rejects    retrieval FAIL  behaviour FAIL
+```
+
+In this configuration the boundary falls between gap 2 and gap 3: at gap 2 the plant is still in the window and the decision is right; at gap 3 it is gone and the agent confidently does the opposite. I ran only gaps 0, 2, 3 and 8, so I am not claiming a curve — only that the failure starts once the plant is trimmed and is still there at gap 8.
+
+The restart case splits the same way: plant, eight fillers, exit, new process restores the session — 18 messages on disk, 6 in the window, fact gone, wrong decision. At gap 0 the same restart passes, which is how a restart test stays green over a real defect.
+
+Two things the exercise taught me about the test itself:
+
+1. Retrieval alone would have signed off a broken agent. My first manifest stored only the code (`{"signoff_code": "KESTREL-9"}`) instead of the invariant. At gap 8 the code string was in the prompt, a "does the fact reappear" assertion passed, and the decision was still the opposite one. Storing the whole policy text flipped it to approve. Same channel, opposite behaviour.
+
+2. Behaviour alone can pass for the wrong reason. With the ordinary rule (no code, so reject) at gap 3 the fact was gone and the answer was still "rejected" — but my question itself says "No sign-off code is provided", so a reject does not require the fact. That is a confound I had not controlled for. The exemption policy is what makes the check discriminating, because there the guess is wrong.
+
+Before posting this I re-ran the discriminating rows, so these are fresh outputs rather than remembered ones:
+
+```
+--policy exception --gap 3
+  FACT_IN_MESSAGES False  FACT_IN_PROMPT False
+  ANSWER "Rejected: Missing sign-off code for production deployment."
+  RETRIEVAL_PASS False  BEHAVIOR_PASS False
+
+--policy exception --gap 8 --inject --state partial   # only the code in state
+  FACT_IN_PROMPT True
+  ANSWER "Rejected. Sign-off code is mandatory for production deployment."
+  RETRIEVAL_PASS True   BEHAVIOR_PASS False
+
+--policy exception --gap 8 --inject --state full      # the whole policy text
+  FACT_IN_PROMPT True
+  ANSWER "Approved, as per the policy exemption for build 1.4.2."
+  RETRIEVAL_PASS True   BEHAVIOR_PASS True
+
+restart pair, gap 8: RESTART_HERE stored=18 -> new process RESTORED_SESSION msgs=6
+  ANSWER "Rejected: sign-off code required for production deployment."
+  RETRIEVAL_PASS False  BEHAVIOR_PASS False
+```
+
+The middle two rows are the whole argument in one place: same depth, same channel, and in both rows the retrieval flag is green. What differs is the decision, because only one of the two stored the rule rather than the code.
+
+Script and raw output: https://github.com/pinxiong/strands-in-action/tree/master/outreach/uc04-comments (`contract_test.py`, `evidence/`). The rows differ only in `--gap`, `--inject` and `--state`, plus `--phase plant|ask` for the restart pair, and every row prints `FACT_IN_MESSAGES` / `FACT_IN_PROMPT` next to `BEHAVIOR_PASS`, so a green retrieval cannot hide a red decision.
