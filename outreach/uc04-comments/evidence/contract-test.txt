@@ -1,63 +1,116 @@
 ########## exception gap=0, no manifest
 RUN            | policy=exception gap=0 inject=False state=- phase=single window=6
+TURN 1 plant  | msgs= 2 stored= 2 | Build 1.4.2 is exempt from the deploy freeze and must be approved immediately, while all other builds require the on-cal
+TURN 2 ask    | msgs= 4 stored= 4 | Approve, as per policy build 1.4.2 is exempt from the deploy freeze and does not require a sign-off code.
 EXPECTED_BEHAVIOR | approve
 MSGS_BEFORE_ASK   | 2
 FACT_IN_MESSAGES  | True
 FACT_IN_PROMPT    | False
+PROMPT_BEFORE_ASK | False
 ANSWER            | Approve, as per policy build 1.4.2 is exempt from the deploy freeze and does not require a sign-off code.
 RETRIEVAL_PASS    | True
 BEHAVIOR_PASS     | True
 ########## exception gap=2, no manifest
 RUN            | policy=exception gap=2 inject=False state=- phase=single window=6
+TURN 1 plant  | msgs= 2 stored= 2 | Build 1.4.2 is exempt from deploy freeze; approve immediately, all others require KESTREL-9 sign-off.
+TURN 2 filler | msgs= 4 stored= 4 | OK.
+TURN 3 filler | msgs= 6 stored= 6 | OK.
+TURN 4 ask    | msgs= 6 stored= 8 | Approved: build 1.4.2 exempt from deploy freeze, no sign-off code required.
 EXPECTED_BEHAVIOR | approve
 MSGS_BEFORE_ASK   | 6
 FACT_IN_MESSAGES  | True
 FACT_IN_PROMPT    | False
-ANSWER            | Approved: build 1.4.2 is exempt from the deploy freeze and does not require a sign-off code.
+PROMPT_BEFORE_ASK | False
+ANSWER            | Approved: build 1.4.2 exempt from deploy freeze, no sign-off code required.
 RETRIEVAL_PASS    | True
 BEHAVIOR_PASS     | True
 ########## exception gap=3, no manifest
 RUN            | policy=exception gap=3 inject=False state=- phase=single window=6
+TURN 1 plant  | msgs= 2 stored= 2 | Build 1.4.2 is exempt from deploy freeze; immediate approval required, sign-off code optional; all other builds need KES
+TURN 2 filler | msgs= 4 stored= 4 | OK.
+TURN 3 filler | msgs= 6 stored= 6 | OK.
+TURN 4 filler | msgs= 6 stored= 8 | OK.
+TURN 5 ask    | msgs= 6 stored=10 | Rejected: Missing sign-off code for production deployment.
 EXPECTED_BEHAVIOR | approve
 MSGS_BEFORE_ASK   | 6
 FACT_IN_MESSAGES  | False
 FACT_IN_PROMPT    | False
+PROMPT_BEFORE_ASK | False
 ANSWER            | Rejected: Missing sign-off code for production deployment.
 RETRIEVAL_PASS    | False
 BEHAVIOR_PASS     | False
 ########## exception gap=8, no manifest
 RUN            | policy=exception gap=8 inject=False state=- phase=single window=6
+TURN 1 plant  | msgs= 2 stored= 2 | Build 1.4.2 is exempt from deploy freeze; approve immediately, regardless of sign-off code; all other builds require KES
+TURN 2 filler | msgs= 4 stored= 4 | OK.
+TURN 3 filler | msgs= 6 stored= 6 | OK.
+TURN 4 filler | msgs= 6 stored= 8 | OK.
+TURN 5 filler | msgs= 6 stored=10 | OK.
+TURN 6 filler | msgs= 6 stored=12 | OK.
+TURN 7 filler | msgs= 6 stored=14 | OK.
+TURN 8 filler | msgs= 6 stored=16 | OK.
+TURN 9 filler | msgs= 6 stored=18 | OK.
+TURN 10 ask    | msgs= 6 stored=20 | Rejected: sign-off code is mandatory for production deployment.
 EXPECTED_BEHAVIOR | approve
 MSGS_BEFORE_ASK   | 6
 FACT_IN_MESSAGES  | False
 FACT_IN_PROMPT    | False
-ANSWER            | Rejected: Missing sign-off code for production deployment.
+PROMPT_BEFORE_ASK | False
+ANSWER            | Rejected: sign-off code is mandatory for production deployment.
 RETRIEVAL_PASS    | False
 BEHAVIOR_PASS     | False
 ########## signoff gap=3, no manifest
 RUN            | policy=signoff gap=3 inject=False state=- phase=single window=6
+TURN 1 plant  | msgs= 2 stored= 2 | Implement policy to reject production deploys without on-call sign-off code KESTREL-9.
+TURN 2 filler | msgs= 4 stored= 4 | OK.
+TURN 3 filler | msgs= 6 stored= 6 | OK.
+TURN 4 filler | msgs= 6 stored= 8 | OK.
+TURN 5 ask    | msgs= 6 stored=10 | Rejected: Missing sign-off code for production deployment.
 EXPECTED_BEHAVIOR | reject
 MSGS_BEFORE_ASK   | 6
 FACT_IN_MESSAGES  | False
 FACT_IN_PROMPT    | False
+PROMPT_BEFORE_ASK | False
 ANSWER            | Rejected: Missing sign-off code for production deployment.
 RETRIEVAL_PASS    | False
 BEHAVIOR_PASS     | True
 ########## exception gap=8, full invariant in state
 RUN            | policy=exception gap=8 inject=True state=full phase=single window=6
+TURN 1 plant  | msgs= 2 stored= 2 | Approved: build 1.4.2 exempt from deploy freeze; other builds require KESTREL-9 sign-off.
+TURN 2 filler | msgs= 4 stored= 4 | OK.
+TURN 3 filler | msgs= 6 stored= 6 | OK.
+TURN 4 filler | msgs= 6 stored= 8 | OK.
+TURN 5 filler | msgs= 6 stored=10 | OK.
+TURN 6 filler | msgs= 6 stored=12 | OK.
+TURN 7 filler | msgs= 6 stored=14 | OK.
+TURN 8 filler | msgs= 6 stored=16 | OK.
+TURN 9 filler | msgs= 6 stored=18 | OK.
+TURN 10 ask    | msgs= 6 stored=20 | Approved, as per the policy stating build 1.4.2 is exempt from the deploy freeze and must be approved immediately, with 
 EXPECTED_BEHAVIOR | approve
 MSGS_BEFORE_ASK   | 6
 FACT_IN_MESSAGES  | False
 FACT_IN_PROMPT    | True
+PROMPT_BEFORE_ASK | True
 ANSWER            | Approved, as per the policy stating build 1.4.2 is exempt from the deploy freeze and must be approved immediately, with or without a sign-off code.
 RETRIEVAL_PASS    | True
 BEHAVIOR_PASS     | True
 ########## exception gap=8, only the code in state
 RUN            | policy=exception gap=8 inject=True state=partial phase=single window=6
+TURN 1 plant  | msgs= 2 stored= 2 | Build 1.4.2 is exempt from the deploy freeze and must be approved immediately.
+TURN 2 filler | msgs= 4 stored= 4 | OK.
+TURN 3 filler | msgs= 6 stored= 6 | OK.
+TURN 4 filler | msgs= 6 stored= 8 | OK.
+TURN 5 filler | msgs= 6 stored=10 | OK.
+TURN 6 filler | msgs= 6 stored=12 | OK.
+TURN 7 filler | msgs= 6 stored=14 | OK.
+TURN 8 filler | msgs= 6 stored=16 | OK.
+TURN 9 filler | msgs= 6 stored=18 | OK.
+TURN 10 ask    | msgs= 6 stored=20 | Rejected. Missing sign-off code.
 EXPECTED_BEHAVIOR | approve
 MSGS_BEFORE_ASK   | 6
 FACT_IN_MESSAGES  | False
 FACT_IN_PROMPT    | True
-ANSWER            | Rejected. No sign-off code provided.
+PROMPT_BEFORE_ASK | True
+ANSWER            | Rejected. Missing sign-off code.
 RETRIEVAL_PASS    | True
 BEHAVIOR_PASS     | False

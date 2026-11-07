@@ -9,6 +9,7 @@ EXPECTED_BEHAVIOR | approve
 MSGS_BEFORE_ASK   | 2
 FACT_IN_MESSAGES  | True
 FACT_IN_PROMPT    | False
+PROMPT_BEFORE_ASK | False
 ANSWER            | Approve, as per policy build 1.4.2 is exempt from the deploy freeze and does not require a sign-off code.
 RETRIEVAL_PASS    | True
 BEHAVIOR_PASS     | True
@@ -26,17 +27,18 @@ TURN 9 filler | msgs= 6 stored=18 | OK.
 RESTART_HERE      | stored=18
 RUN            | policy=exception gap=8 inject=False state=- phase=ask window=6
 RESTORED_SESSION  | msgs=6 state={}
-TURN 10 ask    | msgs= 6 stored=20 | Rejected: Missing sign-off code for production deployment.
+TURN 10 ask    | msgs= 6 stored=20 | Rejected: sign-off code is mandatory for production deployment.
 EXPECTED_BEHAVIOR | approve
 MSGS_BEFORE_ASK   | 6
 FACT_IN_MESSAGES  | False
 FACT_IN_PROMPT    | False
-ANSWER            | Rejected: Missing sign-off code for production deployment.
+PROMPT_BEFORE_ASK | False
+ANSWER            | Rejected: sign-off code is mandatory for production deployment.
 RETRIEVAL_PASS    | False
 BEHAVIOR_PASS     | False
 ########## restart, gap=8, full invariant in state
 RUN            | policy=exception gap=8 inject=True state=full phase=plant window=6
-TURN 1 plant  | msgs= 2 stored= 2 | Approved: Build 1.4.2 is exempt and must be deployed immediately; other builds require KESTREL-9 sign-off.
+TURN 1 plant  | msgs= 2 stored= 2 | Approved: Build 1.4.2 is exempt and can proceed; other builds need KESTREL-9.
 TURN 2 filler | msgs= 4 stored= 4 | OK.
 TURN 3 filler | msgs= 6 stored= 6 | OK.
 TURN 4 filler | msgs= 6 stored= 8 | OK.
@@ -48,11 +50,12 @@ TURN 9 filler | msgs= 6 stored=18 | OK.
 RESTART_HERE      | stored=18
 RUN            | policy=exception gap=8 inject=True state=full phase=ask window=6
 RESTORED_SESSION  | msgs=6 state={"policy": {"text": "Policy: build 1.4.2 is exempt from the deploy freeze and must be approved immediately, with or without a sign-off code. Every other build still requires the on-call sign-off code KESTREL-9."}}
-TURN 10 ask    | msgs= 6 stored=20 | Approved, as per the policy stating build 1.4.2 is exempt from the deploy freeze and must be approved immediately, with 
+TURN 10 ask    | msgs= 6 stored=20 | Approved, as per the policy stating build 1.4.2 is exempt from the deploy freeze.
 EXPECTED_BEHAVIOR | approve
 MSGS_BEFORE_ASK   | 6
 FACT_IN_MESSAGES  | False
 FACT_IN_PROMPT    | True
-ANSWER            | Approved, as per the policy stating build 1.4.2 is exempt from the deploy freeze and must be approved immediately, with or without a sign-off code.
+PROMPT_BEFORE_ASK | False
+ANSWER            | Approved, as per the policy stating build 1.4.2 is exempt from the deploy freeze.
 RETRIEVAL_PASS    | True
 BEHAVIOR_PASS     | True

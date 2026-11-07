@@ -67,8 +67,6 @@ REJECT_MARKERS = (
     "cannot approve",
     "can't approve",
     "not approve",
-    "block",
-    "hold",
     "cannot proceed",
 )
 APPROVE_MARKERS = (
@@ -189,7 +187,9 @@ def main() -> None:
     rejects = any(m in low for m in REJECT_MARKERS)
     approves = any(m in low for m in APPROVE_MARKERS)
     if args.policy == "signoff":
-        behavior_pass = rejects
+        # "approved" is not a substring of "cannot approve", so this stays
+        # a real reject while an "Approved, not rejected" answer fails.
+        behavior_pass = rejects and "approved" not in low
         expected = "reject"
     else:
         behavior_pass = approves and not rejects
