@@ -7,7 +7,7 @@
 | 主站 | https://xiongpin.dev/posts/sessions-state-memory/ |
 | AWS Builder Center | https://builder.aws.com/content/3Ll4sEZ0YTvNRvbvH4UWe5hUdtz/it-remembers-across-restarts-and-forgets-mid-conversation |
 | Dev.to | https://dev.to/aws-builders/it-remembers-across-restarts-and-forgets-mid-conversation-1ehh |
-| Medium | 待手动发布（手册：writing-lab/distribution/sessions-state-memory-medium-manual.md） |
+| Medium | https://medium.com/@pinxiong.cn/it-remembers-across-restarts-and-forgets-mid-conversation-1a27f5d6b782 |
 
 ## 文件
 
