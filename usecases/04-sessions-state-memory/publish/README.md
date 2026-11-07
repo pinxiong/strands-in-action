@@ -1,6 +1,13 @@
 # UC04 发布物料清单
 
-状态：**待发布**（文章与物料已定稿，三处线上链接未生成）
+状态：**已发布**（2026-11-07）
+
+| 渠道 | 线上地址 |
+|---|---|
+| 主站 | https://xiongpin.dev/posts/sessions-state-memory/ |
+| AWS Builder Center | https://builder.aws.com/content/3Ll4sEZ0YTvNRvbvH4UWe5hUdtz/it-remembers-across-restarts-and-forgets-mid-conversation |
+| Dev.to | https://dev.to/aws-builders/it-remembers-across-restarts-and-forgets-mid-conversation-1ehh |
+| Medium | 待手动发布（手册：writing-lab/distribution/sessions-state-memory-medium-manual.md） |
 
 ## 文件
 
