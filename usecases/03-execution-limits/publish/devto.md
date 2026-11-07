@@ -147,11 +147,46 @@ during MCP tool execution, after tool execution and before the next model call
 (`agent/agent.py:686-690`). A running synchronous tool is not on that list. Cancellation there
 means the agent stops as soon as control comes back.
 
+Nor does `cancelled` undo what already ran. The loop appends the tool result to the messages
+and only then observes the cancellation (`event_loop/event_loop.py:1135`, then `:1166`), so
+the second probe above ends `cancelled` with `[success] report ready: all checks green` still
+sitting in `agent.messages`. Cancellation is a statement about the loop, not about the side
+effect. If the tool can charge a card, `stop_reason` alone will not tell you what happened:
+the retry path needs an idempotency key and a read-back of the effect before it runs again.
+
 So a deadline is only as good as the code under it. Record the deadline when the call starts and
 have the tool check `time.monotonic()` against it or hand it to the timeout parameter of the
 HTTP client, database driver or subprocess. Without that, the wall you built has a door in it.
 The cancel message is worth using too: it becomes the text the caller sees, which beats a generic
 timeout error.
+
+The tool also has a cooperative way out. `ToolContext.cancel_signal` is set by the loop on
+cancel, and the SDK documents the contract: poll it between steps or forward it to an API that
+accepts one, and "a tool that ignores it runs to completion" (`types/tools.py:191-195`). The
+decorator has to opt in — write `@tool(context=True)`, or the SDK rejects the signature with a
+`ValueError` (`tools/decorator.py:183`):
+
+```python
+@tool(context=True)
+def slow_report(tool_context: ToolContext) -> str:
+    if tool_context.cancel_signal.wait(20):
+        return "aborted before doing any work: cancel signal received"
+    return "report ready: all checks green"
+```
+
+Same watchdog, same five-second deadline. The unaware tool holds the call for 21.7 seconds and
+still reports success; the aware one returns in 5.0 and the caller reads the abort note instead:
+
+```text
+=== A: cancel-unaware tool (time.sleep) ===
+ELAPSED_S   : 21.7
+STOP_REASON : cancelled
+  [success] report ready: all checks green
+=== B: cancel-aware tool (cancel_signal.wait) ===
+ELAPSED_S   : 5.0
+STOP_REASON : cancelled
+  [success] aborted before doing any work: cancel signal received
+```
 
 ## The quota the loop cannot enforce
 
@@ -193,6 +228,14 @@ invocation. The model keeps its turn, sees a failure and decides what to do. For
 or a shell command, that is the right shape: the model gets a clear refusal it can reason about,
 and the loop is not killed mid-thought.
 
+One more boundary on this wall: the counter lives in one process. `attempted` is a closure dict
+on one agent instance, so two workers pulling the same job each hold their own count and two
+plus two attempts all pass. A per-process quota bounds one run; it does not bound a job. If the
+job needs a ceiling, the count has to live in a shared store: reserve with a conditional write
+before the attempt, carry the attempt id as the idempotency key into the side effect, and
+release the reservation only after the effect is confirmed. Given what `cancelled` does not
+undo, "the run was cancelled" is not grounds for releasing it.
+
 ## Four walls, one priority
 
 Because all four `limits` checks run at the same cycle boundary, reaching several at once is the
@@ -217,6 +260,14 @@ TypeError: limits['turns'] must be a positive int, got True
 
 A typo in a limit name is the worst kind of boundary bug when nothing validates it, because the
 call succeeds and the wall is simply absent. Validation closes that hole.
+
+One operational footnote. Budgets restart on every top-level call: "Usage starts from zero on
+each top-level call; pass `result.invocation_context` to a later call to continue on the same
+limits and usage" (`types/agent.py:165-166`). Resume after a cancel or a limit stop with the
+same context and the budget continues; call again without it and the run starts fresh. And a
+budget inherited while already spent stops the call before the model runs: passing a context
+whose turn budget was exhausted returned `limit_turns` with zero new tokens in `usage`
+(`src/limits_reset.py`).
 
 ## What surprised me
 
@@ -267,6 +318,8 @@ python src/turn_granularity.py    # five identical runs
 python src/token_budget.py        # single turn against a loop
 python src/total_token_budget.py  # compounding spend
 python src/cancel_watchdog.py     # cancellation latencies
+python src/cancel_signal.py       # cooperative cancel, no rollback
+python src/limits_reset.py        # budgets restart per top-level call
 python src/tool_quota.py          # quota hook
 python src/limits_validation.py   # no model calls needed
 ```
@@ -277,6 +330,11 @@ python src/limits_validation.py   # no model calls needed
 - The same eight tool calls took 9 turns under one prompt and 3 under another.
 - Token caps are checked at turn boundaries: a single-turn answer never reaches the check.
 - A token cap can overshoot by part of one response, and `total_tokens` compounds every turn.
-- Cancellation is cooperative. A five-second deadline took 21.9 seconds inside a sync tool.
-- A quota hook stops one tool call, returns an error the model can read and leaves the loop alive.
+- Cancellation is cooperative. A five-second deadline took 21.9 seconds inside a sync tool;
+  a tool that waits on `tool_context.cancel_signal` exits at the deadline instead.
+- A `cancelled` run can still hold the tool's success result. Cancellation never rolls the
+  side effect back.
+- A quota hook stops one tool call, returns an error the model can read and leaves the loop
+  alive. Its counter bounds one process, not a job shared across workers.
+- Limit budgets restart per top-level call; pass `result.invocation_context` to continue them.
 - Unknown limit keys fail loudly at request start, which is the only failure mode worth having.

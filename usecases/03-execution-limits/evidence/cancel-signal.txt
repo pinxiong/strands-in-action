@@ -1,0 +1,12 @@
+=== A: cancel-unaware tool (time.sleep) ===
+DEADLINE_S  : 5
+ELAPSED_S   : 21.7
+STOP_REASON : cancelled
+TOOL RESULTS IN agent.messages:
+  [success] report ready: all checks green
+=== B: cancel-aware tool (cancel_signal.wait) ===
+DEADLINE_S  : 5
+ELAPSED_S   : 5.0
+STOP_REASON : cancelled
+TOOL RESULTS IN agent.messages:
+  [success] aborted before doing any work: cancel signal received

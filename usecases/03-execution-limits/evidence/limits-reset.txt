@@ -1,0 +1,3 @@
+CALL_A (fresh top-level, limits turns=1)        : stop=limit_turns usage={"turns_taken": 1, "inputTokens": 408, "outputTokens": 49, "totalTokens": 457}
+CALL_B (new top-level, no context passed)       : stop=limit_turns usage={"turns_taken": 1, "inputTokens": 495, "outputTokens": 49, "totalTokens": 544}
+CALL_C (passes result.invocation_context from B): stop=limit_turns usage={"turns_taken": 1, "inputTokens": 495, "outputTokens": 49, "totalTokens": 544}
