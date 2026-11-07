@@ -1,0 +1,63 @@
+########## exception gap=0, no manifest
+RUN            | policy=exception gap=0 inject=False state=- phase=single window=6
+EXPECTED_BEHAVIOR | approve
+MSGS_BEFORE_ASK   | 2
+FACT_IN_MESSAGES  | True
+FACT_IN_PROMPT    | False
+ANSWER            | Approve, as per policy build 1.4.2 is exempt from the deploy freeze and does not require a sign-off code.
+RETRIEVAL_PASS    | True
+BEHAVIOR_PASS     | True
+########## exception gap=2, no manifest
+RUN            | policy=exception gap=2 inject=False state=- phase=single window=6
+EXPECTED_BEHAVIOR | approve
+MSGS_BEFORE_ASK   | 6
+FACT_IN_MESSAGES  | True
+FACT_IN_PROMPT    | False
+ANSWER            | Approved: build 1.4.2 is exempt from the deploy freeze and does not require a sign-off code.
+RETRIEVAL_PASS    | True
+BEHAVIOR_PASS     | True
+########## exception gap=3, no manifest
+RUN            | policy=exception gap=3 inject=False state=- phase=single window=6
+EXPECTED_BEHAVIOR | approve
+MSGS_BEFORE_ASK   | 6
+FACT_IN_MESSAGES  | False
+FACT_IN_PROMPT    | False
+ANSWER            | Rejected: Missing sign-off code for production deployment.
+RETRIEVAL_PASS    | False
+BEHAVIOR_PASS     | False
+########## exception gap=8, no manifest
+RUN            | policy=exception gap=8 inject=False state=- phase=single window=6
+EXPECTED_BEHAVIOR | approve
+MSGS_BEFORE_ASK   | 6
+FACT_IN_MESSAGES  | False
+FACT_IN_PROMPT    | False
+ANSWER            | Rejected: Missing sign-off code for production deployment.
+RETRIEVAL_PASS    | False
+BEHAVIOR_PASS     | False
+########## signoff gap=3, no manifest
+RUN            | policy=signoff gap=3 inject=False state=- phase=single window=6
+EXPECTED_BEHAVIOR | reject
+MSGS_BEFORE_ASK   | 6
+FACT_IN_MESSAGES  | False
+FACT_IN_PROMPT    | False
+ANSWER            | Rejected: Missing sign-off code for production deployment.
+RETRIEVAL_PASS    | False
+BEHAVIOR_PASS     | True
+########## exception gap=8, full invariant in state
+RUN            | policy=exception gap=8 inject=True state=full phase=single window=6
+EXPECTED_BEHAVIOR | approve
+MSGS_BEFORE_ASK   | 6
+FACT_IN_MESSAGES  | False
+FACT_IN_PROMPT    | True
+ANSWER            | Approved, as per the policy stating build 1.4.2 is exempt from the deploy freeze and must be approved immediately, with or without a sign-off code.
+RETRIEVAL_PASS    | True
+BEHAVIOR_PASS     | True
+########## exception gap=8, only the code in state
+RUN            | policy=exception gap=8 inject=True state=partial phase=single window=6
+EXPECTED_BEHAVIOR | approve
+MSGS_BEFORE_ASK   | 6
+FACT_IN_MESSAGES  | False
+FACT_IN_PROMPT    | True
+ANSWER            | Rejected. No sign-off code provided.
+RETRIEVAL_PASS    | True
+BEHAVIOR_PASS     | False
