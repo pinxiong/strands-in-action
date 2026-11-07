@@ -9,7 +9,7 @@ cover:
 
 > Originally published on [xiongpin.dev](https://xiongpin.dev/posts/sessions-state-memory/).
 
-> Verified on 2026-11-06 against `strands-agents` 1.63.0, Python 3.11 and Bedrock in
+> Verified on 2026-11-07 against `strands-agents` 1.63.0, Python 3.11 and Bedrock in
 > `us-east-1`. Every number below came out of a run, and the setup steps live in `README.md`.
 > The model is `amazon.nova-pro-v1:0` on Amazon Bedrock.
 

@@ -1,6 +1,6 @@
 # UC04 · Sessions, State & Memory
 
-> Verified on 2026-11-06 against `strands-agents` 1.63.0, Python 3.11 and Bedrock in
+> Verified on 2026-11-07 against `strands-agents` 1.63.0, Python 3.11 and Bedrock in
 > `us-east-1`. The model is `amazon.nova-pro-v1:0` (switch with `MODEL_ID=deepseek.v3.2`).
 > Every number below came out of a run; raw output lives in `evidence/`.
 

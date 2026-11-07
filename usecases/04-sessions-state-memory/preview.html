@@ -1,0 +1,343 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>It Remembers Across Restarts — and Forgets Mid-Conversation</title>
+<style>
+  :root {
+    --ink: #1f2328;
+    --ink-soft: #4b535c;
+    --line: #dfe4ea;
+    --accent: #2f6fb0;
+    --accent-soft: #eef4fb;
+    --code-bg: #f6f8fa;
+  }
+  * { box-sizing: border-box; }
+  body {
+    margin: 0;
+    padding: 32px 20px 96px;
+    background: #ffffff;
+    color: var(--ink);
+    font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans",
+                 "PingFang SC", "Helvetica Neue", Arial, sans-serif;
+    font-size: 17px;
+    line-height: 1.75;
+    -webkit-font-smoothing: antialiased;
+  }
+  .wrap { max-width: 780px; margin: 0 auto; }
+
+  .meta {
+    background: var(--accent-soft);
+    border: 1px solid #d3e3f4;
+    border-radius: 10px;
+    padding: 18px 22px;
+    margin-bottom: 36px;
+    font-size: 14.5px;
+    line-height: 1.6;
+    color: var(--ink-soft);
+  }
+  .meta h2 {
+    margin: 0 0 12px;
+    font-size: 13px;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+    color: var(--accent);
+    font-weight: 700;
+  }
+  .meta dl { margin: 0; display: grid; grid-template-columns: 132px 1fr; gap: 6px 14px; }
+  .meta dt { color: #7b858f; }
+  .meta dd { margin: 0; color: var(--ink); word-break: break-word; }
+  .tag {
+    display: inline-block;
+    background: #ffffff;
+    border: 1px solid #cddff2;
+    color: var(--accent);
+    border-radius: 999px;
+    padding: 1px 10px;
+    margin-right: 6px;
+    font-size: 13px;
+  }
+
+  h1 {
+    font-size: 34px;
+    line-height: 1.25;
+    letter-spacing: -.01em;
+    margin: 0 0 18px;
+  }
+  h2 {
+    font-size: 24px;
+    margin: 46px 0 14px;
+    padding-bottom: 6px;
+    border-bottom: 1px solid var(--line);
+  }
+  h3 { font-size: 19px; margin: 30px 0 10px; }
+  p { margin: 0 0 18px; }
+  a { color: var(--accent); }
+
+  blockquote {
+    margin: 0 0 26px;
+    padding: 2px 0 2px 18px;
+    border-left: 3px solid #cddff2;
+    color: var(--ink-soft);
+    font-size: 16px;
+  }
+  blockquote p { margin: 8px 0; }
+
+  ul, ol { margin: 0 0 18px; padding-left: 24px; }
+  li { margin-bottom: 8px; }
+
+  code {
+    font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas,
+                 "Liberation Mono", monospace;
+    font-size: 14px;
+  }
+  p code, li code, td code {
+    background: var(--code-bg);
+    border: 1px solid var(--line);
+    border-radius: 4px;
+    padding: 1px 5px;
+  }
+  pre {
+    background: var(--code-bg);
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    padding: 14px 16px;
+    overflow-x: auto;
+    margin: 0 0 22px;
+    line-height: 1.55;
+  }
+  pre code { background: none; border: 0; padding: 0; font-size: 13.5px; }
+
+  figure { margin: 28px 0; }
+  figure img {
+    width: 100%;
+    border: 1px solid var(--line);
+    border-radius: 8px;
+    display: block;
+  }
+  figcaption {
+    margin-top: 8px;
+    font-size: 14px;
+    color: #6b747d;
+    text-align: center;
+    line-height: 1.55;
+  }
+
+  table { border-collapse: collapse; width: 100%; margin: 0 0 22px; font-size: 15.5px; }
+  th, td { border: 1px solid var(--line); padding: 8px 12px; text-align: left; }
+  th { background: var(--code-bg); }
+
+  hr { border: 0; border-top: 1px solid var(--line); margin: 40px 0; }
+
+
+  pre.sourceCode span.kw, pre.sourceCode span.cf { color: #0550ae; font-weight: 600; }
+  pre.sourceCode span.dt, pre.sourceCode span.bu, pre.sourceCode span.ex { color: #953800; }
+  pre.sourceCode span.dv, pre.sourceCode span.fl, pre.sourceCode span.at { color: #0550ae; }
+  pre.sourceCode span.st, pre.sourceCode span.vs, pre.sourceCode span.ch { color: #0a7d32; }
+  pre.sourceCode span.co { color: #6b747d; font-style: italic; }
+  pre.sourceCode span.fu { color: #0b7285; }
+  pre.sourceCode span.im, pre.sourceCode span.va { color: #953800; }
+  pre.sourceCode span.op { color: #444c56; }
+  pre.sourceCode span.sc, pre.sourceCode span.ss { color: #0a7d32; }
+  pre.sourceCode span.er { color: inherit; }  /* error token: keep neutral, never let a theme paint it red */
+
+</style>
+</head>
+<body>
+<div class="wrap">
+<div class="meta">
+  <h2>Local preview &mdash; not published</h2>
+  <dl>
+    <dt>Title</dt><dd>It Remembers Across Restarts — and Forgets Mid-Conversation</dd>
+    <dt>Subtitle</dt><dd>Verified on 2026-11-07 against strands-agents 1.63.0, Python 3.11 and Bedrock in us-east-1. Local preview — nothing here is published.</dd>
+    <dt>Tags</dt><dd><span class="tag">#aws</span> <span class="tag">#strands</span> <span class="tag">#ai-agents</span> <span class="tag">#bedrock</span></dd>
+    <dt>Canonical</dt><dd>https://xiongpin.dev/posts/sessions-state-memory/</dd>
+    <dt>Generated</dt><dd>2026-11-07 09:13 &middot; from <code>article.md</code></dd>
+    <dt>Images</dt><dd>6 image(s), loaded from <code>images/</code> &mdash; keep this file next to that folder</dd>
+  </dl>
+</div>
+
+<h1 id="it-remembers-across-restarts-and-forgets-mid-conversation">It Remembers Across Restarts — and Forgets Mid-Conversation</h1>
+<blockquote>
+<p>Verified on 2026-11-07 against <code>strands-agents</code> 1.63.0, Python 3.11 and Bedrock in <code>us-east-1</code>. Every number below came out of a run, and the setup steps live in <code>README.md</code>. The model is <code>amazon.nova-pro-v1:0</code> on Amazon Bedrock.</p>
+</blockquote>
+<p>An agent can remember your name across a restart and still lose it seven turns later in the same conversation. Those are two separate failures, and fixing one does nothing for the other.</p>
+<p><a href="https://xiongpin.dev/posts/how-the-strands-agent-loop-works/">Article 01</a> established that an agent’s state is one list of messages and that the conversation is the only channel into the model. <a href="https://xiongpin.dev/posts/execution-limits/">Article 03</a> bounded a single call. This post follows that list through a restart, a window and a summary, and measures where each one fails.</p>
+<h2 id="it-still-knows-you-after-a-restart">It still knows you after a restart</h2>
+<p>The simplest memory test runs as two separate OS processes.</p>
+<div class="sourceCode" id="cb1"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb1-1"><a href="#cb1-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> strands <span class="im">import</span> Agent</span>
+<span id="cb1-2"><a href="#cb1-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> strands.models <span class="im">import</span> BedrockModel</span>
+<span id="cb1-3"><a href="#cb1-3" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> strands.session <span class="im">import</span> FileSessionManager</span>
+<span id="cb1-4"><a href="#cb1-4" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb1-5"><a href="#cb1-5" aria-hidden="true" tabindex="-1"></a>model <span class="op">=</span> BedrockModel(model_id<span class="op">=</span><span class="st">&quot;amazon.nova-pro-v1:0&quot;</span>, region_name<span class="op">=</span><span class="st">&quot;us-east-1&quot;</span>)</span>
+<span id="cb1-6"><a href="#cb1-6" aria-hidden="true" tabindex="-1"></a>session_manager <span class="op">=</span> FileSessionManager(</span>
+<span id="cb1-7"><a href="#cb1-7" aria-hidden="true" tabindex="-1"></a>    session_id<span class="op">=</span><span class="st">&quot;restart-demo&quot;</span>, storage_dir<span class="op">=</span><span class="st">&quot;./sessions_tmp&quot;</span></span>
+<span id="cb1-8"><a href="#cb1-8" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb1-9"><a href="#cb1-9" aria-hidden="true" tabindex="-1"></a>agent <span class="op">=</span> Agent(model<span class="op">=</span>model, session_manager<span class="op">=</span>session_manager, callback_handler<span class="op">=</span><span class="va">None</span>)</span>
+<span id="cb1-10"><a href="#cb1-10" aria-hidden="true" tabindex="-1"></a>agent(<span class="st">&quot;My name is Pin and my favorite number is 42. Just acknowledge, one short sentence.&quot;</span>)</span></code></pre></div>
+<p>The first process answers “Hello Pin, it’s great to know that 42 is your favorite number!” and exits. Nothing stays in memory. The second process shares nothing with the first except that directory, and it repeats the same imports and the same three setup statements with the same <code>session_id</code>. The repository keeps both phases in one file and branches on <code>sys.argv[1]</code>, which is why the figure runs the script twice. If you copy the block above into a second file, keep all four statements; the call alone raises <code>NameError</code>.</p>
+<div class="sourceCode" id="cb2"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb2-1"><a href="#cb2-1" aria-hidden="true" tabindex="-1"></a><span class="bu">print</span>(agent(<span class="st">&quot;What is my name and my favorite number?&quot;</span>))</span></code></pre></div>
+<p>It answers “Your name is Pin and your favorite number is 42.” and then adds a caveat about not storing personal information. No variable carried the fact across the process boundary. A file did.</p>
+<figure>
+<img src="images/S1-session-restart.png" alt="Two processes in one terminal log: the first plants a name, the second starts from the same session id and recalls it" />
+<figcaption aria-hidden="true">Two processes in one terminal log: the first plants a name, the second starts from the same session id and recalls it</figcaption>
+</figure>
+<p>The cost is visible on disk. After the first run the storage directory holds four files: a <code>session.json</code> of 165 bytes, an <code>agent.json</code> of 447 bytes, and one JSON file per message, <code>message_0.json</code> at 390 bytes and <code>message_1.json</code> at 594 bytes. After the second run there are six. The message count and the file count move together, one file per message, which is the layout the class docstring draws at <a href="https://github.com/strands-agents/sdk-python/blob/main/src/strands/session/file_session_manager.py"><code>file_session_manager.py:31</code></a>.</p>
+<p>That layout makes a session cheap to append to, and it makes the transcript readable without the SDK. When an agent misbehaves at 3 a.m., <code>cat agents/agent_default/messages/message_17.json</code> answers more questions than a debugger. The snippets in this post use <code>./sessions_tmp</code> for readability; the scripts derive the directory from their own location, so on disk it is <code>src/sessions_tmp</code>.</p>
+<h2 id="the-three-things-living-in-agent.json">The three things living in agent.json</h2>
+<p>The 447-byte file from the restart run holds an empty state, because that script never sets any. Open the file a state test writes instead, 528 bytes including two timestamps, and the word memory starts to come apart.</p>
+<div class="sourceCode" id="cb3"><pre class="sourceCode json"><code class="sourceCode json"><span id="cb3-1"><a href="#cb3-1" aria-hidden="true" tabindex="-1"></a><span class="fu">{</span></span>
+<span id="cb3-2"><a href="#cb3-2" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;agent_id&quot;</span><span class="fu">:</span> <span class="st">&quot;default&quot;</span><span class="fu">,</span></span>
+<span id="cb3-3"><a href="#cb3-3" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;state&quot;</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb3-4"><a href="#cb3-4" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&quot;visits&quot;</span><span class="fu">:</span> <span class="dv">1</span><span class="fu">,</span></span>
+<span id="cb3-5"><a href="#cb3-5" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&quot;user&quot;</span><span class="fu">:</span> <span class="fu">{</span> <span class="dt">&quot;name&quot;</span><span class="fu">:</span> <span class="st">&quot;Pin&quot;</span><span class="fu">,</span> <span class="dt">&quot;plan&quot;</span><span class="fu">:</span> <span class="st">&quot;pro&quot;</span> <span class="fu">}</span></span>
+<span id="cb3-6"><a href="#cb3-6" aria-hidden="true" tabindex="-1"></a>  <span class="fu">},</span></span>
+<span id="cb3-7"><a href="#cb3-7" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;conversation_manager_state&quot;</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb3-8"><a href="#cb3-8" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&quot;__name__&quot;</span><span class="fu">:</span> <span class="st">&quot;SlidingWindowConversationManager&quot;</span><span class="fu">,</span></span>
+<span id="cb3-9"><a href="#cb3-9" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&quot;removed_message_count&quot;</span><span class="fu">:</span> <span class="dv">0</span><span class="fu">,</span></span>
+<span id="cb3-10"><a href="#cb3-10" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&quot;model_call_count&quot;</span><span class="fu">:</span> <span class="dv">0</span></span>
+<span id="cb3-11"><a href="#cb3-11" aria-hidden="true" tabindex="-1"></a>  <span class="fu">},</span></span>
+<span id="cb3-12"><a href="#cb3-12" aria-hidden="true" tabindex="-1"></a>  <span class="dt">&quot;_internal_state&quot;</span><span class="fu">:</span> <span class="fu">{</span></span>
+<span id="cb3-13"><a href="#cb3-13" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&quot;interrupt_state&quot;</span><span class="fu">:</span> <span class="fu">{</span> <span class="dt">&quot;interrupts&quot;</span><span class="fu">:</span> <span class="fu">{},</span> <span class="dt">&quot;context&quot;</span><span class="fu">:</span> <span class="fu">{},</span> <span class="dt">&quot;activated&quot;</span><span class="fu">:</span> <span class="kw">false</span> <span class="fu">},</span></span>
+<span id="cb3-14"><a href="#cb3-14" aria-hidden="true" tabindex="-1"></a>    <span class="dt">&quot;model_state&quot;</span><span class="fu">:</span> <span class="fu">{}</span></span>
+<span id="cb3-15"><a href="#cb3-15" aria-hidden="true" tabindex="-1"></a>  <span class="fu">}</span></span>
+<span id="cb3-16"><a href="#cb3-16" aria-hidden="true" tabindex="-1"></a><span class="fu">}</span></span></code></pre></div>
+<p>That file arrived after two <code>agent.state.set</code> calls and one turn, and it holds three kinds of memory side by side. The <code>state</code> block is your key-value store, written by application code. The <code>conversation_manager_state</code> block is bookkeeping owned by the window manager, including a counter of messages it has already removed. The <code>_internal_state</code> block belongs to pause and resume handling; for a plain chat agent it stays empty, and it appears here only because it shares the same restore path. All three travel together, because restoring the transcript without the window counters would make the agent re-trim history it had already trimmed.</p>
+<p>These three blocks are not the three lanes drawn later. The lanes are the whole session on disk, the window in memory and the state store; inside <code>agent.json</code>, the state store is one block among three.</p>
+<p>From here on, state means the <code>agent.state</code> key-value store, not the message list. The SDK uses the same word for both objects, and keeping them apart is half of this article.</p>
+<p><code>set</code> and <code>get</code> take a string key, and values must survive a round trip through JSON. The check happens at write time, which turns a corrupt-file bug into a local error, and the message names the permitted types:</p>
+<p><code>ValueError: Value is not JSON serializable: object. Only JSON-compatible types (str, int, float, bool, list, dict, None) are allowed</code></p>
+<p>The type behind the store is <code>JSONSerializableDict</code>, so an arbitrary Python object cannot enter it in the first place. A <code>set()</code> call only mutates memory, though. State reaches disk when the session manager flushes, which happens on the next agent invocation. A process that sets state and exits before calling the model persists nothing.</p>
+<figure>
+<img src="images/S2-agent-state.png" alt="A state probe in one terminal: set and read back, a rejected object, then a fresh process reading the same values" />
+<figcaption aria-hidden="true">A state probe in one terminal: set and read back, a rejected object, then a fresh process reading the same values</figcaption>
+</figure>
+<p>The distinction worth keeping is who reads which store. Messages are for the model. State is for your code. A plan id, a retry budget, the last tool result you care about, none of that needs to occupy the window, and none of it should be reconstructed by asking the model to remember.</p>
+<h2 id="one-file-instead-of-six">One file instead of six</h2>
+<p>The message log is one way to put a session on disk, and the SDK ships a second one that answers the same restart test differently.</p>
+<div class="sourceCode" id="cb4"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb4-1"><a href="#cb4-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> strands.session <span class="im">import</span> SnapshotSessionManager</span>
+<span id="cb4-2"><a href="#cb4-2" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> strands.storage <span class="im">import</span> LocalFileStorage</span>
+<span id="cb4-3"><a href="#cb4-3" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb4-4"><a href="#cb4-4" aria-hidden="true" tabindex="-1"></a>session_manager <span class="op">=</span> SnapshotSessionManager(</span>
+<span id="cb4-5"><a href="#cb4-5" aria-hidden="true" tabindex="-1"></a>    session_id<span class="op">=</span><span class="st">&quot;snapshot-demo&quot;</span>,</span>
+<span id="cb4-6"><a href="#cb4-6" aria-hidden="true" tabindex="-1"></a>    storage<span class="op">=</span>LocalFileStorage(base_dir<span class="op">=</span><span class="st">&quot;./snapshots_tmp&quot;</span>),</span>
+<span id="cb4-7"><a href="#cb4-7" aria-hidden="true" tabindex="-1"></a>    save_latest_on<span class="op">=</span><span class="st">&quot;message&quot;</span>,</span>
+<span id="cb4-8"><a href="#cb4-8" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb4-9"><a href="#cb4-9" aria-hidden="true" tabindex="-1"></a>agent <span class="op">=</span> Agent(model<span class="op">=</span>model, session_manager<span class="op">=</span>session_manager, callback_handler<span class="op">=</span><span class="va">None</span>)</span></code></pre></div>
+<p>The same two-process experiment gives the same recall and a different disk: one file, <code>session/snapshot-demo/scopes/agent/default/snapshots/snapshot_latest.json</code>, at 878 bytes after the first run and 1774 after the second. That <code>session/</code> prefix comes from the manager wrapping the storage in a namespaced view, so the same prefix appears on S3 as well.</p>
+<p>Where the message log accumulates history as a directory of small files, the snapshot overwrites a single blob that carries transcript, state and manager bookkeeping together. One write is atomic and restores in one read, so the transcript and the removed-message counter can never disagree. The cost is granularity. A crash leaves the most recently saved snapshot, which with <code>save_latest_on="message"</code> is at most one message behind.</p>
+<figure>
+<img src="images/S5-snapshot-session.png" alt="The same restart run under the snapshot manager: one file before, one file after, 878 bytes then 1774" />
+<figcaption aria-hidden="true">The same restart run under the snapshot manager: one file before, one file after, 878 bytes then 1774</figcaption>
+</figure>
+<p>The snapshot docstring at <a href="https://github.com/strands-agents/sdk-python/blob/main/src/strands/session/snapshot_session_manager.py"><code>snapshot_session_manager.py:1</code></a> calls this “the recommended path for new agents” and draws the line to the older managers that persist each message individually. Read that as a direction of travel, not a deprecation notice: the examples I checked still reach for <code>FileSessionManager</code>, and no session manager is the SDK default, since <code>session_manager</code> defaults to <code>None</code> and an agent without one persists nothing.</p>
+<h2 id="the-window-the-model-actually-sees">The window the model actually sees</h2>
+<p>Now the second question.</p>
+<p><code>SlidingWindowConversationManager</code> defaults to <code>window_size=40</code>. By default it runs once at the end of each invocation (<code>per_turn=False</code>); set <code>per_turn=True</code> and it runs before every model call instead. The check itself is one comparison in <code>apply_management</code> at <a href="https://github.com/strands-agents/sdk-python/blob/main/src/strands/agent/conversation_manager/sliding_window_conversation_manager.py"><code>sliding_window_conversation_manager.py:150</code></a>: if <code>len(messages)</code> is at or below the window, return, otherwise trim. Two limits share the word window here. <code>window_size</code> counts messages and belongs to the conversation manager. The context window counts tokens and belongs to the model. They are unrelated, and only the first one is in play in this section.</p>
+<p>I set the window to 6 to make the gap observable within seven turns, wiring it the same way as any other manager, imported from <code>strands.agent.conversation_manager</code> and passed to <code>Agent(...)</code>.</p>
+<div class="sourceCode" id="cb5"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb5-1"><a href="#cb5-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> strands.agent.conversation_manager <span class="im">import</span> SlidingWindowConversationManager</span>
+<span id="cb5-2"><a href="#cb5-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb5-3"><a href="#cb5-3" aria-hidden="true" tabindex="-1"></a>agent <span class="op">=</span> Agent(</span>
+<span id="cb5-4"><a href="#cb5-4" aria-hidden="true" tabindex="-1"></a>    model<span class="op">=</span>model,</span>
+<span id="cb5-5"><a href="#cb5-5" aria-hidden="true" tabindex="-1"></a>    session_manager<span class="op">=</span>session_manager,</span>
+<span id="cb5-6"><a href="#cb5-6" aria-hidden="true" tabindex="-1"></a>    conversation_manager<span class="op">=</span>SlidingWindowConversationManager(window_size<span class="op">=</span><span class="dv">6</span>),</span>
+<span id="cb5-7"><a href="#cb5-7" aria-hidden="true" tabindex="-1"></a>    callback_handler<span class="op">=</span><span class="va">None</span>,</span>
+<span id="cb5-8"><a href="#cb5-8" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
+<p>Turn one plants a codename, five filler turns follow, and turn seven asks for the codename back. Two counters print after every turn: the length of <code>agent.messages</code>, which is what the model can see, and the number of message files on disk, which is what the session stored.</p>
+<figure>
+<img src="images/S3-sliding-window.png" alt="Seven turns under a window of six: stored messages climb to fourteen while the visible count pins at six, and the codename is gone" />
+<figcaption aria-hidden="true">Seven turns under a window of six: stored messages climb to fourteen while the visible count pins at six, and the codename is gone</figcaption>
+</figure>
+<p>Two counters diverge at turn four and never meet again. The arithmetic is worth stating, because it explains the exact turn: every turn appends a user message and an assistant message, so a window of six holds exactly three turns, and turn four is the first one that overflows. The trim then cuts back to <code>window_size</code> itself, which is why the count pins at six rather than drifting to five or seven. By the end the session holds fourteen message files and the model sees six.</p>
+<p>One nuance the figure cannot show: with <code>FileSessionManager</code> no message file is deleted. The transcript keeps everything and <code>agent.json</code> rewrites <code>removed_message_count</code> to record what the window dropped. A snapshot manager behaves differently, because it saves the trimmed list.</p>
+<p>The model did not say “I do not know your codename.” It produced a refusal about private information, as if it had been asked something improper:</p>
+<pre class="text"><code>Sorry, I can&#39;t respond in a way that might provide private and sensitive information.
+This is to maintain the privacy and security of the individuals.</code></pre>
+<p>A forgotten fact does not surface as an absence. It surfaces as a confident answer built from whatever is left in the window. If you have ever watched an assistant deny something it was told earlier in the same conversation, this is the mechanism.</p>
+<p>Two memories so far, and they disagree. A session is durable but invisible. A window is visible but ephemeral. Add the third lane and the map is complete.</p>
+<figure>
+<img src="images/F1-three-memories.png" alt="Three stacked lanes joined by downward arrows: session files on disk, the in-memory window, and agent.json state, each labelled with the failure it can cause" />
+<figcaption aria-hidden="true">Three stacked lanes joined by downward arrows: session files on disk, the in-memory window, and agent.json state, each labelled with the failure it can cause</figcaption>
+</figure>
+<h2 id="summarizing-but-only-at-the-cliff">Summarizing, but only at the cliff</h2>
+<p>The obvious fix is to summarize the oldest messages instead of dropping them, and my first attempt at demonstrating it failed in an instructive way.</p>
+<p>I ran the same seven turns with <code>summary_ratio=0.3</code>, <code>preserve_recent_messages=2</code> and proactive compression armed at 0.001, about 300 tokens on this model. At the end there were 14 messages, no summary anywhere, and the codename still sitting in the raw first message. The manager had never fired.</p>
+<pre class="text"><code>THRESHOLD   : 0.001
+TURN 7 ask     | msgs=14 | Your codename is ORION, as you previously stated. Is there
+                 anything else I can assist you with?
+ROLES_IN_WINDOW: [&#39;user&#39;, &#39;assistant&#39;, &#39;user&#39;, &#39;assistant&#39;, ...]
+ORION_VISIBLE_TO_MODEL: True</code></pre>
+<p>The reason is in the code, not the name. This manager has no window size at all, and its <code>apply_management</code> leaves history untouched. Summarization happens on exactly two triggers: a real context overflow, or the base class’s proactive check. Neither fired, because fourteen short messages occupy a rounding error of a 300,000-token context window. The manager was not ignoring the conversation; it was waiting for a cliff that a demo conversation never reaches.</p>
+<h2 id="making-the-cliff-reachable">Making the cliff reachable</h2>
+<p>Proactive compression is the knob that makes the cliff reachable. It runs before every model call at <a href="https://github.com/strands-agents/sdk-python/blob/main/src/strands/agent/conversation_manager/conversation_manager.py"><code>conversation_manager.py:132</code></a>, where the check divides projected input tokens by the context window and compares the ratio against a threshold, 0.7 by default and with no floor.</p>
+<div class="sourceCode" id="cb8"><pre class="sourceCode python"><code class="sourceCode python"><span id="cb8-1"><a href="#cb8-1" aria-hidden="true" tabindex="-1"></a><span class="im">from</span> strands.agent.conversation_manager <span class="im">import</span> SummarizingConversationManager</span>
+<span id="cb8-2"><a href="#cb8-2" aria-hidden="true" tabindex="-1"></a></span>
+<span id="cb8-3"><a href="#cb8-3" aria-hidden="true" tabindex="-1"></a>session_manager <span class="op">=</span> FileSessionManager(</span>
+<span id="cb8-4"><a href="#cb8-4" aria-hidden="true" tabindex="-1"></a>    session_id<span class="op">=</span><span class="st">&quot;summary-demo&quot;</span>, storage_dir<span class="op">=</span><span class="st">&quot;./sessions_tmp&quot;</span></span>
+<span id="cb8-5"><a href="#cb8-5" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb8-6"><a href="#cb8-6" aria-hidden="true" tabindex="-1"></a>conversation_manager <span class="op">=</span> SummarizingConversationManager(</span>
+<span id="cb8-7"><a href="#cb8-7" aria-hidden="true" tabindex="-1"></a>    summary_ratio<span class="op">=</span><span class="fl">0.3</span>,</span>
+<span id="cb8-8"><a href="#cb8-8" aria-hidden="true" tabindex="-1"></a>    preserve_recent_messages<span class="op">=</span><span class="dv">2</span>,</span>
+<span id="cb8-9"><a href="#cb8-9" aria-hidden="true" tabindex="-1"></a>    proactive_compression<span class="op">=</span>{<span class="st">&quot;compression_threshold&quot;</span>: <span class="fl">0.00005</span>},</span>
+<span id="cb8-10"><a href="#cb8-10" aria-hidden="true" tabindex="-1"></a>)</span>
+<span id="cb8-11"><a href="#cb8-11" aria-hidden="true" tabindex="-1"></a>agent <span class="op">=</span> Agent(</span>
+<span id="cb8-12"><a href="#cb8-12" aria-hidden="true" tabindex="-1"></a>    model<span class="op">=</span>model,</span>
+<span id="cb8-13"><a href="#cb8-13" aria-hidden="true" tabindex="-1"></a>    session_manager<span class="op">=</span>session_manager,</span>
+<span id="cb8-14"><a href="#cb8-14" aria-hidden="true" tabindex="-1"></a>    conversation_manager<span class="op">=</span>conversation_manager,</span>
+<span id="cb8-15"><a href="#cb8-15" aria-hidden="true" tabindex="-1"></a>    callback_handler<span class="op">=</span><span class="va">None</span>,</span>
+<span id="cb8-16"><a href="#cb8-16" aria-hidden="true" tabindex="-1"></a>)</span></code></pre></div>
+<p>On a 300,000-token window, 0.00005 works out to fifteen tokens, small enough that the conversation crosses it immediately. The same seven turns then behave differently.</p>
+<figure>
+<img src="images/S4-summarizing-window.png" alt="Seven turns under the summarizer: the count rises by two per turn, then by one, settling at nine, with the codename reported visible" />
+<figcaption aria-hidden="true">Seven turns under the summarizer: the count rises by two per turn, then by one, settling at nine, with the codename reported visible</figcaption>
+</figure>
+<p>The count rose by two per turn until the compression engaged, then by one. Each firing selects <code>max(1, int(len(messages) * summary_ratio))</code> messages, capped by <code>preserve_recent_messages</code>, and replaces them with a single summary, so two or three old messages collapse into one and the net gain per turn drops to a single entry. Turn seven is the exception: nine stays nine, because the run ends with <code>removed_message_count: 6</code> and one summary the manager re-injects, and 14 − 6 + 1 = 9. Nine is where this transcript settled, not a fixed ceiling.</p>
+<p>What did not change is the role. The window still opens with two <code>user</code> entries, because the summary itself is injected as a user message. What replaced the original turn is its content, not its role.</p>
+<pre class="text"><code>## Conversation Summary
+* Topic 1: Request for conversation summary
+  * The user, identified by the codename ORION, requested a summary of the conversation.</code></pre>
+<p>The codename survived, and it survived as a line inside a model-written summary, which is a weaker guarantee than a file on disk. A summary is lossy and the summarizer is the same model whose memory you are trying to protect. This run also logged a warning worth reading twice: “Cannot summarize: only the previous summary is old enough”.</p>
+<p>With a short window and <code>summary_ratio=0.3</code>, the selection rounds down to one message, and that one message is the summary it wrote last time. The manager declines, logs, and continues rather than raising, which is right for a context-pressure path and easy to miss in production.</p>
+<h2 id="what-surprised-me">What surprised me</h2>
+<p>The first surprise is the shape of forgetting. I expected a missing codename to produce “I do not know”. Instead the model built a plausible refusal out of the six messages it could still see. Memory failure in an agent looks like hallucination, and that makes it much harder to catch in a log review than a raised exception.</p>
+<p>The second is that <code>SummarizingConversationManager</code> does not summarize on message count. The name suggests a window; the implementation waits for context pressure. Anyone who configures it expecting sliding-window behavior, and never crosses the threshold, gets an agent that grows without bound while the configuration looks correct.</p>
+<p>The third is how small the distance is between working and not. The mechanism never changed between the two runs above. Only the ratio did: 0.001 was invisible, 0.00005 was decisive, on the same model and the same seven turns.</p>
+<h2 id="when-not-to-use-this">When not to use this</h2>
+<p>If every invocation is a single turn with no follow-up, skip sessions entirely. A session manager writes files you will never read and restores state you will never reuse, and the cost is paid on every call.</p>
+<p>Do not use <code>agent.state</code> as a database. It is a small JSON dict that travels with the agent snapshot, which makes it right for a plan id or a retry counter and wrong for anything large, queryable or shared across agents.</p>
+<p>And do not treat a summary as a record. If a fact has to survive compression, put it in state or in the system prompt, not in the hope that the summarizer keeps it. The codename survived here because it was the most salient thing in seven turns. A detail mentioned once inside a long tool result will not be so lucky.</p>
+<h2 id="try-it-yourself">Try it yourself</h2>
+<div class="sourceCode" id="cb10"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb10-1"><a href="#cb10-1" aria-hidden="true" tabindex="-1"></a><span class="fu">git</span> clone https://github.com/pinxiong/strands-in-action.git</span>
+<span id="cb10-2"><a href="#cb10-2" aria-hidden="true" tabindex="-1"></a><span class="bu">cd</span> strands-in-action/usecases/04-sessions-state-memory</span>
+<span id="cb10-3"><a href="#cb10-3" aria-hidden="true" tabindex="-1"></a><span class="ex">uv</span> venv <span class="at">--python</span> 3.11</span>
+<span id="cb10-4"><a href="#cb10-4" aria-hidden="true" tabindex="-1"></a><span class="va">VIRTUAL_ENV</span><span class="op">=</span>.venv <span class="ex">uv</span> pip install strands-agents==1.63.0</span></code></pre></div>
+<p>Run with AWS credentials that can call <code>amazon.nova-pro-v1:0</code> in <code>us-east-1</code>. Delete <code>src/sessions_tmp/</code> and <code>src/snapshots_tmp/</code> before every rerun: the session ids are hard-coded, so a second <code>first</code> appends to the previous transcript and the file counts above stop matching.</p>
+<div class="sourceCode" id="cb11"><pre class="sourceCode bash"><code class="sourceCode bash"><span id="cb11-1"><a href="#cb11-1" aria-hidden="true" tabindex="-1"></a><span class="fu">rm</span> <span class="at">-rf</span> src/sessions_tmp src/snapshots_tmp</span>
+<span id="cb11-2"><a href="#cb11-2" aria-hidden="true" tabindex="-1"></a><span class="ex">python</span> src/session_restart.py first    <span class="co"># plant a name, list the files</span></span>
+<span id="cb11-3"><a href="#cb11-3" aria-hidden="true" tabindex="-1"></a><span class="ex">python</span> src/session_restart.py second   <span class="co"># fresh process, same session id</span></span>
+<span id="cb11-4"><a href="#cb11-4" aria-hidden="true" tabindex="-1"></a><span class="ex">python</span> src/agent_state.py first        <span class="co"># state set/get, JSON rejection</span></span>
+<span id="cb11-5"><a href="#cb11-5" aria-hidden="true" tabindex="-1"></a><span class="ex">python</span> src/agent_state.py second       <span class="co"># state after a restart</span></span>
+<span id="cb11-6"><a href="#cb11-6" aria-hidden="true" tabindex="-1"></a><span class="ex">python</span> src/sliding_window.py           <span class="co"># fourteen stored, six visible</span></span>
+<span id="cb11-7"><a href="#cb11-7" aria-hidden="true" tabindex="-1"></a><span class="ex">python</span> src/summarizing_window.py       <span class="co"># summary keeps the codename</span></span>
+<span id="cb11-8"><a href="#cb11-8" aria-hidden="true" tabindex="-1"></a><span class="fu">rm</span> <span class="at">-rf</span> src/sessions_tmp/session_summary-demo</span>
+<span id="cb11-9"><a href="#cb11-9" aria-hidden="true" tabindex="-1"></a><span class="va">COMPRESSION_THRESHOLD</span><span class="op">=</span>0.001 <span class="ex">python</span> src/summarizing_window.py   <span class="co"># nothing happens</span></span>
+<span id="cb11-10"><a href="#cb11-10" aria-hidden="true" tabindex="-1"></a><span class="ex">python</span> src/snapshot_session.py first   <span class="co"># one snapshot blob</span></span>
+<span id="cb11-11"><a href="#cb11-11" aria-hidden="true" tabindex="-1"></a><span class="ex">python</span> src/snapshot_session.py second  <span class="co"># recall from that blob</span></span></code></pre></div>
+<p>The two summarizing runs share <code>session_id="summary-demo"</code>, which is why the <code>rm -rf</code> sits between them. Without it the second run restores the nine messages the first one left behind, and the counts above will not repeat.</p>
+<h2 id="takeaways">Takeaways</h2>
+<ul>
+<li>Sessions are files, windows are lists in memory. The first survives a restart, the second survives nothing.</li>
+<li><code>agent.json</code> carries three kinds of memory at once: application state, window bookkeeping and interrupt state, restored together.</li>
+<li><code>agent.state</code> refuses a non-JSON value the moment you set it, and reaches disk only on the next invocation.</li>
+<li>A window of six holds three turns, so turn four is where visible and stored history part ways.</li>
+<li>A forgotten fact comes back as a confident refusal, so overflow looks like hallucination rather than amnesia.</li>
+<li>Summarizing is triggered by context pressure, not message count; below the threshold it never runs at all.</li>
+<li>The threshold is a ratio with no floor, which is what makes compression testable in a demo.</li>
+<li>A summary message keeps the <code>user</code> role and loses detail, so it is a weaker record than state.</li>
+<li>One snapshot file trades a readable audit trail for consistent restores, at most one message behind when saving on every message.</li>
+</ul>
+
+</div>
+</body>
+</html>
