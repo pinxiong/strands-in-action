@@ -32,6 +32,10 @@
    "Saved cover image"，按 §11 核验，不要盲重传。
 3. **Dev.to**：把 `publish/devto.md` 的 `published` 改 `true`，走 Forem API（org 2794），
    确认 canonical 指回主站。**必须用 curl + 浏览器 UA**，urllib 默认 UA 会被 403。
+   **警告（2026-11-07 实测）**：对已发布文章 PUT `body_markdown` 时，front matter 里的
+   `published: false` 会真的把文章**下架**（页面立刻 404，进入 me/unpublished）。
+   改回 `published: true` 再 PUT 可恢复 API 可见，但页面 404 可能因边缘缓存持续一段时间。
+   本地稿件里 `published` 字段保持 `true` 提交，避免误用旧值。
 4. **Medium**：按 `sessions-state-memory-medium-manual.md` 手动 Import，选 subtitle、传 cover-medium、四枚标签。
 5. **Slack**：把 `sessions-state-memory-slack.md` 里三个 `<..._URL>` 换成真实链接再发。
 
@@ -42,3 +46,12 @@
 - 三渠道正文同源，差异只有：图片 URL 形式、tags 数量、canonical 字段名、BC 多一行 Originally published
 - 与前作的差异：本篇 `Try it yourself` 首屏是 `git clone` + venv 安装块（UC01/UC02 的口径），
   UC03 漏了这一块，补链时一并核对
+
+## 2026-11-07 增补：State does not inject itself
+
+- 起因：Reid 评论指出 state 通道问题，实测确认 1.63.0 里 `agent.state` 不会自动进 prompt。
+- 改动：F1 图后新增整节（机制 + `BeforeInvocationEvent` 钩子代码 + state_manifest 实测输出），
+  另加 3 处小改（When not to use this 一句、Try it yourself 一行、Takeaways 一条）。
+- 同步：article.md（源）→ devto.md / sessions-state-memory.md（BC）/ 主站博文用脚本重建，
+  只保留各自 front matter 与图片 URL 差异；BC 已 body+publish 上线，主站已 push。
+- Medium：手动改，手册 `writing-lab/distribution/sessions-state-memory-medium-patch-injection.md`。

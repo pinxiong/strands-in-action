@@ -1,6 +1,6 @@
 ---
 title: "It Remembers Across Restarts — and Forgets Mid-Conversation"
-published: false
+published: true
 description: "Session files stored fourteen messages while the model saw six. A restart keeps your name, and seven turns later the same conversation forgets it."
 tags: ai, agents, strands, aws
 canonical_url: "https://xiongpin.dev/posts/sessions-state-memory/"
