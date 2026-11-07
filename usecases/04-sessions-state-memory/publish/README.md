@@ -55,3 +55,5 @@
 - 同步：article.md（源）→ devto.md / sessions-state-memory.md（BC）/ 主站博文用脚本重建，
   只保留各自 front matter 与图片 URL 差异；BC 已 body+publish 上线，主站已 push。
 - Medium：手动改，手册 `writing-lab/distribution/sessions-state-memory-medium-patch-injection.md`。
+  **已完成**（2026-11-07 用户按手册改完），四渠道内容一致。
+- Slack 文案已回填四枚链接，并补上 state 注入这一发现（`sessions-state-memory-slack.md`）。
