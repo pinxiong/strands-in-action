@@ -1,0 +1,26 @@
+MODE=naive
+  t2 lookup_effect(K) -> not_found
+  after t2: reservation_state=unused used_slots=0 retried=True
+  external_effects=2 duplicate_writes=1
+  fenced_rejected_commits=0
+  capacity_released_before_old_commit=True
+  final_reservation_state=unused
+
+MODE=fenced
+  t2 lookup_effect(K) -> not_found
+  after t2: reservation_state=unused used_slots=0 retried=True
+  external_effects=1 duplicate_writes=0
+  fenced_rejected_commits=1
+  capacity_released_before_old_commit=True
+  final_reservation_state=unused
+
+MODE=authoritative
+  t2 lookup_effect(K) -> not_found
+  t2 attempt_state(K) -> in_flight
+  after t2: reservation_state=outcome_unknown used_slots=1 retried=False
+  t3+ reconciliation: terminal outcome found, capacity released now
+  external_effects=1 duplicate_writes=0
+  fenced_rejected_commits=0
+  capacity_released_before_old_commit=False
+  final_reservation_state=confirmed_existing
+
