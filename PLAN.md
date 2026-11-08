@@ -43,17 +43,21 @@
 | 03 | **The Limits That Don't Limit** | limits / quota / cancel | D2 | ✅ 已发布 | 一个会失控的 agent 被四类边界拦住：限额只在一次调用内生效，协作式取消才停得下副作用。 |
 | 04 | **It Remembers Across Restarts — and Forgets Mid-Conversation** | session / state / 窗口 | D3 | ✅ 已发布（含读者驱动增补） | 重启测试通过，却在同一场对话里把任务约束弄丢：磁盘持久化与 prompt 可见性是两件事，修复要靠注入与检索。 |
 | 05 | **When "Not Found" Doesn't Mean "Never Happened"** | 预留 / 崩溃 / 幂等 / fencing | D3 | 🟡 探针已实测，待补真并发实验与正文 | worker 预留配额后崩溃，过期租约把容量还回去，副作用却已发生：只有权威终态或目的地 fencing 才能安全释放。 |
-| 06 | **Nobody Decides Who Goes Next** | Swarm | D4 | ⚪ 未开始 | 一群平级 agent 自己决定谁接手，看交接如何触发、上下文如何流动，以及去中心化之后你还能观察到什么。 |
-| 07 | **The Graph Is Yours, the Judgment Isn't** | Graph | D4 | ⚪ 未开始 | 把流程画成图，节点、条件路由和状态传播由你定义，判断仍由模型做：确定性来自结构而不是提示词。 |
-| 08 | **Less Freedom for the Model, More Certainty for You** | Workflow | D4 | ⚪ 未开始 | 在确定性步骤里嵌入几个 LLM 节点，看输入输出契约如何限制模型的自由度，以及失败之后能从哪一步重放。 |
-| 09 | **Your Agent Leaves the Process** | A2A | D4 | ⚪ 未开始 | 两个进程里的 agent 互相调用，协议、序列化、超时与远端失败的可见性全部改变，前面三篇的保证要重新验证。 |
-| 10 | **Three Orchestrators, One Process** | Graph + Workflow + Swarm | D4 | ⚪ 未开始 | Graph 定全局、Workflow 定步骤、Swarm 跑局部并行：混搭到底是真需求还是把简单问题复杂化，用对照实验回答。 |
-| 11 | **When the Boundary Moves, So Do the Guarantees** | 本地编排 + 远端 A2A | D4 | ⚪ 未开始 | 本地 Graph 调远端 A2A 专家完成一次受限写操作，看进程边界如何改变重试、配额与幂等，并复用 UC05 的 fencing 结论。 |
+| 06 | **Orchestrating Agents: Nobody Decides Who Goes Next** | Swarm | D4 | ⚪ 未开始 | 一群平级 agent 自己决定谁接手，看交接如何触发、上下文如何流动，以及去中心化之后你还能观察到什么。 |
+| 07 | **Orchestrating Agents: The Graph Is Yours, the Judgment Isn't** | Graph | D4 | ⚪ 未开始 | 把流程画成图，节点、条件路由和状态传播由你定义，判断仍由模型做：确定性来自结构而不是提示词。 |
+| 08 | **Orchestrating Agents: Less Freedom for the Model, More Certainty for You** | Workflow | D4 | ⚪ 未开始 | 在确定性步骤里嵌入几个 LLM 节点，看输入输出契约如何限制模型的自由度，以及失败之后能从哪一步重放。 |
+| 09 | **Orchestrating Agents: Your Agent Leaves the Process** | A2A | D4 | ⚪ 未开始 | 两个进程里的 agent 互相调用，协议、序列化、超时与远端失败的可见性全部改变，前面三篇的保证要重新验证。 |
+| 10 | **Orchestrating Agents: Three Orchestrators, One Process** | Graph + Workflow + Swarm | D4 | ⚪ 未开始 | Graph 定全局、Workflow 定步骤、Swarm 跑局部并行：混搭到底是真需求还是把简单问题复杂化，用对照实验回答。 |
+| 11 | **Orchestrating Agents: When the Boundary Moves, So Do the Guarantees** | 本地编排 + 远端 A2A | D4 | ⚪ 未开始 | 本地 Graph 调远端 A2A 专家完成一次受限写操作，看进程边界如何改变重试、配额与幂等，并复用 UC05 的 fencing 结论。 |
 | 12 | **The Judge Can't Be in the Conversation** | guardrails / HITL | D4 | ⚪ 未开始 | 让 agent 别乱说、关键处停下来问人：做裁决的组件不能是能被对话影响的组件。 |
 | 13 | **It Got Worse, and I Can Prove It** | evals / LLM-as-judge | D4 | ⚪ 未开始 | 上线两个月后表现退化，用可度量的评测闭环取代「看着点」，把前面各篇的失败注入变成回归用例。 |
 | 14 | **Same Agent, Six Addresses** | 部署目标决策 | D5 | ⚪ 未开始 | 同一个 agent 部署到两个目标并验证行为一致，给出六个落脚点的选择决策树。 |
 
 难度序列 1,2,2,3,3,4,4,4,4,4,4,4,4,5 单调不减 ✓
+
+**子系列标题前缀规则（2026-11-08 用户拍板）**：同一类文章共用同一个前缀短语，用冒号连接，不用破折号。
+编排类六篇（06–11）统一为 **`Orchestrating Agents: <本篇张力>`**；
+能力幕与生产幕如后续需要归类，可照此加前缀（例如生产幕 `Running Agents in Production: …`，启用前再议）。
 
 ### 3.1 UC05 详纲（下一篇，优先开工）
 
