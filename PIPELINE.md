@@ -52,6 +52,7 @@
 - 时间依据 `PUBLISHING-POLICY.md`：主窗口 **21:30–22:30（GMT+8）**，周二/三/四优先，周六日不发。
 - 不在窗口内 → 写顺延记录，等下一个符合条件的工作日窗口。不夜间赶发、不为赶窗口降质量门。
 - 真相源 `pinxiong.github.io/content/posts/<slug>.md`，图片进 `static/images/<slug>/`，push 后确认线上 200。
+  **push 前先 `git pull --rebase`**：21:30 同时还有日报与周复盘任务会推同一个仓库，并发推送会被拒；被拒就 rebase 后重试一次，不要 force push。
 - Dev.to 与 BC 的 canonical 均指回主站；Dev.to 一段一行。Medium 只出人工物料。
 - 发布后 30 分钟内不改正文（避免 Dev.to 重抓打乱首小时数据）。
 - 在 `PIPELINE_STATE.md` 记 D+0 台账：标题、三渠道链接、发布时刻（GMT+8 与 UTC）、字数、代码块数、实验组数。
