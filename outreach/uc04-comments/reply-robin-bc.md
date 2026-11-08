@@ -1,0 +1,3 @@
+That is the distinction the article was aiming at, and the runs pushed me to weight it differently than I did when I started. Persistence was never the thing that failed: the restart test passed, while the same agent had already lost the fact inside a single conversation, with fourteen messages on disk and six in view.
+
+So I would put retrieval and prompt budgeting ahead of storage in that list. In the file-session demo, storage is a directory; the failures happen in what actually reaches the model. The manifest hook in the later section is one small way to keep the invariants visible without widening the window, and a reader pointed out this week that it needs an allowlist too, so non-allowlisted state keys are not injected into the system prompt by this hook.
