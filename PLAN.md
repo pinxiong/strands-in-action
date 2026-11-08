@@ -34,24 +34,24 @@
 | D4 | 3–5 | 3–4 h | 编排、护栏、评测 |
 | D5 | 5+ | ≈ 4 h | 部署、上线 |
 
-## 3. 十四个用例
+## 3. 十四个用例（标题 / 状态 / 简介）
 
-| # | 用例 | D | 一句话场景 | 张力来源（文章角度） |
-|---|---|:--:|---|---|
-| 01 | **The Loop** ✅ | D1 | 四行代码跑起来一个 agent | 循环不在 `Agent` 里；是递归不是 `while` |
-| 02 | **Tools & MCP** ✅ | D2 | 计算器、读文件、MCP 工具 | docstring 就是 API 契约；内置工具在换血 |
-| 03 | **Execution Limits** ✅ | D2 | 一个会失控的 agent 被四个边界拦住 | 事故不是模型变笨，是没设边界 |
-| 04 | **Sessions, State & Memory** ✅ | D3 | 重启后它还认识你 | 重启记住了，同一场对话却忘了；检索才是故障点 |
-| 05 | **Reservation & Fencing** | D3 | 预留配额后 worker 崩溃，容量该不该还 | 「查不到」不等于「没发生」；过期租约给不了终态 |
-| 06 | **Swarm** | D4 | 一群平级 agent 自己决定谁接手 | 去中心化的代价：你能观察到的只剩交接记录 |
-| 07 | **Graph** | D4 | 把流程画成图，让 agent 按节点走 | 图是你的，判断是模型的；确定性来自结构而非提示词 |
-| 08 | **Workflow** | D4 | 确定性步骤里夹几个 LLM 节点 | 工作流不是"笨"编排：它省掉的是模型的自由度 |
-| 09 | **A2A** | D4 | 两个进程、两个 agent 互相调用 | 跨进程之后，前面三篇的保证都要重新验证 |
-| 10 | **同进程混搭** | D4 | Graph 定全局、Workflow 定步骤、Swarm 跑局部并行 | 混搭不是叠加优点，是各自放弃一部分控制权 |
-| 11 | **跨进程混搭** | D4 | 本地编排 + 远端 A2A 专家，共享一次任务 | 边界在哪，重试、配额、幂等就要在哪重做一次 |
-| 12 | **Guardrails + HITL** | D4 | 让它别乱说，关键处停下来问人 | 做裁决的东西不能是能被对话的东西 |
-| 13 | **Evals 闭环** | D4 | 上线两个月后它变差了，你凭什么知道 | 「看着点」换成可度量 |
-| 14 | **Deploy 六选一** | D5 | 同一个 agent 部署到两个目标，行为一致 | SDK 不挑落脚点；选目标的决策树 |
+| # | 英文标题 | 机制 | D | 状态 | 一句话介绍 |
+|---|---|---|:--:|---|---|
+| 01 | **How the Strands Agent Loop Actually Works** | agent loop / trace | D1 | ✅ 已发布（四渠道） | 用四行代码起步，追到源码里看清一次调用如何展开：循环是递归不是 `while`，13 种 stop_reason 只有一种会让它继续。 |
+| 02 | **The Tools That Got Replaced** | `@tool` / schema / MCP | D2 | ✅ 已发布 | 给 agent 一个计算器和一个读文件工具，说明 docstring 就是 API 契约，以及内置工具层正在经历的迁移。 |
+| 03 | **The Limits That Don't Limit** | limits / quota / cancel | D2 | ✅ 已发布 | 一个会失控的 agent 被四类边界拦住：限额只在一次调用内生效，协作式取消才停得下副作用。 |
+| 04 | **It Remembers Across Restarts — and Forgets Mid-Conversation** | session / state / 窗口 | D3 | ✅ 已发布（含读者驱动增补） | 重启测试通过，却在同一场对话里把任务约束弄丢：磁盘持久化与 prompt 可见性是两件事，修复要靠注入与检索。 |
+| 05 | **When "Not Found" Doesn't Mean "Never Happened"** | 预留 / 崩溃 / 幂等 / fencing | D3 | 🟡 探针已实测，待补真并发实验与正文 | worker 预留配额后崩溃，过期租约把容量还回去，副作用却已发生：只有权威终态或目的地 fencing 才能安全释放。 |
+| 06 | **Nobody Decides Who Goes Next** | Swarm | D4 | ⚪ 未开始 | 一群平级 agent 自己决定谁接手，看交接如何触发、上下文如何流动，以及去中心化之后你还能观察到什么。 |
+| 07 | **The Graph Is Yours, the Judgment Isn't** | Graph | D4 | ⚪ 未开始 | 把流程画成图，节点、条件路由和状态传播由你定义，判断仍由模型做：确定性来自结构而不是提示词。 |
+| 08 | **Less Freedom for the Model, More Certainty for You** | Workflow | D4 | ⚪ 未开始 | 在确定性步骤里嵌入几个 LLM 节点，看输入输出契约如何限制模型的自由度，以及失败之后能从哪一步重放。 |
+| 09 | **Your Agent Leaves the Process** | A2A | D4 | ⚪ 未开始 | 两个进程里的 agent 互相调用，协议、序列化、超时与远端失败的可见性全部改变，前面三篇的保证要重新验证。 |
+| 10 | **Three Orchestrators, One Process** | Graph + Workflow + Swarm | D4 | ⚪ 未开始 | Graph 定全局、Workflow 定步骤、Swarm 跑局部并行：混搭到底是真需求还是把简单问题复杂化，用对照实验回答。 |
+| 11 | **When the Boundary Moves, So Do the Guarantees** | 本地编排 + 远端 A2A | D4 | ⚪ 未开始 | 本地 Graph 调远端 A2A 专家完成一次受限写操作，看进程边界如何改变重试、配额与幂等，并复用 UC05 的 fencing 结论。 |
+| 12 | **The Judge Can't Be in the Conversation** | guardrails / HITL | D4 | ⚪ 未开始 | 让 agent 别乱说、关键处停下来问人：做裁决的组件不能是能被对话影响的组件。 |
+| 13 | **It Got Worse, and I Can Prove It** | evals / LLM-as-judge | D4 | ⚪ 未开始 | 上线两个月后表现退化，用可度量的评测闭环取代「看着点」，把前面各篇的失败注入变成回归用例。 |
+| 14 | **Same Agent, Six Addresses** | 部署目标决策 | D5 | ⚪ 未开始 | 同一个 agent 部署到两个目标并验证行为一致，给出六个落脚点的选择决策树。 |
 
 难度序列 1,2,2,3,3,4,4,4,4,4,4,4,4,5 单调不减 ✓
 
