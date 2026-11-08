@@ -1,0 +1,24 @@
+naive / crash after effect
+POLICY=naive CRASH=after-effect
+  lease observes: worker_stopped_reporting=True, operation_outcome=UNKNOWN
+  after expiry: reservation_state=unused used_slots=0
+  retried=True
+  external_effects=2 duplicate_writes=1
+  capacity_returned_while_effect_exists=True
+  final_reservation_state=unused
+reconcile / crash after effect
+POLICY=reconcile CRASH=after-effect
+  lease observes: worker_stopped_reporting=True, operation_outcome=UNKNOWN
+  after expiry: reservation_state=confirmed_existing used_slots=1
+  retried=False
+  external_effects=1 duplicate_writes=0
+  capacity_returned_while_effect_exists=False
+  final_reservation_state=confirmed_existing
+reconcile / crash before effect
+POLICY=reconcile CRASH=before-effect
+  lease observes: worker_stopped_reporting=True, operation_outcome=UNKNOWN
+  after expiry: reservation_state=unused used_slots=0
+  retried=True
+  external_effects=1 duplicate_writes=0
+  capacity_returned_while_effect_exists=False
+  final_reservation_state=unused
