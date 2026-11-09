@@ -50,6 +50,7 @@ ready_since: 2026-11-09T11:20+08:00   # 三类评审全 PASS（含定向复审�
 - Dev.to：`usecases/05-reservations-fencing/publish/devto.md`（`build_devto.py --check` = layout only + in sync）
 - BC / Medium：`usecases/05-reservations-fencing/publish/reservations-fencing.md`
 - 仓库说明：`usecases/05-reservations-fencing/publish/README.md`
+- **评审预览**：`usecases/05-reservations-fencing/review/article-preview.html`（已递 Pin；正文再改要重新生成，命令见 PIPELINE.md 第 5 节）
 - 正文：2251 词、final_check 0 项、六项指标全部在舒适区（stdev 8.2，余量仅 0.1，**发布前勿再动句子结构**）
 
 ## 历史

@@ -10,3 +10,4 @@ usecases/*/src/sessions_tmp/
 usecases/*/src/snapshots_tmp/
 outreach/uc04-comments/sessions_contract/
 .workbuddy/
+usecases/*/review/
