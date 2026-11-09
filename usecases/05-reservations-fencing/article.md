@@ -63,7 +63,7 @@ In short, the SDK serializes an instance, dedupes a repeated token in-process an
 each call separately. That guard, the token registry and the lock all live in one
 per-instance controller, which is why a second process cannot reuse them without inventing
 a protocol of its own
-([_concurrency.py:107](https://github.com/strands-agents/harness-sdk/blob/main/strands-py/src/strands/agent/_concurrency.py)).
+([_concurrency.py:86](https://github.com/strands-agents/harness-sdk/blob/main/strands-py/src/strands/agent/_concurrency.py)).
 A quota that several workers must share is still yours to build, which is where leases come
 in and where the trouble starts.
 
@@ -90,10 +90,11 @@ SUMMARY trials=5 duplicate_writes_total=5 capacity_returned_while_effect_exists=
 ```
 
 Every run wrote the ticket twice. Every run handed the capacity back while a completed
-effect was sitting in the external system. The lease told the truth, just not the truth the
-policy needed. "The worker stopped reporting" is a fact about the worker.
-"The operation did not happen" is a fact about the external system, which a lease cannot
-see.
+effect was sitting in the external system. Scale to many workers and that freed slot goes
+to an unrelated job, so the fleet quietly spends two units of quota on one. The lease told
+the truth, just not the truth the policy needed. "The worker stopped reporting" is a fact
+about the worker. "The operation did not happen" is a fact about the external system,
+which a lease cannot see.
 
 The reconcile policy separates the two facts. On expiry it holds the reservation in an
 `outcome_unknown` state and asks the external system whether the idempotency key exists
@@ -105,8 +106,9 @@ nothing to duplicate. Both crash points, one policy, no damage; all ten runs sit
 `evidence/lease-crash-boundary.txt`.
 
 Neither policy fixes the cost that a crash charges to everyone else, and the contention
-experiment makes that cost visible. Twelve worker threads contended for two leased slots
-with a one second lease. Worker 0 crashed while holding one of them. That slot came back
+experiment, this time with two slots instead of one, makes that cost visible. Twelve
+worker threads contended for two leased slots with a one second lease. Worker 0 crashed
+while holding one of them. That slot came back
 only through expiry, and the worker that inherited it waited 1.002 seconds, almost exactly
 the lease length, before it could start. The queue behind a crash pays for the crash even
 though nothing is running on the held slot.
@@ -121,7 +123,8 @@ reconcile policy inserts `outcome_unknown` between them and requires evidence to
 naive:      reserved ──expiry──▶ unused
 
 reconcile:  reserved ──expiry──▶ outcome_unknown ──key found──▶ confirmed_existing
-                                        └──key absent────────▶ unused
+                                        ├──key absent─────────▶ unused
+                                        └──attempt in flight──▶ outcome_unknown (hold)
 ```
 
 The `outcome_unknown` state is the whole game. In other words, the reservation system now
