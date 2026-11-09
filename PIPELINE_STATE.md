@@ -34,8 +34,8 @@ published_at: 2026-11-09T13:32:00Z   # 主站 push 时刻（UTC）
 | Dev.to | https://dev.to/aws-builders/when-not-found-doesnt-mean-never-happened-2eie — id 5004687，21:33:25（GMT+8）= 13:33:25 UTC，org aws-builders（2794），canonical 指回主站 |
 | Builder Center | https://builder.aws.com/content/3Ls8Su63RbuSKR3yys1j9t6US1p/when-not-found-doesnt-mean-never-happened — ≈22:15（GMT+8）= 14:15 UTC，200，hero 封面与 "Originally published" 均在线上 |
 | Medium | 未发（人工物料，今晚不动） |
-| 规模 | 正文 2251 词（不含代码块）/ 16 个代码块 / 4 组实验（C1 崩溃边界、C2 延迟提交竞态、C3 slot 争用、C4 LLM 三探针） |
-| 指标 | final_check 0 项；stdev 8.2（舒适区下限 8，余量 0.1） |
+| 规模 | 正文 2421 词（不含代码块）/ 16 个代码块 / 4 组实验（C1 崩溃边界、C2 延迟提交竞态、C3 slot 争用、C4 LLM 三探针） |
+| 指标 | `final_check` 0 项；`en_metrics` 定稿读数 stdev 9.8 / 被动 3.1 / 连接词 1.07 / 名词化 3.06 / Flesch 61.9（发布前复跑确认，与 11:20 复审时的 stdev 8.2 差异来自 v3 润色） |
 
 **发布当天的两个已知偏差（非阻塞，留给下次改进）**
 
@@ -66,7 +66,7 @@ published_at: 2026-11-09T13:32:00Z   # 主站 push 时刻（UTC）
 - Dev.to：`usecases/05-reservations-fencing/publish/devto.md`（`build_devto.py --check` = in sync）
 - BC / Medium：`usecases/05-reservations-fencing/publish/reservations-fencing.md`（本次改动：标题去转义、正文图改站内根路径）
 - **评审预览**：`usecases/05-reservations-fencing/review/article-preview.html`
-- 正文：2251 词、final_check 0 项（发布后 30 分钟内未改正文，符合 PUBLISHING-POLICY §5.4）
+- 正文：2421 词 / 16 代码块、`final_check` 0 项（发布后 30 分钟内未改正文，符合 PUBLISHING-POLICY §5.4）
 
 ## 历史
 
