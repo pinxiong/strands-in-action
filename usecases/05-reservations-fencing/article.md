@@ -34,38 +34,86 @@ Concurrent invocations are not supported.
 ```
 
 That is the documented default. The constructor argument `concurrent_invocation_mode`
-defaults to `THROW`. `UNSAFE_REENTRANT` is the explicit opt-out for code that accepts
-the risk
-([agent.py:268](https://github.com/strands-agents/harness-sdk/blob/main/strands-py/src/strands/agent/agent.py),
-[types/agent.py:205](https://github.com/strands-agents/harness-sdk/blob/main/strands-py/src/strands/types/agent.py)).
+defaults to `THROW`, and `UNSAFE_REENTRANT` is the explicit opt-out for code that
+accepts the risk:
+
+```python
+# strands/agent/agent.py:268 -- as installed, strands-agents 1.63.0
+concurrent_invocation_mode: ConcurrentInvocationMode = ConcurrentInvocationMode.THROW,
+
+# strands/types/agent.py:205
+class ConcurrentInvocationMode(str, Enum):
+    THROW = "throw"
+    UNSAFE_REENTRANT = "unsafe_reentrant"
+```
+
+Line numbers move with every release, so every SDK excerpt in this post is pasted
+from the installed 1.63.0 instead of being left at the end of a link. The link points
+at the file, not at a line, and the excerpt is the thing I actually tested against.
 
 The second probe was more interesting. The call signature accepts an `idempotency_token`,
 a caller-chosen name for one logical request, so a retry carries the same name as the
-original instead of looking like a second request
-([agent.py:928](https://github.com/strands-agents/harness-sdk/blob/main/strands-py/src/strands/agent/agent.py)).
+original instead of looking like a second request:
+
+```python
+# strands/agent/agent.py:924-929 -- keyword-only arguments of __call__
+idempotency_token: Any = None,
+limits: Limits | None = None,
+```
+
 When a second thread called the same instance with the same prompt and the same token,
 the duplicate did not crash and did not run the model twice. It waited for the inflight
 invocation and received its cached result. Both threads reported identical usage, 948 total
-tokens each, because only one invocation ever ran
-([_concurrency.py:183](https://github.com/strands-agents/harness-sdk/blob/main/strands-py/src/strands/agent/_concurrency.py)).
+tokens each, because only one invocation ever ran. One branch of one method decides that:
+
+```python
+# strands/agent/_concurrency.py:183
+def _check_idempotency(self, idempotency_token: Any) -> tuple[_InflightInvocation | None, Any]:
+    if idempotency_token is None or self._mode != ConcurrentInvocationMode.THROW:
+        return None, None
+
+    with self._inflight_lock:
+        if self._inflight_token == idempotency_token:
+            return self._inflight, None
+```
+
+A second call that matches on `==` gets the inflight invocation handed back to it, then
+waits on that object rather than starting a second model request.
 
 So the SDK already distinguishes "concurrent invocations" from "the same request twice."
 It handles the second one correctly. The third probe found the boundary. Two separate
 instances, one thread each, each invocation carrying `limits={"turns": 1}`, both ran to
 `stop_reason="limit_turns"` with identical usage of 453 total tokens each. No budget was
 shared between them. None could be, because limits travel with the request, not with the
-fleet: the signature documents them as "Limits for the whole request this call starts"
-([agent.py:955](https://github.com/strands-agents/harness-sdk/blob/main/strands-py/src/strands/agent/agent.py)).
+fleet:
+
+```python
+# strands/agent/agent.py:956-957 -- docstring of __call__
+limits: Limits for the whole request this call starts (turns / output_tokens /
+    total_tokens / structured_output_attempts).
+```
+
 The two usage figures differ for an unrelated reason. The token-dedup probe ran to
 `end_turn` over two turns. The limits probe stopped after one turn.
 
 In short, the SDK serializes an instance, dedupes a repeated token in-process and budgets
 each call separately. That guard, the token registry and the lock all live in one
 per-instance controller, which is why a second process cannot reuse them without inventing
-a protocol of its own
-([_concurrency.py:86](https://github.com/strands-agents/harness-sdk/blob/main/strands-py/src/strands/agent/_concurrency.py)).
-A quota that several workers must share is still yours to build, which is where leases come
-in and where the trouble starts.
+a protocol of its own:
+
+```python
+# strands/agent/_concurrency.py:95 -- constructed as self._concurrency in Agent.__init__
+def __init__(self, mode: ConcurrentInvocationMode) -> None:
+    self._mode = mode
+    self._invocation_lock = threading.Lock()
+    self._inflight_token: Any = None
+    self._inflight: _InflightInvocation | None = None
+    self._inflight_lock = threading.Lock()
+```
+
+Every piece of that state hangs off `self` and no module-level registry sits behind it, so
+two processes share nothing. A quota that several workers must share is still yours to
+build, which is where leases come in and where the trouble starts.
 
 ## What a lease can and cannot tell you
 
@@ -76,6 +124,24 @@ The reservation carries a lease, a deadline after which the slot may be taken ba
 janitor loop watches that deadline on the real clock. A lease is therefore a one-sided
 promise, because it protects the fleet from a silent worker and it can also take a slot
 away from a worker that is still healthy.
+
+The lease carries no heartbeat and no owner record. In the experiment it is three methods
+on one object, and the whole of it is a deadline on the monotonic clock:
+
+```python
+# src/lease_crash_boundary.py:56
+def reserve(self, lease_seconds: float) -> None:
+    with self.lock:
+        self.deadline = time.monotonic() + lease_seconds
+
+def expired(self) -> bool:
+    with self.lock:
+        return self.deadline is not None and time.monotonic() >= self.deadline
+
+def release(self) -> None:
+    with self.lock:
+        self.deadline = None
+```
 
 The naive policy treats expiry as proof of innocence: the slot is free, so the operation
 never happened, so a retry worker re-executes the job. I crashed the worker after the
@@ -103,7 +169,28 @@ ticket, so the reservation settles as `confirmed_existing` and no retry runs. Wh
 crash lands before the effect, the lookup finds nothing, so the reservation settles as
 `unused` and the capacity returns. The retry that follows is correct, because there was
 nothing to duplicate. Both crash points, one policy, no damage; all ten runs sit in
-`evidence/lease-crash-boundary.txt`.
+`evidence/lease-crash-boundary.txt`. The distance between the two policies is one branch
+of the janitor loop:
+
+```python
+# src/lease_crash_boundary.py:99 -- runs once expiry has been observed
+if policy == "naive":
+    state = "unused"              # expiry treated as proof the effect never landed
+    slot.release()
+    retried = True
+    # retry thread: sleep RETRY_LATENCY, then dest.execute(key)
+else:
+    if dest.has_effect(key):
+        state = "confirmed_existing"
+    else:
+        state = "unused"          # the only path back to capacity
+        slot.release()
+        retried = True
+        # the same retry thread
+```
+
+The naive branch never asks the destination anything, and that one omission is the
+difference between five duplicate writes and none.
 
 Neither policy fixes the cost that a crash charges to everyone else, and the contention
 experiment, this time with two slots instead of one, makes that cost visible. Twelve
@@ -175,7 +262,21 @@ Two disjoint repairs exist. They fix different halves of the damage.
 The first repair is a uniqueness check at the destination, a put-if-absent on the
 idempotency key. I will call it a fence, with one honest caveat: it is not a fencing
 token, because it does not order attempts. It refuses whichever write arrives second, and
-it cannot stop an old write that arrives first.
+it cannot stop an old write that arrives first. The check sits in the destination's commit
+path, not in the reservation:
+
+```python
+# src/delayed_commit_race.py:46
+def commit(self, attempt_id: str, key: str) -> bool:
+    with self.lock:
+        if self.fenced and key in self.effects:
+            self.rejected += 1
+            self.attempts[attempt_id] = "fenced"
+            return False
+        self.effects.append(key)
+        self.attempts[attempt_id] = "committed"
+        return True
+```
 
 ```text
 MODE=fenced
@@ -194,7 +295,26 @@ but not the capacity or the wasted effort.
 
 In contrast, the second repair is a destination that witnesses attempt state. If the
 external system exposes that attempt K is `in_flight`, the janitor loop does not have to
-guess from a key lookup:
+guess from a key lookup. It asks two questions instead of one:
+
+```python
+# src/delayed_commit_race.py:99
+found = dest.has_effect(key)
+attempt = dest.attempt_state("A") if authoritative else None
+
+if authoritative:
+    if found:
+        state = "confirmed_existing"
+    elif attempt == "in_flight":
+        state = "outcome_unknown"  # capacity stays held
+    else:
+        state = "unused"
+else:
+    if not found:
+        state = "unused"
+```
+
+Five runs of it against the same 2.4 second workload:
 
 ```text
 MODE=authoritative
@@ -222,10 +342,9 @@ state requires an extra write before every effect and a destination that stores 
 ## What surprised me
 
 - The SDK already ships an in-process idempotency mechanism. I expected to find only a
-  concurrency guard, and instead found token-based dedup with waiter semantics
-  ([_concurrency.py:25](https://github.com/strands-agents/harness-sdk/blob/main/strands-py/src/strands/agent/_concurrency.py)).
-  It solves the duplicate-request problem inside one process, which is precisely the
-  problem it cannot solve across processes.
+  concurrency guard, and instead found token-based dedup with waiter semantics, the
+  `_check_idempotency` branch quoted earlier. It solves the duplicate-request problem
+  inside one process, which is precisely the problem it cannot solve across processes.
 - The fence rejected the original attempt, not the retry. In every run of the fenced mode
   the fast retry committed first, so the "old" writer was the one turned away. Which
   attempt survives is decided by speed, not by seniority. The intuition that

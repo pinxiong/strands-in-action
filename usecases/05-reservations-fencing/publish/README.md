@@ -1,5 +1,14 @@
 # UC05 · When "Not Found" Doesn't Mean "Never Happened"
 
+状态：**已发布**（2026-11-09）
+
+| 渠道 | 线上地址 |
+|---|---|
+| 主站 | https://xiongpin.dev/posts/reservations-fencing/ |
+| AWS Builder Center | https://builder.aws.com/content/3Ls8Su63RbuSKR3yys1j9t6US1p/when-not-found-doesnt-mean-never-happened |
+| Dev.to | https://dev.to/aws-builders/when-not-found-doesnt-mean-never-happened-2eie |
+| Medium | 未发（人工物料，待 Pin 手动 Import） |
+
 > Verified on 2026-11-09 against `strands-agents` 1.63.0, Python 3.11 and Bedrock in
 > `us-east-1`. The model in the agent probe is `amazon.nova-pro-v1:0`.
 > Every number in the article came out of a run; raw output lives in `evidence/`.
