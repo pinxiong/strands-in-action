@@ -1,0 +1,27 @@
+# C4 what the SDK gives two concurrent workers (LLM probe)
+# date: 2026-11-09 10:44:18+0800  python: Python 3.11.15
+# strands-agents: 1.63.0  region: us-east-1
+# cmd: python src/concurrent_limits.py  (MODEL_ID default amazon.nova-pro-v1:0)
+PART 1 one instance, two threads, different prompts; model=amazon.nova-pro-v1:0
+<thinking> The user has requested to call the 'tick' tool once with n=2. I will proceed to call the tool with the specified argument. </thinking>
+
+Tool #1: tick
+The tick tool has successfully recorded tick 2.  p1_A: outcome=ConcurrencyException detail=Agent is already processing a request. Concurrent invocations are not supported.
+  p1_B: outcome=ok stop=end_turn elapsed=4.98s usage={"turns_taken": 2, "inputTokens": 896, "outputTokens": 61, "totalTokens": 957}
+PART 2 one instance, two threads, same prompt + same idempotency_token=T100
+<thinking> The user has requested to call the 'tick' tool once with n=7. I will proceed with this request. </thinking>
+
+Tool #1: tick
+The tick tool has successfully recorded tick number 7.  p2_primary: outcome=ok stop=end_turn elapsed=2.56s usage={"turns_taken": 2, "inputTokens": 891, "outputTokens": 57, "totalTokens": 948}
+  p2_duplicate: outcome=ok stop=end_turn elapsed=2.56s usage={"turns_taken": 2, "inputTokens": 891, "outputTokens": 57, "totalTokens": 948}
+PART 3 two instances, one thread each, each limits={'turns': 1}
+<thinking> The user has requested to call the 'tick' tool once with n=3. I will proceed with this action. </thinking>
+
+Tool #1: tick
+<thinking> The user has requested to call the 'tick' function once with n=4. I will proceed with this action. </thinking>
+
+Tool #1: tick
+  p3_A: outcome=ok stop=limit_turns elapsed=1.75s usage={"turns_taken": 1, "inputTokens": 408, "outputTokens": 45, "totalTokens": 453}
+  p3_B: outcome=ok stop=limit_turns elapsed=3.15s usage={"turns_taken": 1, "inputTokens": 408, "outputTokens": 45, "totalTokens": 453}
+  wall_clock=3.15s (both overlapped)
+VERDICT an Agent instance serializes invocations and can dedupe a repeated idempotency_token in-process; across instances each invocation carries its own limits budget, so a shared quota must live outside the SDK

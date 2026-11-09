@@ -1,0 +1,39 @@
+# C1 lease crash boundary (real clock, real threads)
+# date: 2026-11-09 10:40:24+0800  python: Python 3.11.15  os: Darwin arm64
+# cmd: python src/lease_crash_boundary.py --policy <p> --crash <c> --trials 5
+POLICY=naive CRASH=after-effect LEASE_S=1.0 TRIALS=5
+python real-clock crash boundary; lease=1.0s, effect_latency=0.2s, retry_latency=0.2s
+  trial 1: expiry@1.0s effect@0.205s retry@1.204s effects=2 duplicates=1 retried=True state=unused capacity_returned_while_effect_exists=True
+  trial 2: expiry@1.002s effect@0.202s retry@1.206s effects=2 duplicates=1 retried=True state=unused capacity_returned_while_effect_exists=True
+  trial 3: expiry@1.007s effect@0.205s retry@1.211s effects=2 duplicates=1 retried=True state=unused capacity_returned_while_effect_exists=True
+  trial 4: expiry@1.002s effect@0.205s retry@1.207s effects=2 duplicates=1 retried=True state=unused capacity_returned_while_effect_exists=True
+  trial 5: expiry@1.009s effect@0.201s retry@1.214s effects=2 duplicates=1 retried=True state=unused capacity_returned_while_effect_exists=True
+SUMMARY trials=5 duplicate_writes_total=5 capacity_returned_while_effect_exists=5/5 mean_expiry_observed=1.004s
+
+POLICY=naive CRASH=before-effect LEASE_S=1.0 TRIALS=5
+python real-clock crash boundary; lease=1.0s, effect_latency=0.2s, retry_latency=0.2s
+  trial 1: expiry@1.014s effect@Nones retry@1.216s effects=1 duplicates=0 retried=True state=unused capacity_returned_while_effect_exists=False
+  trial 2: expiry@1.009s effect@Nones retry@1.212s effects=1 duplicates=0 retried=True state=unused capacity_returned_while_effect_exists=False
+  trial 3: expiry@1.006s effect@Nones retry@1.211s effects=1 duplicates=0 retried=True state=unused capacity_returned_while_effect_exists=False
+  trial 4: expiry@1.009s effect@Nones retry@1.212s effects=1 duplicates=0 retried=True state=unused capacity_returned_while_effect_exists=False
+  trial 5: expiry@1.008s effect@Nones retry@1.213s effects=1 duplicates=0 retried=True state=unused capacity_returned_while_effect_exists=False
+SUMMARY trials=5 duplicate_writes_total=0 capacity_returned_while_effect_exists=0/5 mean_expiry_observed=1.009s
+
+POLICY=reconcile CRASH=after-effect LEASE_S=1.0 TRIALS=5
+python real-clock crash boundary; lease=1.0s, effect_latency=0.2s, retry_latency=0.2s
+  trial 1: expiry@1.009s effect@0.205s retry@Nones effects=1 duplicates=0 retried=False state=confirmed_existing capacity_returned_while_effect_exists=False
+  trial 2: expiry@1.003s effect@0.204s retry@Nones effects=1 duplicates=0 retried=False state=confirmed_existing capacity_returned_while_effect_exists=False
+  trial 3: expiry@1.001s effect@0.205s retry@Nones effects=1 duplicates=0 retried=False state=confirmed_existing capacity_returned_while_effect_exists=False
+  trial 4: expiry@1.001s effect@0.205s retry@Nones effects=1 duplicates=0 retried=False state=confirmed_existing capacity_returned_while_effect_exists=False
+  trial 5: expiry@1.009s effect@0.205s retry@Nones effects=1 duplicates=0 retried=False state=confirmed_existing capacity_returned_while_effect_exists=False
+SUMMARY trials=5 duplicate_writes_total=0 capacity_returned_while_effect_exists=0/5 mean_expiry_observed=1.005s
+
+POLICY=reconcile CRASH=before-effect LEASE_S=1.0 TRIALS=5
+python real-clock crash boundary; lease=1.0s, effect_latency=0.2s, retry_latency=0.2s
+  trial 1: expiry@1.008s effect@Nones retry@1.215s effects=1 duplicates=0 retried=True state=unused capacity_returned_while_effect_exists=False
+  trial 2: expiry@1.007s effect@Nones retry@1.208s effects=1 duplicates=0 retried=True state=unused capacity_returned_while_effect_exists=False
+  trial 3: expiry@1.0s effect@Nones retry@1.206s effects=1 duplicates=0 retried=True state=unused capacity_returned_while_effect_exists=False
+  trial 4: expiry@1.011s effect@Nones retry@1.217s effects=1 duplicates=0 retried=True state=unused capacity_returned_while_effect_exists=False
+  trial 5: expiry@1.007s effect@Nones retry@1.212s effects=1 duplicates=0 retried=True state=unused capacity_returned_while_effect_exists=False
+SUMMARY trials=5 duplicate_writes_total=0 capacity_returned_while_effect_exists=0/5 mean_expiry_observed=1.007s
+

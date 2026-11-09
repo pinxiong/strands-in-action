@@ -1,0 +1,28 @@
+# C3 slot contention with a crashed holder (real clock, real threads)
+# date: 2026-11-09 10:43:54+0800  python: Python 3.11.15  os: Darwin arm64
+# cmd: python src/slot_contention.py
+SLOTS=2 WORKERS=12 LEASE_S=1.0 HOLD_S=0.3 CRASH_WORKER=0
+  worker 0: slot=0 acquired_via=free waited=0.0s released=False
+  worker 1: slot=1 acquired_via=free waited=0.0s released=True
+  worker 2: slot=0 acquired_via=free waited=1.61s released=True
+  worker 3: slot=1 acquired_via=free waited=0.613s released=True
+  worker 4: slot=0 acquired_via=free waited=1.914s released=True
+  worker 5: slot=1 acquired_via=free waited=1.226s released=True
+  worker 6: slot=1 acquired_via=free waited=1.529s released=True
+  worker 7: slot=1 acquired_via=free waited=0.305s released=True
+  worker 8: slot=1 acquired_via=free waited=0.919s released=True
+  worker 9: slot=0 acquired_via=expired waited=1.002s released=True
+  worker 10: slot=0 acquired_via=free waited=1.303s released=True
+  worker 11: slot=1 acquired_via=free waited=1.833s released=True
+SUMMARY total_s=2.217 crash_held_slot=0 crash_waited=0.0s slot_recycled_via_expiry=1 first_expiry_inheriter_waited=1.002s lease_was=1.0s
+# rerun x2 for stability:
+  worker 9: slot=0 acquired_via=free waited=1.308s released=True
+  worker 10: slot=0 acquired_via=expired waited=1.001s released=True
+  worker 11: slot=1 acquired_via=free waited=1.222s released=True
+SUMMARY total_s=2.218 crash_held_slot=0 crash_waited=0.0s slot_recycled_via_expiry=1 first_expiry_inheriter_waited=1.001s lease_was=1.0s
+
+  worker 9: slot=1 acquired_via=free waited=1.522s released=True
+  worker 10: slot=1 acquired_via=free waited=1.218s released=True
+  worker 11: slot=0 acquired_via=free waited=1.921s released=True
+SUMMARY total_s=2.226 crash_held_slot=0 crash_waited=0.0s slot_recycled_via_expiry=1 first_expiry_inheriter_waited=1.0s lease_was=1.0s
+

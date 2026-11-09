@@ -1,0 +1,27 @@
+# C2 delayed commit race (real clock, overlapping threads)
+# date: 2026-11-09 10:40:48+0800  python: Python 3.11.15  os: Darwin arm64
+# cmd: python src/delayed_commit_race.py --mode <m> --stress 5
+MODE=naive LEASE_S=1.0 ATTEMPT_LATENCY=2.4 RETRY_LATENCY=0.4 STRESS=5
+  trial 1: expiry@1.003s released@1.003s old_commit@2.405s(ok=True) retry@1.407s effects=2 duplicates=1 fenced_rejected=0 retried=True released_before_old_commit=True state=unused
+  trial 2: expiry@1.001s released@1.001s old_commit@2.404s(ok=True) retry@1.405s effects=2 duplicates=1 fenced_rejected=0 retried=True released_before_old_commit=True state=unused
+  trial 3: expiry@1.007s released@1.007s old_commit@2.405s(ok=True) retry@1.41s effects=2 duplicates=1 fenced_rejected=0 retried=True released_before_old_commit=True state=unused
+  trial 4: expiry@1.001s released@1.001s old_commit@2.406s(ok=True) retry@1.406s effects=2 duplicates=1 fenced_rejected=0 retried=True released_before_old_commit=True state=unused
+  trial 5: expiry@1.011s released@1.011s old_commit@2.405s(ok=True) retry@1.412s effects=2 duplicates=1 fenced_rejected=0 retried=True released_before_old_commit=True state=unused
+SUMMARY mode=naive trials=5 duplicate_writes_total=5 early_capacity_release=5/5 retry_started=5/5 mean_old_commit=2.405s mean_expiry=1.005s
+
+MODE=fenced LEASE_S=1.0 ATTEMPT_LATENCY=2.4 RETRY_LATENCY=0.4 STRESS=5
+  trial 1: expiry@1.006s released@1.006s old_commit@2.407s(ok=False) retry@1.409s effects=1 duplicates=0 fenced_rejected=1 retried=True released_before_old_commit=True state=unused
+  trial 2: expiry@1.011s released@1.011s old_commit@2.401s(ok=False) retry@1.416s effects=1 duplicates=0 fenced_rejected=1 retried=True released_before_old_commit=True state=unused
+  trial 3: expiry@1.008s released@1.008s old_commit@2.405s(ok=False) retry@1.412s effects=1 duplicates=0 fenced_rejected=1 retried=True released_before_old_commit=True state=unused
+  trial 4: expiry@1.001s released@1.001s old_commit@2.406s(ok=False) retry@1.404s effects=1 duplicates=0 fenced_rejected=1 retried=True released_before_old_commit=True state=unused
+  trial 5: expiry@1.005s released@1.005s old_commit@2.403s(ok=False) retry@1.409s effects=1 duplicates=0 fenced_rejected=1 retried=True released_before_old_commit=True state=unused
+SUMMARY mode=fenced trials=5 duplicate_writes_total=0 early_capacity_release=5/5 retry_started=5/5 mean_old_commit=2.404s mean_expiry=1.006s
+
+MODE=authoritative LEASE_S=1.0 ATTEMPT_LATENCY=2.4 RETRY_LATENCY=0.4 STRESS=5
+  trial 1: expiry@1.008s released@2.405s old_commit@2.405s(ok=True) retry@Nones effects=1 duplicates=0 fenced_rejected=0 retried=False released_before_old_commit=False state=confirmed_existing
+  trial 2: expiry@1.004s released@2.404s old_commit@2.403s(ok=True) retry@Nones effects=1 duplicates=0 fenced_rejected=0 retried=False released_before_old_commit=False state=confirmed_existing
+  trial 3: expiry@1.012s released@2.408s old_commit@2.406s(ok=True) retry@Nones effects=1 duplicates=0 fenced_rejected=0 retried=False released_before_old_commit=False state=confirmed_existing
+  trial 4: expiry@1.009s released@2.405s old_commit@2.405s(ok=True) retry@Nones effects=1 duplicates=0 fenced_rejected=0 retried=False released_before_old_commit=False state=confirmed_existing
+  trial 5: expiry@1.007s released@2.403s old_commit@2.402s(ok=True) retry@Nones effects=1 duplicates=0 fenced_rejected=0 retried=False released_before_old_commit=False state=confirmed_existing
+SUMMARY mode=authoritative trials=5 duplicate_writes_total=0 early_capacity_release=0/5 retry_started=0/5 mean_old_commit=2.404s mean_expiry=1.008s
+
