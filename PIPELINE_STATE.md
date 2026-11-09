@@ -7,10 +7,10 @@
 ```yaml
 last_run_date: 2026-11-09      # 最近一次真正推进过工作的日期
 today_started: 2026-11-09      # 今天是否已开工（与 last_run_date 同步；跨天自动失效）
-stage: ready_to_publish        # not_started | outline | experiments | draft | review | ready_to_publish | published
+stage: draft                   # 回到修订：Kent 五项追问（18:30 到）晚于正文定稿（17:00），周复盘判定必须先补
 current_piece: UC05
-gates: {expert: pass, reader: pass, independent: pass}
-ready_since: 2026-11-09T11:20+08:00   # 三类评审全 PASS（含定向复审）
+gates: {}                      # 新增小节后三类评审需重跑（此前 2026-11-09 11:20 全 PASS 的结论只覆盖旧版正文）
+ready_since: null             # 清空：等新增小节过完三类评审再置回
 ```
 
 ## 当前
@@ -18,11 +18,11 @@ ready_since: 2026-11-09T11:20+08:00   # 三类评审全 PASS（含定向复审�
 | 项 | 值 |
 |---|---|
 | 当前篇目 | **UC05 · When "Not Found" Doesn't Mean "Never Happened"** |
-| 阶段 | `ready_to_publish`（10:30 档完成：大纲 + 真并发实验 + 正文 + 三类评审 + 渠道物料） |
+| 阶段 | `draft`（回修：补「何时转人工」小节，见顺延记录） |
 | 最近发布日期 | 2026-11-07（UC04 `it-remembers-across-restarts-and-forgets-mid-conversation`） |
 | 下次可开新篇 | UC05 发布后满 2 天（预计 2026-11-11，写 UC06 Swarm） |
-| 下次可发布窗口 | **2026-11-09 21:30–22:30（GMT+8，周一，允许）**；窗口外不得发 |
-| 阻塞项 | 无。发布前只剩：`draft: true → false`、push、三渠道发布（主站 / Dev.to / BC） |
+| 下次可发布窗口 | **2026-11-10 21:30–22:30（GMT+8，周二，策略首选日）**；今晚 21:30 档只做检查，不发 |
+| 阻塞项 | 正文需补 Kent 五项（scope owner / decision deadline / forced timeout + external read-back / recovery owner / 停止自动 reconciliation 转人工的判据），补完重跑三类评审与渠道重建 |
 
 ## UC05 评审台账（2026-11-09）
 
@@ -51,7 +51,10 @@ ready_since: 2026-11-09T11:20+08:00   # 三类评审全 PASS（含定向复审�
 - BC / Medium：`usecases/05-reservations-fencing/publish/reservations-fencing.md`
 - 仓库说明：`usecases/05-reservations-fencing/publish/README.md`
 - **评审预览**：`usecases/05-reservations-fencing/review/article-preview.html`（已递 Pin；正文再改要重新生成，命令见 PIPELINE.md 第 5 节）
-- 正文：2251 词、final_check 0 项、六项指标全部在舒适区（stdev 8.2，余量仅 0.1，**发布前勿再动句子结构**）
+- **渠道正文同步**：`build_devto.py` 只做折行展开，不搬内容；改 article.md 后必须按「article 正文（去 H1）→ 各渠道 front matter + 图片域名替换」重建 devto.md / reservations-fencing.md / Hugo 草稿，再跑 `python tools/build_devto.py --check`（应 4 项全 `layout only` + `in sync`）与 `hugo -D` 校验。
+- 正文：2421 词、16 个代码块（9 python / 6 text / 1 bash）、final_check 0 项；avg 16.2w / stdev 9.8、被动 3.1、连接词 1.07、名词化 3.06、Flesch 61.9
+- **指标口径坑（重要）**：`en_metrics.py` 把 fenced code 替换成空行，冒号句会和代码块之后的散文粘成一句，于是报 `>40w = 4`。按"代码块自成句读"重算：165 句、`>40w = 0`（最长 35 词）。别为此改句子。
+- **源码引用已全部内联**（2026-11-09 用户要求）：SDK 五处（agent.py:268 / 924-929 / 956-957、_concurrency.py:183 / 95、types/agent.py:205）与实验脚本四处（lease_crash_boundary.py:56 / 99、delayed_commit_race.py:46 / 99）都是逐字代码块，首行标 `path:line -- version`；链接只作二级指针。理由：SDK 升级后行号会指向别的代码。
 
 ## 历史
 
@@ -66,4 +69,4 @@ ready_since: 2026-11-09T11:20+08:00   # 三类评审全 PASS（含定向复审�
 
 | 日期 | 原因 | 顺延到 | 从哪继续 |
 |---|---|---|---|
-| — | — | — | — |
+| 2026-11-09 | Kent Bodrov 18:30 在 UC03 追问 unresolved 队列治理五项，晚于正文定稿（17:00）；周复盘（20:20）判定 UC05 不补这节不得进窗口 | 2026-11-10 21:30–22:30（周二，发布策略首选日） | 明天 10:30 档：补「When a human is needed」小节 → 重跑三类评审 → 重建三渠道物料 → 21:30 窗口发布 |
