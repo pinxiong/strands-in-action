@@ -1,0 +1,53 @@
+# UC05 comment probe: fence + witness together
+# date: 2026-11-10 20:31:07+0800  python: Python 3.11.15  os: Darwin arm64
+# cmd: for c in fenced_only witness_only combined conflict/*; do ../../.venv/bin/python probe_fence_witness.py --case $c --stress 5; done
+# harness: outreach/uc05-comments/probe_fence_witness.py (threads, real monotonic clock, no LLM)
+
+CASE=fenced_only FENCED=True WITNESS=False POLICY=naive BYPASS=False LEASE_S=1.0 ATTEMPT_LATENCY=2.4 RETRY_LATENCY=0.4 JANITOR_TIMEOUT=3.2 STRESS=5
+  trial 1: expiry@1.005s released@1.006s old_commit@2.405s(ok=False, state=fenced) bypass@Nones retry@1.411s queued@1.006s effects=1 duplicates=0 fenced_rejected=1 polls=1 released_before_old_commit=True timed_out=False final_state=unused
+  trial 2: expiry@1.009s released@1.011s old_commit@2.406s(ok=False, state=fenced) bypass@Nones retry@1.538s queued@1.133s effects=1 duplicates=0 fenced_rejected=1 polls=1 released_before_old_commit=True timed_out=False final_state=unused
+  trial 3: expiry@1.01s released@1.01s old_commit@2.404s(ok=False, state=fenced) bypass@Nones retry@1.415s queued@1.01s effects=1 duplicates=0 fenced_rejected=1 polls=1 released_before_old_commit=True timed_out=False final_state=unused
+  trial 4: expiry@1.009s released@1.009s old_commit@2.401s(ok=False, state=fenced) bypass@Nones retry@1.413s queued@1.009s effects=1 duplicates=0 fenced_rejected=1 polls=1 released_before_old_commit=True timed_out=False final_state=unused
+  trial 5: expiry@1.002s released@1.002s old_commit@2.405s(ok=False, state=fenced) bypass@Nones retry@1.407s queued@1.003s effects=1 duplicates=0 fenced_rejected=1 polls=1 released_before_old_commit=True timed_out=False final_state=unused
+SUMMARY case=fenced_only trials=5 duplicate_writes_total=0 early_capacity_release=5/5 retry_started=5/5 fence_rejections=5 capacity_released=5/5 queued_job_started=5/5 timed_out=0/5
+
+CASE=witness_only FENCED=False WITNESS=True POLICY=effect_first BYPASS=False LEASE_S=1.0 ATTEMPT_LATENCY=2.4 RETRY_LATENCY=0.4 JANITOR_TIMEOUT=3.2 STRESS=5
+  trial 1: expiry@1.007s released@2.415s old_commit@2.406s(ok=True, state=committed) bypass@Nones retry@Nones queued@2.415s effects=1 duplicates=0 fenced_rejected=0 polls=118 released_before_old_commit=False timed_out=False final_state=confirmed_existing
+  trial 2: expiry@1.009s released@2.405s old_commit@2.401s(ok=True, state=committed) bypass@Nones retry@Nones queued@2.405s effects=1 duplicates=0 fenced_rejected=0 polls=117 released_before_old_commit=False timed_out=False final_state=confirmed_existing
+  trial 3: expiry@1.01s released@2.413s old_commit@2.405s(ok=True, state=committed) bypass@Nones retry@Nones queued@2.414s effects=1 duplicates=0 fenced_rejected=0 polls=119 released_before_old_commit=False timed_out=False final_state=confirmed_existing
+  trial 4: expiry@1.0s released@2.412s old_commit@2.405s(ok=True, state=committed) bypass@Nones retry@Nones queued@2.412s effects=1 duplicates=0 fenced_rejected=0 polls=120 released_before_old_commit=False timed_out=False final_state=confirmed_existing
+  trial 5: expiry@1.012s released@2.41s old_commit@2.406s(ok=True, state=committed) bypass@Nones retry@Nones queued@2.41s effects=1 duplicates=0 fenced_rejected=0 polls=118 released_before_old_commit=False timed_out=False final_state=confirmed_existing
+SUMMARY case=witness_only trials=5 duplicate_writes_total=0 early_capacity_release=0/5 retry_started=0/5 fence_rejections=0 capacity_released=5/5 queued_job_started=5/5 timed_out=0/5
+
+CASE=combined FENCED=True WITNESS=True POLICY=effect_first BYPASS=False LEASE_S=1.0 ATTEMPT_LATENCY=2.4 RETRY_LATENCY=0.4 JANITOR_TIMEOUT=3.2 STRESS=5
+  trial 1: expiry@1.002s released@2.41s old_commit@2.404s(ok=True, state=committed) bypass@Nones retry@Nones queued@2.41s effects=1 duplicates=0 fenced_rejected=0 polls=119 released_before_old_commit=False timed_out=False final_state=confirmed_existing
+  trial 2: expiry@1.003s released@2.414s old_commit@2.403s(ok=True, state=committed) bypass@Nones retry@Nones queued@2.414s effects=1 duplicates=0 fenced_rejected=0 polls=120 released_before_old_commit=False timed_out=False final_state=confirmed_existing
+  trial 3: expiry@1.005s released@2.406s old_commit@2.402s(ok=True, state=committed) bypass@Nones retry@Nones queued@2.406s effects=1 duplicates=0 fenced_rejected=0 polls=119 released_before_old_commit=False timed_out=False final_state=confirmed_existing
+  trial 4: expiry@1.009s released@2.407s old_commit@2.407s(ok=True, state=committed) bypass@Nones retry@Nones queued@2.407s effects=1 duplicates=0 fenced_rejected=0 polls=119 released_before_old_commit=False timed_out=False final_state=confirmed_existing
+  trial 5: expiry@1.01s released@2.416s old_commit@2.402s(ok=True, state=committed) bypass@Nones retry@Nones queued@2.417s effects=1 duplicates=0 fenced_rejected=0 polls=116 released_before_old_commit=False timed_out=False final_state=confirmed_existing
+SUMMARY case=combined trials=5 duplicate_writes_total=0 early_capacity_release=0/5 retry_started=0/5 fence_rejections=0 capacity_released=5/5 queued_job_started=5/5 timed_out=0/5
+
+CASE=conflict/effect_first FENCED=True WITNESS=True POLICY=effect_first BYPASS=True LEASE_S=1.0 ATTEMPT_LATENCY=2.4 RETRY_LATENCY=0.4 JANITOR_TIMEOUT=3.2 STRESS=5
+  trial 1: expiry@1.005s released@1.005s old_commit@2.405s(ok=False, state=fenced) bypass@0.505s retry@Nones queued@1.005s effects=1 duplicates=0 fenced_rejected=1 polls=1 released_before_old_commit=True timed_out=False final_state=confirmed_existing
+  trial 2: expiry@1.003s released@1.003s old_commit@2.404s(ok=False, state=fenced) bypass@0.504s retry@Nones queued@1.003s effects=1 duplicates=0 fenced_rejected=1 polls=1 released_before_old_commit=True timed_out=False final_state=confirmed_existing
+  trial 3: expiry@1.003s released@1.003s old_commit@2.426s(ok=False, state=fenced) bypass@0.505s retry@Nones queued@1.003s effects=1 duplicates=0 fenced_rejected=1 polls=1 released_before_old_commit=True timed_out=False final_state=confirmed_existing
+  trial 4: expiry@1.001s released@1.001s old_commit@2.405s(ok=False, state=fenced) bypass@0.505s retry@Nones queued@1.001s effects=1 duplicates=0 fenced_rejected=1 polls=1 released_before_old_commit=True timed_out=False final_state=confirmed_existing
+  trial 5: expiry@1.003s released@1.003s old_commit@2.401s(ok=False, state=fenced) bypass@0.505s retry@Nones queued@1.003s effects=1 duplicates=0 fenced_rejected=1 polls=1 released_before_old_commit=True timed_out=False final_state=confirmed_existing
+SUMMARY case=conflict/effect_first trials=5 duplicate_writes_total=0 early_capacity_release=5/5 retry_started=0/5 fence_rejections=5 capacity_released=5/5 queued_job_started=5/5 timed_out=0/5
+
+CASE=conflict/attempt_terminal FENCED=True WITNESS=True POLICY=attempt_terminal BYPASS=True LEASE_S=1.0 ATTEMPT_LATENCY=2.4 RETRY_LATENCY=0.4 JANITOR_TIMEOUT=3.2 STRESS=5
+  trial 1: expiry@1.008s released@2.41s old_commit@2.4s(ok=False, state=fenced) bypass@0.505s retry@Nones queued@2.41s effects=1 duplicates=0 fenced_rejected=1 polls=119 released_before_old_commit=False timed_out=False final_state=confirmed_existing
+  trial 2: expiry@1.006s released@2.409s old_commit@2.401s(ok=False, state=fenced) bypass@0.504s retry@Nones queued@2.409s effects=1 duplicates=0 fenced_rejected=1 polls=120 released_before_old_commit=False timed_out=False final_state=confirmed_existing
+  trial 3: expiry@1.002s released@2.41s old_commit@2.405s(ok=False, state=fenced) bypass@0.503s retry@Nones queued@2.41s effects=1 duplicates=0 fenced_rejected=1 polls=117 released_before_old_commit=False timed_out=False final_state=confirmed_existing
+  trial 4: expiry@1.007s released@2.409s old_commit@2.406s(ok=False, state=fenced) bypass@0.504s retry@Nones queued@2.41s effects=1 duplicates=0 fenced_rejected=1 polls=121 released_before_old_commit=False timed_out=False final_state=confirmed_existing
+  trial 5: expiry@1.002s released@2.414s old_commit@2.405s(ok=False, state=fenced) bypass@0.505s retry@Nones queued@2.414s effects=1 duplicates=0 fenced_rejected=1 polls=113 released_before_old_commit=False timed_out=False final_state=confirmed_existing
+SUMMARY case=conflict/attempt_terminal trials=5 duplicate_writes_total=0 early_capacity_release=0/5 retry_started=0/5 fence_rejections=5 capacity_released=5/5 queued_job_started=5/5 timed_out=0/5
+
+CASE=conflict/committed_whitelist FENCED=True WITNESS=True POLICY=committed_whitelist BYPASS=True LEASE_S=1.0 ATTEMPT_LATENCY=2.4 RETRY_LATENCY=0.4 JANITOR_TIMEOUT=3.2 STRESS=5
+  trial 1: expiry@1.002s released@Nones old_commit@2.401s(ok=False, state=fenced) bypass@0.505s retry@Nones queued@Nones effects=1 duplicates=0 fenced_rejected=1 polls=188 released_before_old_commit=False timed_out=True final_state=outcome_unknown
+  trial 2: expiry@1.007s released@Nones old_commit@2.403s(ok=False, state=fenced) bypass@0.505s retry@Nones queued@Nones effects=1 duplicates=0 fenced_rejected=1 polls=181 released_before_old_commit=False timed_out=True final_state=outcome_unknown
+  trial 3: expiry@1.012s released@Nones old_commit@2.404s(ok=False, state=fenced) bypass@0.504s retry@Nones queued@Nones effects=1 duplicates=0 fenced_rejected=1 polls=185 released_before_old_commit=False timed_out=True final_state=outcome_unknown
+  trial 4: expiry@1.001s released@Nones old_commit@2.403s(ok=False, state=fenced) bypass@0.501s retry@Nones queued@Nones effects=1 duplicates=0 fenced_rejected=1 polls=183 released_before_old_commit=False timed_out=True final_state=outcome_unknown
+  trial 5: expiry@1.004s released@Nones old_commit@2.401s(ok=False, state=fenced) bypass@0.502s retry@Nones queued@Nones effects=1 duplicates=0 fenced_rejected=1 polls=186 released_before_old_commit=False timed_out=True final_state=outcome_unknown
+SUMMARY case=conflict/committed_whitelist trials=5 duplicate_writes_total=0 early_capacity_release=0/5 retry_started=0/5 fence_rejections=5 capacity_released=0/5 queued_job_started=0/5 timed_out=5/5
+
