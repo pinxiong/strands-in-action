@@ -10,6 +10,10 @@ Exit 1 = something is missing; fix it and run again. Never publish on exit 1.
 Medium itself is not auto-published, but its manual materials ARE part of the
 release. This gate exists because UC05 shipped without them (2026-11-09) — the
 pipeline doc said "Medium only manual materials" and nobody produced them.
+
+The Medium URL starts life as a <MEDIUM_URL> placeholder and is backfilled after
+the manual Import. Both states must pass this gate: it checks that the slot exists,
+not that the article is still unpublished.
 """
 
 from __future__ import annotations
@@ -22,8 +26,14 @@ from pathlib import Path
 
 DEFAULT_SITE = Path(__file__).resolve().parent.parent / "pinxiong.github.io"
 EXPECTED_W, EXPECTED_H = 1400, 788
+MEDIUM_URL_RE = re.compile(r"https://medium\.com/@pinxiong\.cn/[a-z0-9-]+-[0-9a-f]{8,}", re.I)
 
 results: list[tuple[bool, str, str]] = []
+
+
+def has_medium_slot(text: str) -> bool:
+    """A placeholder before Import, or the real Medium URL after backfill."""
+    return "<MEDIUM_URL>" in text or bool(MEDIUM_URL_RE.search(text))
 
 
 def check(ok: bool, name: str, detail: str = "") -> bool:
@@ -55,7 +65,7 @@ def main() -> int:
     manual = dist / f"{slug}-medium-manual.md"
     if check(manual.is_file(), "Medium 手册存在", str(manual)):
         text = manual.read_text(encoding="utf-8")
-        check("<MEDIUM_URL>" in text, "手册含 Medium URL 占位", "发布后需回填")
+        check(has_medium_slot(text), "手册留了 Medium URL 位", "占位或已回填的真实链接均可")
         check(
             bool(re.search(r"(?i)subtitle", text)),
             "手册写了 Subtitle 章节",
@@ -70,7 +80,7 @@ def main() -> int:
     slack = dist / f"{slug}-slack.md"
     if check(slack.is_file(), "Slack 文案存在", str(slack)):
         text = slack.read_text(encoding="utf-8")
-        check("<MEDIUM_URL>" in text, "Slack 含 Medium URL 占位", "发布后需回填")
+        check(has_medium_slot(text), "Slack 含 Medium URL 位", "占位或已回填的真实链接均可")
         check("https://xiongpin.dev/posts/" in text, "Slack 含主站链接", "")
         check("evidence/" in text, "Slack 标注数字出处", "")
 

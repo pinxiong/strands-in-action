@@ -37,7 +37,7 @@ publish_gate_checked: 2026-11-10T11:14+08:00  # check_publish_gate.py reservatio
 | 主站 | https://xiongpin.dev/posts/reservations-fencing/ — push 21:32:00（GMT+8）= 13:32:00 UTC，21:36 起 200 |
 | Dev.to | https://dev.to/aws-builders/when-not-found-doesnt-mean-never-happened-2eie — id 5004687，21:33:25（GMT+8）= 13:33:25 UTC，org aws-builders（2794），canonical 指回主站 |
 | Builder Center | https://builder.aws.com/content/3Ls8Su63RbuSKR3yys1j9t6US1p/when-not-found-doesnt-mean-never-happened — ≈22:15（GMT+8）= 14:15 UTC，200，hero 封面与 "Originally published" 均在线上 |
-| Medium | 未发；**人工物料已就绪，待手动 Import**：`writing-lab/distribution/reservations-fencing-medium-manual.md`（7 步 + 4 个 subtitle 选项）、`reservations-fencing-slack.md`（A/B 两版）、`static/images/reservations-fencing/cover-medium.png`（16:9）。2026-11-10 补齐；发布后把 URL 回填三处 |
+| Medium | https://medium.com/@pinxiong.cn/when-not-found-doesnt-mean-never-happened-1bc3e54bd912 — **已上线**（2026-11-10 手动 Import，URL 由 Pin 提供）。人工物料齐备：`writing-lab/distribution/reservations-fencing-medium-manual.md`（7 步 + 4 个 subtitle 选项）、`reservations-fencing-slack.md`（A/B/C 三版，四渠道链接齐全）、`static/images/reservations-fencing/cover-medium.png`（16:9）。URL 已回填四处（手册 / Slack / 本台账 / publish/README.md）；`medium.com` 本机不可达，未做页面抓取核验 |
 | 规模 | 正文 2421 词（不含代码块）/ 16 个代码块 / 4 组实验（C1 崩溃边界、C2 延迟提交竞态、C3 slot 争用、C4 LLM 三探针） |
 | 指标 | `final_check` 0 项；`en_metrics` 定稿读数 stdev 9.8 / 被动 3.1 / 连接词 1.07 / 名词化 3.06 / Flesch 61.9（发布前复跑确认，与 11:20 复审时的 stdev 8.2 差异来自 v3 润色） |
 
