@@ -82,6 +82,8 @@ python3 tools/make_review_html.py usecases/<NN-slug>/article.md \
 | D+2 | 读两渠道全部评论原文 → `feedback/YYYY-MM-DD-<uc>.md`（用 `TEMPLATE.md`）；小样本（<48h 或 views<50）只写观察项 |
 | D+7 | 与前三篇同渠道对比，判断是文章问题还是时点/选题问题，追加进同一份记录 |
 
+评论原文位置：Dev.to `data/comments/<article-id>.json`；Builder Center `data/comments/bc-<uc>-<id>.json`（`scan.py` 已接公开接口）。按 `tech-article-writing` §11 分四类判读、分渠道统计，**致谢不进归因**；评论区零追问时，把正文自己写下的 `does not cover` 登记进 `topic-backlog.md`，别让闭环空转。
+
 每条结论必须落到一个出口：**A** 改 `tech-article-writing` + 记 `feedback/ledger.md` 四要素｜**B** 改 `PLAN.md`（读者提的是系列缺口就走插队，附顺延清单，版本 +1）｜**C** 改 `PUBLISHING-POLICY.md`｜**D** 明确不改并写理由。
 
 **没有出口的反馈等于没读。不允许只更新报表、不更新规则。**
@@ -100,3 +102,4 @@ python3 tools/make_review_html.py usecases/<NN-slug>/article.md \
 | 2026-11-08 | 建立本文件；开写 09:00 → 10:30；改为三点触发 + 幂等补跑；发布窗口收到 21:30–22:30 并绑定 PUBLISHING-POLICY；加入反馈回灌（D+2 / D+7） |
 | 2026-11-09 | 新增第 5 节「交付预览稿（强制）」：正文写完必出 HTML 预览并 `present_files` 递给 Pin，改一次重生成一次；原 5/6/7 节顺延为 6/7/8 |
 | 2026-11-09 | 第 3 节新增硬规则：源码引用必须内联逐字代码块（含 `path:line -- version` 表头），禁止只给链接 + 行号；链接退为二级指针 |
+| 2026-11-10 | 第 7 节指明两渠道评论原文的新路径（BC 不再是 JS-only）；按 §11 分四类判读、致谢不进归因；零追问时把正文 `does not cover` 登记进 topic-backlog。依据 UC05 反馈记录 |
