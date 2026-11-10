@@ -25,7 +25,7 @@
 ## 2. 节奏判定
 
 1. 读 `PLAN.md` 取下一篇（当前：UC01–UC04 已发布，下一篇 UC05《When "Not Found" Doesn't Mean "Never Happened"》）。
-2. 从 `pinxiong.github.io/writing-lab/engagement/data/latest.json` 取最近发布日期。
+2. 从 `pinxiong.github.io/writing-lab/engagement/data/latest.json` 取**本系列**（`series == "strands-in-action"`）的最近发布日期；`series == "other"` 的独立文章不参与本系列的节奏判定。
 3. 距最近发布不足 2 天且无在制品 → 回「未到写作窗口」，结束。
 4. 有未完成篇目 → 继续它的下一个阶段。满 2 天且无在制品 → 开新篇。**每 2–3 天一篇，不日更。**
 
@@ -120,3 +120,4 @@ python3 tools/make_review_html.py usecases/<NN-slug>/article.md \
 | 2026-11-10 | 第 6 节新增**发布门禁**：`check_publish_gate.py <slug>` 校验 14 项，非 0 退出禁止发布、禁止置 `published`；`PIPELINE_STATE.md` 增加 `publish_gate` 三个布尔字段。起因：Pin 明确「后面每次自动发布文章一定要准备 Medium 物料，不要忘记了」——文档里写一句仍可能忘记，改成可执行的拦截面 |
 | 2026-11-10 | UC05 Medium 手动 Import 完成，URL 回填手册 / Slack / D+0 台账 / publish README 四处；门禁对 Medium URL 位改为「占位或已回填真实链接均通过」，否则回填后重跑会误报 2 项 FAIL。第 6 节补上回填四处的规定 |
 | 2026-11-10 | Pin 口径：**Slack 文案不放主站 Blog 链接**。UC05 的 A/C 两版删掉 Blog 行；第 6 节第 3 条改为链接块只列 BC / Dev.to / Medium；门禁的「Slack 含主站链接」改为「三条渠道链接齐全且文案块内无 `xiongpin.dev/posts/`」，避免以后为了过门禁又把 Blog 链接加回来。UC03/UC04 已发文案不动 |
+| 2026-11-10 | 第 2 节节奏判定的「最近发布」限定为 `series == "strands-in-action"`。起因：当天 21:00 发布的 dev.to 独立文章（`series == "other"`）写进 `latest.json` 后，按字面取「最近发布」会把 UC06 从 11-11 误顺延到 11-13；本系列节奏只看本系列文章 |
