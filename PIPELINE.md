@@ -70,12 +70,21 @@ python3 tools/make_review_html.py usecases/<NN-slug>/article.md \
 - 真相源 `pinxiong.github.io/content/posts/<slug>.md`，图片进 `static/images/<slug>/`，push 后确认线上 200。
   **push 前先 `git pull --rebase`**：21:30 同时还有日报与周复盘任务会推同一个仓库，并发推送会被拒；被拒就 rebase 后重试一次，不要 force push。
 - Dev.to 与 BC 的 canonical 均指回主站；Dev.to 一段一行。
-- **Medium 不发，但人工物料是发布的一部分，不是"以后再说"。** 发布窗口当档必须产出以下三件，缺一件就不算发布完成：
+- **Medium 不发，但人工物料是发布的一部分，不是"以后再说"。** 这是 Pin 明确要求长期执行的规则（2026-11-10）：**每次自动发布文章都必须同时准备 Medium 物料，不许漏、不许"先发再补"**。
+- **发布门禁（硬约束，不靠"记得"）**：在把 `stage` 改成 `published`、push 主站、发 Dev.to / BC **之前**必须执行：
+
+  ```bash
+  python3 /Users/pinxiong/Documents/Important/strands-in-action/check_publish_gate.py <slug>
+  ```
+
+  站点目录不在默认位置时加 `--site <path>`。脚本校验下面三件物料是否存在、内容是否齐全、封面是不是 16:9，共 14 项。**退出码非 0 → 禁止发布**，按 FAIL 项补齐后重跑；不许把缺项写成"已知偏差"放行，也不许跳过脚本直接发。任何一个触发点（10:30 / 14:30 / 21:30）走到发布步骤都受这条约束。
+- 发布窗口当档必须产出以下三件：
   1. `pinxiong.github.io/writing-lab/distribution/<slug>-medium-manual.md` —— 按上一篇手册的结构（7 步）：Import 源 URL 与三渠道线上链接表；Title 核对；**4 个 subtitle 选项，每个标字符数（≤140）并写明推荐理由**；Byline 首行；封面路径与尺寸；5 个标签；正文核对清单（本篇实际图片数、代码块数、引用行、状态机 ASCII 块）；Advanced settings 的 canonical 勾选项与发布后回填动作。Medium URL 用 `<MEDIUM_URL>` 占位，发布后回填。
   2. `static/images/<slug>/cover-medium.png` —— **1400×788（16:9）**，源 SVG 同目录保留。出图时用 `cover-medium.svg` 的 viewBox 直接定为 `0 0 1400 788`，不要先做 1.90:1 再补边；用 `resvg-py` 渲染（其余工具在本机不可用，见 `tech-article-writing` §8）。渲染后读 PNG 头校验宽高，**尺寸不对就重做，不要写进台账当"已知偏差"**。
   3. `pinxiong.github.io/writing-lab/distribution/<slug>-slack.md` —— A 标准版 + B 短版，含全部渠道链接（Medium 为 `<MEDIUM_URL>`）与逐条数字出处（指向该篇 `evidence/`）。
 - 发布后 30 分钟内不改正文（避免 Dev.to 重抓打乱首小时数据）。
-- 在 `PIPELINE_STATE.md` 记 D+0 台账：标题、三渠道链接、发布时刻（GMT+8 与 UTC）、字数、代码块数、实验组数；**Medium 行不得只写"未发"，要写"物料已就绪，待手动 Import"，并列出手册与封面文件名**。台账写完逐项核对上面三件物料是否真的存在，缺的当场补，不许留给下次。
+- 门禁通过后把 `PIPELINE_STATE.md` 的 `publish_gate` 三个字段置为 `true`，再记 D+0 台账：标题、三渠道链接、发布时刻（GMT+8 与 UTC）、字数、代码块数、实验组数；**Medium 行不得只写"未发"，要写"物料已就绪，待手动 Import"，并列出手册与封面文件名**，同时记一行门禁结果（命令 + 14/14 PASS）。
+- 新篇一开始就按 `<slug>` 建这三件物料的占位，别等发布窗口当档临时赶；封面 `cover-medium.svg` 的 viewBox 直接做成 `0 0 1400 788`。
 
 ## 7. 反馈回灌
 
@@ -108,3 +117,4 @@ python3 tools/make_review_html.py usecases/<NN-slug>/article.md \
 | 2026-11-09 | 第 3 节新增硬规则：源码引用必须内联逐字代码块（含 `path:line -- version` 表头），禁止只给链接 + 行号；链接退为二级指针 |
 | 2026-11-10 | 第 7 节指明两渠道评论原文的新路径（BC 不再是 JS-only）；按 §11 分四类判读、致谢不进归因；零追问时把正文 `does not cover` 登记进 topic-backlog。依据 UC05 反馈记录 |
 | 2026-11-10 | 第 6 节把「Medium 只出人工物料」补成**三件可验收交付物**（medium-manual.md / 16:9 cover-medium.png / slack.md）与 D+0 台账核对项。起因：UC05 只写了「Medium 未发（今晚不动）」，手册与 Slack 文案都没产出，封面做成 1.90:1 且把尺寸偏差记进台账就算完。依据 Pin 2026-11-10 追问 |
+| 2026-11-10 | 第 6 节新增**发布门禁**：`check_publish_gate.py <slug>` 校验 14 项，非 0 退出禁止发布、禁止置 `published`；`PIPELINE_STATE.md` 增加 `publish_gate` 三个布尔字段。起因：Pin 明确「后面每次自动发布文章一定要准备 Medium 物料，不要忘记了」——文档里写一句仍可能忘记，改成可执行的拦截面 |

@@ -12,7 +12,11 @@ current_piece: UC05
 gates: {expert: pass, reader: pass, independent: pass}
 ready_since: 2026-11-09T11:20+08:00
 published_at: 2026-11-09T13:32:00Z   # 主站 push 时刻（UTC）
+publish_gate: {medium_manual: true, cover_16x9: true, slack_copy: true}  # 三项全 true 才允许 stage=published
+publish_gate_checked: 2026-11-10T11:14+08:00  # check_publish_gate.py reservations-fencing → 14/14 PASS
 ```
+
+> **发布门禁（每次自动发布都适用）**：`stage` 改成 `published` 之前必须跑 `python3 check_publish_gate.py <slug>`，非 0 退出禁止发布；通过后把 `publish_gate` 三项置 `true` 并记检查时刻。Medium 不发，但手册 / 16:9 封面 / Slack 文案缺一不可，不许"先发再补"。详见 `PIPELINE.md` 第 6 节。
 
 ## 当前
 
