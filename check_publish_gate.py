@@ -80,8 +80,17 @@ def main() -> int:
     slack = dist / f"{slug}-slack.md"
     if check(slack.is_file(), "Slack 文案存在", str(slack)):
         text = slack.read_text(encoding="utf-8")
-        check(has_medium_slot(text), "Slack 含 Medium URL 位", "占位或已回填的真实链接均可")
-        check("https://xiongpin.dev/posts/" in text, "Slack 含主站链接", "")
+        # Check the copy that actually gets pasted into Slack, not the doc's own notes.
+        blocks = "\n".join(re.findall(r"```text\s*(.*?)```", text, re.S))
+        check(has_medium_slot(blocks), "Slack 文案含 Medium URL 位", "占位或已回填的真实链接均可")
+        check(
+            "builder.aws.com/content/" in blocks
+            and "dev.to/" in blocks
+            and has_medium_slot(blocks)
+            and "xiongpin.dev/posts/" not in blocks,
+            "Slack 三渠道齐全且无主站链接",
+            "BC / Dev.to / Medium；按 Pin 口径不放 Blog 链接",
+        )
         check("evidence/" in text, "Slack 标注数字出处", "")
 
     # 3. Feature image, PNG + SVG source
