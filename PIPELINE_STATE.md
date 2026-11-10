@@ -33,13 +33,13 @@ published_at: 2026-11-09T13:32:00Z   # 主站 push 时刻（UTC）
 | 主站 | https://xiongpin.dev/posts/reservations-fencing/ — push 21:32:00（GMT+8）= 13:32:00 UTC，21:36 起 200 |
 | Dev.to | https://dev.to/aws-builders/when-not-found-doesnt-mean-never-happened-2eie — id 5004687，21:33:25（GMT+8）= 13:33:25 UTC，org aws-builders（2794），canonical 指回主站 |
 | Builder Center | https://builder.aws.com/content/3Ls8Su63RbuSKR3yys1j9t6US1p/when-not-found-doesnt-mean-never-happened — ≈22:15（GMT+8）= 14:15 UTC，200，hero 封面与 "Originally published" 均在线上 |
-| Medium | 未发（人工物料，今晚不动） |
+| Medium | 未发；**人工物料已就绪，待手动 Import**：`writing-lab/distribution/reservations-fencing-medium-manual.md`（7 步 + 4 个 subtitle 选项）、`reservations-fencing-slack.md`（A/B 两版）、`static/images/reservations-fencing/cover-medium.png`（16:9）。2026-11-10 补齐；发布后把 URL 回填三处 |
 | 规模 | 正文 2421 词（不含代码块）/ 16 个代码块 / 4 组实验（C1 崩溃边界、C2 延迟提交竞态、C3 slot 争用、C4 LLM 三探针） |
 | 指标 | `final_check` 0 项；`en_metrics` 定稿读数 stdev 9.8 / 被动 3.1 / 连接词 1.07 / 名词化 3.06 / Flesch 61.9（发布前复跑确认，与 11:20 复审时的 stdev 8.2 差异来自 v3 润色） |
 
-**发布当天的两个已知偏差（非阻塞，留给下次改进）**
+**发布当天的两个偏差（第 1 项已修复）**
 
-1. BC 封面 `cover-medium.png` 是 1400×735（1.90:1），SKILL 要求 16:9（1400×788）。线上 hero 已显示，但可能有裁切；下次出图时把 `cover.svg` 的 viewBox 直接做到 16:9。
+1. ~~BC 封面 `cover-medium.png` 是 1400×735（1.90:1），SKILL 要求 16:9。~~ **已于 2026-11-10 10:51 修复**：新建 `cover-medium.svg`（viewBox `0 0 1400 788`），用 `resvg-py` 渲染，PNG 实测 1400×788。BC 线上仍挂 11-09 上传的旧资产，已正常显示、无须重传；Medium 用新文件。流程层面已在 `PIPELINE.md` 第 6 节写死 16:9 出图与尺寸校验，不再把尺寸偏差记成"已知偏差"放行。
 2. BC `cover` 步骤报了两次 "改动没进草稿" 的 FAIL，实为 SKILL troubleshooting §11 的已知误判：第一次上传已落库（`prod-assets.../cove.webp`），第二次重传资产 URL 不变被判失败。核验方式是看"当前已保存封面"那行，不是等 `Saved cover asset` 二次变化。
 
 ## UC05 评审台账（2026-11-09）
@@ -62,9 +62,11 @@ published_at: 2026-11-09T13:32:00Z   # 主站 push 时刻（UTC）
 ## 发布物料（已归档，均为线上状态）
 
 - 主站：`pinxiong.github.io/content/posts/reservations-fencing.md`（`draft: false`，commit a43e079）
-- 图片：`pinxiong.github.io/static/images/reservations-fencing/`（cover / cover-devto / cover-medium / race-timeline）
+- 图片：`pinxiong.github.io/static/images/reservations-fencing/`（cover / cover-devto / **cover-medium 1400×788 16:9** / race-timeline，另留 cover-medium.svg 源）
 - Dev.to：`usecases/05-reservations-fencing/publish/devto.md`（`build_devto.py --check` = in sync）
-- BC / Medium：`usecases/05-reservations-fencing/publish/reservations-fencing.md`（本次改动：标题去转义、正文图改站内根路径）
+- BC / Medium 正文：`usecases/05-reservations-fencing/publish/reservations-fencing.md`（本次改动：标题去转义、正文图改站内根路径）
+- **Medium 手册**：`pinxiong.github.io/writing-lab/distribution/reservations-fencing-medium-manual.md`（2026-11-10 补齐）
+- **Slack 文案**：`pinxiong.github.io/writing-lab/distribution/reservations-fencing-slack.md`（2026-11-10 补齐）
 - **评审预览**：`usecases/05-reservations-fencing/review/article-preview.html`
 - 正文：2421 词 / 16 代码块、`final_check` 0 项（发布后 30 分钟内未改正文，符合 PUBLISHING-POLICY §5.4）
 

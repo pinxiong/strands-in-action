@@ -7,7 +7,7 @@
 | 主站 | https://xiongpin.dev/posts/reservations-fencing/ |
 | AWS Builder Center | https://builder.aws.com/content/3Ls8Su63RbuSKR3yys1j9t6US1p/when-not-found-doesnt-mean-never-happened |
 | Dev.to | https://dev.to/aws-builders/when-not-found-doesnt-mean-never-happened-2eie |
-| Medium | 未发（人工物料，待 Pin 手动 Import） |
+| Medium | 未发（人工物料已就绪：`writing-lab/distribution/reservations-fencing-medium-manual.md` + 16:9 封面；待手动 Import，发布后回填 URL） |
 
 > Verified on 2026-11-09 against `strands-agents` 1.63.0, Python 3.11 and Bedrock in
 > `us-east-1`. The model in the agent probe is `amazon.nova-pro-v1:0`.
