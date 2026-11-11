@@ -1,0 +1,96 @@
+PROBE  : outreach/uc06-comments/probe_guardrail_points.py
+RUN    : .venv/bin/python outreach/uc06-comments/probe_guardrail_points.py --case all
+ENV    : strands-agents 1.63.0 / Python 3.11.15 / ScriptedModel (no LLM, no network)
+USAGE  : every model call reports inputTokens=100 outputTokens=20 totalTokens=120
+SCOPE  : one variable changes per case; 4 scripted save_draft calls stand in for the 11 real ones
+NOTE   : timeout_stream writes an expected TimeoutError traceback to stderr (node_timeout=0.25s)
+
+CASE silent
+  status: "completed"
+  node_history: ["researcher"]
+  validator_status: "never ran"
+  before_node_events: ["researcher"]
+  swarm_totalTokens: 120
+  request_totalTokens: 120
+  researcher_model_calls: 1
+  validator_model_calls: 0
+
+CASE repeat
+  status: "completed"
+  node_history: ["writer"]
+  before_node_events: 1
+  model_calls: 5
+  tool_call_events: "not instrumented"
+  tool_calls_cancelled: 0
+  save_draft_executions: 4
+  save_draft_ledger: ["save_draft:v1", "save_draft:v2", "save_draft:v3", "save_draft:v4"]
+  swarm_totalTokens: 600
+  request_totalTokens: 600
+
+CASE repeat_cap
+  status: "completed"
+  node_history: ["writer"]
+  before_node_events: 1
+  model_calls: 5
+  tool_call_events: 4
+  tool_calls_cancelled: 2
+  save_draft_executions: 2
+  save_draft_ledger: ["save_draft:v1", "save_draft:v2"]
+  swarm_totalTokens: 600
+  request_totalTokens: 600
+
+CASE node_budget
+  extra_kwargs: {}
+  status: "completed"
+  node_history: ["researcher", "calculator", "writer"]
+  boundary_rows: [{"hook_invocation_context": "None", "node": "researcher", "swarm_totalTokens": 0}, {"hook_invocation_context": "None", "node": "calculator", "swarm_totalTokens": 240}, {"hook_invocation_context": "None", "node": "writer", "swarm_totalTokens": 480}]
+  model_calls: {"calculator": 2, "researcher": 2, "writer": 1}
+  swarm_totalTokens: 600
+  request_totalTokens: 600
+
+CASE node_cancel
+  extra_kwargs: {}
+  status: "failed"
+  node_history: ["researcher", "calculator"]
+  boundary_rows: [{"hook_invocation_context": "None", "node": "researcher", "swarm_totalTokens": 0}, {"hook_invocation_context": "None", "node": "calculator", "swarm_totalTokens": 240}, {"hook_invocation_context": "None", "node": "writer", "swarm_totalTokens": 480}]
+  model_calls: {"calculator": 2, "researcher": 2, "writer": 0}
+  swarm_totalTokens: 480
+  request_totalTokens: 480
+
+CASE swarm_limits_kw
+  extra_kwargs: {"limits": {"total_tokens": 150}}
+  status: "completed"
+  node_history: ["researcher", "calculator", "writer"]
+  boundary_rows: [{"hook_invocation_context": "None", "node": "researcher", "swarm_totalTokens": 0}, {"hook_invocation_context": "None", "node": "calculator", "swarm_totalTokens": 240}, {"hook_invocation_context": "None", "node": "writer", "swarm_totalTokens": 480}]
+  model_calls: {"calculator": 2, "researcher": 2, "writer": 1}
+  swarm_totalTokens: 600
+  request_totalTokens: 600
+
+CASE timeout_tool
+  status: "failed"
+  node_history: []
+  execution_count: 0
+  before_node_events: ["calculator"]
+  boundary_rows: [{"hook_invocation_context": "None", "node": "calculator", "swarm_totalTokens": 0}]
+  model_calls: 1
+  swarm_totalTokens: 0
+  request_totalTokens: 120
+  node_result_usage: "no node result"
+
+CASE timeout_stream
+  status: "failed"
+  node_history: []
+  execution_count: 0
+  before_node_events: ["calculator"]
+  boundary_rows: [{"hook_invocation_context": "None", "node": "calculator", "swarm_totalTokens": 0}]
+  model_calls: 1
+  swarm_totalTokens: 0
+  request_totalTokens: 0
+  node_result_usage: "no node result"
+
+CASE agent_limits
+  stop_reason: "limit_total_tokens"
+  model_calls: 2
+  save_draft_executions: 2
+  request_totalTokens: 240
+

@@ -1,0 +1,12 @@
+SOURCE   : https://builder.aws.com/content/3Lxn0RS1k0tiClcigN1xz5c0hH9/orchestrating-agents-nobody-decides-who-goes-next
+API      : https://api.builder.aws.com/cs/v2/comments/public?contentId=/content/3Lxn0RS1k0tiClcigN1xz5c0hH9&contentType=ARTICLE&sortBy=NEWEST&pageSize=100
+AUTHOR   : Stanislav Kolenkin (alias stask, Community Builder)
+ID       : 3Lxu2F7viZ7PftUSNsN67nb8Xy7
+FETCHED  : 2026-11-12 GMT+8
+
+Great breakdown, especially the point that "completed" only means nobody asked for help.
+The part that worried me most is the cost side. A tool that keeps failing led to eleven save\_draft calls and 22k tokens, and a timed-out node reported 0 tokens even though the model calls happened. So the swarm can burn budget and under-report it at the same time.
+
+In production, where would you put the guardrail: a token budget checked in a BeforeNodeCallEvent hook, a dedicated validator node before the swarm returns, or outside the swarm entirely, for example reconciling with Bedrock invocation logs and CloudWatch token metrics?
+Curious whether you plan to cover this in the graph follow-up.
+
