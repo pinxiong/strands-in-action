@@ -47,6 +47,7 @@ publish_gate_checked: 2026-11-11T21:36+08:00  # check_publish_gate.py orchestrat
 - Dev.to 流程与 UC05 相同：POST 个人号 → PUT `organization_id=2794`；本机 urllib 直连 api 会 403（Forbidden Bots），加浏览器 User-Agent 后正常。
 - BC `publish.py run` 的 cover 步骤报两次 FAIL，均为 troubleshooting §11 已知误判（「当前已保存封面」行有 `prod-assets…/cove.webp` 即已落库）；重传一次确认后直接 `publish`，未按 FAIL 停发。
 - **22:25 发布后缺陷修复（Pin 指出）**：UC06 的 5 个 Python 代码块整块带着 SDK 源码的嵌套缩进（8/16/12/20 空格），第一行代码不在 0 位。已对四份稿件（article.md / publish/devto.md / publish/orchestrating-swarm.md / 主站稿件）+ review HTML 整体 dedent，保留相对层级。主站 push、Dev.to `PUT /api/articles/5017329` 均独立复核生效（元数据、canonical、封面、标签未变）；BC 线上导入时本就自动 dedent，逐行核验为 0/4 缩进，无需改动；Medium 尚未 Import，从主站 Import 即得修复版。门禁扩到 21 项（三项「代码块 0 缩进基线」全 PASS），`final_check.py` 新增阻断级扫描。提交 `a36d539` / `68cd0ab`。
+- **22:55 发布后封面风格统一（Pin 指出）**：从 UC05 起封面换成白底 `#f8fafc` + 细线排版、尺寸也变成 1200×630 / 1000×420，与 UC01–UC04 的深蓝渐变基准格格不入。新增 `tools/build_covers.py`，以 UC04 的封面为唯一模板，为 UC05 / UC06 各生成三套 SVG + PNG（cover 1400×788 / cover-devto 1200×504 / cover-medium 1400×788），右侧机制图数字与 `evidence/` 及 front matter `alt` 对齐。主站线上与 Dev.to 图片代理均已复核为深蓝新图（Dev.to front matter 加 `?v=2252` 破缓存，`published_at` / 组织 / canonical 未变，正文 clone 与 0 缩进完好）。**BC 两篇的头图是平台资产库里的旧白底 `cove.webp`，UC05 已发布的 Medium 头图同理，这两处需后台手动替换**，两份 Medium 手册已补提示；UC06 的 Medium 尚未 Import，直接用新文件。门禁扩到 24 项（全系列封面深蓝基准 + 两档 PNG 尺寸），UC05 / UC06 复跑均 24/24 PASS；按 Pin 要求把「代码块 0 缩进」明确写为 skill §8 **发布前 check 三条命令之一**，并声明今后质量规则优先做成门禁。提交 `fc66162` / `a8b4aaa`（strands）、`f3c74f8` / `6399b31`（主站）。
 
 ## UC06 在制品台账（2026-11-11 10:30 档）
 
