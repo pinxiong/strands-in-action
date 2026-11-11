@@ -1,0 +1,17 @@
+{
+  "mode": "cancel",
+  "status": "failed",
+  "execution_count": 1,
+  "node_history": [
+    "researcher"
+  ],
+  "cancel_events": [
+    {
+      "node": "calculator",
+      "message": "a human stopped this node"
+    }
+  ],
+  "tool_ledger": [],
+  "elapsed_s": 6.546,
+  "total_tokens": 3194
+}

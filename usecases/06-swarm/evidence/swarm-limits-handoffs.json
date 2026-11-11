@@ -1,0 +1,18 @@
+{
+  "cap": "handoffs",
+  "kwargs": {
+    "max_handoffs": 3,
+    "max_iterations": 20
+  },
+  "status": "failed",
+  "execution_count": 3,
+  "node_history": [
+    "alpha",
+    "beta",
+    "alpha"
+  ],
+  "total_tokens": 5584,
+  "stop_reason_lines": [
+    "reason=<Max handoffs reached: 3> | stopping execution"
+  ]
+}

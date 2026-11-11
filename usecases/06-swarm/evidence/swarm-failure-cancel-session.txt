@@ -1,0 +1,25 @@
+### E5/E6 -- 2026-11-11 11:25:25 CST
+### strands-agents 1.63.0 | amazon.nova-pro-v1:0 | us-east-1
+===== mode=cancel =====
+{
+  "mode": "cancel",
+  "status": "failed",
+  "execution_count": 1,
+  "node_history": [
+    "researcher"
+  ],
+  "cancel_events": [
+    {
+      "node": "calculator",
+      "message": "a human stopped this node"
+    }
+  ],
+  "tool_ledger": [],
+  "elapsed_s": 6.546,
+  "total_tokens": 3194
+}
+===== mode=session =====
+{
+  "mode": "session",
+  "outcome": "ValueError: Session persistence is not supported for Swarm agents yet."
+}

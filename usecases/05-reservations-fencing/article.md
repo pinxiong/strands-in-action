@@ -1,9 +1,9 @@
 # When "Not Found" Doesn't Mean "Never Happened"
 
 > Verified on 2026-11-09 against `strands-agents` 1.63.0, Python 3.11 and Bedrock in
-> `us-east-1`. Every number below came out of a run, and the scripts live in
-> `usecases/05-reservations-fencing/src/` with raw output in `evidence/`. The model in
-> the agent experiments is `amazon.nova-pro-v1:0`.
+> `us-east-1`. Every number below came out of a run. The scripts and raw output live in
+> https://github.com/pinxiong/strands-in-action/tree/master/usecases/05-reservations-fencing.
+> The model in the agent experiments is `amazon.nova-pro-v1:0`.
 
 A reader of [article 03](https://xiongpin.dev/posts/execution-limits/) left three questions
 under the piece, and each one tightened on the last. A limit counts what happens inside one
@@ -369,10 +369,18 @@ state requires an extra write before every effect and a destination that stores 
 
 ## Try it yourself
 
-Everything runs from the repository root with no AWS credentials except the one LLM probe:
+Clone the repository first, then install the pinned SDK. Only the last script below needs AWS credentials:
 
 ```bash
-cd usecases/05-reservations-fencing
+git clone https://github.com/pinxiong/strands-in-action.git
+cd strands-in-action/usecases/05-reservations-fencing
+uv venv --python 3.11
+VIRTUAL_ENV=.venv uv pip install strands-agents==1.63.0
+```
+
+Then run the scripts that produced every number above:
+
+```bash
 python src/lease_crash_boundary.py --policy naive --crash after-effect --trials 5
 python src/delayed_commit_race.py --mode naive --stress 5
 python src/delayed_commit_race.py --mode fenced --stress 5

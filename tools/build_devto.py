@@ -179,7 +179,14 @@ def main() -> int:
     changed = 0
     problems = 0
     for article in articles:
-        name, layout_only, in_sync, needs = build(article, write=args.write)
+        try:
+            name, layout_only, in_sync, needs = build(article, write=args.write)
+        except FileNotFoundError:
+            # A newly written piece has no channel copy yet. Report it as a
+            # missing deliverable instead of crashing the whole verification.
+            print(f"{article.parent.name:38} MISSING publish/devto.md {'':15} {'':24} 先生成渠道稿件再发")
+            problems += 1
+            continue
         layout_flag = "layout only" if layout_only else "CONTENT CHANGED"
         sync_flag = "in sync" if in_sync else "DRIFTED FROM article.md"
         state = "rewritten" if (args.write and needs) else ("would rewrite" if needs else "already clean")

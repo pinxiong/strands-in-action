@@ -1,0 +1,23 @@
+{
+  "agent_id": "default",
+  "state": {
+    "profile": {
+      "codename": "ORION"
+    }
+  },
+  "conversation_manager_state": {
+    "__name__": "SlidingWindowConversationManager",
+    "removed_message_count": 0,
+    "model_call_count": 0
+  },
+  "_internal_state": {
+    "interrupt_state": {
+      "interrupts": {},
+      "context": {},
+      "activated": false
+    },
+    "model_state": {}
+  },
+  "created_at": "2026-11-08T10:41:38.560722+00:00",
+  "updated_at": "2026-11-08T10:41:38.621162+00:00"
+}

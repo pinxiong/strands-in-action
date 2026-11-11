@@ -1,0 +1,97 @@
+{
+  "mode": "happy",
+  "status": "completed",
+  "execution_count": 3,
+  "node_history": [
+    "researcher",
+    "calculator",
+    "writer"
+  ],
+  "elapsed_s": 15.299,
+  "total_tokens": 8857,
+  "per_node": {
+    "researcher": {
+      "model_calls": 3,
+      "total_tokens": 3549,
+      "input_tokens": 3220,
+      "output_tokens": 329,
+      "status": "completed",
+      "wall_ms": 6614
+    },
+    "calculator": {
+      "model_calls": 3,
+      "total_tokens": 3356,
+      "input_tokens": 3132,
+      "output_tokens": 224,
+      "status": "completed",
+      "wall_ms": 4774
+    },
+    "writer": {
+      "model_calls": 2,
+      "total_tokens": 1952,
+      "input_tokens": 1798,
+      "output_tokens": 154,
+      "status": "completed",
+      "wall_ms": 3909
+    }
+  },
+  "turns": [
+    {
+      "node": "researcher",
+      "start": 0.0,
+      "stop": 6.615
+    },
+    {
+      "node": "calculator",
+      "start": 6.615,
+      "stop": 11.389
+    },
+    {
+      "node": "writer",
+      "start": 11.389,
+      "stop": 15.298
+    }
+  ],
+  "overlaps": [],
+  "handoffs": [
+    {
+      "from": [
+        "researcher"
+      ],
+      "to": [
+        "calculator"
+      ],
+      "message": "Calculate the total token count and cost in USD based on the following findings and token counts: 1. Each node rebuilds its own prompt from scratch. 2. Every handoff message is paid for again in the n"
+    },
+    {
+      "from": [
+        "calculator"
+      ],
+      "to": [
+        "writer"
+      ],
+      "message": "The total token count is 3640 and the cost in USD is 0.002912."
+    }
+  ],
+  "cancels": [],
+  "ledger": [
+    {
+      "tool": "sum_tokens",
+      "words": null,
+      "total": 3640,
+      "text": null
+    },
+    {
+      "tool": "save_draft",
+      "words": 8,
+      "total": null,
+      "text": "Total token count: 3640. Cost in USD: 0.002912."
+    }
+  ],
+  "first_input": {
+    "researcher": "Context:\nUser Request: Produce a short brief. The input file holds the topic, the raw points and the per-node token counts. The brief must state the total token count and the cost in USD.\n\nOther agents available for collaboration:\nAgent name: calculator.\nAgent name: writer.\n\nYou have access to swarm coordination tools if you need help from other agents. If you don't hand off to another agent, the swarm will consider the task complete.\n\n",
+    "calculator": "Context:\nHandoff Message: Calculate the total token count and cost in USD based on the following findings and token counts: 1. Each node rebuilds its own prompt from scratch. 2. Every handoff message is paid for again in the next node's input. 3. Shared context is re-serialized into every downstream prompt. Token counts: 1180, 940, 1520.\n\nUser Request: Produce a short brief. The input file holds the topic, the raw points and the per-node token counts. The brief must state the total token count and the cost in USD.\n\nPrevious agents who worked on this: researcher\n\nOther agents available for collaboration:\nAgent name: researcher.\nAgent name: writer.\n\nYou have access to swarm coordination tools ...",
+    "writer": "Context:\nHandoff Message: The total token count is 3640 and the cost in USD is 0.002912.\n\nUser Request: Produce a short brief. The input file holds the topic, the raw points and the per-node token counts. The brief must state the total token count and the cost in USD.\n\nPrevious agents who worked on this: researcher \u2192 calculator\n\nOther agents available for collaboration:\nAgent name: researcher.\nAgent name: calculator.\n\nYou have access to swarm coordination tools if you need help from other agents. If you don't hand off to another agent, the swarm will consider the task complete.\n\n"
+  },
+  "final_message": "[{\"text\": \"The brief has been successfully saved. It states that the total token count is 3640 and the cost in USD is 0.002912. If you need any further assistance, feel free to ask.\"}]"
+}

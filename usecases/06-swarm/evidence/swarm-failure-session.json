@@ -1,0 +1,4 @@
+{
+  "mode": "session",
+  "outcome": "ValueError: Session persistence is not supported for Swarm agents yet."
+}

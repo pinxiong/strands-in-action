@@ -1,0 +1,43 @@
+### E3 -- two limit names, one counter
+### strands-agents 1.63.0 | amazon.nova-pro-v1:0 | us-east-1 | 2026-11-11 11:25:53 CST
+### two agents (alpha, beta) hand the task back and forth; neither ever finishes it
+
+===== cap=iterations =====
+{
+  "cap": "iterations",
+  "kwargs": {
+    "max_iterations": 3,
+    "max_handoffs": 20
+  },
+  "status": "failed",
+  "execution_count": 3,
+  "node_history": [
+    "alpha",
+    "beta",
+    "alpha"
+  ],
+  "total_tokens": 5704,
+  "stop_reason_lines": [
+    "reason=<Max iterations reached: 3> | stopping execution"
+  ]
+}
+
+===== cap=handoffs =====
+{
+  "cap": "handoffs",
+  "kwargs": {
+    "max_handoffs": 3,
+    "max_iterations": 20
+  },
+  "status": "failed",
+  "execution_count": 3,
+  "node_history": [
+    "alpha",
+    "beta",
+    "alpha"
+  ],
+  "total_tokens": 5584,
+  "stop_reason_lines": [
+    "reason=<Max handoffs reached: 3> | stopping execution"
+  ]
+}

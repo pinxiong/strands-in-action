@@ -77,7 +77,8 @@ python3 tools/make_review_html.py usecases/<NN-slug>/article.md \
   python3 /Users/pinxiong/Documents/Important/strands-in-action/check_publish_gate.py <slug>
   ```
 
-  站点目录不在默认位置时加 `--site <path>`。脚本校验下面三件物料是否存在、内容是否齐全、封面是不是 16:9，共 14 项。**退出码非 0 → 禁止发布**，按 FAIL 项补齐后重跑；不许把缺项写成"已知偏差"放行，也不许跳过脚本直接发。任何一个触发点（10:30 / 14:30 / 21:30）走到发布步骤都受这条约束。Medium URL 位在发布前是 `<MEDIUM_URL>` 占位、手动 Import 后回填真实链接，两种状态门禁都应通过。
+  站点目录不在默认位置时加 `--site <path>`。脚本校验下面三件物料是否存在、内容是否齐全、封面是不是 16:9，**并对全系列做「可复跑入口」体检**（当前 18 项，篇目增加时自动增加）。**退出码非 0 → 禁止发布**，按 FAIL 项补齐后重跑；不许把缺项写成"已知偏差"放行，也不许跳过脚本直接发。任何一个触发点（10:30 / 14:30 / 21:30）走到发布步骤都受这条约束。Medium URL 位在发布前是 `<MEDIUM_URL>` 占位、手动 Import 后回填真实链接，两种状态门禁都应通过。
+- **可复跑入口 = 第 4 件硬交付物**（Pin 2026-11-06 裁定，2026-11-11 复发）。写 `Try it yourself` 时首屏就要有 `git clone https://github.com/pinxiong/strands-in-action.git`，紧跟 `cd strands-in-action/usecases/<目录>` 与依赖安装；正文首屏另给完整仓库目录 URL。只写 `cd usecases/...` 或 `src/` 相对路径 = 缺件，读者跑不起来。门禁会扫描**所有** `usecases/*/article.md`、`usecases/*/publish/*.md` 和主站稿件，任何一篇退化都会拦下当次发布；`article.md` 改完要同步到三份渠道稿件。
 - 发布窗口当档必须产出以下三件：
   1. `pinxiong.github.io/writing-lab/distribution/<slug>-medium-manual.md` —— 按上一篇手册的结构（7 步）：Import 源 URL 与三渠道线上链接表；Title 核对；**4 个 subtitle 选项，每个标字符数（≤140）并写明推荐理由**；Byline 首行；封面路径与尺寸；5 个标签；正文核对清单（本篇实际图片数、代码块数、引用行、状态机 ASCII 块）；Advanced settings 的 canonical 勾选项与发布后回填动作。Medium URL 用 `<MEDIUM_URL>` 占位，发布后回填。
   2. `static/images/<slug>/cover-medium.png` —— **1400×788（16:9）**，源 SVG 同目录保留。出图时用 `cover-medium.svg` 的 viewBox 直接定为 `0 0 1400 788`，不要先做 1.90:1 再补边；用 `resvg-py` 渲染（其余工具在本机不可用，见 `tech-article-writing` §8）。渲染后读 PNG 头校验宽高，**尺寸不对就重做，不要写进台账当"已知偏差"**。
@@ -121,3 +122,4 @@ python3 tools/make_review_html.py usecases/<NN-slug>/article.md \
 | 2026-11-10 | UC05 Medium 手动 Import 完成，URL 回填手册 / Slack / D+0 台账 / publish README 四处；门禁对 Medium URL 位改为「占位或已回填真实链接均通过」，否则回填后重跑会误报 2 项 FAIL。第 6 节补上回填四处的规定 |
 | 2026-11-10 | Pin 口径：**Slack 文案不放主站 Blog 链接**。UC05 的 A/C 两版删掉 Blog 行；第 6 节第 3 条改为链接块只列 BC / Dev.to / Medium；门禁的「Slack 含主站链接」改为「三条渠道链接齐全且文案块内无 `xiongpin.dev/posts/`」，避免以后为了过门禁又把 Blog 链接加回来。UC03/UC04 已发文案不动 |
 | 2026-11-10 | 第 2 节节奏判定的「最近发布」限定为 `series == "strands-in-action"`。起因：当天 21:00 发布的 dev.to 独立文章（`series == "other"`）写进 `latest.json` 后，按字面取「最近发布」会把 UC06 从 11-11 误顺延到 11-13；本系列节奏只看本系列文章。同节第 1 步的下篇指针同步为 UC06，`PLAN.md` 的 UC05 状态与详纲标题同步为已发布 |
+| 2026-11-11 | 第 6 节新增「可复跑入口 = 第 4 件硬交付物」，`check_publish_gate.py` 增加全系列 clone 块体检（现在 18 项）。起因：Pin 第二次指出文章 `Try it yourself` 只写 `cd usecases/...`、正文只写 `src/` 相对路径，读者拿不到完整仓库地址。根因是 11-06 定的规则只写在 skill / README 散文里，11-07 与 11-10 改版时被覆盖，且 `final_check` 与门禁都不查。已修 UC05 四份稿件 + UC06 正文，并把规则写进 skill 顶部「永久政策」块、发布前清单、README Conventions 与用户级 MEMORY.md；机器门禁为权威判据 |

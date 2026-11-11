@@ -1,0 +1,1 @@
+Thanks, Alex. That is the distinction I would keep: the exemption removes the lucky-reject path, and the row-level evidence makes the exact window boundary reproducible. I appreciate you pushing the test beyond recall.

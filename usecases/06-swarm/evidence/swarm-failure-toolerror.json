@@ -1,0 +1,55 @@
+{
+  "mode": "toolerror",
+  "status": "completed",
+  "execution_count": 2,
+  "node_history": [
+    "calculator",
+    "writer"
+  ],
+  "handoff_node_after_run": null,
+  "writer_status": "completed",
+  "calculator_tool_order": [
+    "handoff_to_agent",
+    "explode"
+  ],
+  "tool_ledger": [
+    {
+      "tool": "explode"
+    },
+    {
+      "tool": "save_draft"
+    },
+    {
+      "tool": "save_draft"
+    },
+    {
+      "tool": "save_draft"
+    },
+    {
+      "tool": "save_draft"
+    },
+    {
+      "tool": "save_draft"
+    },
+    {
+      "tool": "save_draft"
+    },
+    {
+      "tool": "save_draft"
+    },
+    {
+      "tool": "save_draft"
+    },
+    {
+      "tool": "save_draft"
+    },
+    {
+      "tool": "save_draft"
+    },
+    {
+      "tool": "save_draft"
+    }
+  ],
+  "elapsed_s": 45.967,
+  "total_tokens": 22371
+}

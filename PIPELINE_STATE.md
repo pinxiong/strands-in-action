@@ -5,15 +5,15 @@
 ## 机器可读字段（自动任务先读这几行）
 
 ```yaml
-last_run_date: 2026-11-09      # 最近一次真正推进过工作的日期
-today_started: 2026-11-09      # 今天是否已开工（与 last_run_date 同步；跨天自动失效）
-stage: published               # not_started | outline | experiments | draft | review | ready_to_publish | published
-current_piece: UC05
-gates: {expert: pass, reader: pass, independent: pass}
-ready_since: 2026-11-09T11:20+08:00
-published_at: 2026-11-09T13:32:00Z   # 主站 push 时刻（UTC）
-publish_gate: {medium_manual: true, cover_16x9: true, slack_copy: true}  # 三项全 true 才允许 stage=published
-publish_gate_checked: 2026-11-10T11:14+08:00  # check_publish_gate.py reservations-fencing → 14/14 PASS
+last_run_date: 2026-11-11      # 最近一次真正推进过工作的日期
+today_started: 2026-11-11      # 今天是否已开工（与 last_run_date 同步；跨天自动失效）
+stage: review                  # not_started | outline | experiments | draft | review | ready_to_publish | published
+current_piece: UC06
+gates: {expert: pass, reader: pass, independent: pass}   # UC06 正文三类评审已 PASS（2026-11-11）
+ready_since: 2026-11-11T12:28+08:00   # 正文可发时刻；发布物料尚缺 2 件
+published_at: null             # UC06 未发布；UC05 = 2026-11-09T13:32:00Z
+publish_gate: {medium_manual: false, cover_16x9: true, slack_copy: false}  # 三项全 true 才允许 stage=published
+publish_gate_checked: 2026-11-11T12:25+08:00  # check_publish_gate.py orchestrating-swarm → 4/6 PASS，缺 manual / slack
 ```
 
 > **发布门禁（每次自动发布都适用）**：`stage` 改成 `published` 之前必须跑 `python3 check_publish_gate.py <slug>`，非 0 退出禁止发布；通过后把 `publish_gate` 三项置 `true` 并记检查时刻。Medium 不发，但手册 / 16:9 封面 / Slack 文案缺一不可，不许"先发再补"。详见 `PIPELINE.md` 第 6 节。
@@ -22,12 +22,27 @@ publish_gate_checked: 2026-11-10T11:14+08:00  # check_publish_gate.py reservatio
 
 | 项 | 值 |
 |---|---|
-| 当前篇目 | **UC05 · When "Not Found" Doesn't Mean "Never Happened"** — 已发布（2026-11-09） |
-| 阶段 | `published`（21:30 档完成发布：主站 / Dev.to / BC） |
+| 当前篇目 | **UC06 · Orchestrating Agents: Nobody Decides Who Goes Next** — 正文完成，评审 PASS，发布物料缺 2 件 |
+| 阶段 | `review`（10:30 档：大纲 → 4 组实验 → 正文 → 三类评审 + 定向复审全 PASS） |
 | 最近发布日期 | 2026-11-09（UC05 `reservations-fencing`） |
-| 下次可开新篇 | 2026-11-11（UC05 满 2 天，写 UC06 Swarm） |
-| 下次可发布窗口 | UC06 完成后：2026-11-11 起的工作日 21:30–22:30（GMT+8） |
-| 阻塞项 | 无。待办只有反馈回灌：UC05 D+2 = 2026-11-11，UC04 D+7 = 2026-11-14 |
+| 下次可开新篇 | 已开（UC06 在制），UC07 待 UC06 发布后再开 |
+| 下次可发布窗口 | 2026-11-11 21:30–22:30（GMT+8，周三）；物料补齐并过门禁即可发 |
+| 阻塞项 | ① UC06 缺 `orchestrating-swarm-medium-manual.md` 与 `orchestrating-swarm-slack.md`（封面 16:9 已就绪）② UC05 D+2 反馈回灌（发布已满 48h，21:30 档做）③ UC04 D+7 = 11-14 |
+
+## UC06 在制品台账（2026-11-11 10:30 档）
+
+| 项 | 值 |
+|---|---|
+| 标题 | Orchestrating Agents: Nobody Decides Who Goes Next |
+| Slug | `orchestrating-swarm` |
+| 正文 | 2536 词 / 15 个代码块 / 1 张机制图 / 4 组实验（E1 正常接力、E2 沉默、E3 双上限、E4/E5/E6 三种失败） |
+| 指标 | `final_check` 0 项；`en_metrics` 句长 19.1 / stdev 11.3 / 被动 3.08 / 连接词 1.34 / 名词化 1.38 / Flesch 69.6 |
+| 证据 | `usecases/06-swarm/evidence/`：swarm-trace.txt（E1 两次 + E2）、swarm-limits.txt（E3 两档）、swarm-failure.txt（toolerror/timeout/cancel/session）+ 5 份 json |
+| 图片 | `static/images/orchestrating-swarm/`：cover.png 1200×676、cover-devto.png 1000×420、**cover-medium.png 1400×788 16:9**、swarm-handoff-loop.png 1200×520（SVG 源齐全） |
+| 评审 | 技术专家首轮 FAIL 5 项 → 修订后定向复审 PASS；目标读者有条件 PASS 5 项 → 全部落地；独立复核首轮 FAIL 1 项（Flesch 71.9）→ 修订后 PASS（69.6） |
+| 待办 | ① Medium 手册 ② Slack 文案 ③ 跑门禁 ④ 21:30 窗口发主站 + Dev.to + BC |
+
+**本轮最该记住的一条**：目标读者把「标题说没人决定，正文其实是模型逐跳决定」指了出来。已在第 2 节补一句并把 ping-pong 实验标成动态路由的正面证据；后续写编排篇时，标题的张力表述要在正文前三段内落地成机制句子。
 
 ## UC05 D+0 台账（2026-11-09）
 
@@ -78,6 +93,7 @@ publish_gate_checked: 2026-11-10T11:14+08:00  # check_publish_gate.py reservatio
 
 | 日期 | 篇目 | 结果 |
 |---|---|---|
+| 2026-11-11 | UC06 Orchestrating Agents: Nobody Decides Who Goes Next | 正文 + 4 组实验 + 三类评审 PASS；物料缺 2 件，待 21:30 窗口 |
 | 2026-11-09 | UC05 When "Not Found" Doesn't Mean "Never Happened" | 已发布（主站 / Dev.to / BC），D+2 = 11-11 |
 | 2026-11-07 | UC04 Sessions, State & Memory | 已发布，D+2 记录已补（2026-11-09），D+7 = 11-14 |
 | 2026-11-06 | UC03 The Limits That Don't Limit | 已发布 |

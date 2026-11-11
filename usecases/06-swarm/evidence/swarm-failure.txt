@@ -1,0 +1,148 @@
+### E4/E5/E6 -- 2026-11-11 11:24:05 CST
+### strands-agents 1.63.0 | amazon.nova-pro-v1:0 | us-east-1
+
+===== mode=toolerror =====
+{
+  "mode": "toolerror",
+  "status": "completed",
+  "execution_count": 2,
+  "node_history": [
+    "calculator",
+    "writer"
+  ],
+  "handoff_node_after_run": null,
+  "writer_status": "completed",
+  "calculator_tool_order": [
+    "handoff_to_agent",
+    "explode"
+  ],
+  "tool_ledger": [
+    {
+      "tool": "explode"
+    },
+    {
+      "tool": "save_draft"
+    },
+    {
+      "tool": "save_draft"
+    },
+    {
+      "tool": "save_draft"
+    },
+    {
+      "tool": "save_draft"
+    },
+    {
+      "tool": "save_draft"
+    },
+    {
+      "tool": "save_draft"
+    },
+    {
+      "tool": "save_draft"
+    },
+    {
+      "tool": "save_draft"
+    },
+    {
+      "tool": "save_draft"
+    },
+    {
+      "tool": "save_draft"
+    },
+    {
+      "tool": "save_draft"
+    }
+  ],
+  "elapsed_s": 45.967,
+  "total_tokens": 22371
+}
+
+===== mode=timeout =====
+node=<calculator> | node execution failed
+Traceback (most recent call last):
+  File "/Users/pinxiong/Documents/Important/strands-in-action/.venv/lib/python3.11/site-packages/strands/multiagent/swarm.py", line 544, in _stream_with_timeout
+    async for event in async_generator:
+  File "/Users/pinxiong/Documents/Important/strands-in-action/.venv/lib/python3.11/site-packages/strands/multiagent/swarm.py", line 1003, in _execute_node
+    async for event in node.executor.stream_async(
+  File "/Users/pinxiong/Documents/Important/strands-in-action/.venv/lib/python3.11/site-packages/strands/agent/agent.py", line 1609, in stream_async
+    async for event in events:
+  File "/Users/pinxiong/Documents/Important/strands-in-action/.venv/lib/python3.11/site-packages/strands/agent/agent.py", line 1765, in _run_loop
+    async for event in self._middleware_registry.invoke(
+  File "/Users/pinxiong/Documents/Important/strands-in-action/.venv/lib/python3.11/site-packages/strands/middleware/_registry.py", line 154, in invoke
+    async for event in gen:
+  File "/Users/pinxiong/Documents/Important/strands-in-action/.venv/lib/python3.11/site-packages/strands/agent/agent.py", line 1947, in terminal
+    async for event in events:
+  File "/Users/pinxiong/Documents/Important/strands-in-action/.venv/lib/python3.11/site-packages/strands/agent/agent.py", line 2004, in _execute_event_loop_cycle
+    async for event in events:
+  File "/Users/pinxiong/Documents/Important/strands-in-action/.venv/lib/python3.11/site-packages/strands/event_loop/event_loop.py", line 348, in event_loop_cycle
+    async for tool_event in tool_events:
+  File "/Users/pinxiong/Documents/Important/strands-in-action/.venv/lib/python3.11/site-packages/strands/event_loop/event_loop.py", line 1075, in _handle_tool_execution
+    async for tool_event in tool_events:
+  File "/Users/pinxiong/Documents/Important/strands-in-action/.venv/lib/python3.11/site-packages/strands/tools/executors/concurrent.py", line 80, in _execute
+    task_id, event = await task_queue.get()
+                     ^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/pinxiong/.local/share/uv/python/cpython-3.11.15-macos-aarch64-none/lib/python3.11/asyncio/queues.py", line 158, in get
+    await getter
+asyncio.exceptions.CancelledError
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/Users/pinxiong/Documents/Important/strands-in-action/.venv/lib/python3.11/site-packages/strands/multiagent/swarm.py", line 543, in _stream_with_timeout
+    async with asyncio.timeout(timeout):
+  File "/Users/pinxiong/.local/share/uv/python/cpython-3.11.15-macos-aarch64-none/lib/python3.11/asyncio/timeouts.py", line 115, in __aexit__
+    raise TimeoutError from exc_val
+TimeoutError
+
+The above exception was the direct cause of the following exception:
+
+Traceback (most recent call last):
+  File "/Users/pinxiong/Documents/Important/strands-in-action/.venv/lib/python3.11/site-packages/strands/multiagent/swarm.py", line 885, in _execute_swarm
+    async for event in node_stream:
+  File "/Users/pinxiong/Documents/Important/strands-in-action/.venv/lib/python3.11/site-packages/strands/multiagent/swarm.py", line 547, in _stream_with_timeout
+    raise Exception(timeout_message) from err
+Exception: Node 'calculator' execution timed out after 4s
+{
+  "mode": "timeout",
+  "status": "failed",
+  "execution_count": 0,
+  "node_history": [],
+  "handoff_node_after_run": null,
+  "writer_status": "never ran",
+  "calculator_tool_order": [
+    "handoff_to_agent",
+    "slow_step"
+  ],
+  "tool_ledger": [],
+  "elapsed_s": 4.012,
+  "total_tokens": 0
+}
+
+===== mode=cancel =====
+Traceback (most recent call last):
+  File "/Users/pinxiong/Documents/Important/strands-in-action/usecases/06-swarm/src/swarm_failure.py", line 192, in <module>
+    main()
+  File "/Users/pinxiong/Documents/Important/strands-in-action/usecases/06-swarm/src/swarm_failure.py", line 182, in main
+    out = asyncio.run(mode_cancel())
+          ^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/pinxiong/.local/share/uv/python/cpython-3.11.15-macos-aarch64-none/lib/python3.11/asyncio/runners.py", line 190, in run
+    return runner.run(main)
+           ^^^^^^^^^^^^^^^^
+  File "/Users/pinxiong/.local/share/uv/python/cpython-3.11.15-macos-aarch64-none/lib/python3.11/asyncio/runners.py", line 118, in run
+    return self._loop.run_until_complete(task)
+           ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+  File "/Users/pinxiong/.local/share/uv/python/cpython-3.11.15-macos-aarch64-none/lib/python3.11/asyncio/base_events.py", line 654, in run_until_complete
+    return future.result()
+           ^^^^^^^^^^^^^^^
+  File "/Users/pinxiong/Documents/Important/strands-in-action/usecases/06-swarm/src/swarm_failure.py", line 152, in mode_cancel
+    "calculator_tool_order": order.order,
+                             ^^^^^
+NameError: name 'order' is not defined
+
+===== mode=session =====
+{
+  "mode": "session",
+  "outcome": "ValueError: Session persistence is not supported for Swarm agents yet."
+}
+

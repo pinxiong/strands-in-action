@@ -130,6 +130,13 @@ Latest on PyPI as of 2026-11-01: `strands-agents` 1.63.0, `strands-agents-tools`
 
 - **Nothing unverified gets published.** Numbers come from runs, and runs are saved under
   `evidence/`.
+- **Every article gives the full repo address.** The `Try it yourself` section opens with
+  `git clone https://github.com/pinxiong/strands-in-action.git`, immediately followed by
+  `cd strands-in-action/usecases/<dir>` and the pinned dependency install. The opening
+  blockquote also carries a clickable repo URL. A bare `cd usecases/...` or a relative
+  `src/` path is not reproducible and counts as a missing deliverable. Pin ruled this on
+  2026-11-06; UC05/UC06 regressed, so `check_publish_gate.py` now checks the whole series
+  mechanically. Keep this rule when editing the skill or the pipeline.
 - Length follows the content. Articles land around 1000 to 1300 words of prose and run
   longer when a mechanism needs the room, always dense with short code blocks and no tables.
 - Every article ends with takeaways and never with a teaser for the next one.

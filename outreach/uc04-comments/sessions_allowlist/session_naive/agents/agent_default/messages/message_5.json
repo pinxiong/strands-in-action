@@ -1,0 +1,33 @@
+{
+  "message": {
+    "role": "assistant",
+    "content": [
+      {
+        "text": "<thinking> The user has requested to read and quote their project note. Use the read_note tool to retrieve the note. </thinking>\n"
+      },
+      {
+        "toolUse": {
+          "toolUseId": "tooluse_14iey5eJaPTnrGq8mQ0eSS",
+          "name": "read_note",
+          "input": {}
+        }
+      }
+    ],
+    "metadata": {
+      "usage": {
+        "inputTokens": 554,
+        "outputTokens": 42,
+        "totalTokens": 596
+      },
+      "metrics": {
+        "latencyMs": 578,
+        "timeToFirstByteMs": 740
+      }
+    },
+    "tracking_id": "86c5e1c7-8edd-44e6-89c4-62005e1d608e"
+  },
+  "message_id": 5,
+  "redact_message": null,
+  "created_at": "2026-11-08T05:20:32.687560+00:00",
+  "updated_at": "2026-11-08T05:20:32.687570+00:00"
+}

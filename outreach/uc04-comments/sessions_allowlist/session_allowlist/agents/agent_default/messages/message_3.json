@@ -1,0 +1,26 @@
+{
+  "message": {
+    "role": "assistant",
+    "content": [
+      {
+        "text": "ORION"
+      }
+    ],
+    "metadata": {
+      "usage": {
+        "inputTokens": 446,
+        "outputTokens": 3,
+        "totalTokens": 449
+      },
+      "metrics": {
+        "latencyMs": 500,
+        "timeToFirstByteMs": 688
+      }
+    },
+    "tracking_id": "88499d31-3fea-46b8-848c-4d5171714b6a"
+  },
+  "message_id": 3,
+  "redact_message": null,
+  "created_at": "2026-11-08T05:20:38.183639+00:00",
+  "updated_at": "2026-11-08T05:20:38.183653+00:00"
+}

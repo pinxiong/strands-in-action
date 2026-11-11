@@ -1,0 +1,15 @@
+{
+  "message": {
+    "role": "user",
+    "content": [
+      {
+        "text": "What is my codename? Answer with the codename only."
+      }
+    ],
+    "tracking_id": "4926ed1f-c033-4bc2-a1b6-52a37a273373"
+  },
+  "message_id": 2,
+  "redact_message": null,
+  "created_at": "2026-11-08T10:41:39.882511+00:00",
+  "updated_at": "2026-11-08T10:41:39.882514+00:00"
+}

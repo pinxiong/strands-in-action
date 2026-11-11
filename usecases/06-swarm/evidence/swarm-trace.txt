@@ -1,0 +1,186 @@
+### E1/E2 -- three-node swarm, same task, real Bedrock calls
+### strands-agents 1.63.0 | amazon.nova-pro-v1:0 | us-east-1 | 2026-11-11
+### rerun: .venv/bin/python src/swarm_trace.py --mode happy|silent
+
+===== E1  happy path, run A  (file written 2026-11-11 11:15:21) =====
+=== mode=happy ===
+status            : completed
+execution_count   : 3
+node_history      : researcher -> calculator -> writer
+wall clock        : 15.299s
+total tokens      : 8857
+
+per node:
+  researcher  status=completed     model_calls=3 tokens=3549  in=3220  out=329  wall=6614ms
+  calculator  status=completed     model_calls=3 tokens=3356  in=3132  out=224  wall=4774ms
+  writer      status=completed     model_calls=2 tokens=1952  in=1798  out=154  wall=3909ms
+
+node turn intervals (s from invocation start):
+  researcher  start=0.0 stop=6.615
+  calculator  start=6.615 stop=11.389
+  writer      start=11.389 stop=15.298
+overlapping node turns: none
+
+handoffs:
+  ['researcher'] -> ['calculator'] | Calculate the total token count and cost in USD based on the following findings and token counts: 1. Each node rebuilds its own prompt from scratch. 2. Every handoff message is paid for again in the n
+  ['calculator'] -> ['writer'] | The total token count is 3640 and the cost in USD is 0.002912.
+cancels: none
+
+tool ledger:
+  {'tool': 'sum_tokens', 'words': None, 'total': 3640, 'text': None}
+  {'tool': 'save_draft', 'words': 8, 'total': None, 'text': 'Total token count: 3640. Cost in USD: 0.002912.'}
+
+--- first input of researcher ---
+Context:
+User Request: Produce a short brief. The input file holds the topic, the raw points and the per-node token counts. The brief must state the total token count and the cost in USD.
+
+Other agents available for collaboration:
+Agent name: calculator.
+Agent name: writer.
+
+You have access to swarm coordination tools if you need help from other agents. If you don't hand off to another agent, the swarm will consider the task complete.
+
+
+
+--- first input of calculator ---
+Context:
+Handoff Message: Calculate the total token count and cost in USD based on the following findings and token counts: 1. Each node rebuilds its own prompt from scratch. 2. Every handoff message is paid for again in the next node's input. 3. Shared context is re-serialized into every downstream prompt. Token counts: 1180, 940, 1520.
+
+User Request: Produce a short brief. The input file holds the topic, the raw points and the per-node token counts. The brief must state the total token count and the cost in USD.
+
+Previous agents who worked on this: researcher
+
+Other agents available for collaboration:
+Agent name: researcher.
+Agent name: writer.
+
+You have access to swarm coordination tools ...
+
+--- first input of writer ---
+Context:
+Handoff Message: The total token count is 3640 and the cost in USD is 0.002912.
+
+User Request: Produce a short brief. The input file holds the topic, the raw points and the per-node token counts. The brief must state the total token count and the cost in USD.
+
+Previous agents who worked on this: researcher → calculator
+
+Other agents available for collaboration:
+Agent name: researcher.
+Agent name: calculator.
+
+You have access to swarm coordination tools if you need help from other agents. If you don't hand off to another agent, the swarm will consider the task complete.
+
+
+
+--- final node message ---
+[{"text": "The brief has been successfully saved. It states that the total token count is 3640 and the cost in USD is 0.002912. If you need any further assistance, feel free to ask."}]
+
+===== E1  happy path, run B (repeat of the same task)  (file written 2026-11-11 11:15:56) =====
+=== mode=happy ===
+status            : completed
+execution_count   : 3
+node_history      : researcher -> calculator -> writer
+wall clock        : 26.049s
+total tokens      : 8605
+
+per node:
+  researcher  status=completed     model_calls=3 tokens=3490  in=3194  out=296  wall=13738ms
+  calculator  status=completed     model_calls=3 tokens=3280  in=3082  out=198  wall=9367ms
+  writer      status=completed     model_calls=2 tokens=1835  in=1755  out=80   wall=2943ms
+
+node turn intervals (s from invocation start):
+  researcher  start=0.0 stop=13.739
+  calculator  start=13.739 stop=23.106
+  writer      start=23.106 stop=26.049
+overlapping node turns: none
+
+handoffs:
+  ['researcher'] -> ['calculator'] | Here are three findings from the brief: 1) Each node rebuilds its own prompt from scratch. 2) Every handoff message is paid for again in the next node's input. 3) Shared context is re-serialized into 
+  ['calculator'] -> ['writer'] | The total token count is 3640 and the cost is $0.002912.
+cancels: none
+
+tool ledger:
+  {'tool': 'sum_tokens', 'words': None, 'total': 3640, 'text': None}
+  {'tool': 'save_draft', 'words': 6, 'total': None, 'text': 'Total token count: 3640. Cost: $0.002912.'}
+
+--- first input of researcher ---
+Context:
+User Request: Produce a short brief. The input file holds the topic, the raw points and the per-node token counts. The brief must state the total token count and the cost in USD.
+
+Other agents available for collaboration:
+Agent name: calculator.
+Agent name: writer.
+
+You have access to swarm coordination tools if you need help from other agents. If you don't hand off to another agent, the swarm will consider the task complete.
+
+
+
+--- first input of calculator ---
+Context:
+Handoff Message: Here are three findings from the brief: 1) Each node rebuilds its own prompt from scratch. 2) Every handoff message is paid for again in the next node's input. 3) Shared context is re-serialized into every downstream prompt. The per-node token counts are 1180, 940, and 1520.
+
+User Request: Produce a short brief. The input file holds the topic, the raw points and the per-node token counts. The brief must state the total token count and the cost in USD.
+
+Previous agents who worked on this: researcher
+
+Other agents available for collaboration:
+Agent name: researcher.
+Agent name: writer.
+
+You have access to swarm coordination tools if you need help from other agents. If...
+
+--- first input of writer ---
+Context:
+Handoff Message: The total token count is 3640 and the cost is $0.002912.
+
+User Request: Produce a short brief. The input file holds the topic, the raw points and the per-node token counts. The brief must state the total token count and the cost in USD.
+
+Previous agents who worked on this: researcher → calculator
+
+Other agents available for collaboration:
+Agent name: researcher.
+Agent name: calculator.
+
+You have access to swarm coordination tools if you need help from other agents. If you don't hand off to another agent, the swarm will consider the task complete.
+
+
+
+--- final node message ---
+[{"text": "The brief stating the total token count and cost has been saved."}]
+
+===== E2  silent entry node  (file written 2026-11-11 11:16:08) =====
+=== mode=silent ===
+status            : completed
+execution_count   : 1
+node_history      : researcher
+wall clock        : 8.167s
+total tokens      : 718
+
+per node:
+  researcher  status=completed     model_calls=1 tokens=718   in=601   out=117  wall=8166ms
+  calculator  status=never ran     model_calls=0 tokens=0     in=0     out=0    wall=0ms
+  writer      status=never ran     model_calls=0 tokens=0     in=0     out=0    wall=0ms
+
+node turn intervals (s from invocation start):
+  researcher  start=0.0 stop=8.167
+overlapping node turns: none
+
+handoffs:
+cancels: none
+
+tool ledger:
+
+--- first input of researcher ---
+Context:
+User Request: Produce a short brief. The input file holds the topic, the raw points and the per-node token counts. The brief must state the total token count and the cost in USD.
+
+Other agents available for collaboration:
+Agent name: calculator.
+Agent name: writer.
+
+You have access to swarm coordination tools if you need help from other agents. If you don't hand off to another agent, the swarm will consider the task complete.
+
+
+
+--- final node message ---
+[{"text": "<thinking> The user has requested a brief that includes the total token count and the cost in USD, which requires calculations that I cannot perform directly. Therefore, I need to hand off this task to the 'calculator' agent to determine the total token count and cost. However, since I am instructed not to call any tool, I will summarize the topic of the input file as requested. </thinking>\n\nThe topic of the input file is the calculation of the total token count and the associated cost in USD for a given set of raw points and per-node token counts."}]

@@ -1,0 +1,33 @@
+{
+  "message": {
+    "role": "assistant",
+    "content": [
+      {
+        "text": "<thinking> I need to use the read_note tool to retrieve the project note. </thinking>\n"
+      },
+      {
+        "toolUse": {
+          "toolUseId": "tooluse_1IP4vV9oWo6Z6nHXoMHbJH",
+          "name": "read_note",
+          "input": {}
+        }
+      }
+    ],
+    "metadata": {
+      "usage": {
+        "inputTokens": 467,
+        "outputTokens": 34,
+        "totalTokens": 501
+      },
+      "metrics": {
+        "latencyMs": 503,
+        "timeToFirstByteMs": 535
+      }
+    },
+    "tracking_id": "4044584e-ae22-41f2-b27e-2745a15b4663"
+  },
+  "message_id": 5,
+  "redact_message": null,
+  "created_at": "2026-11-08T05:20:40.127929+00:00",
+  "updated_at": "2026-11-08T05:20:40.127939+00:00"
+}

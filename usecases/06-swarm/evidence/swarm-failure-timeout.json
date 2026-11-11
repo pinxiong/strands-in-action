@@ -1,0 +1,15 @@
+{
+  "mode": "timeout",
+  "status": "failed",
+  "execution_count": 0,
+  "node_history": [],
+  "handoff_node_after_run": null,
+  "writer_status": "never ran",
+  "calculator_tool_order": [
+    "handoff_to_agent",
+    "slow_step"
+  ],
+  "tool_ledger": [],
+  "elapsed_s": 4.012,
+  "total_tokens": 0
+}

@@ -1,0 +1,15 @@
+{
+  "message": {
+    "role": "user",
+    "content": [
+      {
+        "text": "My codename is ORION. Acknowledge in one word."
+      }
+    ],
+    "tracking_id": "5bc30618-68d2-4de0-a728-c3b28663ae15"
+  },
+  "message_id": 0,
+  "redact_message": null,
+  "created_at": "2026-11-08T05:20:36.097840+00:00",
+  "updated_at": "2026-11-08T05:20:36.097841+00:00"
+}

@@ -1,0 +1,26 @@
+{
+  "message": {
+    "role": "assistant",
+    "content": [
+      {
+        "text": "<thinking> The codename is provided as ORION, which matches the codename in the manifest. Acknowledge the user. </thinking>\n\nAcknowledged."
+      }
+    ],
+    "metadata": {
+      "usage": {
+        "inputTokens": 451,
+        "outputTokens": 33,
+        "totalTokens": 484
+      },
+      "metrics": {
+        "latencyMs": 505,
+        "timeToFirstByteMs": 1153
+      }
+    },
+    "tracking_id": "c636580b-1117-4ce0-b0d8-934ffcf81e59"
+  },
+  "message_id": 1,
+  "redact_message": null,
+  "created_at": "2026-11-08T05:20:30.073234+00:00",
+  "updated_at": "2026-11-08T05:20:30.073242+00:00"
+}

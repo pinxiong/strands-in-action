@@ -1,0 +1,15 @@
+{
+  "message": {
+    "role": "user",
+    "content": [
+      {
+        "text": "Read my project note with the read_note tool and quote it."
+      }
+    ],
+    "tracking_id": "737ed15c-36a2-4233-9768-a99cf2c4306d"
+  },
+  "message_id": 4,
+  "redact_message": null,
+  "created_at": "2026-11-08T05:20:31.211814+00:00",
+  "updated_at": "2026-11-08T05:20:31.211816+00:00"
+}
