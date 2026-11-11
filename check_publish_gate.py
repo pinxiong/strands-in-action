@@ -28,6 +28,12 @@ Two families of checks:
    straight out of nested class methods, carrying 8/16/20 leading spaces while
    the annotation comment sat at 0. This gate scans every article and channel
    copy and rejects any block whose top-level code line is shifted right.
+
+4. Cover style. Also on 2026-11-11, Pin pointed out that UC05/UC06 had drifted
+   to a white #f8fafc layout while UC01-UC04 use the dark #0b2547 -> #14407c
+   gradient with the right-hand mechanism panel. Covers are now generated from
+   one template (tools/build_covers.py); this gate rejects a light cover and
+   wrong PNG sizes before the article can ship.
 """
 
 from __future__ import annotations
@@ -44,6 +50,23 @@ EXPECTED_W, EXPECTED_H = 1400, 788
 MEDIUM_URL_RE = re.compile(r"https://medium\.com/@pinxiong\.cn/[a-z0-9-]+-[0-9a-f]{8,}", re.I)
 REPO_URL = "https://github.com/pinxiong/strands-in-action"
 CLONE_LINE = REPO_URL + ".git"
+
+# Series cover baseline (UC01-UC04). tools/build_covers.py is the single source.
+DARK_STOPS = ('stop-color="#0b2547"', 'stop-color="#14407c"')
+LIGHT_BASE = "#f8fafc"
+SERIES_SLUGS = {
+    "how-the-strands-agent-loop-works",
+    "the-tools-that-got-replaced",
+    "execution-limits",
+    "sessions-state-memory",
+    "reservations-fencing",
+    "orchestrating-swarm",
+}
+
+
+def cover_style_ok(text: str) -> bool:
+    """Dark gradient present, and no trace of the drifted white layout."""
+    return all(stop in text for stop in DARK_STOPS) and LIGHT_BASE not in text
 
 results: list[tuple[bool, str, str]] = []
 
@@ -291,6 +314,35 @@ def main() -> int:
         f"{post_path.name}；违规："
         + (", ".join(bad_post_indent[:3]) if bad_post_indent else "无"),
     )
+
+    # 6. Series cover style. Pin 2026-11-11: UC05/UC06 must match UC01-UC04.
+    #    Only SVGs belonging to this series are checked; other site sections
+    #    (AgentCore posts, essays) have their own artwork and are out of scope.
+    cover_svgs = [
+        p
+        for name in sorted(SERIES_SLUGS | {slug})
+        for p in sorted((site / "static" / "images" / name).glob("cover*.svg"))
+    ]
+    bad_cover_svgs = [
+        str(p.relative_to(site))
+        for p in cover_svgs
+        if not cover_style_ok(p.read_text(encoding="utf-8"))
+    ]
+    check(
+        bool(cover_svgs) and not bad_cover_svgs,
+        "全系列封面 SVG 沿用深蓝基准",
+        f"检查 {len(cover_svgs)} 个源；白底/偏离："
+        + (", ".join(bad_cover_svgs[:3]) if bad_cover_svgs else "无"),
+    )
+
+    for name, expected in (("cover.png", (1400, 788)), ("cover-devto.png", (1200, 504))):
+        p = images / name
+        got = png_size(p) if p.is_file() else None
+        check(
+            got == expected,
+            f"{name} 为 {expected[0]}×{expected[1]}",
+            f"实际 {got[0]}x{got[1]}" if got else "文件缺失或不是 PNG",
+        )
 
     width = max(len(name) for _, name, _ in results)
     print(f"发布物料门禁 · {slug}")

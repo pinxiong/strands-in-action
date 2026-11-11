@@ -77,9 +77,18 @@ python3 tools/make_review_html.py usecases/<NN-slug>/article.md \
   python3 /Users/pinxiong/Documents/Important/strands-in-action/check_publish_gate.py <slug>
   ```
 
-  站点目录不在默认位置时加 `--site <path>`。脚本校验下面三件物料是否存在、内容是否齐全、封面是不是 16:9，**并对全系列做「可复跑入口」与「代码块 0 缩进」体检**（当前 21 项，篇目增加时自动增加）。**退出码非 0 → 禁止发布**，按 FAIL 项补齐后重跑；不许把缺项写成"已知偏差"放行，也不许跳过脚本直接发。任何一个触发点（10:30 / 14:30 / 21:30）走到发布步骤都受这条约束。Medium URL 位在发布前是 `<MEDIUM_URL>` 占位、手动 Import 后回填真实链接，两种状态门禁都应通过。
+  站点目录不在默认位置时加 `--site <path>`。脚本校验下面三件物料是否存在、内容是否齐全、封面是不是 16:9，**并对全系列做「可复跑入口」「代码块 0 缩进」「封面深蓝基准」体检**（当前 24 项，篇目增加时自动增加）。**这条命令就是发布前 check 的权威规则**：Pin 2026-11-11 要求把每次修复固化下来，以后任何质量规则都优先做成门禁检查项，不靠文档里的"记得"。**退出码非 0 → 禁止发布**，按 FAIL 项补齐后重跑；不许把缺项写成"已知偏差"放行，也不许跳过脚本直接发。任何一个触发点（10:30 / 14:30 / 21:30）走到发布步骤都受这条约束。Medium URL 位在发布前是 `<MEDIUM_URL>` 占位、手动 Import 后回填真实链接，两种状态门禁都应通过。
 - **可复跑入口 = 第 4 件硬交付物**（Pin 2026-11-06 裁定，2026-11-11 复发）。写 `Try it yourself` 时首屏就要有 `git clone https://github.com/pinxiong/strands-in-action.git`，紧跟 `cd strands-in-action/usecases/<目录>` 与依赖安装；正文首屏另给完整仓库目录 URL。只写 `cd usecases/...` 或 `src/` 相对路径 = 缺件，读者跑不起来。门禁会扫描**所有** `usecases/*/article.md`、`usecases/*/publish/*.md` 和主站稿件，任何一篇退化都会拦下当次发布；`article.md` 改完要同步到三份渠道稿件。
 - **代码块 0 缩进 = 第 5 件硬交付物**（Pin 2026-11-11 裁定）。每个 fenced code block 的第一行代码顶格，只保留相对层级；从 SDK 源码抠出的片段必须先 dedent，不能把类方法里的 8 / 16 / 20 个前导空格带进文章。首行 `# path:lines` 来源注释保持 0 位。门禁扫描全系列 `article.md`、全部 `publish/*.md` 与主站稿件，任何一块整体右移都会拦下发布；`final_check.py` 单篇扫描同样报「阻断」。改正文时四份稿件（article / devto / BC 稿 / 主站）必须一起改。
+- **封面风格 = 第 6 件硬交付物**（Pin 2026-11-11 裁定）。UC01–UC04 的深蓝基准是唯一风格：`#0b2547 → #14407c` 渐变、蓝色胶囊系列编号、左侧白色大标题 + 一行 `#7db4ff` 高亮、右侧机制图（事实框 / 两个数字框 / 结论条）、底部等宽验证说明。UC05/UC06 曾改成白底 `#f8fafc` 细线排版且尺寸变成 1200×630 / 1000×420，与系列格格不入。**新篇禁止手搓配色**，一律运行：
+
+  ```bash
+  cd /Users/pinxiong/Documents/Important/strands-in-action
+  .venv/bin/python tools/build_covers.py --slug <slug>      # 生成三套 SVG + PNG 并校验尺寸
+  .venv/bin/python tools/build_covers.py --check            # 只校验不重写
+  ```
+
+  三档输出：`cover.svg/png` 1400×788（主站 og:image）、`cover-devto.svg/png` 1200×504、`cover-medium.svg/png` 1400×788（viewBox 必须是 `0 0 1400 788`）。生成器里每篇的标题、副标题、右侧机制图文字必须与 `evidence/`、正文和 front matter 的 `cover.alt` 三方一致。门禁检查深蓝 SVG 标记、无白底残留，以及两档 PNG 尺寸。
 - 发布窗口当档必须产出以下三件：
   1. `pinxiong.github.io/writing-lab/distribution/<slug>-medium-manual.md` —— 按上一篇手册的结构（7 步）：Import 源 URL 与三渠道线上链接表；Title 核对；**4 个 subtitle 选项，每个标字符数（≤140）并写明推荐理由**；Byline 首行；封面路径与尺寸；5 个标签；正文核对清单（本篇实际图片数、代码块数、引用行、状态机 ASCII 块）；Advanced settings 的 canonical 勾选项与发布后回填动作。Medium URL 用 `<MEDIUM_URL>` 占位，发布后回填。
   2. `static/images/<slug>/cover-medium.png` —— **1400×788（16:9）**，源 SVG 同目录保留。出图时用 `cover-medium.svg` 的 viewBox 直接定为 `0 0 1400 788`，不要先做 1.90:1 再补边；用 `resvg-py` 渲染（其余工具在本机不可用，见 `tech-article-writing` §8）。渲染后读 PNG 头校验宽高，**尺寸不对就重做，不要写进台账当"已知偏差"**。
@@ -125,3 +134,4 @@ python3 tools/make_review_html.py usecases/<NN-slug>/article.md \
 | 2026-11-10 | 第 2 节节奏判定的「最近发布」限定为 `series == "strands-in-action"`。起因：当天 21:00 发布的 dev.to 独立文章（`series == "other"`）写进 `latest.json` 后，按字面取「最近发布」会把 UC06 从 11-11 误顺延到 11-13；本系列节奏只看本系列文章。同节第 1 步的下篇指针同步为 UC06，`PLAN.md` 的 UC05 状态与详纲标题同步为已发布 |
 | 2026-11-11 | 第 6 节新增「可复跑入口 = 第 4 件硬交付物」，`check_publish_gate.py` 增加全系列 clone 块体检（现在 18 项）。起因：Pin 第二次指出文章 `Try it yourself` 只写 `cd usecases/...`、正文只写 `src/` 相对路径，读者拿不到完整仓库地址。根因是 11-06 定的规则只写在 skill / README 散文里，11-07 与 11-10 改版时被覆盖，且 `final_check` 与门禁都不查。已修 UC05 四份稿件 + UC06 正文，并把规则写进 skill 顶部「永久政策」块、发布前清单、README Conventions 与用户级 MEMORY.md；机器门禁为权威判据 |
 | 2026-11-11 | 第 6 节新增「代码块 0 缩进 = 第 5 件硬交付物」，门禁从 18 项扩到 21 项；`final_check.py` 新增代码块整体缩进扫描（阻断级）。起因：UC06 已发布后 Pin 指出 5 个 Python 块带着 SDK 源码的嵌套缩进（8/16/12/20 空格）、来源注释却在 0 位，读者看到整块右移、`if` 与 `else` 层级错乱。此前 skill / final_check / 门禁都没有任何一条覆盖代码块缩进。已修 UC06 四份稿件 + HTML 预览，并把规则写进 skill 顶部「永久政策」块、发布前清单、README Conventions 与用户级 MEMORY.md；机器门禁为权威判据 |
+| 2026-11-11 | 第 6 节新增「封面风格 = 第 6 件硬交付物」，门禁从 21 项扩到 24 项（全系列封面 SVG 深蓝基准 + `cover.png` / `cover-devto.png` 尺寸）；新增 `tools/build_covers.py` 作为封面唯一模板，UC05 / UC06 三套封面全部重做为 UC01–UC04 的深蓝风格。起因：Pin 指出从 UC05 开始封面换成白底 `#f8fafc` 细线排版、尺寸也变成 1200×630 / 1000×420，与之前几篇格格不入。同时按 Pin 要求把「代码块 0 缩进」明确固化为**发布前 check 三条命令之一**（skill §8），并声明今后任何质量规则一律优先做成门禁检查项，不靠文档里"记得" |

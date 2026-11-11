@@ -142,6 +142,14 @@ Latest on PyPI as of 2026-11-01: `strands-agents` 1.63.0, `strands-agents-tools`
   stays at column 0. UC06 shipped with 8/16/20 leading spaces on five Python blocks and
   Pin flagged it on 2026-11-11. Both `final_check.py` and `check_publish_gate.py` reject
   shifted blocks. Keep this rule when editing the skill or the pipeline.
+- **All covers come from one template.** UC01-UC04 established the dark series look
+  (`#0b2547` to `#14407c` gradient, pill series tag, one highlighted title line, a
+  right-hand mechanism panel, monospace footer). UC05/UC06 drifted to a white
+  `#f8fafc` layout, so Pin called it out on 2026-11-11. Generate every cover with
+  `tools/build_covers.py` in the project venv; it emits the three SVG/PNG pairs
+  (1400x788 site, 1200x504 Dev.to, 1400x788 Medium) from the same scene. The gate
+  rejects a light cover or wrong PNG sizes. Keep this rule when editing the skill or
+  the pipeline.
 - Length follows the content. Articles land around 1000 to 1300 words of prose and run
   longer when a mechanism needs the room, always dense with short code blocks and no tables.
 - Every article ends with takeaways and never with a teaser for the next one.
