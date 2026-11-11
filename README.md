@@ -137,6 +137,11 @@ Latest on PyPI as of 2026-11-01: `strands-agents` 1.63.0, `strands-agents-tools`
   `src/` path is not reproducible and counts as a missing deliverable. Pin ruled this on
   2026-11-06; UC05/UC06 regressed, so `check_publish_gate.py` now checks the whole series
   mechanically. Keep this rule when editing the skill or the pipeline.
+- **Every code block starts at column 0.** Snippets lifted out of nested SDK methods must
+  be dedented first; keep only the relative nesting. A leading `# path:lines` annotation
+  stays at column 0. UC06 shipped with 8/16/20 leading spaces on five Python blocks and
+  Pin flagged it on 2026-11-11. Both `final_check.py` and `check_publish_gate.py` reject
+  shifted blocks. Keep this rule when editing the skill or the pipeline.
 - Length follows the content. Articles land around 1000 to 1300 words of prose and run
   longer when a mechanism needs the room, always dense with short code blocks and no tables.
 - Every article ends with takeaways and never with a teaser for the next one.

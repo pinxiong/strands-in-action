@@ -45,9 +45,9 @@ arguments:
 
 ```python
 # strands/multiagent/swarm.py:648-650 -- as installed, strands-agents 1.63.0
-        @tool
-        def handoff_to_agent(agent_name: str, message: str, context: dict[str, Any] | None = None) -> dict[str, Any]:
-            """Transfer control to another agent in the swarm for specialized help.
+@tool
+def handoff_to_agent(agent_name: str, message: str, context: dict[str, Any] | None = None) -> dict[str, Any]:
+    """Transfer control to another agent in the swarm for specialized help.
 ```
 
 The runtime then runs a plain loop. After each node finishes, it looks at one field. The
@@ -56,19 +56,19 @@ place where a swarm says it is done.
 
 ```python
 # strands/multiagent/swarm.py:932-957 -- trimmed to the handoff branch and its else
-                if self.state.handoff_node:
-                    previous_node = current_node
-                    current_node = self.state.handoff_node
+if self.state.handoff_node:
+    previous_node = current_node
+    current_node = self.state.handoff_node
 
-                    self.state.handoff_node = None
-                    self.state.current_node = current_node
-                    ...
-                    yield handoff_event
+    self.state.handoff_node = None
+    self.state.current_node = current_node
+    ...
+    yield handoff_event
 
-                else:
-                    logger.debug("node=<%s> | no handoff occurred, marking swarm as complete", current_node.node_id)
-                    self.state.completion_status = Status.COMPLETED
-                    break
+else:
+    logger.debug("node=<%s> | no handoff occurred, marking swarm as complete", current_node.node_id)
+    self.state.completion_status = Status.COMPLETED
+    break
 ```
 
 So the routing decision is a tool invocation, evaluated by a model, on a node that is also
@@ -160,13 +160,13 @@ immediately, which is why the name promises a jump while the code performs a wri
 
 ```python
 # strands/multiagent/swarm.py:689-695 -- inside _handle_handoff
-        self.state.handoff_node = target_node
-        self.state.handoff_message = message
+self.state.handoff_node = target_node
+self.state.handoff_message = message
 
-        # Store handoff context as shared context
-        if context:
-            for key, value in context.items():
-                self.shared_context.add_context(current_node, key, value)
+# Store handoff context as shared context
+if context:
+    for key, value in context.items():
+        self.shared_context.add_context(current_node, key, value)
 ```
 
 Control moves only after the node's turn ends, at the branch shown earlier, so two
@@ -208,7 +208,7 @@ starts streaming.
 
 ```python
 # strands/multiagent/swarm.py:999 -- in _execute_node, before the agent streams
-            node.reset_executor_state()
+node.reset_executor_state()
 ```
 
 It then feeds that node a text block assembled from four pieces: the handoff message, the
@@ -259,12 +259,12 @@ against the same counter:
 
 ```python
 # strands/multiagent/swarm.py:211-216 -- both checks read len(self.node_history)
-        if len(self.node_history) >= max_handoffs:
-            return False, f"Max handoffs reached: {max_handoffs}"
+if len(self.node_history) >= max_handoffs:
+    return False, f"Max handoffs reached: {max_handoffs}"
 
-        # Check iteration limit
-        if len(self.node_history) >= max_iterations:
-            return False, f"Max iterations reached: {max_iterations}"
+# Check iteration limit
+if len(self.node_history) >= max_iterations:
+    return False, f"Max iterations reached: {max_iterations}"
 ```
 
 So the effective cap is the smaller of the two, and the larger one is decoration. I ran

@@ -22,6 +22,12 @@ Two families of checks:
    overwritten by later skill edits, and UC05/UC06 regressed to a bare
    "cd usecases/...". A reader cannot run that. This gate now checks EVERY article
    and EVERY channel copy mechanically, so the rule cannot be forgotten again.
+
+3. Code block indentation. Pin ruled on 2026-11-11 that the first code line in
+   every fenced block starts at column 0. UC06 shipped with SDK snippets pasted
+   straight out of nested class methods, carrying 8/16/20 leading spaces while
+   the annotation comment sat at 0. This gate scans every article and channel
+   copy and rejects any block whose top-level code line is shifted right.
 """
 
 from __future__ import annotations
@@ -72,6 +78,67 @@ def has_clone_block(text: str, usecase_dir: str) -> bool:
     """Full clone URL followed immediately by the cd into this use case."""
     pattern = re.escape(CLONE_LINE) + r"\ncd " + re.escape(f"strands-in-action/usecases/{usecase_dir}")
     return bool(re.search(pattern, try_it_section(text)))
+
+
+# Pure output blocks (logs, traces, ASCII diagrams) are intentionally excluded:
+# their indentation is data, not code structure.
+CODE_LANGS = {
+    "python", "py", "bash", "sh", "shell", "console", "json", "yaml", "yml",
+    "javascript", "js", "ts", "typescript", "go", "java", "rust", "sql",
+    "toml", "ini", "diff", "ruby", "php", "csharp", "cs",
+}
+
+
+def shifted_code_blocks(text: str) -> list[str]:
+    """Find fenced blocks whose top-level code line does not start at column 0.
+
+    A snippet pasted straight out of a nested class method carries the original
+    indentation. Pin's rule: the first code line is at 0 and only relative
+    nesting remains. A leading `# path:lines` annotation comment at column 0 is
+    allowed and is not counted as a code line.
+    """
+    issues: list[str] = []
+    lines = text.split("\n")
+    i = 0
+    while i < len(lines):
+        if lines[i].startswith("```"):
+            lang = lines[i][3:].strip().lower()
+            j = i + 1
+            while j < len(lines) and not lines[j].startswith("```"):
+                j += 1
+            if lang in CODE_LANGS:
+                body = lines[i + 1 : j]
+                nonempty = [
+                    (k, len(l) - len(l.lstrip(" ")))
+                    for k, l in enumerate(body)
+                    if l.strip()
+                ]
+                header = (
+                    0
+                    if body
+                    and body[0].lstrip().startswith("#")
+                    and len(body[0]) - len(body[0].lstrip(" ")) == 0
+                    else None
+                )
+                candidates = [(k, ind) for k, ind in nonempty if k != header]
+                if candidates:
+                    shift = min(ind for _, ind in candidates)
+                    if shift >= 4 and shift % 4 == 0:
+                        issues.append(f"L{i + 1} lang={lang} shift={shift}")
+            i = j + 1
+        else:
+            i += 1
+    return issues
+
+
+def indent_report(files: list[Path], root: Path) -> list[str]:
+    bad: list[str] = []
+    for p in files:
+        if not p.is_file():
+            continue
+        for issue in shifted_code_blocks(p.read_text(encoding="utf-8")):
+            bad.append(f"{p.relative_to(root).as_posix()}:{issue}")
+    return bad
 
 
 def main() -> int:
@@ -191,6 +258,39 @@ def main() -> int:
                 "主站稿件含完整 clone 块",
                 post.name,
             )
+
+    # 5. Code block indentation. Pin 2026-11-11: the first code line starts at 0.
+    #    Scan the whole series, not just the piece being published, so a past
+    #    article cannot silently regress.
+    bad_article_indent = indent_report(articles, REPO_ROOT)
+    check(
+        not bad_article_indent,
+        "全系列正文代码块 0 缩进基线",
+        f"检查 {len(articles)} 篇；违规："
+        + (", ".join(bad_article_indent[:3]) if bad_article_indent else "无"),
+    )
+
+    all_channels = [
+        p
+        for p in sorted(usecases.glob("*/publish/*.md"))
+        if p.name.lower() != "readme.md"
+    ]
+    bad_channel_indent = indent_report(all_channels, REPO_ROOT)
+    check(
+        not bad_channel_indent,
+        "全系列渠道稿代码块 0 缩进基线",
+        f"检查 {len(all_channels)} 份；违规："
+        + (", ".join(bad_channel_indent[:3]) if bad_channel_indent else "无"),
+    )
+
+    post_path = site / "content" / "posts" / f"{slug}.md"
+    bad_post_indent = indent_report([post_path], site) if post_path.is_file() else []
+    check(
+        not bad_post_indent,
+        "主站稿件代码块 0 缩进基线",
+        f"{post_path.name}；违规："
+        + (", ".join(bad_post_indent[:3]) if bad_post_indent else "无"),
+    )
 
     width = max(len(name) for _, name, _ in results)
     print(f"发布物料门禁 · {slug}")
