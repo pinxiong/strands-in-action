@@ -46,6 +46,7 @@ publish_gate_checked: 2026-11-11T21:36+08:00  # check_publish_gate.py orchestrat
 - 物料顺序按 §6：先补 Medium 手册 + Slack 文案（10:30 档已备 16:9 封面），门禁 18/18 后才 push 主站 / 发 Dev.to / 发 BC；`publish_gate` 三项 21:36 置 true。
 - Dev.to 流程与 UC05 相同：POST 个人号 → PUT `organization_id=2794`；本机 urllib 直连 api 会 403（Forbidden Bots），加浏览器 User-Agent 后正常。
 - BC `publish.py run` 的 cover 步骤报两次 FAIL，均为 troubleshooting §11 已知误判（「当前已保存封面」行有 `prod-assets…/cove.webp` 即已落库）；重传一次确认后直接 `publish`，未按 FAIL 停发。
+- **22:25 发布后缺陷修复（Pin 指出）**：UC06 的 5 个 Python 代码块整块带着 SDK 源码的嵌套缩进（8/16/12/20 空格），第一行代码不在 0 位。已对四份稿件（article.md / publish/devto.md / publish/orchestrating-swarm.md / 主站稿件）+ review HTML 整体 dedent，保留相对层级。主站 push、Dev.to `PUT /api/articles/5017329` 均独立复核生效（元数据、canonical、封面、标签未变）；BC 线上导入时本就自动 dedent，逐行核验为 0/4 缩进，无需改动；Medium 尚未 Import，从主站 Import 即得修复版。门禁扩到 21 项（三项「代码块 0 缩进基线」全 PASS），`final_check.py` 新增阻断级扫描。提交 `a36d539` / `68cd0ab`。
 
 ## UC06 在制品台账（2026-11-11 10:30 档）
 
