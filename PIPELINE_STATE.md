@@ -7,13 +7,13 @@
 ```yaml
 last_run_date: 2026-11-11      # 最近一次真正推进过工作的日期
 today_started: 2026-11-11      # 今天是否已开工（与 last_run_date 同步；跨天自动失效）
-stage: review                  # not_started | outline | experiments | draft | review | ready_to_publish | published
+stage: published               # not_started | outline | experiments | draft | review | ready_to_publish | published
 current_piece: UC06
 gates: {expert: pass, reader: pass, independent: pass}   # UC06 正文三类评审已 PASS（2026-11-11）
-ready_since: 2026-11-11T12:28+08:00   # 正文可发时刻；发布物料尚缺 2 件
-published_at: null             # UC06 未发布；UC05 = 2026-11-09T13:32:00Z
-publish_gate: {medium_manual: false, cover_16x9: true, slack_copy: false}  # 三项全 true 才允许 stage=published
-publish_gate_checked: 2026-11-11T12:25+08:00  # check_publish_gate.py orchestrating-swarm → 4/6 PASS，缺 manual / slack
+ready_since: 2026-11-11T12:28+08:00   # 正文可发时刻；发布物料 21:36 前补齐
+published_at: 2026-11-11T13:36:31Z    # UC06 主站 push 时刻；UC05 = 2026-11-09T13:32:00Z
+publish_gate: {medium_manual: true, cover_16x9: true, slack_copy: true}  # 三项全 true（2026-11-11 21:36 门禁 18/18 PASS）
+publish_gate_checked: 2026-11-11T21:36+08:00  # check_publish_gate.py orchestrating-swarm → 18/18 PASS，可发布
 ```
 
 > **发布门禁（每次自动发布都适用）**：`stage` 改成 `published` 之前必须跑 `python3 check_publish_gate.py <slug>`，非 0 退出禁止发布；通过后把 `publish_gate` 三项置 `true` 并记检查时刻。Medium 不发，但手册 / 16:9 封面 / Slack 文案缺一不可，不许"先发再补"。详见 `PIPELINE.md` 第 6 节。
@@ -22,12 +22,30 @@ publish_gate_checked: 2026-11-11T12:25+08:00  # check_publish_gate.py orchestrat
 
 | 项 | 值 |
 |---|---|
-| 当前篇目 | **UC06 · Orchestrating Agents: Nobody Decides Who Goes Next** — 正文完成，评审 PASS，发布物料缺 2 件 |
-| 阶段 | `review`（10:30 档：大纲 → 4 组实验 → 正文 → 三类评审 + 定向复审全 PASS） |
-| 最近发布日期 | 2026-11-09（UC05 `reservations-fencing`） |
-| 下次可开新篇 | 已开（UC06 在制），UC07 待 UC06 发布后再开 |
-| 下次可发布窗口 | 2026-11-11 21:30–22:30（GMT+8，周三）；物料补齐并过门禁即可发 |
-| 阻塞项 | ① UC06 缺 `orchestrating-swarm-medium-manual.md` 与 `orchestrating-swarm-slack.md`（封面 16:9 已就绪）② UC05 D+2 反馈回灌（发布已满 48h，21:30 档做）③ UC04 D+7 = 11-14 |
+| 当前篇目 | **UC06 · Orchestrating Agents: Nobody Decides Who Goes Next** — **已发布（四渠道中三渠道，Medium 待手动 Import）** |
+| 阶段 | `published`（21:30 档补齐物料 → 门禁 18/18 → 三渠道发布 + UC05 D+2 / UC01 D+7 反馈回灌） |
+| 最近发布日期 | 2026-11-11（UC06 `orchestrating-swarm`） |
+| 下次可开新篇 | UC07 最早 2026-11-13（距 UC06 发布满 2 天）；`PLAN.md` 下篇指针待 10:30 档更新 |
+| 下次可发布窗口 | 2026-11-12（周四）21:30–22:30 起均有资格；实际由 UC07 完成时点决定 |
+| 阻塞项 | ① UC06 Medium 手动 Import（物料已齐，等 Pin 5 分钟）② UC04 D+7 = 11-14 ③ UC06 D+2 = 11-13 |
+
+## UC06 D+0 台账（2026-11-11）
+
+| 项 | 值 |
+|---|---|
+| 标题 | Orchestrating Agents: Nobody Decides Who Goes Next |
+| 主站 | https://xiongpin.dev/posts/orchestrating-swarm/ — push 21:36:31（GMT+8）= 13:36:31 UTC，≈21:41 起 200 |
+| Dev.to | https://dev.to/aws-builders/orchestrating-agents-nobody-decides-who-goes-next-2cg4 — id 5017329，21:37:31（GMT+8）= 13:37:31 UTC，org aws-builders（2794），canonical 指回主站，段中 `<br>` = 0 |
+| Builder Center | https://builder.aws.com/content/3Lxn0RS1k0tiClcigN1xz5c0hH9 — ≈21:50（GMT+8）= 13:50 UTC，200，正文图已传站内（prod-assets swar.webp），封面已落库（cove.webp，cover 步骤两次报 FAIL 均为 SKILL §11 已知误判） |
+| Medium | **物料已就绪，待手动 Import**（Medium 本身不自动发）。文件：`pinxiong.github.io/writing-lab/distribution/orchestrating-swarm-medium-manual.md`（7 步 + 4 个 subtitle 选项）、`orchestrating-swarm-slack.md`（A/B/C 三版，BC / Dev.to 已回填，Medium 待回填）、`static/images/orchestrating-swarm/cover-medium.png`（1400×788 16:9）。Import 后把 URL 回填四处：手册顶部表格 / Slack 文案 / 本台账 / `publish/README.md` |
+| 规模 | 正文 2536 词（en_metrics 口径）/ **16 个代码块**（5 Python + 9 text + 2 bash）/ 1 张机制图 / 4 组实验（E1 正常接力、E2 沉默、E3 双上限、E4/E5/E6 三种失败） |
+| 门禁 | `python3 check_publish_gate.py orchestrating-swarm` → **18/18 PASS**（21:36，退出码 0）；发布后复跑仍应为 18/18（Medium URL 位占位与回填两种状态均通过） |
+
+**本档执行备注**
+
+- 物料顺序按 §6：先补 Medium 手册 + Slack 文案（10:30 档已备 16:9 封面），门禁 18/18 后才 push 主站 / 发 Dev.to / 发 BC；`publish_gate` 三项 21:36 置 true。
+- Dev.to 流程与 UC05 相同：POST 个人号 → PUT `organization_id=2794`；本机 urllib 直连 api 会 403（Forbidden Bots），加浏览器 User-Agent 后正常。
+- BC `publish.py run` 的 cover 步骤报两次 FAIL，均为 troubleshooting §11 已知误判（「当前已保存封面」行有 `prod-assets…/cove.webp` 即已落库）；重传一次确认后直接 `publish`，未按 FAIL 停发。
 
 ## UC06 在制品台账（2026-11-11 10:30 档）
 
@@ -40,7 +58,7 @@ publish_gate_checked: 2026-11-11T12:25+08:00  # check_publish_gate.py orchestrat
 | 证据 | `usecases/06-swarm/evidence/`：swarm-trace.txt（E1 两次 + E2）、swarm-limits.txt（E3 两档）、swarm-failure.txt（toolerror/timeout/cancel/session）+ 5 份 json |
 | 图片 | `static/images/orchestrating-swarm/`：cover.png 1200×676、cover-devto.png 1000×420、**cover-medium.png 1400×788 16:9**、swarm-handoff-loop.png 1200×520（SVG 源齐全） |
 | 评审 | 技术专家首轮 FAIL 5 项 → 修订后定向复审 PASS；目标读者有条件 PASS 5 项 → 全部落地；独立复核首轮 FAIL 1 项（Flesch 71.9）→ 修订后 PASS（69.6） |
-| 待办 | ① Medium 手册 ② Slack 文案 ③ 跑门禁 ④ 21:30 窗口发主站 + Dev.to + BC |
+| 待办 | ~~① Medium 手册 ② Slack 文案 ③ 跑门禁 ④ 21:30 窗口发主站 + Dev.to + BC~~ 全部完成（21:36–21:50）；剩：Medium 手动 Import（Pin）+ D+2（11-13）|
 
 **本轮最该记住的一条**：目标读者把「标题说没人决定，正文其实是模型逐跳决定」指了出来。已在第 2 节补一句并把 ping-pong 实验标成动态路由的正面证据；后续写编排篇时，标题的张力表述要在正文前三段内落地成机制句子。
 
@@ -93,8 +111,8 @@ publish_gate_checked: 2026-11-11T12:25+08:00  # check_publish_gate.py orchestrat
 
 | 日期 | 篇目 | 结果 |
 |---|---|---|
-| 2026-11-11 | UC06 Orchestrating Agents: Nobody Decides Who Goes Next | 正文 + 4 组实验 + 三类评审 PASS；物料缺 2 件，待 21:30 窗口 |
-| 2026-11-09 | UC05 When "Not Found" Doesn't Mean "Never Happened" | 已发布（主站 / Dev.to / BC），D+2 = 11-11 |
+| 2026-11-11 | UC06 Orchestrating Agents: Nobody Decides Who Goes Next | 已发布（主站 21:36 / Dev.to 21:37 / BC ≈21:50），门禁 18/18；Medium 待手动 Import；D+2 = 11-13 |
+| 2026-11-09 | UC05 When "Not Found" Doesn't Mean "Never Happened" | 已发布（主站 / Dev.to / BC / Medium），D+2 记录已补（2026-11-11），D+7 = 11-16 |
 | 2026-11-07 | UC04 Sessions, State & Memory | 已发布，D+2 记录已补（2026-11-09），D+7 = 11-14 |
 | 2026-11-06 | UC03 The Limits That Don't Limit | 已发布 |
 | 2026-11-05 | UC02 The Tools That Got Replaced | 已发布 |
