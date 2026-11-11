@@ -4,7 +4,7 @@ published: true
 description: "A lease expiry proves only that a worker stopped reporting. In five real-clock runs, a naive reconciler wrote the same ticket twice, and a late commit survived the lookup."
 tags: ai, agents, strands, aws
 canonical_url: "https://xiongpin.dev/posts/reservations-fencing/"
-cover_image: "https://xiongpin.dev/images/reservations-fencing/cover-devto.png"
+cover_image: "https://xiongpin.dev/images/reservations-fencing/cover-devto.png?v=2252"
 ---
 
 > Verified on 2026-11-09 against `strands-agents` 1.63.0, Python 3.11 and Bedrock in `us-east-1`. Every number below came out of a run. The scripts and raw output live in https://github.com/pinxiong/strands-in-action/tree/master/usecases/05-reservations-fencing. The model in the agent experiments is `amazon.nova-pro-v1:0`.

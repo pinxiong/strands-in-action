@@ -4,7 +4,7 @@ published: true
 description: "In a Strands swarm, routing is a model's tool call and termination is silence. Real runs against strands-agents 1.63.0 show what 'completed' actually means: nobody asked for help."
 tags: ai, agents, strands, aws
 canonical_url: "https://xiongpin.dev/posts/orchestrating-swarm/"
-cover_image: "https://xiongpin.dev/images/orchestrating-swarm/cover-devto.png"
+cover_image: "https://xiongpin.dev/images/orchestrating-swarm/cover-devto.png?v=2252"
 ---
 
 > Verified on 2026-11-11 against `strands-agents` 1.63.0, Python 3.11 and Bedrock in `us-east-1`. Every number below came out of a run. The scripts and raw output live in https://github.com/pinxiong/strands-in-action/tree/master/usecases/06-swarm. The model is `amazon.nova-pro-v1:0`.
