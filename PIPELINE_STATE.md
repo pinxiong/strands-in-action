@@ -27,7 +27,7 @@ publish_gate_checked: 2026-11-11T21:36+08:00  # check_publish_gate.py orchestrat
 | 最近发布日期 | 2026-11-11（UC06 `orchestrating-swarm`） |
 | 下次可开新篇 | UC07 最早 2026-11-13（距 UC06 发布满 2 天）；`PLAN.md` 下篇指针待 10:30 档更新 |
 | 下次可发布窗口 | 2026-11-12（周四）21:30–22:30 起均有资格；实际由 UC07 完成时点决定 |
-| 阻塞项 | ① UC06 Medium 手动 Import（物料已齐，等 Pin 5 分钟）② UC04 D+7 = 11-14 ③ UC06 D+2 = 11-13 |
+| 阻塞项 | ① UC06 Medium 手动 Import（物料已齐，等 Pin 5 分钟）② **UC05 Medium 已发布头图人工替换为深蓝新图（全系列封面唯一剩余项）** ③ UC04 D+7 = 11-14 ④ UC06 D+2 = 11-13 |
 
 ## UC06 D+0 台账（2026-11-11）
 
@@ -47,7 +47,20 @@ publish_gate_checked: 2026-11-11T21:36+08:00  # check_publish_gate.py orchestrat
 - Dev.to 流程与 UC05 相同：POST 个人号 → PUT `organization_id=2794`；本机 urllib 直连 api 会 403（Forbidden Bots），加浏览器 User-Agent 后正常。
 - BC `publish.py run` 的 cover 步骤报两次 FAIL，均为 troubleshooting §11 已知误判（「当前已保存封面」行有 `prod-assets…/cove.webp` 即已落库）；重传一次确认后直接 `publish`，未按 FAIL 停发。
 - **22:25 发布后缺陷修复（Pin 指出）**：UC06 的 5 个 Python 代码块整块带着 SDK 源码的嵌套缩进（8/16/12/20 空格），第一行代码不在 0 位。已对四份稿件（article.md / publish/devto.md / publish/orchestrating-swarm.md / 主站稿件）+ review HTML 整体 dedent，保留相对层级。主站 push、Dev.to `PUT /api/articles/5017329` 均独立复核生效（元数据、canonical、封面、标签未变）；BC 线上导入时本就自动 dedent，逐行核验为 0/4 缩进，无需改动；Medium 尚未 Import，从主站 Import 即得修复版。门禁扩到 21 项（三项「代码块 0 缩进基线」全 PASS），`final_check.py` 新增阻断级扫描。提交 `a36d539` / `68cd0ab`。
-- **22:55 发布后封面风格统一（Pin 指出）**：从 UC05 起封面换成白底 `#f8fafc` + 细线排版、尺寸也变成 1200×630 / 1000×420，与 UC01–UC04 的深蓝渐变基准格格不入。新增 `tools/build_covers.py`，以 UC04 的封面为唯一模板，为 UC05 / UC06 各生成三套 SVG + PNG（cover 1400×788 / cover-devto 1200×504 / cover-medium 1400×788），右侧机制图数字与 `evidence/` 及 front matter `alt` 对齐。主站线上与 Dev.to 图片代理均已复核为深蓝新图（Dev.to front matter 加 `?v=2252` 破缓存，`published_at` / 组织 / canonical 未变，正文 clone 与 0 缩进完好）。**BC 两篇的头图是平台资产库里的旧白底 `cove.webp`，UC05 已发布的 Medium 头图同理，这两处需后台手动替换**，两份 Medium 手册已补提示；UC06 的 Medium 尚未 Import，直接用新文件。门禁扩到 24 项（全系列封面深蓝基准 + 两档 PNG 尺寸），UC05 / UC06 复跑均 24/24 PASS；按 Pin 要求把「代码块 0 缩进」明确写为 skill §8 **发布前 check 三条命令之一**，并声明今后质量规则优先做成门禁。提交 `fc66162` / `a8b4aaa`（strands）、`f3c74f8` / `6399b31`（主站）。
+- **22:55 发布后封面风格统一（Pin 指出）**：从 UC05 起封面换成白底 `#f8fafc` + 细线排版、尺寸也变成 1200×630 / 1000×420，与 UC01–UC04 的深蓝渐变基准格格不入。新增 `tools/build_covers.py`，以 UC04 的封面为唯一模板，为 UC05 / UC06 各生成三套 SVG + PNG（cover 1400×788 / cover-devto 1200×504 / cover-medium 1400×788），右侧机制图数字与 `evidence/` 及 front matter `alt` 对齐。主站线上与 Dev.to 图片代理均已复核为深蓝新图（Dev.to front matter 加 `?v=2252` 破缓存，`published_at` / 组织 / canonical 未变，正文 clone 与 0 缩进完好）。当时把 **BC 两篇头图（平台资产库里的旧白底 `cove.webp`）与 UC05 已发布的 Medium 头图**写成「需后台手动替换」就停手了，这是错的：BC 是完全可以自动换的，**当晚 23:04–23:50 已把两篇换掉并重新发布**（见下一段），Medium UC05 才成为唯一剩余人工项；两份 Medium 手册已补精确操作步骤；UC06 的 Medium 尚未 Import，直接用新文件。门禁扩到 24 项（全系列封面深蓝基准 + 两档 PNG 尺寸），UC05 / UC06 复跑均 24/24 PASS；按 Pin 要求把「代码块 0 缩进」明确写为 skill §8 **发布前 check 三条命令之一**，并声明今后质量规则优先做成门禁。提交 `fc66162` / `a8b4aaa`（strands）、`f3c74f8` / `6399b31`（主站）。
+
+## 23:04–23:50 已发布封面全渠道收口（Pin 追问：生成好的新图为什么不换上去）
+
+| 渠道 | UC05 `reservations-fencing` | UC06 `orchestrating-swarm` | 结论 |
+|---|---|---|---|
+| 主站 | `cover.png` 已是深蓝 1400×788 | 同左 | 两篇 og:image 下载采样 `(11,37,72)` / `(16,51,98)`，PASS |
+| Dev.to | `cover-devto.png?v=2252` 1200×504 | 同左 | 图片代理已破缓存，PASS |
+| Builder Center | hero 换成 `3LxyHNUWwUnbcWU2R6QDmG9F4WM/cove.webp` | hero 换成 `3Ly14JmdaNOWWjkNhL4aMmVTT2O/cove.webp` | 两篇都进编辑页重传 `cover-medium.png` 并**在同一浏览器会话 Publish**；og:image 的 base64 里解出 hero，下载采样 `(11,38,72)` / `(15,51,98)`，PASS |
+| Medium | **待人工**：已发布故事正文第一张图仍是旧白底 `1*uqaDy968kYeyCJQUuZtTmA.png`，按 `reservations-fencing-medium-manual.md` 第 4 步的四步换掉 | **未 Import**（Medium profile 最新一篇仍是 UC05），导入时直接用新深蓝 `cover-medium.png`，不存在替换动作 | Medium 无 API；本次已用登录态打通自动化浏览器并进入编辑页，但编辑器未初始化（`contenteditable=0`、Save and publish 为 disabled），无法代点，**不虚报 PASS** |
+
+- 新增 `tools/verify_live_covers.py`：下载三个自动渠道的线上头图，校验尺寸与深蓝像素。UC05 / UC06 各跑一次，三渠道全 PASS、退出码 0，Medium 输出 `MANUAL`。命令与渠道动作表已写进 `PIPELINE.md` §6。
+- 根因：上一档只做了「本地出图 + 主站 / Dev.to 换图」，把 BC 与 Medium 一起留成文字待办，没有继续做本来能自动完成的 BC。今后任何封面重建，四个渠道逐个换、逐个验，核验脚本为机器权威；Medium 只能人工，手册必须给到可点的步骤。
+- 唯一剩余动作：UC05 Medium 编辑页换头图（4 步），换完把本表 Medium 行改成 PASS 并记新的 og:image。
 
 ## UC06 在制品台账（2026-11-11 10:30 档）
 

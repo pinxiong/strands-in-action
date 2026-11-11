@@ -89,6 +89,27 @@ python3 tools/make_review_html.py usecases/<NN-slug>/article.md \
   ```
 
   三档输出：`cover.svg/png` 1400×788（主站 og:image）、`cover-devto.svg/png` 1200×504、`cover-medium.svg/png` 1400×788（viewBox 必须是 `0 0 1400 788`）。生成器里每篇的标题、副标题、右侧机制图文字必须与 `evidence/`、正文和 front matter 的 `cover.alt` 三方一致。门禁检查深蓝 SVG 标记、无白底残留，以及两档 PNG 尺寸。
+- **封面重建 = 全渠道换图 + 线上核验**（Pin 2026-11-11 追问后补）。生成新封面不等于已发布文章换了图：每个渠道各存一份副本，必须逐个换、逐个验。
+
+  | 渠道 | 换图动作 | 执行方 |
+  |---|---|---|
+  | 主站 | 覆盖 `static/images/<slug>/` 三套 PNG/SVG 并 push | 自动 |
+  | Dev.to | `PUT /api/articles/{id}` 更新 `cover_image`，图片 URL 加 `?v=<版本>` 破代理缓存 | 自动 |
+  | Builder Center | 平台资产库存的是上传时的副本：进编辑页重传 `cover-medium.png`，**并在同一浏览器会话点 Publish**；只上传不 publish，线上仍是旧 `cove.webp` | 自动（`aws-builder-center-publish` §0.0） |
+  | Medium | 无 API：已发布故事在编辑页替换正文第一张图后 Save and publish；未 Import 的直接用新文件 | 人工，手册第 4 步写死操作步骤 |
+
+  BC 封面落库是异步的：`step_cover` 报 FAIL 不要立刻判定失败，重开编辑器看 "Saved cover image" 的 asset URL，下载图像确认深蓝像素后再 publish（troubleshooting §10 / §11 / §15）。
+  **每次封面重建后，对每篇已发布文章都要跑**（退出码非 0 必须修到 PASS）：
+
+  ```bash
+  cd /Users/pinxiong/Documents/Important/strands-in-action
+  .venv/bin/python tools/verify_live_covers.py \
+      --site  https://xiongpin.dev/posts/<slug>/ \
+      --devto https://dev.to/aws-builders/<devto-slug> \
+      --bc    https://builder.aws.com/content/<id>/<slug>
+  ```
+
+  脚本下载三个线上头图，检查尺寸（1400×788 / 1200×504）与深蓝渐变像素（BC 从 og:image 的 base64 里解出 hero）；Medium 明确输出 `MANUAL`，**不许默认当成 PASS**。
 - 发布窗口当档必须产出以下三件：
   1. `pinxiong.github.io/writing-lab/distribution/<slug>-medium-manual.md` —— 按上一篇手册的结构（7 步）：Import 源 URL 与三渠道线上链接表；Title 核对；**4 个 subtitle 选项，每个标字符数（≤140）并写明推荐理由**；Byline 首行；封面路径与尺寸；5 个标签；正文核对清单（本篇实际图片数、代码块数、引用行、状态机 ASCII 块）；Advanced settings 的 canonical 勾选项与发布后回填动作。Medium URL 用 `<MEDIUM_URL>` 占位，发布后回填。
   2. `static/images/<slug>/cover-medium.png` —— **1400×788（16:9）**，源 SVG 同目录保留。出图时用 `cover-medium.svg` 的 viewBox 直接定为 `0 0 1400 788`，不要先做 1.90:1 再补边；用 `resvg-py` 渲染（其余工具在本机不可用，见 `tech-article-writing` §8）。渲染后读 PNG 头校验宽高，**尺寸不对就重做，不要写进台账当"已知偏差"**。
@@ -135,3 +156,4 @@ python3 tools/make_review_html.py usecases/<NN-slug>/article.md \
 | 2026-11-11 | 第 6 节新增「可复跑入口 = 第 4 件硬交付物」，`check_publish_gate.py` 增加全系列 clone 块体检（现在 18 项）。起因：Pin 第二次指出文章 `Try it yourself` 只写 `cd usecases/...`、正文只写 `src/` 相对路径，读者拿不到完整仓库地址。根因是 11-06 定的规则只写在 skill / README 散文里，11-07 与 11-10 改版时被覆盖，且 `final_check` 与门禁都不查。已修 UC05 四份稿件 + UC06 正文，并把规则写进 skill 顶部「永久政策」块、发布前清单、README Conventions 与用户级 MEMORY.md；机器门禁为权威判据 |
 | 2026-11-11 | 第 6 节新增「代码块 0 缩进 = 第 5 件硬交付物」，门禁从 18 项扩到 21 项；`final_check.py` 新增代码块整体缩进扫描（阻断级）。起因：UC06 已发布后 Pin 指出 5 个 Python 块带着 SDK 源码的嵌套缩进（8/16/12/20 空格）、来源注释却在 0 位，读者看到整块右移、`if` 与 `else` 层级错乱。此前 skill / final_check / 门禁都没有任何一条覆盖代码块缩进。已修 UC06 四份稿件 + HTML 预览，并把规则写进 skill 顶部「永久政策」块、发布前清单、README Conventions 与用户级 MEMORY.md；机器门禁为权威判据 |
 | 2026-11-11 | 第 6 节新增「封面风格 = 第 6 件硬交付物」，门禁从 21 项扩到 24 项（全系列封面 SVG 深蓝基准 + `cover.png` / `cover-devto.png` 尺寸）；新增 `tools/build_covers.py` 作为封面唯一模板，UC05 / UC06 三套封面全部重做为 UC01–UC04 的深蓝风格。起因：Pin 指出从 UC05 开始封面换成白底 `#f8fafc` 细线排版、尺寸也变成 1200×630 / 1000×420，与之前几篇格格不入。同时按 Pin 要求把「代码块 0 缩进」明确固化为**发布前 check 三条命令之一**（skill §8），并声明今后任何质量规则一律优先做成门禁检查项，不靠文档里"记得" |
+| 2026-11-11 | 第 6 节新增「封面重建 = 全渠道换图 + 线上核验」，新增 `tools/verify_live_covers.py`（下载主站 / Dev.to / BC 三个线上头图，校验尺寸与深蓝像素，Medium 只报 `MANUAL`）。起因：Pin 指出 UC05 / UC06 的新封面生成并放到仓库后就停手，BC 两篇线上仍挂平台资产库里的旧白底 `cove.webp`。当晚用 `aws-builder-center-publish` 对两篇重传封面并在同一会话 Publish，线上 hero 分别换成 `3LxyHNUWw…/cove.webp` 与 `3Ly14Jmd…/cove.webp`，两篇跑核验脚本均三渠道 PASS；Medium UC05 已发布故事仍需人工替换正文第一张图（手册第 4 步），UC06 尚未 Import，直接用新图即可 |
