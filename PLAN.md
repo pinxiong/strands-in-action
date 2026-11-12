@@ -16,7 +16,7 @@
 | A | 系列规模 | **14 篇完整阶梯（D1→D5）+ 1 篇概览** |
 | B | 首发篇 | UC01 · The Loop（已发布） |
 | C | 仓库组织 | 独立仓库 `strands-in-action`，与 AgentCore 系列双向 cross-link |
-| D | 下一篇 | **UC05 · When "Not Found" Doesn't Mean "Never Happened"** |
+| D | 下一篇 | **UC07 · Orchestrating Agents: The Graph Is Yours, the Judgment Isn't**（Graph；UC05 / UC06 已发布，最早 2026-11-13 开写） |
 
 ---
 

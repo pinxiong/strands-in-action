@@ -25,7 +25,7 @@ publish_gate_checked: 2026-11-11T21:36+08:00  # check_publish_gate.py orchestrat
 | 当前篇目 | **UC06 · Orchestrating Agents: Nobody Decides Who Goes Next** — **已发布（四渠道中三渠道，Medium 待手动 Import）** |
 | 阶段 | `published`（21:30 档补齐物料 → 门禁 18/18 → 三渠道发布 + UC05 D+2 / UC01 D+7 反馈回灌） |
 | 最近发布日期 | 2026-11-11（UC06 `orchestrating-swarm`） |
-| 下次可开新篇 | UC07 最早 2026-11-13（距 UC06 发布满 2 天）；`PLAN.md` 下篇指针待 10:30 档更新 |
+| 下次可开新篇 | UC07 最早 2026-11-13（距 UC06 发布满 2 天）；`PLAN.md` / `PIPELINE.md` 下篇指针已于 2026-11-12 更新为 UC07；三个流水线触发点（10:30 / 14:30 / 21:30）当日按 `PIPELINE.md` 原样重建 |
 | 下次可发布窗口 | 2026-11-12（周四）21:30–22:30 起均有资格；实际由 UC07 完成时点决定 |
 | 阻塞项 | ① UC06 Medium 手动 Import（物料已齐，等 Pin 5 分钟）② **UC05 Medium 已发布头图人工替换为深蓝新图（全系列封面唯一剩余项）** ③ UC04 D+7 = 11-14 ④ UC06 D+2 = 11-13 |
 

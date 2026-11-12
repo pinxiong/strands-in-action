@@ -24,7 +24,7 @@
 
 ## 2. 节奏判定
 
-1. 读 `PLAN.md` 取下一篇（当前：UC01–UC05 已发布，下一篇 UC06《Orchestrating Agents: Nobody Decides Who Goes Next》）。
+1. 读 `PLAN.md` 取下一篇（当前：UC01–UC06 已发布，下一篇 UC07《Orchestrating Agents: The Graph Is Yours, the Judgment Isn't》，最早 2026-11-13 开写）。
 2. 从 `pinxiong.github.io/writing-lab/engagement/data/latest.json` 取**本系列**（`series == "strands-in-action"`）的最近发布日期；`series == "other"` 的独立文章不参与本系列的节奏判定。
 3. 距最近发布不足 2 天且无在制品 → 回「未到写作窗口」，结束。
 4. 有未完成篇目 → 继续它的下一个阶段。满 2 天且无在制品 → 开新篇。**每 2–3 天一篇，不日更。**
@@ -157,3 +157,4 @@ python3 tools/make_review_html.py usecases/<NN-slug>/article.md \
 | 2026-11-11 | 第 6 节新增「代码块 0 缩进 = 第 5 件硬交付物」，门禁从 18 项扩到 21 项；`final_check.py` 新增代码块整体缩进扫描（阻断级）。起因：UC06 已发布后 Pin 指出 5 个 Python 块带着 SDK 源码的嵌套缩进（8/16/12/20 空格）、来源注释却在 0 位，读者看到整块右移、`if` 与 `else` 层级错乱。此前 skill / final_check / 门禁都没有任何一条覆盖代码块缩进。已修 UC06 四份稿件 + HTML 预览，并把规则写进 skill 顶部「永久政策」块、发布前清单、README Conventions 与用户级 MEMORY.md；机器门禁为权威判据 |
 | 2026-11-11 | 第 6 节新增「封面风格 = 第 6 件硬交付物」，门禁从 21 项扩到 24 项（全系列封面 SVG 深蓝基准 + `cover.png` / `cover-devto.png` 尺寸）；新增 `tools/build_covers.py` 作为封面唯一模板，UC05 / UC06 三套封面全部重做为 UC01–UC04 的深蓝风格。起因：Pin 指出从 UC05 开始封面换成白底 `#f8fafc` 细线排版、尺寸也变成 1200×630 / 1000×420，与之前几篇格格不入。同时按 Pin 要求把「代码块 0 缩进」明确固化为**发布前 check 三条命令之一**（skill §8），并声明今后任何质量规则一律优先做成门禁检查项，不靠文档里"记得" |
 | 2026-11-11 | 第 6 节新增「封面重建 = 全渠道换图 + 线上核验」，新增 `tools/verify_live_covers.py`（下载主站 / Dev.to / BC 三个线上头图，校验尺寸与深蓝像素，Medium 只报 `MANUAL`）。起因：Pin 指出 UC05 / UC06 的新封面生成并放到仓库后就停手，BC 两篇线上仍挂平台资产库里的旧白底 `cove.webp`。当晚用 `aws-builder-center-publish` 对两篇重传封面并在同一会话 Publish，线上 hero 分别换成 `3LxyHNUWw…/cove.webp` 与 `3Ly14Jmd…/cove.webp`，两篇跑核验脚本均三渠道 PASS；Medium UC05 已发布故事仍需人工替换正文第一张图（手册第 4 步），UC06 尚未 Import，直接用新图即可 |
+| 2026-11-12 | 第 2 节下篇指针从 UC06 更新为 UC07（Graph，最早 11-13 开写），`PLAN.md` 决策表 D 行同步。同时把 §0 写死、但已从自动化列表里消失的三个触发点（10:30 / 14:30 / 21:30）按原样重建；21:30 反馈日报的健康检查改成「先判断是否未到写作窗口，未到窗口不告警」，避免把正常节奏间隔误报成电脑关机。起因：Pin 问「到时间了你会记得吗」，核查发现定时列表只剩日报与周复盘，流水线根本不会自己醒 |
