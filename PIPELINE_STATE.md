@@ -40,7 +40,7 @@ publish_gate_checked: 2026-11-13T22:17+08:00  # check_publish_gate.py orchestrat
 | Slug | `orchestrating-graph` |
 | 主站 | https://xiongpin.dev/posts/orchestrating-graph/ — push 22:03:43（GMT+8）= 14:03:43 UTC，线上 200；og:image = `cover.png` 深蓝 |
 | Dev.to | https://dev.to/aws-builders/orchestrating-agents-the-graph-is-yours-the-judgment-isnt-16dk — id 5030338，22:04:15（GMT+8）= 14:04:15 UTC，org aws-builders，canonical 指回主站，cover 经 `PUT main_image` 补为深蓝 `cover-devto.png?v=2219`，线上 og:image 已复核 |
-| Builder Center | <BC_URL>（见本节发布后回填） |
+| Builder Center | https://builder.aws.com/content/3M3UfdK6svKCg1nD2c3m1x9OnqZ/orchestrating-agents-the-graph-is-yours-the-judgment-isnt（见本节发布后回填） |
 | Medium | **物料已就绪，待手动 Import**：`pinxiong.github.io/writing-lab/distribution/orchestrating-graph-medium-manual.md`（7 步 + 4 个 subtitle，主站 / Dev.to 链接已回填）、`orchestrating-graph-slack.md`（A/B/C 三版，无主站链接）、`static/images/orchestrating-graph/cover-medium.png`（1400×788 深蓝） |
 | 规模 | 正文 2644 词（HTML 预览口径）/ 12 个代码块（8 Python + 2 text + 2 bash）/ 零配图 / 零表格；9 组真实 Bedrock 运行 |
 | 门禁 | `check_publish_gate.py orchestrating-graph` → **24/24 PASS**（22:17）；`final_check.py` 0 项；`build_devto.py --check` 0 份需重写；`hugo -D --destination /tmp/hb-check --quiet` 退出码 0 |
