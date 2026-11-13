@@ -1,0 +1,112 @@
+{
+  "status": "Status.COMPLETED",
+  "execution_order": [
+    "A",
+    "join",
+    "B",
+    "join"
+  ],
+  "total_nodes": 3,
+  "completed_nodes": 3,
+  "failed_nodes": 0,
+  "execution_count": 4,
+  "execution_time_ms": 9473,
+  "tokens": {
+    "input": 1284,
+    "output": 81,
+    "total": 1365
+  },
+  "model_calls": {
+    "B": 2,
+    "A": 1,
+    "join": 2
+  },
+  "turns": [
+    {
+      "node": "A",
+      "start": 1794539394.042,
+      "stop": 1794539396.222,
+      "duration_s": 2.179
+    },
+    {
+      "node": "join",
+      "start": 1794539396.222,
+      "stop": 1794539397.786,
+      "duration_s": 1.564
+    },
+    {
+      "node": "B",
+      "start": 1794539396.223,
+      "stop": 1794539402.886,
+      "duration_s": 6.663
+    },
+    {
+      "node": "join",
+      "start": 1794539402.886,
+      "stop": 1794539403.514,
+      "duration_s": 0.628
+    }
+  ],
+  "overlaps": [
+    [
+      "join",
+      "B"
+    ]
+  ],
+  "ledger": [
+    {
+      "tool": "slow_step",
+      "t": 1794539402.1843562,
+      "seconds": 4
+    }
+  ],
+  "predicate_log": [],
+  "first_inputs": {
+    "B": "Original Task: One task, one fast parent, one slow parent, one join.\n\nInputs from previous nodes:\n\nFrom A:\n  - Agent: A RESULT.\n",
+    "A": "One task, one fast parent, one slow parent, one join.",
+    "join": "Original Task: One task, one fast parent, one slow parent, one join.\n\nInputs from previous nodes:\n\nFrom A:\n  - Agent: A RESULT.\n"
+  },
+  "results_text": {
+    "A": "A RESULT.\n",
+    "join": "JOIN RESULT.\n",
+    "B": "B RESULT\n"
+  },
+  "extra": {
+    "mode": "or",
+    "shape": "A -> B ; A -> join ; B -> join",
+    "turns": [
+      {
+        "node": "A",
+        "start": 1794539394.042,
+        "stop": 1794539396.222
+      },
+      {
+        "node": "join",
+        "start": 1794539396.222,
+        "stop": 1794539397.786
+      },
+      {
+        "node": "B",
+        "start": 1794539396.223,
+        "stop": 1794539402.886
+      },
+      {
+        "node": "join",
+        "start": 1794539402.886,
+        "stop": 1794539403.514
+      }
+    ],
+    "overlap_pairs": [
+      [
+        "join",
+        "B"
+      ]
+    ],
+    "join_started_before_B_stopped": true,
+    "from_blocks_in_join_input": [
+      "From A:"
+    ],
+    "join_input": "Original Task: One task, one fast parent, one slow parent, one join.\n\nInputs from previous nodes:\n\nFrom A:\n  - Agent: A RESULT.\n",
+    "warnings": []
+  }
+}

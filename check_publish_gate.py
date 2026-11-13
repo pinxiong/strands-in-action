@@ -61,6 +61,7 @@ SERIES_SLUGS = {
     "sessions-state-memory",
     "reservations-fencing",
     "orchestrating-swarm",
+    "orchestrating-graph",
 }
 
 

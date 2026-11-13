@@ -154,6 +154,31 @@ UC06_VISUAL = f"""
   <text x="1185" y="646" font-family="{MONO}" font-size="16" fill="#8fb3e3" text-anchor="middle">completed means nobody asked for help</text>
 """
 
+UC07_VISUAL = f"""
+  <!-- right visual: predicate evaluations and a join that ran twice -->
+  <rect x="950" y="150" width="470" height="180" rx="14" fill="#123a6b" stroke="#4f8ff7" stroke-width="2"/>
+  <text x="985" y="190" font-family="{MONO}" font-size="17" fill="#8fb3e3">condition(state) &#8594; bool</text>
+  <text x="985" y="222" font-family="{MONO}" font-size="17" fill="#8fb3e3">model calls at eval  2 / 2 / 0</text>
+  <text x="985" y="254" font-family="{MONO}" font-size="17" fill="#8fb3e3">order  A, join, B, join</text>
+  <text x="985" y="286" font-family="{MONO}" font-size="17" fill="#ffffff">one parent is enough to fire</text>
+  <text x="985" y="316" font-size="13" fill="#5f83b8" font-family="{MONO}">strands-agents 1.63.0, us-east-1</text>
+
+  <line x1="1185" y1="330" x2="1185" y2="412" stroke="#7db4ff" stroke-width="2.5" marker-end="url(#covArr7)"/>
+
+  <rect x="950" y="420" width="225" height="96" rx="12" fill="#1a4a8f" stroke="#4f8ff7" stroke-width="2"/>
+  <text x="1062" y="464" font-size="30" font-weight="700" fill="#9cc2ff" text-anchor="middle">3</text>
+  <text x="1062" y="492" font-size="13.5" fill="#9cc2ff" text-anchor="middle">predicate evals, one edge</text>
+
+  <rect x="1195" y="420" width="255" height="96" rx="12" fill="#1a4a8f" stroke="#4f8ff7" stroke-width="2"/>
+  <text x="1322" y="464" font-size="30" font-weight="700" fill="#ffffff" text-anchor="middle">2</text>
+  <text x="1322" y="492" font-size="13.5" fill="#9cc2ff" text-anchor="middle">times the join ran</text>
+
+  <!-- takeaway chip -->
+  <rect x="950" y="576" width="470" height="92" rx="14" fill="#123a6b" stroke="#4f8ff7" stroke-width="2"/>
+  <text x="1185" y="616" font-size="21" font-weight="600" fill="#ffffff" text-anchor="middle">structure is yours, input is not</text>
+  <text x="1185" y="646" font-family="{MONO}" font-size="16" fill="#8fb3e3" text-anchor="middle">set a cap and prove that it converges</text>
+"""
+
 COVERS = {
     "reservations-fencing": {
         "num": 5,
@@ -172,6 +197,15 @@ COVERS = {
             "Silence ends the swarm, not the task.",
         ],
         "visual": UC06_VISUAL,
+    },
+    "orchestrating-graph": {
+        "num": 7,
+        "title": [("The Graph", False), ("Is Yours, the", False), ("Judgment Isn't", True)],
+        "subtitle": [
+            "Routing is a Python predicate, not a model call.",
+            "A join is an OR, and a cycle is unbounded by default.",
+        ],
+        "visual": UC07_VISUAL,
     },
 }
 

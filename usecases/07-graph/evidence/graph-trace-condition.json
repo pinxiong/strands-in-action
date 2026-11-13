@@ -1,0 +1,125 @@
+{
+  "status": "Status.COMPLETED",
+  "execution_order": [
+    "researcher",
+    "calculator",
+    "writer"
+  ],
+  "total_nodes": 4,
+  "completed_nodes": 3,
+  "failed_nodes": 0,
+  "execution_count": 3,
+  "execution_time_ms": 31813,
+  "tokens": {
+    "input": 4798,
+    "output": 347,
+    "total": 5145
+  },
+  "model_calls": {
+    "researcher": 2,
+    "calculator": 2,
+    "writer": 2,
+    "fallback": 0
+  },
+  "turns": [
+    {
+      "node": "researcher",
+      "start": 1794539295.341,
+      "stop": 1794539319.216,
+      "duration_s": 23.876
+    },
+    {
+      "node": "calculator",
+      "start": 1794539319.217,
+      "stop": 1794539322.139,
+      "duration_s": 2.922
+    },
+    {
+      "node": "writer",
+      "start": 1794539322.139,
+      "stop": 1794539327.153,
+      "duration_s": 5.014
+    }
+  ],
+  "overlaps": [],
+  "ledger": [
+    {
+      "tool": "sum_tokens",
+      "t": 1794539321.329671,
+      "total": 3640
+    },
+    {
+      "tool": "save_draft",
+      "t": 1794539326.408681,
+      "words": 6,
+      "text": "Total token count: 3640. Cost: $0.002912."
+    }
+  ],
+  "predicate_log": [
+    {
+      "edge": "calculator->fallback",
+      "expect": "3640 not in upstream text",
+      "hit": false,
+      "completed": [
+        "calculator",
+        "researcher"
+      ],
+      "upstream_excerpt": "The three main points are: Each node rebuilds its own prompt from scratch, every handoff message is paid for again in the next node's input, and shared context ",
+      "model_calls_at_eval": {
+        "researcher": 2,
+        "calculator": 2,
+        "writer": 0,
+        "fallback": 0
+      }
+    },
+    {
+      "edge": "calculator->writer",
+      "expect": "3640 in upstream text",
+      "hit": true,
+      "completed": [
+        "calculator",
+        "researcher"
+      ],
+      "upstream_excerpt": "The three main points are: Each node rebuilds its own prompt from scratch, every handoff message is paid for again in the next node's input, and shared context ",
+      "model_calls_at_eval": {
+        "researcher": 2,
+        "calculator": 2,
+        "writer": 0,
+        "fallback": 0
+      }
+    },
+    {
+      "edge": "calculator->writer",
+      "expect": "3640 in upstream text",
+      "hit": true,
+      "completed": [
+        "calculator",
+        "researcher"
+      ],
+      "upstream_excerpt": "The three main points are: Each node rebuilds its own prompt from scratch, every handoff message is paid for again in the next node's input, and shared context ",
+      "model_calls_at_eval": {
+        "researcher": 2,
+        "calculator": 2,
+        "writer": 0,
+        "fallback": 0
+      }
+    }
+  ],
+  "first_inputs": {
+    "researcher": "Produce the brief described in data/brief-input.json. Research first, then compute the totals, then write the brief.",
+    "calculator": "Original Task: Produce the brief described in data/brief-input.json. Research first, then compute the totals, then write the brief.\n\nInputs from previous nodes:\n\nFrom researcher:\n  - Agent: The three main points are: Each node rebuilds its own prompt from scratch, every handoff message is paid for again in the next node's input, and shared context is re-serialized into every downstream prompt.\n",
+    "writer": "Original Task: Produce the brief described in data/brief-input.json. Research first, then compute the totals, then write the brief.\n\nInputs from previous nodes:\n\nFrom calculator:\n  - Agent: The total token count is 3640, and the cost is $0.002912.\n",
+    "fallback": "<no messages>"
+  },
+  "results_text": {
+    "researcher": "The three main points are: Each node rebuilds its own prompt from scratch, every handoff message is paid for again in the next node's input, and shared context is re-serialized into every downstream prompt.\n",
+    "calculator": "The total token count is 3640, and the cost is $0.002912.\n",
+    "writer": "<thinking> The save_draft tool has successfully saved the brief. The task is now complete. </thinking>\n\nThe brief has been saved.\n"
+  },
+  "extra": {
+    "mode": "condition",
+    "build_warnings": [],
+    "run_warnings": [],
+    "predicate_evals": 3
+  }
+}

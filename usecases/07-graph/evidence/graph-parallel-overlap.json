@@ -1,0 +1,72 @@
+{
+  "status": "Status.COMPLETED",
+  "execution_order": [
+    "left",
+    "right"
+  ],
+  "total_nodes": 2,
+  "completed_nodes": 2,
+  "failed_nodes": 0,
+  "execution_count": 2,
+  "execution_time_ms": 5493,
+  "tokens": {
+    "input": 1956,
+    "output": 90,
+    "total": 2046
+  },
+  "model_calls": {
+    "left": 2,
+    "right": 2
+  },
+  "turns": [
+    {
+      "node": "right",
+      "start": 1794539412.72,
+      "stop": 1794539418.212,
+      "duration_s": 5.492
+    },
+    {
+      "node": "left",
+      "start": 1794539412.721,
+      "stop": 1794539418.099,
+      "duration_s": 5.378
+    }
+  ],
+  "overlaps": [
+    [
+      "right",
+      "left"
+    ]
+  ],
+  "ledger": [
+    {
+      "tool": "slow_step",
+      "t": 1794539417.453896,
+      "seconds": 3
+    },
+    {
+      "tool": "slow_step",
+      "t": 1794539417.5275362,
+      "seconds": 3
+    }
+  ],
+  "predicate_log": [],
+  "first_inputs": {
+    "left": "Two independent branches, one task.",
+    "right": "Two independent branches, one task."
+  },
+  "results_text": {
+    "left": "LEFT DONE\n",
+    "right": "RIGHT DONE\n"
+  },
+  "extra": {
+    "mode": "overlap",
+    "overlap_pairs": [
+      [
+        "right",
+        "left"
+      ]
+    ],
+    "warnings": []
+  }
+}

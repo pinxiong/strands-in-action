@@ -1,0 +1,26 @@
+WROTE graph-failure-raise.json
+status=Status.COMPLETED order=['good', 'bad', 'good_downstream', 'bad_downstream'] tokens=1659 time_ms=4794
+model_calls={'bad': 2, 'good': 1, 'bad_downstream': 1, 'good_downstream': 1} overlaps=[('good', 'bad'), ('good_downstream', 'bad_downstream')]
+predicate_log=[]
+ledger=[{'tool': 'explode', 't': 1794539553.958143}]
+--- first_input[bad] ---
+Two branches. One of them fails.
+--- first_input[good] ---
+Two branches. One of them fails.
+--- first_input[bad_downstream] ---
+Original Task: Two branches. One of them fails.
+
+Inputs from previous nodes:
+
+From bad:
+  - Agent: BAD BRANCH FAILED
+
+--- first_input[good_downstream] ---
+Original Task: Two branches. One of them fails.
+
+Inputs from previous nodes:
+
+From good:
+  - Agent: GOOD BRANCH DONE
+
+extra={'mode': 'raise', 'warnings': [], 'graph_error': '<no exception>', 'bad_node_status': 'Status.COMPLETED', 'bad_downstream_ran': True, 'good_downstream_ran': True}

@@ -1,0 +1,82 @@
+{
+  "status": "Status.FAILED",
+  "execution_order": [
+    "ping",
+    "pong",
+    "ping",
+    "pong",
+    "ping",
+    "pong"
+  ],
+  "total_nodes": 2,
+  "completed_nodes": 2,
+  "failed_nodes": 0,
+  "execution_count": 6,
+  "execution_time_ms": 18586,
+  "tokens": {
+    "input": 596,
+    "output": 48,
+    "total": 644
+  },
+  "model_calls": {
+    "ping": 3,
+    "pong": 3
+  },
+  "turns": [
+    {
+      "node": "ping",
+      "start": 1794539569.617,
+      "stop": 1794539583.594,
+      "duration_s": 13.977
+    },
+    {
+      "node": "pong",
+      "start": 1794539583.594,
+      "stop": 1794539585.215,
+      "duration_s": 1.621
+    },
+    {
+      "node": "ping",
+      "start": 1794539585.216,
+      "stop": 1794539586.049,
+      "duration_s": 0.833
+    },
+    {
+      "node": "pong",
+      "start": 1794539586.049,
+      "stop": 1794539586.932,
+      "duration_s": 0.883
+    },
+    {
+      "node": "ping",
+      "start": 1794539586.933,
+      "stop": 1794539587.559,
+      "duration_s": 0.626
+    },
+    {
+      "node": "pong",
+      "start": 1794539587.559,
+      "stop": 1794539588.202,
+      "duration_s": 0.642
+    }
+  ],
+  "overlaps": [],
+  "ledger": [],
+  "predicate_log": [],
+  "first_inputs": {
+    "ping": "Bounce between the two nodes.",
+    "pong": "Original Task: Bounce between the two nodes.\n\nInputs from previous nodes:\n\nFrom ping:\n  - Agent: PING.\n"
+  },
+  "results_text": {
+    "ping": "PING.\n",
+    "pong": "PONG.\n"
+  },
+  "extra": {
+    "mode": "capped",
+    "build_warnings": [],
+    "run_warnings": [],
+    "max_node_executions": 6,
+    "execution_timeout": null,
+    "node_executions": 6
+  }
+}

@@ -1,0 +1,11 @@
+{
+  "topic": "Why a three-node agent swarm costs more tokens than a single agent",
+  "points": [
+    "Each node rebuilds its own prompt from scratch.",
+    "Every handoff message is paid for again in the next node's input.",
+    "Shared context is re-serialized into every downstream prompt."
+  ],
+  "per_node_tokens": [1180, 940, 1520],
+  "price_per_1k_tokens": 0.0008,
+  "deliverable": "a brief of 100 words or fewer with the total token count and the cost in USD"
+}

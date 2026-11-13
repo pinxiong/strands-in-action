@@ -5,15 +5,16 @@
 ## 机器可读字段（自动任务先读这几行）
 
 ```yaml
-last_run_date: 2026-11-11      # 最近一次真正推进过工作的日期
-today_started: 2026-11-11      # 今天是否已开工（与 last_run_date 同步；跨天自动失效）
-stage: published               # not_started | outline | experiments | draft | review | ready_to_publish | published
-current_piece: UC06
-gates: {expert: pass, reader: pass, independent: pass}   # UC06 正文三类评审已 PASS（2026-11-11）
-ready_since: 2026-11-11T12:28+08:00   # 正文可发时刻；发布物料 21:36 前补齐
-published_at: 2026-11-11T13:36:31Z    # UC06 主站 push 时刻；UC05 = 2026-11-09T13:32:00Z
-publish_gate: {medium_manual: true, cover_16x9: true, slack_copy: true}  # 三项全 true（2026-11-11 21:36 门禁 18/18 PASS）
-publish_gate_checked: 2026-11-11T21:36+08:00  # check_publish_gate.py orchestrating-swarm → 18/18 PASS，可发布
+last_run_date: 2026-11-13      # 最近一次真正推进过工作的日期
+today_started: 2026-11-13      # 今天是否已开工（与 last_run_date 同步；跨天自动失效）
+stage: review                  # not_started | outline | experiments | draft | review | ready_to_publish | published
+current_piece: UC07
+current_slug: orchestrating-graph
+gates: {expert: pass, reader: pass, independent: pass}   # UC07 三类独立评审全 PASS（2026-11-13；修订一轮 + 终审 PASS）
+ready_since: null              # 尚未 ready_to_publish：门禁 23/24，Slack 渠道链接待发布后回填
+published_at: 2026-11-11T13:36:31Z    # 最近发布仍是 UC06；UC05 = 2026-11-09T13:32:00Z
+publish_gate: {medium_manual: true, cover_16x9: true, slack_copy: true}  # 三件物料已建（占位），但 Slack 链接位未回填
+publish_gate_checked: 2026-11-13T11:20+08:00  # check_publish_gate.py orchestrating-graph → 23/24，1 项预期内 FAIL（未发布占位符）
 ```
 
 > **发布门禁（每次自动发布都适用）**：`stage` 改成 `published` 之前必须跑 `python3 check_publish_gate.py <slug>`，非 0 退出禁止发布；通过后把 `publish_gate` 三项置 `true` 并记检查时刻。Medium 不发，但手册 / 16:9 封面 / Slack 文案缺一不可，不许"先发再补"。详见 `PIPELINE.md` 第 6 节。
@@ -22,12 +23,29 @@ publish_gate_checked: 2026-11-11T21:36+08:00  # check_publish_gate.py orchestrat
 
 | 项 | 值 |
 |---|---|
-| 当前篇目 | **UC06 · Orchestrating Agents: Nobody Decides Who Goes Next** — **已发布（四渠道中三渠道，Medium 待手动 Import）** |
-| 阶段 | `published`（21:30 档补齐物料 → 门禁 18/18 → 三渠道发布 + UC05 D+2 / UC01 D+7 反馈回灌） |
-| 最近发布日期 | 2026-11-11（UC06 `orchestrating-swarm`） |
-| 下次可开新篇 | UC07 最早 2026-11-13（距 UC06 发布满 2 天）；`PLAN.md` / `PIPELINE.md` 下篇指针已于 2026-11-12 更新为 UC07；三个流水线触发点（10:30 / 14:30 / 21:30）当日按 `PIPELINE.md` 原样重建 |
-| 下次可发布窗口 | 2026-11-12（周四）21:30–22:30 起均有资格；实际由 UC07 完成时点决定 |
-| 阻塞项 | ① UC06 Medium 手动 Import（物料已齐，等 Pin 5 分钟）② **UC05 Medium 已发布头图人工替换为深蓝新图（全系列封面唯一剩余项）** ③ UC04 D+7 = 11-14 ④ UC06 D+2 = 11-13 |
+| 当前篇目 | **UC07 · Orchestrating Agents: The Graph Is Yours, the Judgment Isn't**（slug `orchestrating-graph`）— **在制品，三类评审全 PASS，未发布** |
+| 阶段 | `review`（10:30 档：环境自检 → 节奏判定 → 大纲 → 6 组真实实验 → 英文正文 → HTML 预览 → 三类评审 → 修订 → 终审 PASS → 三件物料与封面占位） |
+| 最近发布日期 | 2026-11-11（UC06 `orchestrating-swarm`）；节奏判定只统计 `series == "strands-in-action"` |
+| 下次可开新篇 | UC08 最早 2026-11-15 之后（距 UC07 发布满 2 天，按实际发布日重算） |
+| 下次可发布窗口 | **今天 2026-11-13（周五）21:30–22:30 GMT+8**，条件：回填 BC / Dev.to 链接 → 门禁 24/24 → 主站 `draft: false` + Hugo 构建通过。周六日不发 |
+| 阻塞项 | ① 发布前回填 Slack 三条渠道链接并重跑门禁（当前 23/24）② 主站稿件 `content/posts/orchestrating-graph.md` 待生成 ③ UC06 Medium 手动 Import ④ UC05 Medium 头图人工替换 ⑤ UC04 D+7 = 11-14 ⑥ UC06 D+2 = 11-13 |
+
+## UC07 在制品台账（2026-11-13 10:30 档）
+
+| 项 | 值 |
+|---|---|
+| 标题 | Orchestrating Agents: The Graph Is Yours, the Judgment Isn't |
+| Slug | `orchestrating-graph` |
+| 正文 | 2644 词（HTML 预览口径）/ 12 个代码块（8 个 Python 源码逐字段 + 2 text + 2 bash）/ 正文零配图 / 零 Markdown 表格 |
+| 实验 | 6 组脚本、9 条复跑命令 = 8 次图运行 + 1 次构造期检查；证据 `evidence/*.txt` + `*.json` 共 9 组 |
+| 关键实测 | 条件谓词求值 3 次且 3 次 `model_calls_at_eval` 快照恒为 `{r:2,c:2,w:0,f:0}`；fan-in `order=['A','join','B','join']`（join 跑两次、与 B 重叠、输入只有 `From A:`）；`overlap_pairs=[('right','left')]`（对照 UC06 空 overlap）；不设限 build 发 unbounded warning、上限 6 → 6 次执行后 FAILED；工具抛异常节点仍 COMPLETED，hook 取消整图 abort |
+| 最锋利发现 | `_find_newly_ready_nodes` 的 docstring 承诺「失败剪枝、兄弟分支继续」，但 1.63.0 实测两条注入路径都走不到：`except` 分支注释为 fail-fast。正文按实测写，并明写「不声称剪枝代码不可达」 |
+| 指标 | `final_check` 0 项；`en_metrics` 平均句长 13.6 / stdev 6.7 / 被动 3.98 / 连接词 0.65 / 名词化 1.77 / Flesch 72.0 / >40 词长句 0（stdev、连接词、Flesch 略偏舒适区，属软性观察，非阻断） |
+| 评审 | 技术专家首轮 FAIL 2 项（scope 数字、命令数口径）→ 修订 PASS；目标读者首轮 FAIL 3 项（本体类别、UC06 最小上下文、复跑凭据/区域）→ 修订 PASS；独立复核首轮 PASS（硬规则全过）；修订后复审 FAIL 2 项（源码块 `return True` 缩进、`unbounded` 说明与新事实冲突）→ 修复后终审 PASS。**三类全 PASS** |
+| 物料 | Medium 手册（7 步 / 4 个 subtitle 均 ≤140 且字符数实测准确）、`cover-medium.png` 1400×788 深蓝、Slack A/B/C 三版（无主站链接）；三套封面由 `build_covers.py --slug orchestrating-graph` 生成，`--check` ALL PASS |
+| 门禁 | `python3 check_publish_gate.py orchestrating-graph --site ...` → **23/24**，唯一 FAIL「Slack 三渠道齐全且无主站链接」是未发布的占位符，发布后回填即 PASS。**不发布、不置 `published`** |
+| HTML 预览 | `usecases/07-graph/review/article-preview.html`（31 KB，已 `present_files` 递给 Pin；正文改过 4 次，每次覆盖重生成） |
+| 待办 | ① 21:30 窗口：生成主站稿件 → 回填 Slack 三链接 → 跑门禁 24/24 + `final_check` + `hugo -D` → 发布主站 / Dev.to / BC ② Medium 手动 Import 后回填四处 ③ D+2 / D+7 反馈回灌 |
 
 ## UC06 D+0 台账（2026-11-11）
 
@@ -126,6 +144,7 @@ publish_gate_checked: 2026-11-11T21:36+08:00  # check_publish_gate.py orchestrat
 
 | 日期 | 篇目 | 结果 |
 |---|---|---|
+| 2026-11-13 | UC07 Orchestrating Agents: The Graph Is Yours, the Judgment Isn't | 10:30 档开写并完成大纲 + 9 组真实实验 + 正文 + HTML 预览 + 三类评审（修订一轮、终审 PASS）；三件物料与三套封面已建占位；门禁 23/24（Slack 链接位待回填）。**未发布**，等 21:30 窗口 |
 | 2026-11-11 | UC06 Orchestrating Agents: Nobody Decides Who Goes Next | 已发布（主站 21:36 / Dev.to 21:37 / BC ≈21:50），门禁 18/18；Medium 待手动 Import；D+2 = 11-13 |
 | 2026-11-09 | UC05 When "Not Found" Doesn't Mean "Never Happened" | 已发布（主站 / Dev.to / BC / Medium），D+2 记录已补（2026-11-11），D+7 = 11-16 |
 | 2026-11-07 | UC04 Sessions, State & Memory | 已发布，D+2 记录已补（2026-11-09），D+7 = 11-14 |
@@ -137,4 +156,5 @@ publish_gate_checked: 2026-11-11T21:36+08:00  # check_publish_gate.py orchestrat
 
 | 日期 | 原因 | 顺延到 | 从哪继续 |
 |---|---|---|---|
+| 2026-11-13 | 10:30 触发档不在发布窗口（主窗口 21:30–22:30 GMT+8）；且门禁 23/24，Slack 三条渠道链接需发布后才能回填。按 PIPELINE.md §6「不夜间赶发、不为赶窗口降质量门」，本档不发布 | 今天（周五）21:30–22:30 GMT+8 | ① 生成 `pinxiong.github.io/content/posts/orchestrating-graph.md`（`draft: true`）② 发布主站 / Dev.to / BC 后把真实链接回填 Slack A/C 两版与 Medium 手册 ③ 跑 `check_publish_gate.py orchestrating-graph`（须 24/24）+ `final_check.py`（0 项）+ `hugo -D` 三条命令全绿，退出码非 0 禁止发布 ④ 门禁通过后置 `publish_gate` 三项 true 并记 D+0 台账 ⑤ Medium 手动 Import 后回填四处 |
 | — | — | — | — |

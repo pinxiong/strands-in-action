@@ -1,0 +1,88 @@
+{
+  "status": "Status.COMPLETED",
+  "execution_order": [
+    "good",
+    "bad",
+    "good_downstream",
+    "bad_downstream"
+  ],
+  "total_nodes": 4,
+  "completed_nodes": 4,
+  "failed_nodes": 0,
+  "execution_count": 4,
+  "execution_time_ms": 4794,
+  "tokens": {
+    "input": 1414,
+    "output": 245,
+    "total": 1659
+  },
+  "model_calls": {
+    "bad": 2,
+    "good": 1,
+    "bad_downstream": 1,
+    "good_downstream": 1
+  },
+  "turns": [
+    {
+      "node": "good",
+      "start": 1794539552.248,
+      "stop": 1794539553.658,
+      "duration_s": 1.411
+    },
+    {
+      "node": "bad",
+      "start": 1794539552.248,
+      "stop": 1794539554.456,
+      "duration_s": 2.208
+    },
+    {
+      "node": "good_downstream",
+      "start": 1794539554.456,
+      "stop": 1794539556.593,
+      "duration_s": 2.136
+    },
+    {
+      "node": "bad_downstream",
+      "start": 1794539554.457,
+      "stop": 1794539557.041,
+      "duration_s": 2.584
+    }
+  ],
+  "overlaps": [
+    [
+      "good",
+      "bad"
+    ],
+    [
+      "good_downstream",
+      "bad_downstream"
+    ]
+  ],
+  "ledger": [
+    {
+      "tool": "explode",
+      "t": 1794539553.958143
+    }
+  ],
+  "predicate_log": [],
+  "first_inputs": {
+    "bad": "Two branches. One of them fails.",
+    "good": "Two branches. One of them fails.",
+    "bad_downstream": "Original Task: Two branches. One of them fails.\n\nInputs from previous nodes:\n\nFrom bad:\n  - Agent: BAD BRANCH FAILED\n",
+    "good_downstream": "Original Task: Two branches. One of them fails.\n\nInputs from previous nodes:\n\nFrom good:\n  - Agent: GOOD BRANCH DONE\n"
+  },
+  "results_text": {
+    "good": "GOOD BRANCH DONE\n",
+    "bad": "BAD BRANCH FAILED\n",
+    "good_downstream": "GOOD DOWNSTREAM RAN.\n\nExplanation:\n- The task involves two branches, and it is specified that one of them fails.\n- The input from the good branch indicates that it has completed successfully with the message \"GOOD BRANCH DONE.\"\n- Since the good branch has finished, the downstream process associated ",
+    "bad_downstream": "BAD DOWNSTREAM RAN. \n\nIt appears there was an issue with one of the branches, specifically the \"BAD BRANCH\" has failed as indicated by the agent. This failure might have implications for the overall process, depending on how the system is designed to handle such errors. It's important to investigate"
+  },
+  "extra": {
+    "mode": "raise",
+    "warnings": [],
+    "graph_error": "<no exception>",
+    "bad_node_status": "Status.COMPLETED",
+    "bad_downstream_ran": true,
+    "good_downstream_ran": true
+  }
+}

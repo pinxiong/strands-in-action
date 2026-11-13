@@ -1,0 +1,24 @@
+WROTE graph-fanin-or.json
+status=Status.COMPLETED order=['A', 'join', 'B', 'join'] tokens=1365 time_ms=9473
+model_calls={'B': 2, 'A': 1, 'join': 2} overlaps=[('join', 'B')]
+predicate_log=[]
+ledger=[{'tool': 'slow_step', 't': 1794539402.1843562, 'seconds': 4}]
+--- first_input[B] ---
+Original Task: One task, one fast parent, one slow parent, one join.
+
+Inputs from previous nodes:
+
+From A:
+  - Agent: A RESULT.
+
+--- first_input[A] ---
+One task, one fast parent, one slow parent, one join.
+--- first_input[join] ---
+Original Task: One task, one fast parent, one slow parent, one join.
+
+Inputs from previous nodes:
+
+From A:
+  - Agent: A RESULT.
+
+extra={'mode': 'or', 'shape': 'A -> B ; A -> join ; B -> join', 'turns': [{'node': 'A', 'start': 1794539394.042, 'stop': 1794539396.222}, {'node': 'join', 'start': 1794539396.222, 'stop': 1794539397.786}, {'node': 'B', 'start': 1794539396.223, 'stop': 1794539402.886}, {'node': 'join', 'start': 1794539402.886, 'stop': 1794539403.514}], 'overlap_pairs': [('join', 'B')], 'join_started_before_B_stopped': True, 'from_blocks_in_join_input': ['From A:'], 'join_input': 'Original Task: One task, one fast parent, one slow parent, one join.\n\nInputs from previous nodes:\n\nFrom A:\n  - Agent: A RESULT.\n', 'warnings': []}

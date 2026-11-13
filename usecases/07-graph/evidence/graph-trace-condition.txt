@@ -1,0 +1,26 @@
+WROTE graph-trace-condition.json
+status=Status.COMPLETED order=['researcher', 'calculator', 'writer'] tokens=5145 time_ms=31813
+model_calls={'researcher': 2, 'calculator': 2, 'writer': 2, 'fallback': 0} overlaps=[]
+predicate_log=[{'edge': 'calculator->fallback', 'expect': '3640 not in upstream text', 'hit': False, 'completed': ['calculator', 'researcher'], 'upstream_excerpt': "The three main points are: Each node rebuilds its own prompt from scratch, every handoff message is paid for again in the next node's input, and shared context ", 'model_calls_at_eval': {'researcher': 2, 'calculator': 2, 'writer': 0, 'fallback': 0}}, {'edge': 'calculator->writer', 'expect': '3640 in upstream text', 'hit': True, 'completed': ['calculator', 'researcher'], 'upstream_excerpt': "The three main points are: Each node rebuilds its own prompt from scratch, every handoff message is paid for again in the next node's input, and shared context ", 'model_calls_at_eval': {'researcher': 2, 'calculator': 2, 'writer': 0, 'fallback': 0}}, {'edge': 'calculator->writer', 'expect': '3640 in upstream text', 'hit': True, 'completed': ['calculator', 'researcher'], 'upstream_excerpt': "The three main points are: Each node rebuilds its own prompt from scratch, every handoff message is paid for again in the next node's input, and shared context ", 'model_calls_at_eval': {'researcher': 2, 'calculator': 2, 'writer': 0, 'fallback': 0}}]
+ledger=[{'tool': 'sum_tokens', 't': 1794539321.329671, 'total': 3640}, {'tool': 'save_draft', 't': 1794539326.408681, 'words': 6, 'text': 'Total token count: 3640. Cost: $0.002912.'}]
+--- first_input[researcher] ---
+Produce the brief described in data/brief-input.json. Research first, then compute the totals, then write the brief.
+--- first_input[calculator] ---
+Original Task: Produce the brief described in data/brief-input.json. Research first, then compute the totals, then write the brief.
+
+Inputs from previous nodes:
+
+From researcher:
+  - Agent: The three main points are: Each node rebuilds its own prompt from scratch, every handoff message is paid for again in the next node's input, and shared context is re-serialized into every downstream prompt.
+
+--- first_input[writer] ---
+Original Task: Produce the brief described in data/brief-input.json. Research first, then compute the totals, then write the brief.
+
+Inputs from previous nodes:
+
+From calculator:
+  - Agent: The total token count is 3640, and the cost is $0.002912.
+
+--- first_input[fallback] ---
+<no messages>
+extra={'mode': 'condition', 'build_warnings': [], 'run_warnings': [], 'predicate_evals': 3}

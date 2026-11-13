@@ -1,0 +1,7 @@
+mode=session add_node_error=ValueError: Session persistence is not supported for Graph agents yet.
+WROTE graph-failure-session.json
+status=construction_check order=[] tokens=0 time_ms=0
+model_calls={} overlaps=[]
+predicate_log=[]
+ledger=[]
+extra={'mode': 'session', 'checked_at': 'GraphBuilder.add_node', 'add_node_error': 'ValueError: Session persistence is not supported for Graph agents yet.'}

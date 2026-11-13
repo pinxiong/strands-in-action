@@ -1,0 +1,16 @@
+WROTE graph-limits-capped.json
+status=Status.FAILED order=['ping', 'pong', 'ping', 'pong', 'ping', 'pong'] tokens=644 time_ms=18586
+model_calls={'ping': 3, 'pong': 3} overlaps=[]
+predicate_log=[]
+ledger=[]
+--- first_input[ping] ---
+Bounce between the two nodes.
+--- first_input[pong] ---
+Original Task: Bounce between the two nodes.
+
+Inputs from previous nodes:
+
+From ping:
+  - Agent: PING.
+
+extra={'mode': 'capped', 'build_warnings': [], 'run_warnings': [], 'max_node_executions': 6, 'execution_timeout': None, 'node_executions': 6}

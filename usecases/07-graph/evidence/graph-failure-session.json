@@ -1,0 +1,26 @@
+{
+  "status": "construction_check",
+  "execution_order": [],
+  "total_nodes": 0,
+  "completed_nodes": 0,
+  "failed_nodes": 0,
+  "execution_count": 0,
+  "execution_time_ms": 0,
+  "tokens": {
+    "input": 0,
+    "output": 0,
+    "total": 0
+  },
+  "model_calls": {},
+  "turns": [],
+  "overlaps": [],
+  "ledger": [],
+  "predicate_log": [],
+  "first_inputs": {},
+  "results_text": {},
+  "extra": {
+    "mode": "session",
+    "checked_at": "GraphBuilder.add_node",
+    "add_node_error": "ValueError: Session persistence is not supported for Graph agents yet."
+  }
+}

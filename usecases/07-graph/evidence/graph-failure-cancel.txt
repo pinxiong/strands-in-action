@@ -1,0 +1,22 @@
+node_id=<bad>, error=<cancelled by a human before the node ran> | node failed
+remaining_task_count=<1> | cancelling remaining tasks in finally block
+graph execution failed
+Traceback (most recent call last):
+  File "/Users/pinxiong/Documents/Important/strands-in-action/.venv/lib/python3.11/site-packages/strands/multiagent/graph.py", line 715, in stream_async
+    async for event in self._execute_graph(invocation_state):
+  File "/Users/pinxiong/Documents/Important/strands-in-action/.venv/lib/python3.11/site-packages/strands/multiagent/graph.py", line 843, in _execute_graph
+    async for event in self._execute_nodes_parallel(current_batch, invocation_state):
+  File "/Users/pinxiong/Documents/Important/strands-in-action/.venv/lib/python3.11/site-packages/strands/multiagent/graph.py", line 912, in _execute_nodes_parallel
+    raise event
+  File "/Users/pinxiong/Documents/Important/strands-in-action/.venv/lib/python3.11/site-packages/strands/multiagent/graph.py", line 959, in _stream_node_to_queue
+    async for event in self._execute_node(node, invocation_state):
+  File "/Users/pinxiong/Documents/Important/strands-in-action/.venv/lib/python3.11/site-packages/strands/multiagent/graph.py", line 1072, in _execute_node
+    raise RuntimeError(cancel_message)
+RuntimeError: cancelled by a human before the node ran
+mode=cancel graph_error=RuntimeError: cancelled by a human before the node ran
+WROTE graph-failure-cancel.json
+status=ABORTED_NO_RESULT order=[] tokens=0 time_ms=0
+model_calls={'bad': 0, 'good': 0, 'bad_downstream': 0, 'good_downstream': 0} overlaps=[]
+predicate_log=[]
+ledger=[]
+extra={'mode': 'cancel', 'graph_error': 'RuntimeError: cancelled by a human before the node ran', 'result_produced': False, 'state_execution_order': [], 'state_failed_nodes': ['bad'], 'build_warnings': [], 'run_warnings': []}

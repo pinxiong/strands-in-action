@@ -1,0 +1,37 @@
+{
+  "status": "ABORTED_NO_RESULT",
+  "execution_order": [],
+  "total_nodes": 0,
+  "completed_nodes": 0,
+  "failed_nodes": 0,
+  "execution_count": 0,
+  "execution_time_ms": 0,
+  "tokens": {
+    "input": 0,
+    "output": 0,
+    "total": 0
+  },
+  "model_calls": {
+    "bad": 0,
+    "good": 0,
+    "bad_downstream": 0,
+    "good_downstream": 0
+  },
+  "turns": [],
+  "overlaps": [],
+  "ledger": [],
+  "predicate_log": [],
+  "first_inputs": {},
+  "results_text": {},
+  "extra": {
+    "mode": "cancel",
+    "graph_error": "RuntimeError: cancelled by a human before the node ran",
+    "result_produced": false,
+    "state_execution_order": [],
+    "state_failed_nodes": [
+      "bad"
+    ],
+    "build_warnings": [],
+    "run_warnings": []
+  }
+}

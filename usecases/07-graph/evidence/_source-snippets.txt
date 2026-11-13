@@ -1,0 +1,141 @@
+===== should_traverse  graph.py:209-224 =====
+def should_traverse(self, state: GraphState, *, invocation_state: dict[str, Any]) -> bool:
+    """Check if this edge should be traversed based on condition.
+
+    Args:
+        state: The current graph execution state.
+        invocation_state: Runtime context passed during graph invocation.
+            New-style conditions (EdgeConditionWithContext) receive this parameter.
+            Legacy conditions (Callable[[GraphState], bool]) are called with state only.
+    """
+    condition = self.condition
+    if condition is None:
+        return True
+    if self._check_is_context_condition(condition):
+        return condition(state, invocation_state=invocation_state)
+    legacy_condition = cast(LegacyEdgeCondition, condition)
+    return legacy_condition(state)
+
+===== ready_or  graph.py:1021-1038 =====
+def _is_node_ready_with_conditions(self, node: GraphNode, completed_batch: list["GraphNode"]) -> bool:
+    """Check if a node is ready considering conditional edges."""
+    # Get incoming edges to this node
+    incoming_edges = [edge for edge in self.edges if edge.to_node == node]
+
+    # Check if at least one incoming edge condition is satisfied
+    for edge in incoming_edges:
+        if edge.from_node in completed_batch:
+            if edge.should_traverse(self.state, invocation_state=self._current_invocation_state):
+                logger.debug(
+                    "from=<%s>, to=<%s> | edge ready via satisfied condition", edge.from_node.node_id, node.node_id
+                )
+                return True
+            else:
+                logger.debug(
+                    "from=<%s>, to=<%s> | edge condition not satisfied", edge.from_node.node_id, node.node_id
+                )
+    return False
+
+===== build_input  graph.py:1285-1325 =====
+dependency_results = {}
+for edge in self.edges:
+    if (
+        edge.to_node == node
+        and edge.from_node in self.state.completed_nodes
+        and edge.from_node.node_id in self.state.results
+    ):
+        if edge.should_traverse(self.state, invocation_state=self._current_invocation_state):
+            dependency_results[edge.from_node.node_id] = self.state.results[edge.from_node.node_id]
+
+if not dependency_results:
+    # No dependencies - return task as ContentBlocks
+    if isinstance(self.state.task, str):
+        return [ContentBlock(text=self.state.task)]
+    else:
+        return cast(list[ContentBlock], self.state.task)
+
+# Combine task with dependency outputs
+node_input = []
+
+# Add original task
+if isinstance(self.state.task, str):
+    node_input.append(ContentBlock(text=f"Original Task: {self.state.task}"))
+else:
+    # Add task content blocks with a prefix
+    node_input.append(ContentBlock(text="Original Task:"))
+    node_input.extend(cast(list[ContentBlock], self.state.task))
+
+# Add dependency outputs
+node_input.append(ContentBlock(text="\nInputs from previous nodes:"))
+
+for dep_id, node_result in dependency_results.items():
+    node_input.append(ContentBlock(text=f"\nFrom {dep_id}:"))
+    # Get all agent results from this node (flattened if nested)
+    agent_results = node_result.get_agent_results()
+    for result in agent_results:
+        agent_name = getattr(result, "agent_name", "Agent")
+        result_text = str(result)
+        node_input.append(ContentBlock(text=f"  - {agent_name}: {result_text}"))
+
+return node_input
+
+===== should_continue  graph.py:161-179 =====
+def should_continue(
+    self,
+    max_node_executions: int | None,
+    execution_timeout: float | None,
+) -> tuple[bool, str]:
+    """Check if the graph should continue execution.
+
+    Returns: (should_continue, reason)
+    """
+    # Check node execution limit (only if set)
+    if max_node_executions is not None and len(self.execution_order) >= max_node_executions:
+        return False, f"Max node executions reached: {max_node_executions}"
+
+    # Check timeout (only if set)
+    if execution_timeout is not None:
+        elapsed = self.execution_time / 1000 + time.time() - self.start_time
+        if elapsed > execution_timeout:
+            return False, f"Execution timed out: {execution_timeout}s"
+
+
+===== validate_warn  graph.py:491-504 =====
+def _validate_graph(self) -> None:
+    """Validate graph structure."""
+    # Validate entry points exist
+    entry_point_ids = {node.node_id for node in self.entry_points}
+    invalid_entries = entry_point_ids - set(self.nodes.keys())
+    if invalid_entries:
+        raise ValueError(f"Entry points not found in nodes: {invalid_entries}")
+
+    if self._max_node_executions is None and self._execution_timeout is None:
+        warnings.warn(
+            "graph has no max_node_executions or execution_timeout set; execution is unbounded",
+            stacklevel=3,
+        )
+
+
+===== find_ready  graph.py:999-1010 =====
+def _find_newly_ready_nodes(self, completed_batch: list["GraphNode"]) -> list["GraphNode"]:
+    """Find nodes that became ready after the last execution.
+
+    Only evaluates destination nodes of outbound edges from the completed batch,
+    instead of iterating over all nodes in the graph.  Failed nodes (e.g. a
+    cancelled agent) are excluded so they cannot nominate successors — their
+    downstream branch is pruned while sibling branches continue.
+    """
+    # Strip failed/cancelled nodes so their outgoing edges are never walked.
+    completed_batch = [node for node in completed_batch if node.execution_status != Status.FAILED]
+    if not completed_batch:
+        return []
+
+===== fail_fast  graph.py:1205-1212 =====
+    execution_time=execution_time,
+    status=Status.FAILED,
+    accumulated_usage=Usage(inputTokens=0, outputTokens=0, totalTokens=0),
+    accumulated_metrics=Metrics(latencyMs=execution_time),
+    execution_count=1,
+)
+
+node.execution_status = Status.FAILED

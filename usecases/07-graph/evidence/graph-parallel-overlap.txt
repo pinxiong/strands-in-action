@@ -1,0 +1,10 @@
+WROTE graph-parallel-overlap.json
+status=Status.COMPLETED order=['left', 'right'] tokens=2046 time_ms=5493
+model_calls={'left': 2, 'right': 2} overlaps=[('right', 'left')]
+predicate_log=[]
+ledger=[{'tool': 'slow_step', 't': 1794539417.453896, 'seconds': 3}, {'tool': 'slow_step', 't': 1794539417.5275362, 'seconds': 3}]
+--- first_input[left] ---
+Two independent branches, one task.
+--- first_input[right] ---
+Two independent branches, one task.
+extra={'mode': 'overlap', 'overlap_pairs': [('right', 'left')], 'warnings': []}
