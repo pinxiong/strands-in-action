@@ -16,7 +16,7 @@
 | A | 系列规模 | **14 篇完整阶梯（D1→D5）+ 1 篇概览** |
 | B | 首发篇 | UC01 · The Loop（已发布） |
 | C | 仓库组织 | 独立仓库 `strands-in-action`，与 AgentCore 系列双向 cross-link |
-| D | 下一篇 | **UC07 · Orchestrating Agents: The Graph Is Yours, the Judgment Isn't**（Graph；UC05 / UC06 已发布，最早 2026-11-13 开写） |
+| D | 下一篇 | **UC08 · Orchestrating Agents: Less Freedom for the Model, More Certainty for You**（Workflow；UC07 已于 2026-11-13 发布，最早 2026-11-16 开写） |
 
 ---
 
@@ -44,7 +44,7 @@
 | 04 | **It Remembers Across Restarts — and Forgets Mid-Conversation** | session / state / 窗口 | D3 | ✅ 已发布（含读者驱动增补） | 重启测试通过，却在同一场对话里把任务约束弄丢：磁盘持久化与 prompt 可见性是两件事，修复要靠注入与检索。 |
 | 05 | **When "Not Found" Doesn't Mean "Never Happened"** | 预留 / 崩溃 / 幂等 / fencing | D3 | ✅ 已发布（四渠道，2026-11-09） | worker 预留配额后崩溃，过期租约把容量还回去，副作用却已发生：只有权威终态或目的地 fencing 才能安全释放。 |
 | 06 | **Orchestrating Agents: Nobody Decides Who Goes Next** | Swarm | D4 | ⚪ 未开始 | 一群平级 agent 自己决定谁接手，看交接如何触发、上下文如何流动，以及去中心化之后你还能观察到什么。 |
-| 07 | **Orchestrating Agents: The Graph Is Yours, the Judgment Isn't** | Graph | D4 | ⚪ 未开始 | 把流程画成图，节点、条件路由和状态传播由你定义，判断仍由模型做：确定性来自结构而不是提示词。 |
+| 07 | **Orchestrating Agents: The Graph Is Yours, the Judgment Isn't** | Graph | D4 | ✅ 已发布（2026-11-13） | 把流程画成图，节点、条件路由和状态传播由你定义，判断仍由模型做：确定性来自结构而不是提示词。 |
 | 08 | **Orchestrating Agents: Less Freedom for the Model, More Certainty for You** | Workflow | D4 | ⚪ 未开始 | 在确定性步骤里嵌入几个 LLM 节点，看输入输出契约如何限制模型的自由度，以及失败之后能从哪一步重放。 |
 | 09 | **Orchestrating Agents: Your Agent Leaves the Process** | A2A | D4 | ⚪ 未开始 | 两个进程里的 agent 互相调用，协议、序列化、超时与远端失败的可见性全部改变，前面三篇的保证要重新验证。 |
 | 10 | **Orchestrating Agents: Three Orchestrators, One Process** | Graph + Workflow + Swarm | D4 | ⚪ 未开始 | Graph 定全局、Workflow 定步骤、Swarm 跑局部并行：混搭到底是真需求还是把简单问题复杂化，用对照实验回答。 |

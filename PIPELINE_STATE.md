@@ -7,14 +7,14 @@
 ```yaml
 last_run_date: 2026-11-13      # 最近一次真正推进过工作的日期
 today_started: 2026-11-13      # 今天是否已开工（与 last_run_date 同步；跨天自动失效）
-stage: review                  # not_started | outline | experiments | draft | review | ready_to_publish | published
+stage: published               # not_started | outline | experiments | draft | review | ready_to_publish | published
 current_piece: UC07
 current_slug: orchestrating-graph
 gates: {expert: pass, reader: pass, independent: pass}   # UC07 三类独立评审全 PASS（2026-11-13；修订一轮 + 终审 PASS）
-ready_since: null              # 尚未 ready_to_publish：门禁 23/24，Slack 渠道链接待发布后回填
-published_at: 2026-11-11T13:36:31Z    # 最近发布仍是 UC06；UC05 = 2026-11-09T13:32:00Z
-publish_gate: {medium_manual: true, cover_16x9: true, slack_copy: true}  # 三件物料已建（占位），但 Slack 链接位未回填
-publish_gate_checked: 2026-11-13T11:20+08:00  # check_publish_gate.py orchestrating-graph → 23/24，1 项预期内 FAIL（未发布占位符）
+ready_since: 2026-11-13T22:17+08:00   # 门禁 24/24 通过时刻
+published_at: 2026-11-13T14:04:15Z    # UC07 Dev.to 发布时刻（UTC）；主站 push 14:03:43Z；已发布，禁止重复发
+publish_gate: {medium_manual: true, cover_16x9: true, slack_copy: true}  # 三件物料齐备，Slack 主站/Dev.to 链接已回填
+publish_gate_checked: 2026-11-13T22:17+08:00  # check_publish_gate.py orchestrating-graph → 24/24（退出码 0）
 ```
 
 > **发布门禁（每次自动发布都适用）**：`stage` 改成 `published` 之前必须跑 `python3 check_publish_gate.py <slug>`，非 0 退出禁止发布；通过后把 `publish_gate` 三项置 `true` 并记检查时刻。Medium 不发，但手册 / 16:9 封面 / Slack 文案缺一不可，不许"先发再补"。详见 `PIPELINE.md` 第 6 节。
@@ -23,12 +23,35 @@ publish_gate_checked: 2026-11-13T11:20+08:00  # check_publish_gate.py orchestrat
 
 | 项 | 值 |
 |---|---|
-| 当前篇目 | **UC07 · Orchestrating Agents: The Graph Is Yours, the Judgment Isn't**（slug `orchestrating-graph`）— **在制品，三类评审全 PASS，未发布** |
-| 阶段 | `review`（10:30 档：环境自检 → 节奏判定 → 大纲 → 6 组真实实验 → 英文正文 → HTML 预览 → 三类评审 → 修订 → 终审 PASS → 三件物料与封面占位） |
-| 最近发布日期 | 2026-11-11（UC06 `orchestrating-swarm`）；节奏判定只统计 `series == "strands-in-action"` |
-| 下次可开新篇 | UC08 最早 2026-11-15 之后（距 UC07 发布满 2 天，按实际发布日重算） |
-| 下次可发布窗口 | 今天 21:30–22:30 窗口**已因幂等短路未使用**（21:30 档只读早退，详见顺延记录）；下个符合条件窗口 = **2026-11-16（周一）21:30**（周六日不发）。若 Pin 当晚拍板补发，以实际发布时间为准并回填 D+0 台账 |
-| 阻塞项 | ① 发布前回填 Slack 三条渠道链接并重跑门禁（当前 23/24，退出码 1 禁止发布）② 主站稿件 `content/posts/orchestrating-graph.md` 待生成 ③ UC06 Medium 手动 Import ④ UC05 Medium 头图人工替换 ⑤ UC04 D+7 = 11-14 ⑥ **UC06 D+2 = 11-13 已到期未写**（`feedback/` 无当日记录）⑦ 今晚发布窗口未使用，待 Pin 决定补发或顺延 11-16 |
+| 当前篇目 | **UC07 · Orchestrating Agents: The Graph Is Yours, the Judgment Isn't**（slug `orchestrating-graph`）— **已发布**（22:03 主站 push、22:04 Dev.to、BC 见 D+0 台账） |
+| 阶段 | `published`（10:30 档完成正文与三类评审 → 22:00 Pin 拍板立即发布 → 生成主站稿与两份渠道稿 → 门禁 24/24 → 全渠道上线） |
+| 最近发布日期 | **2026-11-13（UC07 `orchestrating-graph`）**；节奏判定只统计 `series == "strands-in-action"` |
+| 下次可开新篇 | UC08 最早 2026-11-15 之后（距 UC07 发布满 2 天）；周末不发，实际开写档 = 2026-11-16（周一）10:30 |
+| 下次可发布窗口 | **2026-11-16（周一）21:30**（周六日不发；UC08 视 10:30 档进度可顺延） |
+| 遗留项 | ① Medium 手动 Import（物料齐备，手册已回填主站 / Dev.to 链接）② UC06 D+2 反馈复盘（11-13 到期）③ UC04 D+7 = 11-14 ④ 各渠道线上封面核验（`tools/verify_live_covers.py`） |
+
+## UC07 D+0 台账（2026-11-13 22:00 档补发）
+
+> Pin 22:00 拍板「赶紧发布」，不再顺延 11-16。10:30 档已完成正文与三类评审，本档只做发布收口。
+
+| 项 | 值 |
+|---|---|
+| 标题 | Orchestrating Agents: The Graph Is Yours, the Judgment Isn't |
+| Slug | `orchestrating-graph` |
+| 主站 | https://xiongpin.dev/posts/orchestrating-graph/ — push 22:03:43（GMT+8）= 14:03:43 UTC，线上 200；og:image = `cover.png` 深蓝 |
+| Dev.to | https://dev.to/aws-builders/orchestrating-agents-the-graph-is-yours-the-judgment-isnt-16dk — id 5030338，22:04:15（GMT+8）= 14:04:15 UTC，org aws-builders，canonical 指回主站，cover 经 `PUT main_image` 补为深蓝 `cover-devto.png?v=2219`，线上 og:image 已复核 |
+| Builder Center | <BC_URL>（见本节发布后回填） |
+| Medium | **物料已就绪，待手动 Import**：`pinxiong.github.io/writing-lab/distribution/orchestrating-graph-medium-manual.md`（7 步 + 4 个 subtitle，主站 / Dev.to 链接已回填）、`orchestrating-graph-slack.md`（A/B/C 三版，无主站链接）、`static/images/orchestrating-graph/cover-medium.png`（1400×788 深蓝） |
+| 规模 | 正文 2644 词（HTML 预览口径）/ 12 个代码块（8 Python + 2 text + 2 bash）/ 零配图 / 零表格；9 组真实 Bedrock 运行 |
+| 门禁 | `check_publish_gate.py orchestrating-graph` → **24/24 PASS**（22:17）；`final_check.py` 0 项；`build_devto.py --check` 0 份需重写；`hugo -D --destination /tmp/hb-check --quiet` 退出码 0 |
+| 线上核验 | 主站 clone 块与 `cd` 行均在、12 个 `<pre>`、og:image 深蓝；Dev.to canonical / tags / clone / 12 个代码块首行 0 缩进 / og:image 深蓝全部复核通过 |
+| 发布物料顺序 | 主站稿 + Dev.to 稿 + BC 稿一次生成 → Slack 链接位补齐 → 门禁 24/24 → push 主站 → POST Dev.to → PUT 封面 → BC `publish.py run`。Medium 只出物料，不自动发 |
+
+**本档执行备注**
+
+- Pin 指出：起来的第一件事就该发现 UC07 没发并立即补发，不要等用户再次确认。§0「幂等边界」已修文档，但触发点当晚未醒；后续自动档必须先读 `published_at` 与 `stage`，发现「当日应发未发」立即执行发布，不做只读早退。
+- Dev.to 写接口两次超时但 POST 实际已建文（id 5030338），先用 `me/published` 核查避免重复 POST，再用 `PUT main_image` 补封面；`cover_image` 作为 API 字段被忽略，front matter / `main_image` 才生效。
+- BC `publish.py run` 首轮 `cover` 报 FAIL（troubleshooting §16 服务端异步落库），按手册不反复重传，重跑一次 `run` 后在同一会话 publish。
 
 ## UC07 在制品台账（2026-11-13 10:30 档）
 

@@ -4,7 +4,7 @@ published: true
 description: "In a Strands graph, routing is a Python predicate over text a model wrote. Real runs against strands-agents 1.63.0 show a join that fired twice, a cycle with no default limit, and pruning that never happened."
 tags: ai, agents, strands, aws
 canonical_url: "https://xiongpin.dev/posts/orchestrating-graph/"
-cover_image: "https://xiongpin.dev/images/orchestrating-graph/cover-devto.png"
+cover_image: "https://xiongpin.dev/images/orchestrating-graph/cover-devto.png?v=2219"
 ---
 
 > Verified on 2026-11-13 against `strands-agents` 1.63.0, Python 3.11 and Bedrock in `us-east-1`. Every number below came out of a run. The scripts and raw output live in https://github.com/pinxiong/strands-in-action/tree/master/usecases/07-graph. The model is `amazon.nova-pro-v1:0`.
