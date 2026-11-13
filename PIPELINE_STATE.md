@@ -44,7 +44,7 @@ publish_gate_checked: 2026-11-13T22:17+08:00  # check_publish_gate.py orchestrat
 | Medium | **物料已就绪，待手动 Import**：`pinxiong.github.io/writing-lab/distribution/orchestrating-graph-medium-manual.md`（7 步 + 4 个 subtitle，主站 / Dev.to 链接已回填）、`orchestrating-graph-slack.md`（A/B/C 三版，无主站链接）、`static/images/orchestrating-graph/cover-medium.png`（1400×788 深蓝） |
 | 规模 | 正文 2644 词（HTML 预览口径）/ 12 个代码块（8 Python + 2 text + 2 bash）/ 零配图 / 零表格；9 组真实 Bedrock 运行 |
 | 门禁 | `check_publish_gate.py orchestrating-graph` → **24/24 PASS**（22:17）；`final_check.py` 0 项；`build_devto.py --check` 0 份需重写；`hugo -D --destination /tmp/hb-check --quiet` 退出码 0 |
-| 线上核验 | 主站 clone 块与 `cd` 行均在、12 个 `<pre>`、og:image 深蓝；Dev.to canonical / tags / clone / 12 个代码块首行 0 缩进 / og:image 深蓝全部复核通过 |
+| 线上核验 | `tools/verify_live_covers.py --site … --devto … --bc …` → **SITE / DEVTO / BC 三渠道 ALL PASS**（深蓝像素 `(11,37,72)` / `(16,51,98)`，尺寸 1400×788 / 1200×504 / 1400×788），Medium 输出 `MANUAL`；主站 clone 块与 `cd` 行均在、12 个 `<pre>`；Dev.to canonical / tags / 12 个代码块首行 0 缩进全部复核通过 |
 | 发布物料顺序 | 主站稿 + Dev.to 稿 + BC 稿一次生成 → Slack 链接位补齐 → 门禁 24/24 → push 主站 → POST Dev.to → PUT 封面 → BC `publish.py run`。Medium 只出物料，不自动发 |
 
 **本档执行备注**
@@ -52,6 +52,7 @@ publish_gate_checked: 2026-11-13T22:17+08:00  # check_publish_gate.py orchestrat
 - Pin 指出：起来的第一件事就该发现 UC07 没发并立即补发，不要等用户再次确认。§0「幂等边界」已修文档，但触发点当晚未醒；后续自动档必须先读 `published_at` 与 `stage`，发现「当日应发未发」立即执行发布，不做只读早退。
 - Dev.to 写接口两次超时但 POST 实际已建文（id 5030338），先用 `me/published` 核查避免重复 POST，再用 `PUT main_image` 补封面；`cover_image` 作为 API 字段被忽略，front matter / `main_image` 才生效。
 - BC `publish.py run` 首轮 `cover` 报 FAIL（troubleshooting §16 服务端异步落库），按手册不反复重传，重跑一次 `run` 后在同一会话 publish。
+- **三个触发点提示词已同步改掉**（10:30 / 14:30 / 21:30）：新增「最高优先 · 醒来第一件事」段，先判 `stage` / `published_at` 的「该发未发」，命中就立即补发，不受 `last_run_date` 幂等与 21:30–22:30 窗口限制；幂等只由 `stage` / `published_at` 保证。规则不只在 `PIPELINE.md` §0 写散文，三个实际执行的提示词里都有。
 
 ## UC07 在制品台账（2026-11-13 10:30 档）
 
