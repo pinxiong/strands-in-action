@@ -27,8 +27,8 @@ publish_gate_checked: 2026-11-13T11:20+08:00  # check_publish_gate.py orchestrat
 | 阶段 | `review`（10:30 档：环境自检 → 节奏判定 → 大纲 → 6 组真实实验 → 英文正文 → HTML 预览 → 三类评审 → 修订 → 终审 PASS → 三件物料与封面占位） |
 | 最近发布日期 | 2026-11-11（UC06 `orchestrating-swarm`）；节奏判定只统计 `series == "strands-in-action"` |
 | 下次可开新篇 | UC08 最早 2026-11-15 之后（距 UC07 发布满 2 天，按实际发布日重算） |
-| 下次可发布窗口 | **今天 2026-11-13（周五）21:30–22:30 GMT+8**，条件：回填 BC / Dev.to 链接 → 门禁 24/24 → 主站 `draft: false` + Hugo 构建通过。周六日不发 |
-| 阻塞项 | ① 发布前回填 Slack 三条渠道链接并重跑门禁（当前 23/24）② 主站稿件 `content/posts/orchestrating-graph.md` 待生成 ③ UC06 Medium 手动 Import ④ UC05 Medium 头图人工替换 ⑤ UC04 D+7 = 11-14 ⑥ UC06 D+2 = 11-13 |
+| 下次可发布窗口 | 今天 21:30–22:30 窗口**已因幂等短路未使用**（21:30 档只读早退，详见顺延记录）；下个符合条件窗口 = **2026-11-16（周一）21:30**（周六日不发）。若 Pin 当晚拍板补发，以实际发布时间为准并回填 D+0 台账 |
+| 阻塞项 | ① 发布前回填 Slack 三条渠道链接并重跑门禁（当前 23/24，退出码 1 禁止发布）② 主站稿件 `content/posts/orchestrating-graph.md` 待生成 ③ UC06 Medium 手动 Import ④ UC05 Medium 头图人工替换 ⑤ UC04 D+7 = 11-14 ⑥ **UC06 D+2 = 11-13 已到期未写**（`feedback/` 无当日记录）⑦ 今晚发布窗口未使用，待 Pin 决定补发或顺延 11-16 |
 
 ## UC07 在制品台账（2026-11-13 10:30 档）
 
@@ -157,4 +157,5 @@ publish_gate_checked: 2026-11-13T11:20+08:00  # check_publish_gate.py orchestrat
 | 日期 | 原因 | 顺延到 | 从哪继续 |
 |---|---|---|---|
 | 2026-11-13 | 10:30 触发档不在发布窗口（主窗口 21:30–22:30 GMT+8）；且门禁 23/24，Slack 三条渠道链接需发布后才能回填。按 PIPELINE.md §6「不夜间赶发、不为赶窗口降质量门」，本档不发布 | 今天（周五）21:30–22:30 GMT+8 | ① 生成 `pinxiong.github.io/content/posts/orchestrating-graph.md`（`draft: true`）② 发布主站 / Dev.to / BC 后把真实链接回填 Slack A/C 两版与 Medium 手册 ③ 跑 `check_publish_gate.py orchestrating-graph`（须 24/24）+ `final_check.py`（0 项）+ `hugo -D` 三条命令全绿，退出码非 0 禁止发布 ④ 门禁通过后置 `publish_gate` 三项 true 并记 D+0 台账 ⑤ Medium 手动 Import 后回填四处 |
+| 2026-11-13 21:30 档 | **幂等短路**：`last_run_date` 已是今天 → 该档只读早退、一行结论结束，未走发布流程；`PIPELINE.md` §0 已加「幂等边界」硬规则，此类复发不再可能。核查时 `stage=review`、门禁 23/24、主站稿件未生成 | 2026-11-16（周一）21:30；或 Pin 当晚拍板补发 | ① 生成 `content/posts/orchestrating-graph.md`（`draft: true`）→ ② 发布主站 / Dev.to / BC → ③ 回填 Slack A/C 与 Medium 手册链接 → ④ 门禁 24/24 + `final_check` 0 项 + `hugo -D` 全绿后置 `published`、记 D+0 → ⑤ 补写 UC06 D+2 反馈记录（11-13 到期未做） |
 | — | — | — | — |
