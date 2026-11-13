@@ -91,12 +91,7 @@ walkthrough uses `deepseek.v3.2` on Amazon Bedrock in `us-east-1`.
 ```
 strands-in-action/
 ├── README.md            this file
-├── PLAN.md              series plan, coverage matrix, risk register
 ├── LICENSE              Apache 2.0
-├── docs/
-│   └── 00-facts-baseline.md    cited facts for all eight articles
-├── tools/
-│   └── build_devto.py   rebuilds publish/devto.md without hard wrapping
 └── usecases/
     └── NN-slug/
         ├── article.md   the narrative
@@ -134,36 +129,23 @@ Latest on PyPI as of 2026-11-01: `strands-agents` 1.63.0, `strands-agents-tools`
   `git clone https://github.com/pinxiong/strands-in-action.git`, immediately followed by
   `cd strands-in-action/usecases/<dir>` and the pinned dependency install. The opening
   blockquote also carries a clickable repo URL. A bare `cd usecases/...` or a relative
-  `src/` path is not reproducible and counts as a missing deliverable. Pin ruled this on
-  2026-11-06; UC05/UC06 regressed, so `check_publish_gate.py` now checks the whole series
-  mechanically. Keep this rule when editing the skill or the pipeline.
+  `src/` path is not reproducible, so every article is checked for this before publication.
 - **Every code block starts at column 0.** Snippets lifted out of nested SDK methods must
   be dedented first; keep only the relative nesting. A leading `# path:lines` annotation
-  stays at column 0. UC06 shipped with 8/16/20 leading spaces on five Python blocks and
-  Pin flagged it on 2026-11-11. Both `final_check.py` and `check_publish_gate.py` reject
-  shifted blocks. Keep this rule when editing the skill or the pipeline.
-- **All covers come from one template.** UC01-UC04 established the dark series look
-  (`#0b2547` to `#14407c` gradient, pill series tag, one highlighted title line, a
-  right-hand mechanism panel, monospace footer). UC05/UC06 drifted to a white
-  `#f8fafc` layout, so Pin called it out on 2026-11-11. Generate every cover with
-  `tools/build_covers.py` in the project venv; it emits the three SVG/PNG pairs
-  (1400x788 site, 1200x504 Dev.to, 1400x788 Medium) from the same scene. The gate
-  rejects a light cover or wrong PNG sizes. Keep this rule when editing the skill or
-  the pipeline.
+  stays at column 0. Every code block is checked for this before publication.
+- **All covers come from one template.** The series look is a dark `#0b2547` to
+  `#14407c` gradient, a pill series tag, one highlighted title line, a right-hand
+  mechanism panel and a monospace footer. Every article ships three sizes from the same
+  scene: 1400x788 for the site, 1200x504 for Dev.to and 1400x788 for Medium.
 - Length follows the content. Articles land around 1000 to 1300 words of prose and run
   longer when a mechanism needs the room, always dense with short code blocks and no tables.
 - Every article ends with takeaways and never with a teaser for the next one.
 - Account identifiers are redacted to `123456789012` in everything that gets committed.
-- **`publish/devto.md` carries no hard wrapping.** `article.md` wraps at about 95 characters
-  so it reads well in an editor, but Dev.to turns a single newline inside a paragraph into
-  `<br>`, which renders every source line as a fragment. `tools/build_devto.py` rebuilds the
-  Dev.to body with one line per paragraph, list item and blockquote, leaving code blocks and
-  tables alone. Run it before any Dev.to update; it also asserts the words are unchanged:
-
-  ```bash
-  python tools/build_devto.py --check     # exits non-zero when a file is stale
-  python tools/build_devto.py --write
-  ```
+- **`publish/devto.md` carries no hard wrapping.** `article.md` wraps at about 95
+  characters so it reads well in an editor, but Dev.to turns a single newline inside a
+  paragraph into `<br>`, which renders every source line as a fragment. The channel copy
+  therefore keeps one line per paragraph, list item and blockquote, leaving code blocks
+  and tables alone.
 
 ## License
 

@@ -11,3 +11,16 @@ usecases/*/src/snapshots_tmp/
 outreach/uc04-comments/sessions_contract/
 .workbuddy/
 usecases/*/review/
+
+# 运营资产：只在 WorkBuddy 本地（skill + 隐藏私有目录），绝不进公开仓库
+# 规则见 ~/.workbuddy/skills/hands-on-series-pipeline/SKILL.md「运营资产红线」
+PIPELINE.md
+PIPELINE_STATE.md
+PLAN.md
+PUBLISHING-POLICY.md
+check_publish_gate.py
+tools/
+docs/
+usecases/*/OUTLINE.md
+usecases/*/article.v*.md
+.ops/
