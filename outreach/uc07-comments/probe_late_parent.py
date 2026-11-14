@@ -10,7 +10,9 @@ Question (innokentyb, Dev.to, 2026-11-13):
 
 All cases are offline and deterministic: scripted models replace Bedrock, so no LLM
 is involved. Every model call reports a fixed 100 input + 20 output = 120 tokens.
-One variable changes per case. strands-agents 1.63.0, Python 3.11.
+The four late cases share one topology and change only the key or the edge
+conditions; same_batch is a two-entry-point control with a different topology.
+strands-agents 1.63.0, Python 3.11.
 
 Shape for the four "late" cases (same as the article's fan-in experiment):
 
