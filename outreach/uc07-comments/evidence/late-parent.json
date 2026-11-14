@@ -1,0 +1,238 @@
+[
+  {
+    "case": "late_no_key",
+    "status": "Status.COMPLETED",
+    "execution_order": [
+      "A",
+      "join",
+      "B",
+      "join"
+    ],
+    "join_invocations": 2,
+    "parent_sets": [
+      "A",
+      "A,B"
+    ],
+    "decisions": [
+      "approve",
+      "veto"
+    ],
+    "effect_attempts": 2,
+    "effects_written": 2,
+    "effect_ledger": [
+      {
+        "key": "brief-42:call-1",
+        "decision": "approve",
+        "parents": "A"
+      },
+      {
+        "key": "brief-42:call-2",
+        "decision": "veto",
+        "parents": "A,B"
+      }
+    ],
+    "suppressed": [],
+    "final_join_result_text": "DECISION veto",
+    "join_result_refs_unique": 1,
+    "completed_nodes": 3,
+    "execution_count": 4,
+    "model_calls": {
+      "A": 1,
+      "B": 1,
+      "join": 4
+    }
+  },
+  {
+    "case": "late_fixed_key",
+    "status": "Status.COMPLETED",
+    "execution_order": [
+      "A",
+      "join",
+      "B",
+      "join"
+    ],
+    "join_invocations": 2,
+    "parent_sets": [
+      "A",
+      "A,B"
+    ],
+    "decisions": [
+      "approve",
+      "veto"
+    ],
+    "effect_attempts": 2,
+    "effects_written": 1,
+    "effect_ledger": [
+      {
+        "key": "brief-42",
+        "decision": "approve",
+        "parents": "A"
+      }
+    ],
+    "suppressed": [
+      "brief-42"
+    ],
+    "final_join_result_text": "DECISION veto",
+    "join_result_refs_unique": 1,
+    "completed_nodes": 3,
+    "execution_count": 4,
+    "model_calls": {
+      "A": 1,
+      "B": 1,
+      "join": 4
+    }
+  },
+  {
+    "case": "late_versioned_key",
+    "status": "Status.COMPLETED",
+    "execution_order": [
+      "A",
+      "join",
+      "B",
+      "join"
+    ],
+    "join_invocations": 2,
+    "parent_sets": [
+      "A",
+      "A,B"
+    ],
+    "decisions": [
+      "approve",
+      "veto"
+    ],
+    "effect_attempts": 2,
+    "effects_written": 2,
+    "effect_ledger": [
+      {
+        "key": "brief-42:parents=A",
+        "decision": "approve",
+        "parents": "A"
+      },
+      {
+        "key": "brief-42:parents=A,B",
+        "decision": "veto",
+        "parents": "A,B"
+      }
+    ],
+    "suppressed": [],
+    "final_join_result_text": "DECISION veto",
+    "join_result_refs_unique": 1,
+    "completed_nodes": 3,
+    "execution_count": 4,
+    "model_calls": {
+      "A": 1,
+      "B": 1,
+      "join": 4
+    }
+  },
+  {
+    "case": "barrier_one_edge",
+    "status": "Status.COMPLETED",
+    "execution_order": [
+      "A",
+      "join",
+      "B",
+      "join"
+    ],
+    "join_invocations": 2,
+    "parent_sets": [
+      "A",
+      "A,B"
+    ],
+    "decisions": [
+      "approve",
+      "veto"
+    ],
+    "effect_attempts": 2,
+    "effects_written": 1,
+    "effect_ledger": [
+      {
+        "key": "brief-42",
+        "decision": "approve",
+        "parents": "A"
+      }
+    ],
+    "suppressed": [
+      "brief-42"
+    ],
+    "final_join_result_text": "DECISION veto",
+    "join_result_refs_unique": 1,
+    "completed_nodes": 3,
+    "execution_count": 4,
+    "model_calls": {
+      "A": 1,
+      "B": 1,
+      "join": 4
+    }
+  },
+  {
+    "case": "barrier_all_edges",
+    "status": "Status.COMPLETED",
+    "execution_order": [
+      "A",
+      "B",
+      "join"
+    ],
+    "join_invocations": 1,
+    "parent_sets": [
+      "A,B"
+    ],
+    "decisions": [
+      "veto"
+    ],
+    "effect_attempts": 1,
+    "effects_written": 1,
+    "effect_ledger": [
+      {
+        "key": "brief-42",
+        "decision": "veto",
+        "parents": "A,B"
+      }
+    ],
+    "suppressed": [],
+    "final_join_result_text": "DECISION veto",
+    "join_result_refs_unique": 1,
+    "completed_nodes": 3,
+    "execution_count": 3,
+    "model_calls": {
+      "A": 1,
+      "B": 1,
+      "join": 2
+    }
+  },
+  {
+    "case": "same_batch",
+    "status": "Status.COMPLETED",
+    "execution_order": [
+      "A",
+      "B",
+      "join"
+    ],
+    "join_invocations": 1,
+    "parent_sets": [
+      "A,B"
+    ],
+    "decisions": [
+      "veto"
+    ],
+    "effect_attempts": 1,
+    "effects_written": 1,
+    "effect_ledger": [
+      {
+        "key": "brief-42",
+        "decision": "veto",
+        "parents": "A,B"
+      }
+    ],
+    "suppressed": [],
+    "final_join_result_text": "DECISION veto",
+    "join_result_refs_unique": 1,
+    "completed_nodes": 3,
+    "execution_count": 3,
+    "model_calls": {
+      "A": 1,
+      "B": 1,
+      "join": 2
+    }
+  }
+]
