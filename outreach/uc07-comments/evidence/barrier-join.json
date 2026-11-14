@@ -1,0 +1,294 @@
+[
+  {
+    "case": "no_barrier",
+    "status": "Status.COMPLETED",
+    "execution_order": [
+      "A",
+      "join",
+      "B",
+      "join"
+    ],
+    "join_invocations": 2,
+    "parent_sets": [
+      "A",
+      "A,B"
+    ],
+    "decisions": [
+      "approve",
+      "veto"
+    ],
+    "effects_written": 2,
+    "effect_ledger": [
+      {
+        "decision": "approve",
+        "parents": "A"
+      },
+      {
+        "decision": "veto",
+        "parents": "A,B"
+      }
+    ],
+    "final_join_result_text": "DECISION veto",
+    "condition_calls": 5,
+    "barrier_done": [],
+    "completed_nodes": 3,
+    "execution_count": 4,
+    "results_keys": [
+      "A",
+      "B",
+      "join"
+    ]
+  },
+  {
+    "case": "barrier_one_edge",
+    "status": "Status.COMPLETED",
+    "execution_order": [
+      "A",
+      "join",
+      "B",
+      "join"
+    ],
+    "join_invocations": 2,
+    "parent_sets": [
+      "A",
+      "A,B"
+    ],
+    "decisions": [
+      "approve",
+      "veto"
+    ],
+    "effects_written": 2,
+    "effect_ledger": [
+      {
+        "decision": "approve",
+        "parents": "A"
+      },
+      {
+        "decision": "veto",
+        "parents": "A,B"
+      }
+    ],
+    "final_join_result_text": "DECISION veto",
+    "condition_calls": 5,
+    "barrier_done": [],
+    "completed_nodes": 3,
+    "execution_count": 4,
+    "results_keys": [
+      "A",
+      "B",
+      "join"
+    ]
+  },
+  {
+    "case": "barrier_completed_nodes",
+    "status": "Status.COMPLETED",
+    "execution_order": [
+      "A",
+      "B",
+      "join"
+    ],
+    "join_invocations": 1,
+    "parent_sets": [
+      "A,B"
+    ],
+    "decisions": [
+      "veto"
+    ],
+    "effects_written": 1,
+    "effect_ledger": [
+      {
+        "decision": "veto",
+        "parents": "A,B"
+      }
+    ],
+    "final_join_result_text": "DECISION veto",
+    "condition_calls": 4,
+    "barrier_done": [],
+    "completed_nodes": 3,
+    "execution_count": 3,
+    "results_keys": [
+      "A",
+      "B",
+      "join"
+    ]
+  },
+  {
+    "case": "barrier_results",
+    "status": "Status.COMPLETED",
+    "execution_order": [
+      "A",
+      "B",
+      "join"
+    ],
+    "join_invocations": 1,
+    "parent_sets": [
+      "A,B"
+    ],
+    "decisions": [
+      "veto"
+    ],
+    "effects_written": 1,
+    "effect_ledger": [
+      {
+        "decision": "veto",
+        "parents": "A,B"
+      }
+    ],
+    "final_join_result_text": "DECISION veto",
+    "condition_calls": 4,
+    "barrier_done": [],
+    "completed_nodes": 3,
+    "execution_count": 3,
+    "results_keys": [
+      "A",
+      "B",
+      "join"
+    ]
+  },
+  {
+    "case": "barrier_invocation_state",
+    "status": "Status.COMPLETED",
+    "execution_order": [
+      "A",
+      "B",
+      "join"
+    ],
+    "join_invocations": 1,
+    "parent_sets": [
+      "A,B"
+    ],
+    "decisions": [
+      "veto"
+    ],
+    "effects_written": 1,
+    "effect_ledger": [
+      {
+        "decision": "veto",
+        "parents": "A,B"
+      }
+    ],
+    "final_join_result_text": "DECISION veto",
+    "condition_calls": 4,
+    "barrier_done": [
+      "A",
+      "B",
+      "join"
+    ],
+    "completed_nodes": 3,
+    "execution_count": 3,
+    "results_keys": [
+      "A",
+      "B",
+      "join"
+    ]
+  },
+  {
+    "case": "barrier_results_same_batch",
+    "status": "Status.COMPLETED",
+    "execution_order": [
+      "A",
+      "B",
+      "join"
+    ],
+    "join_invocations": 1,
+    "parent_sets": [
+      "A,B"
+    ],
+    "decisions": [
+      "veto"
+    ],
+    "effects_written": 1,
+    "effect_ledger": [
+      {
+        "decision": "veto",
+        "parents": "A,B"
+      }
+    ],
+    "final_join_result_text": "DECISION veto",
+    "condition_calls": 3,
+    "barrier_done": [],
+    "completed_nodes": 3,
+    "execution_count": 3,
+    "results_keys": [
+      "A",
+      "B",
+      "join"
+    ]
+  },
+  {
+    "case": "single_incoming_edge",
+    "status": "Status.COMPLETED",
+    "execution_order": [
+      "A",
+      "B",
+      "join"
+    ],
+    "join_invocations": 1,
+    "parent_sets": [
+      "B"
+    ],
+    "decisions": [
+      "veto"
+    ],
+    "effects_written": 1,
+    "effect_ledger": [
+      {
+        "decision": "veto",
+        "parents": "B"
+      }
+    ],
+    "final_join_result_text": "DECISION veto",
+    "condition_calls": 0,
+    "barrier_done": [],
+    "completed_nodes": 3,
+    "execution_count": 3,
+    "results_keys": [
+      "A",
+      "B",
+      "join"
+    ]
+  },
+  {
+    "case": "missing_parent",
+    "status": "Status.COMPLETED",
+    "execution_order": [
+      "A",
+      "B"
+    ],
+    "join_invocations": 0,
+    "parent_sets": [],
+    "decisions": [],
+    "effects_written": 0,
+    "effect_ledger": [],
+    "final_join_result_text": "none (join never ran)",
+    "condition_calls": 2,
+    "barrier_done": [],
+    "completed_nodes": 2,
+    "execution_count": 2,
+    "results_keys": [
+      "A",
+      "B"
+    ]
+  },
+  {
+    "case": "failed_parent",
+    "status": "Exception: Node 'B' execution timed out after 0.1s",
+    "execution_order": [
+      "A"
+    ],
+    "join_invocations": 0,
+    "parent_sets": [],
+    "decisions": [],
+    "effects_written": 0,
+    "effect_ledger": [],
+    "final_join_result_text": "none (join never ran)",
+    "condition_calls": 1,
+    "barrier_done": [],
+    "completed_nodes": 1,
+    "execution_count": 1,
+    "results_keys": [
+      "A",
+      "B"
+    ]
+  }
+]
