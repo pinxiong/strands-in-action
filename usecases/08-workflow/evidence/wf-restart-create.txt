@@ -1,0 +1,5 @@
+WROTE wf-restart-create
+phase=create
+create={'status': 'success', 'content': [{'text': "✅ Created modern workflow 'restart-probe' with 2 tasks"}]}
+status_before={}
+status_after={'a': 'pending', 'b': 'pending'}

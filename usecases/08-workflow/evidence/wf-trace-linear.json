@@ -1,0 +1,107 @@
+{
+  "verified_on": "2026-11-16",
+  "sdk": "strands-agents 1.63.0 / strands-agents-tools 0.8.11",
+  "model": "amazon.nova-pro-v1:0 (us-east-1)",
+  "mode": "linear",
+  "workflow_status": "completed",
+  "task_status": {
+    "research": "completed",
+    "calc": "completed",
+    "write": "completed"
+  },
+  "task_results": {
+    "research": {
+      "status": "completed",
+      "result": [
+        {
+          "text": "The topic sentence is: \"Why a three-node agent swarm costs more tokens than a single agent.\""
+        }
+      ],
+      "metrics": "Event Loop Metrics Summary:\n\u251c\u2500 Cycles: total=2, avg_time=1.844s, total_time=3.689s\n\u251c\u2500 Tokens: in=1110, out=103, total=1213\n\u251c\u2500 Bedrock Latency: 1221ms\n\u251c\u2500 Tool Usage:\n   \u2514\u2500 read_brief_input:\n      \u251c\u2500 Stats: calls=1, success=1\n      \u2502         errors=0, success_rate=100.0%\n      \u251c\u2500 Timing: avg=0.002s, total=0.002s\n      \u2514\u2500 Tool Calls:\n         \u251c\u2500 tooluse_DR2xssPLtyplOwNs53k9MY: read_brief_input\n\u251c\u2500 Execution Trace:\n   \u2514\u2500 None - Duration: 2.4747s\n      \u2514\u2500 None - Duration: 2.4709s\n      \u2514\u2500 read_brief_input - tooluse_DR2xssPLtyplOwNs53k9MY - Duration: 0.0020s\n      \u2514\u2500 None - Duration: 1.2144s\n   \u2514\u2500 None - Duration: 1.2143s\n      \u2514\u2500 None - Duration: 1.2140s"
+    },
+    "calc": {
+      "status": "completed",
+      "result": [
+        {
+          "text": "The result from the sum_tokens tool is: \n\n```json\n{\n  \"total\": 3640,\n  \"cost_usd\": 0.002912\n}\n```"
+        }
+      ],
+      "metrics": "Event Loop Metrics Summary:\n\u251c\u2500 Cycles: total=2, avg_time=1.324s, total_time=2.648s\n\u251c\u2500 Tokens: in=1126, out=129, total=1255\n\u251c\u2500 Bedrock Latency: 1365ms\n\u251c\u2500 Tool Usage:\n   \u2514\u2500 sum_tokens:\n      \u251c\u2500 Stats: calls=1, success=1\n      \u2502         errors=0, success_rate=100.0%\n      \u251c\u2500 Timing: avg=0.001s, total=0.001s\n      \u2514\u2500 Tool Calls:\n         \u251c\u2500 tooluse_RSe6doev4Iv9SAWMtjp5EF: sum_tokens\n\u251c\u2500 Execution Trace:\n   \u2514\u2500 None - Duration: 1.4699s\n      \u2514\u2500 None - Duration: 1.4670s\n      \u2514\u2500 sum_tokens - tooluse_RSe6doev4Iv9SAWMtjp5EF - Duration: 0.0012s\n      \u2514\u2500 None - Duration: 1.1777s\n   \u2514\u2500 None - Duration: 1.1776s\n      \u2514\u2500 None - Duration: 1.1767s"
+    },
+    "write": {
+      "status": "completed",
+      "result": [
+        {
+          "text": "The brief has been saved successfully. It contains the total tokens used (3640) and the cost in USD ($0.002912), and is within the 100-word limit."
+        }
+      ],
+      "metrics": "Event Loop Metrics Summary:\n\u251c\u2500 Cycles: total=2, avg_time=1.203s, total_time=2.406s\n\u251c\u2500 Tokens: in=1171, out=168, total=1339\n\u251c\u2500 Bedrock Latency: 1741ms\n\u251c\u2500 Tool Usage:\n   \u2514\u2500 save_draft:\n      \u251c\u2500 Stats: calls=1, success=1\n      \u2502         errors=0, success_rate=100.0%\n      \u251c\u2500 Timing: avg=0.001s, total=0.001s\n      \u2514\u2500 Tool Calls:\n         \u251c\u2500 tooluse_mndTMohkDaOkB4LHrrC8bG: save_draft\n\u251c\u2500 Execution Trace:\n   \u2514\u2500 None - Duration: 1.5216s\n      \u2514\u2500 None - Duration: 1.5189s\n      \u2514\u2500 save_draft - tooluse_mndTMohkDaOkB4LHrrC8bG - Duration: 0.0006s\n      \u2514\u2500 None - Duration: 0.8846s\n   \u2514\u2500 None - Duration: 0.8845s\n      \u2514\u2500 None - Duration: 0.8841s"
+    }
+  },
+  "order": [
+    "research",
+    "calc",
+    "write"
+  ],
+  "overlaps": [],
+  "timing": [
+    {
+      "task": "research",
+      "start": 1794798442.9,
+      "stop": 1794798447.366
+    },
+    {
+      "task": "calc",
+      "start": 1794798447.472,
+      "stop": 1794798450.641
+    },
+    {
+      "task": "write",
+      "start": 1794798450.747,
+      "stop": 1794798453.504
+    }
+  ],
+  "ledger": [
+    {
+      "tool": "sum_tokens",
+      "t": 1794798449.4578948,
+      "total": 3640
+    },
+    {
+      "tool": "save_draft",
+      "t": 1794798452.6122491,
+      "words": 11,
+      "text": "The total tokens used are 3640, with a cost of $0.002912."
+    }
+  ],
+  "first_prompts": {
+    "research": "Call read_brief_input once and reply with the topic sentence verbatim.",
+    "calc": "Previous task results:\nResults from research:\nThe topic sentence is: \"Why a three-node agent swarm costs more tokens than a single agent.\"\n\nCurrent Task:\nCall sum_tokens with [1180, 940, 1520] and reply with its JSON verbatim.",
+    "write": "Previous task results:\nResults from calc:\nThe result from the sum_tokens tool is: \n\n```json\n{\n  \"total\": 3640,\n  \"cost_usd\": 0.002912\n}\n```\n\nCurrent Task:\nUsing the previous results, call save_draft with a brief of 100 words or fewer containing the total and the cost."
+  },
+  "extra": {
+    "shape": "research -> calc -> write",
+    "run": {
+      "created": {
+        "status": "success",
+        "content": [
+          {
+            "text": "\u2705 Created modern workflow 'wf-trace-linear' with 3 tasks"
+          }
+        ]
+      },
+      "start_returned": {
+        "status": "success",
+        "content": [
+          {
+            "text": "\ud83c\udf89 Workflow 'wf-trace-linear' completed successfully! (3/3 tasks succeeded - 100.0%)"
+          }
+        ]
+      },
+      "elapsed_s": 10.71,
+      "busy_loop": false,
+      "seconds_budget": 30
+    },
+    "note": "each step is a full Agent loop; there is no non-LLM step type"
+  }
+}

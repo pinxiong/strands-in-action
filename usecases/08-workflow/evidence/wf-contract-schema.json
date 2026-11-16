@@ -1,0 +1,99 @@
+{
+  "verified_on": "2026-11-16",
+  "sdk": "strands-agents 1.63.0 / strands-agents-tools 0.8.11",
+  "model": "amazon.nova-pro-v1:0 (us-east-1)",
+  "mode": "schema",
+  "workflow_status": "completed",
+  "task_status": {
+    "research": "completed",
+    "calc": "completed"
+  },
+  "task_results": {
+    "research": {
+      "status": "completed",
+      "result": [
+        {
+          "text": "The topic is: \"Why a three-node agent swarm costs more tokens than a single agent\"."
+        }
+      ],
+      "metrics": "Event Loop Metrics Summary:\n\u251c\u2500 Cycles: total=2, avg_time=2.493s, total_time=4.986s\n\u251c\u2500 Tokens: in=1081, out=75, total=1156\n\u251c\u2500 Bedrock Latency: 1090ms\n\u251c\u2500 Tool Usage:\n   \u2514\u2500 read_brief_input:\n      \u251c\u2500 Stats: calls=1, success=1\n      \u2502         errors=0, success_rate=100.0%\n      \u251c\u2500 Timing: avg=0.004s, total=0.004s\n      \u2514\u2500 Tool Calls:\n         \u251c\u2500 tooluse_d7ZYut9UGxgEcdPQ11c0ZR: read_brief_input\n\u251c\u2500 Execution Trace:\n   \u2514\u2500 None - Duration: 4.1058s\n      \u2514\u2500 None - Duration: 4.0997s\n      \u2514\u2500 read_brief_input - tooluse_d7ZYut9UGxgEcdPQ11c0ZR - Duration: 0.0037s\n      \u2514\u2500 None - Duration: 0.8802s\n   \u2514\u2500 None - Duration: 0.8801s\n      \u2514\u2500 None - Duration: 0.8798s"
+    },
+    "calc": {
+      "status": "completed",
+      "result": [
+        {
+          "text": "<thinking> The sum_tokens tool has returned the total token count and the cost in USD. I will now provide the user with the JSON result verbatim. </thinking>\n\nThe result from the sum_tokens tool is:\n```\n{\n  \"total\": 3640,\n  \"cost_usd\": 0.002912\n}\n```"
+        }
+      ],
+      "metrics": "Event Loop Metrics Summary:\n\u251c\u2500 Cycles: total=2, avg_time=1.516s, total_time=3.032s\n\u251c\u2500 Tokens: in=1113, out=152, total=1265\n\u251c\u2500 Bedrock Latency: 1537ms\n\u251c\u2500 Tool Usage:\n   \u2514\u2500 sum_tokens:\n      \u251c\u2500 Stats: calls=1, success=1\n      \u2502         errors=0, success_rate=100.0%\n      \u251c\u2500 Timing: avg=0.001s, total=0.001s\n      \u2514\u2500 Tool Calls:\n         \u251c\u2500 tooluse_syepQpn7FKLHN5jiDA1GhW: sum_tokens\n\u251c\u2500 Execution Trace:\n   \u2514\u2500 None - Duration: 1.9265s\n      \u2514\u2500 None - Duration: 1.9245s\n      \u2514\u2500 sum_tokens - tooluse_syepQpn7FKLHN5jiDA1GhW - Duration: 0.0007s\n      \u2514\u2500 None - Duration: 1.1052s\n   \u2514\u2500 None - Duration: 1.1051s\n      \u2514\u2500 None - Duration: 1.1048s"
+    }
+  },
+  "order": [
+    "research",
+    "calc"
+  ],
+  "overlaps": [],
+  "timing": [
+    {
+      "task": "research",
+      "start": 1794798461.825,
+      "stop": 1794798466.959
+    },
+    {
+      "task": "calc",
+      "start": 1794798467.065,
+      "stop": 1794798470.627
+    }
+  ],
+  "ledger": [
+    {
+      "tool": "sum_tokens",
+      "t": 1794798469.51914,
+      "total": 3640
+    }
+  ],
+  "first_prompts": {
+    "research": "Call read_brief_input once and reply with the topic verbatim.",
+    "calc": "Previous task results:\nResults from research:\nThe topic is: \"Why a three-node agent swarm costs more tokens than a single agent\".\n\nCurrent Task:\nCall sum_tokens with [1180, 940, 1520] and reply with its JSON verbatim."
+  },
+  "extra": {
+    "declared_extra_fields": [
+      "output_schema",
+      "returns",
+      "expects",
+      "validator"
+    ],
+    "create_response": {
+      "status": "success",
+      "content": [
+        {
+          "text": "\u2705 Created modern workflow 'wf-contract-schema' with 2 tasks"
+        }
+      ]
+    },
+    "persisted_task_keys": {
+      "research": [
+        "dependencies",
+        "description",
+        "expects",
+        "output_schema",
+        "priority",
+        "returns",
+        "task_id",
+        "timeout",
+        "tools",
+        "validator"
+      ],
+      "calc": [
+        "dependencies",
+        "description",
+        "output_schema",
+        "priority",
+        "task_id",
+        "timeout",
+        "tools"
+      ]
+    },
+    "note": "create_workflow only checks task_id, description and that a dependency id exists; extra keys are copied verbatim and never read"
+  }
+}

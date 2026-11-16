@@ -1,0 +1,54 @@
+<thinking> The User has requested to call the `read_brief_input` tool once and retrieve the topic sentence verbatim. I will proceed to call the tool and then extract and report the topic sentence from the result. </thinking>
+
+Tool #1: read_brief_input
+The topic sentence retrieved verbatim is: "Why a three-node agent swarm costs more tokens than a single agent."<thinking> Based on the provided information, I need to call the sum_tokens tool with the given token counts [1180, 940, 1520]. The tool will add the token counts and provide the total. </thinking>
+
+Tool #1: sum_tokens
+<thinking> The sum_tokens tool has provided the result with the total token count and the cost in USD. I will now format and present this result in JSON as requested. </thinking>
+
+The result from calling sum_tokens with [1180, 940, 1520] is:
+```json
+{
+  "total": 3640,
+  "cost_usd": 0.002912
+}
+```<thinking> I need to create a brief that summarizes the total token count and cost in USD, which I obtained from the previous results. The brief should be 100 words or fewer. I will now call the save_draft tool with this brief. </thinking>
+
+Tool #1: save_draft
+<thinking> The save_draft tool has successfully saved the brief, which is 12 words long. This brief includes the total token count and cost in USD. I will now inform the user that the draft has been saved. </thinking>
+
+The brief has been saved successfully. It includes the total token count of 3640 and the cost of $0.002912 USD.WROTE wf-limits-ledger.json
+verified_on=2026-11-16 sdk=strands-agents 1.63.0 / strands-agents-tools 0.8.11 model=amazon.nova-pro-v1:0 (us-east-1)
+mode=ledger workflow_status=completed
+task_status={'research': 'completed', 'calc': 'completed', 'write': 'completed'}
+order=['research', 'calc', 'write'] overlaps=[]
+ledger=[{'tool': 'sum_tokens', 't': 1794799053.11621, 'total': 3640}, {'tool': 'save_draft', 't': 1794799056.994404, 'words': 12, 'text': 'The total token count is 3640 with a cost of $0.002912 USD.'}]
+--- first_prompt[research] ---
+Call read_brief_input once and reply with the topic sentence verbatim.
+--- first_prompt[calc] ---
+Previous task results:
+Results from research:
+The topic sentence retrieved verbatim is: "Why a three-node agent swarm costs more tokens than a single agent."
+
+Current Task:
+Call sum_tokens with [1180, 940, 1520] and reply with its JSON verbatim.
+--- first_prompt[write] ---
+Previous task results:
+Results from calc:
+<thinking> The sum_tokens tool has provided the result with the total token count and the cost in USD. I will now format and present this result in JSON as requested. </thinking>
+
+The result from calling sum_tokens with [1180, 940, 1520] is:
+```json
+{
+  "total": 3640,
+  "cost_usd": 0.002912
+}
+```
+
+Current Task:
+Using the previous results, call save_draft with a brief of 100 words or fewer containing the total and cost.
+shape=research -> calc -> write
+run={'created': {'status': 'success', 'content': [{'text': "✅ Created modern workflow 'wf-limits-ledger' with 3 tasks"}]}, 'start_returned': {'status': 'success', 'content': [{'text': "🎉 Workflow 'wf-limits-ledger' completed successfully! (3/3 tasks succeeded - 100.0%)"}]}, 'elapsed_s': 10.3, 'busy_loop': False, 'seconds_budget': 30}
+per_task={'research': {'metrics_is_plain_text': True, 'metrics_has_structured_fields': False, 'token_line': 'Tokens: in=1093, out=89, total=1182', 'from_text': {'in': 1093, 'out': 89, 'total': 1182}, 'provider_side': {'input': 1093, 'output': 89, 'total': 1182, 'usage_blocks': 2}}, 'calc': {'metrics_is_plain_text': True, 'metrics_has_structured_fields': False, 'token_line': 'Tokens: in=1136, out=189, total=1325', 'from_text': {'in': 1136, 'out': 189, 'total': 1325}, 'provider_side': {'input': 1136, 'output': 189, 'total': 1325, 'usage_blocks': 2}}, 'write': {'metrics_is_plain_text': True, 'metrics_has_structured_fields': False, 'token_line': 'Tokens: in=1256, out=181, total=1437', 'from_text': {'in': 1256, 'out': 181, 'total': 1437}, 'provider_side': {'input': 1256, 'output': 181, 'total': 1437, 'usage_blocks': 2}}}
+totals={'sum_of_text_totals': 3944, 'sum_of_provider_totals': 3944, 'fixture_declared_total': 3640, 'workflow_level_total_field': '<absent>', 'workflow_level_budget_field': '<absent>'}
+note=the only persisted accounting is a human-readable metrics string per task; no cross-task total, no budget checkpoint, no validator result

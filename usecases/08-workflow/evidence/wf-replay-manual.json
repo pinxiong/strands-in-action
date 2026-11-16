@@ -1,0 +1,160 @@
+{
+  "verified_on": "2026-11-16",
+  "sdk": "strands-agents 1.63.0 / strands-agents-tools 0.8.11",
+  "model": "amazon.nova-pro-v1:0 (us-east-1)",
+  "mode": "manual-replay",
+  "workflow_status": "running",
+  "task_status": {
+    "calc": "completed",
+    "write": "completed"
+  },
+  "task_results": {
+    "calc": {
+      "status": "completed",
+      "result": [
+        {
+          "text": "<thinking> The tool has returned the result of summing the token counts. I will now provide the result to the user in JSON format as requested. </thinking>\n```\n{\"total\": 3640, \"cost_usd\": 0.002912}\n```"
+        }
+      ],
+      "metrics": "Event Loop Metrics Summary:\n\u251c\u2500 Cycles: total=2, avg_time=1.354s, total_time=2.707s\n\u251c\u2500 Tokens: in=1049, out=133, total=1182\n\u251c\u2500 Bedrock Latency: 1467ms\n\u251c\u2500 Tool Usage:\n   \u2514\u2500 sum_tokens:\n      \u251c\u2500 Stats: calls=1, success=1\n      \u2502         errors=0, success_rate=100.0%\n      \u251c\u2500 Timing: avg=0.004s, total=0.004s\n      \u2514\u2500 Tool Calls:\n         \u251c\u2500 tooluse_aQTwDiYzWl0Yec73fPZY9z: sum_tokens\n\u251c\u2500 Execution Trace:\n   \u2514\u2500 None - Duration: 1.6834s\n      \u2514\u2500 None - Duration: 1.6773s\n      \u2514\u2500 sum_tokens - tooluse_aQTwDiYzWl0Yec73fPZY9z - Duration: 0.0036s\n      \u2514\u2500 None - Duration: 1.0242s\n   \u2514\u2500 None - Duration: 1.0241s\n      \u2514\u2500 None - Duration: 1.0239s"
+    },
+    "write": {
+      "status": "completed",
+      "result": [
+        {
+          "text": "<thinking> The tool has successfully saved the draft with 12 words. I will now inform the user about the successful save. </thinking>\nThe brief containing the total token count and cost has been successfully saved as a draft. The draft contains 12 words."
+        }
+      ],
+      "metrics": "Event Loop Metrics Summary:\n\u251c\u2500 Cycles: total=2, avg_time=1.502s, total_time=3.004s\n\u251c\u2500 Tokens: in=1148, out=134, total=1282\n\u251c\u2500 Bedrock Latency: 2157ms\n\u251c\u2500 Tool Usage:\n   \u2514\u2500 save_draft:\n      \u251c\u2500 Stats: calls=1, success=1\n      \u2502         errors=0, success_rate=100.0%\n      \u251c\u2500 Timing: avg=0.000s, total=0.000s\n      \u2514\u2500 Tool Calls:\n         \u251c\u2500 tooluse_ATSZX39gu3dsyBm9XdoXK8: save_draft\n\u251c\u2500 Execution Trace:\n   \u2514\u2500 None - Duration: 1.2578s\n      \u2514\u2500 None - Duration: 1.2556s\n      \u2514\u2500 save_draft - tooluse_ATSZX39gu3dsyBm9XdoXK8 - Duration: 0.0006s\n      \u2514\u2500 None - Duration: 1.7467s\n   \u2514\u2500 None - Duration: 1.7466s\n      \u2514\u2500 None - Duration: 1.7464s"
+    }
+  },
+  "order": [
+    "calc",
+    "write"
+  ],
+  "overlaps": [],
+  "timing": [
+    {
+      "task": "calc",
+      "start": 1794801688.462,
+      "stop": 1794801691.458
+    },
+    {
+      "task": "write",
+      "start": 1794801691.56,
+      "stop": 1794801695.248
+    }
+  ],
+  "ledger": [
+    {
+      "tool": "sum_tokens",
+      "t": 1794801690.431411,
+      "total": 3640
+    },
+    {
+      "tool": "save_draft",
+      "t": 1794801693.4991932,
+      "words": 12,
+      "text": "The total token count is 3640, with a cost of $0.002912 USD."
+    }
+  ],
+  "first_prompts": {
+    "calc": "Call sum_tokens with [1180, 940, 1520] and reply with its JSON verbatim.",
+    "write": "Previous task results:\nResults from calc:\n<thinking> The tool has returned the result of summing the token counts. I will now provide the result to the user in JSON format as requested. </thinking>\n```\n{\"total\": 3640, \"cost_usd\": 0.002912}\n```\n\nCurrent Task:\nUsing the previous results, call save_draft once with a short brief containing the total and cost."
+  },
+  "extra": {
+    "shape": "calc -> write; write replayed by editing persisted JSON",
+    "created": {
+      "status": "success",
+      "content": [
+        {
+          "text": "\u2705 Created modern workflow 'wf-replay-manual' with 2 tasks"
+        }
+      ]
+    },
+    "first_start": {
+      "returned": {
+        "status": "success",
+        "content": [
+          {
+            "text": "\ud83c\udf89 Workflow 'wf-replay-manual' completed successfully! (2/2 tasks succeeded - 100.0%)"
+          }
+        ]
+      },
+      "elapsed_s": 6.89,
+      "busy_loop": false,
+      "seconds_budget": 30
+    },
+    "second_start": {
+      "returned": {
+        "status": "error",
+        "content": [
+          {
+            "text": "\u274c Error in workflow execution: restart did not return within 18s\nTraceback (most recent call last):\n  File \"/Users/pinxiong/Documents/Important/strands-in-action/.venv/lib/python3.11/site-packages/strands_tools/workflow.py\", line 688, in start_workflow\n    time.sleep(0.1)\n  File \"/Users/pinxiong/Documents/Important/strands-in-action/usecases/08-workflow/src/wf_replay.py\", line 35, in on_alarm\n    raise TimeoutError(f\"restart did not return within {seconds}s\")\nTimeoutError: restart did not return within 18s\n"
+          }
+        ]
+      },
+      "elapsed_s": 18.01,
+      "busy_loop": true,
+      "seconds_budget": 18
+    },
+    "ledger_after_first": [
+      {
+        "tool": "sum_tokens",
+        "t": 1794801690.431411,
+        "total": 3640
+      },
+      {
+        "tool": "save_draft",
+        "t": 1794801693.4991932,
+        "words": 12,
+        "text": "The total token count is 3640, with a cost of $0.002912 USD."
+      }
+    ],
+    "ledger_after_second": [
+      {
+        "tool": "sum_tokens",
+        "t": 1794801690.431411,
+        "total": 3640
+      },
+      {
+        "tool": "save_draft",
+        "t": 1794801693.4991932,
+        "words": 12,
+        "text": "The total token count is 3640, with a cost of $0.002912 USD."
+      }
+    ],
+    "save_draft_calls_total": 1,
+    "sum_tokens_calls_total": 1,
+    "result_after_first": {
+      "calc": [
+        {
+          "text": "<thinking> The tool has returned the result of summing the token counts. I will now provide the result to the user in JSON format as requested. </thinking>\n```\n{\"total\": 3640, \"cost_usd\": 0.002912}\n```"
+        }
+      ],
+      "write": [
+        {
+          "text": "<thinking> The tool has successfully saved the draft with 12 words. I will now inform the user about the successful save. </thinking>\nThe brief containing the total token count and cost has been successfully saved as a draft. The draft contains 12 words."
+        }
+      ]
+    },
+    "result_after_second": {
+      "calc": [
+        {
+          "text": "<thinking> The tool has returned the result of summing the token counts. I will now provide the result to the user in JSON format as requested. </thinking>\n```\n{\"total\": 3640, \"cost_usd\": 0.002912}\n```"
+        }
+      ],
+      "write": [
+        {
+          "text": "<thinking> The tool has successfully saved the draft with 12 words. I will now inform the user about the successful save. </thinking>\nThe brief containing the total token count and cost has been successfully saved as a draft. The draft contains 12 words."
+        }
+      ]
+    },
+    "patched_status_seen_by_start": {
+      "calc": "completed",
+      "write": "pending"
+    },
+    "final_workflow_status": "running",
+    "note": "restart skips completed steps and cannot reach total_tasks, so start_workflow busy-loops; the replayed step never reran (save_draft stays at 1 call). Only a fresh delete + create would repeat the side effect, and there is no idempotency key to deduplicate it"
+  }
+}

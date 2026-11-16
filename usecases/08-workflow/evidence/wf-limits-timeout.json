@@ -1,0 +1,79 @@
+{
+  "verified_on": "2026-11-16",
+  "sdk": "strands-agents 1.63.0 / strands-agents-tools 0.8.11",
+  "model": "amazon.nova-pro-v1:0 (us-east-1)",
+  "mode": "timeout",
+  "workflow_status": "completed",
+  "task_status": {
+    "slow": "completed"
+  },
+  "task_results": {
+    "slow": {
+      "status": "completed",
+      "result": [
+        {
+          "text": "<thinking> The slow_step tool has completed its execution. I will now respond to the user as instructed. </thinking>\ndone"
+        }
+      ],
+      "metrics": "Event Loop Metrics Summary:\n\u251c\u2500 Cycles: total=2, avg_time=2.973s, total_time=5.946s\n\u251c\u2500 Tokens: in=975, out=82, total=1057\n\u251c\u2500 Bedrock Latency: 1153ms\n\u251c\u2500 Tool Usage:\n   \u2514\u2500 slow_step:\n      \u251c\u2500 Stats: calls=1, success=1\n      \u2502         errors=0, success_rate=100.0%\n      \u251c\u2500 Timing: avg=3.010s, total=3.010s\n      \u2514\u2500 Tool Calls:\n         \u251c\u2500 tooluse_2gnRNvteZxmU1nA3weVe0n: slow_step\n\u251c\u2500 Execution Trace:\n   \u2514\u2500 None - Duration: 5.1061s\n      \u2514\u2500 None - Duration: 2.0833s\n      \u2514\u2500 slow_step - tooluse_2gnRNvteZxmU1nA3weVe0n - Duration: 3.0113s\n      \u2514\u2500 None - Duration: 0.8403s\n   \u2514\u2500 None - Duration: 0.8401s\n      \u2514\u2500 None - Duration: 0.8394s"
+    }
+  },
+  "order": [
+    "slow"
+  ],
+  "overlaps": [],
+  "timing": [
+    {
+      "task": "slow",
+      "start": 1794799040.26,
+      "stop": 1794799047.213
+    }
+  ],
+  "ledger": [
+    {
+      "tool": "slow_step",
+      "t": 1794799046.356758,
+      "seconds": 3
+    }
+  ],
+  "first_prompts": {
+    "slow": "Call slow_step with seconds=3, then reply 'done'."
+  },
+  "extra": {
+    "declared_timeout_s": 1,
+    "elapsed_s": 7.06,
+    "created": {
+      "status": "success",
+      "content": [
+        {
+          "text": "\u2705 Created modern workflow 'wf-limits-timeout' with 1 tasks"
+        }
+      ]
+    },
+    "start": {
+      "status": "success",
+      "content": [
+        {
+          "text": "\ud83c\udf89 Workflow 'wf-limits-timeout' completed successfully! (1/1 tasks succeeded - 100.0%)"
+        }
+      ]
+    },
+    "pause": {
+      "status": "error",
+      "content": [
+        {
+          "text": "\ud83d\udea7 Action 'pause' is not yet implemented"
+        }
+      ]
+    },
+    "resume": {
+      "status": "error",
+      "content": [
+        {
+          "text": "\ud83d\udea7 Action 'resume' is not yet implemented"
+        }
+      ]
+    },
+    "note": "task['timeout'] is stored by create_workflow but never read by execute_task; there is no budget or pause hook at the workflow layer"
+  }
+}

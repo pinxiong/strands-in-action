@@ -1,0 +1,26 @@
+<thinking> I need to call the explode tool as requested by the user. </thinking>
+
+Tool #1: explode
+The explode tool was called, but it resulted in an error: "Error: RuntimeError - injected tool failure". This indicates that the tool always fails as intended.<thinking> The task requires using the sum_tokens tool with the provided token counts. I will call the tool with the given array of integers. </thinking>
+
+Tool #1: sum_tokens
+<thinking> The sum_tokens tool has returned the result. I will now report the result verbatim as requested by the user. </thinking>
+
+The result from the sum_tokens tool is: `{"total": 3640, "cost_usd": 0.002912}`WROTE wf-failure-swallowed.json
+verified_on=2026-11-16 sdk=strands-agents 1.63.0 / strands-agents-tools 0.8.11 model=amazon.nova-pro-v1:0 (us-east-1)
+mode=swallowed workflow_status=completed
+task_status={'flaky': 'completed', 'write': 'completed'}
+order=['flaky', 'write'] overlaps=[]
+ledger=[{'tool': 'explode', 't': 1794798483.1697931}, {'tool': 'sum_tokens', 't': 1794798493.216736, 'total': 3640}]
+--- first_prompt[flaky] ---
+Call explode once, then briefly report what happened.
+--- first_prompt[write] ---
+Previous task results:
+Results from flaky:
+The explode tool was called, but it resulted in an error: "Error: RuntimeError - injected tool failure". This indicates that the tool always fails as intended.
+
+Current Task:
+Using the previous results, call sum_tokens with [1180, 940, 1520] and reply with its JSON verbatim.
+shape=flaky -> write
+run={'created': {'status': 'success', 'content': [{'text': "✅ Created modern workflow 'wf-failure-swallowed' with 2 tasks"}]}, 'start_returned': {'status': 'success', 'content': [{'text': "🎉 Workflow 'wf-failure-swallowed' completed successfully! (2/2 tasks succeeded - 100.0%)"}]}, 'elapsed_s': 20.32, 'busy_loop': False, 'seconds_budget': 30}
+injected=explode() raises RuntimeError

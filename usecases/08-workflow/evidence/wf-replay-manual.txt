@@ -1,0 +1,49 @@
+<thinking> The user has provided a list of token counts and requested to call the sum_tokens tool with these values. I will proceed to call the tool with the provided counts. </thinking>
+
+Tool #1: sum_tokens
+<thinking> The tool has returned the result of summing the token counts. I will now provide the result to the user in JSON format as requested. </thinking>
+```
+{"total": 3640, "cost_usd": 0.002912}
+```<thinking> I need to create a brief using the previous results and save it as a draft. The brief should contain the total token count and the cost in USD. </thinking>
+
+Tool #1: save_draft
+<thinking> The tool has successfully saved the draft with 12 words. I will now inform the user about the successful save. </thinking>
+The brief containing the total token count and cost has been successfully saved as a draft. The draft contains 12 words.❌ Error in workflow execution: restart did not return within 18s
+Traceback (most recent call last):
+  File "/Users/pinxiong/Documents/Important/strands-in-action/.venv/lib/python3.11/site-packages/strands_tools/workflow.py", line 688, in start_workflow
+    time.sleep(0.1)
+  File "/Users/pinxiong/Documents/Important/strands-in-action/usecases/08-workflow/src/wf_replay.py", line 35, in on_alarm
+    raise TimeoutError(f"restart did not return within {seconds}s")
+TimeoutError: restart did not return within 18s
+
+WROTE wf-replay-manual.json
+verified_on=2026-11-16 sdk=strands-agents 1.63.0 / strands-agents-tools 0.8.11 model=amazon.nova-pro-v1:0 (us-east-1)
+mode=manual-replay workflow_status=running
+task_status={'calc': 'completed', 'write': 'completed'}
+order=['calc', 'write'] overlaps=[]
+ledger=[{'tool': 'sum_tokens', 't': 1794801690.431411, 'total': 3640}, {'tool': 'save_draft', 't': 1794801693.4991932, 'words': 12, 'text': 'The total token count is 3640, with a cost of $0.002912 USD.'}]
+--- first_prompt[calc] ---
+Call sum_tokens with [1180, 940, 1520] and reply with its JSON verbatim.
+--- first_prompt[write] ---
+Previous task results:
+Results from calc:
+<thinking> The tool has returned the result of summing the token counts. I will now provide the result to the user in JSON format as requested. </thinking>
+```
+{"total": 3640, "cost_usd": 0.002912}
+```
+
+Current Task:
+Using the previous results, call save_draft once with a short brief containing the total and cost.
+shape=calc -> write; write replayed by editing persisted JSON
+created={'status': 'success', 'content': [{'text': "✅ Created modern workflow 'wf-replay-manual' with 2 tasks"}]}
+first_start={'returned': {'status': 'success', 'content': [{'text': "🎉 Workflow 'wf-replay-manual' completed successfully! (2/2 tasks succeeded - 100.0%)"}]}, 'elapsed_s': 6.89, 'busy_loop': False, 'seconds_budget': 30}
+second_start={'returned': {'status': 'error', 'content': [{'text': '❌ Error in workflow execution: restart did not return within 18s\nTraceback (most recent call last):\n  File "/Users/pinxiong/Documents/Important/strands-in-action/.venv/lib/python3.11/site-packages/strands_tools/workflow.py", line 688, in start_workflow\n    time.sleep(0.1)\n  File "/Users/pinxiong/Documents/Important/strands-in-action/usecases/08-workflow/src/wf_replay.py", line 35, in on_alarm\n    raise TimeoutError(f"restart did not return within {seconds}s")\nTimeoutError: restart did not return within 18s\n'}]}, 'elapsed_s': 18.01, 'busy_loop': True, 'seconds_budget': 18}
+ledger_after_first=[{'tool': 'sum_tokens', 't': 1794801690.431411, 'total': 3640}, {'tool': 'save_draft', 't': 1794801693.4991932, 'words': 12, 'text': 'The total token count is 3640, with a cost of $0.002912 USD.'}]
+ledger_after_second=[{'tool': 'sum_tokens', 't': 1794801690.431411, 'total': 3640}, {'tool': 'save_draft', 't': 1794801693.4991932, 'words': 12, 'text': 'The total token count is 3640, with a cost of $0.002912 USD.'}]
+save_draft_calls_total=1
+sum_tokens_calls_total=1
+result_after_first={'calc': [{'text': '<thinking> The tool has returned the result of summing the token counts. I will now provide the result to the user in JSON format as requested. </thinking>\n```\n{"total": 3640, "cost_usd": 0.002912}\n```'}], 'write': [{'text': '<thinking> The tool has successfully saved the draft with 12 words. I will now inform the user about the successful save. </thinking>\nThe brief containing the total token count and cost has been successfully saved as a draft. The draft contains 12 words.'}]}
+result_after_second={'calc': [{'text': '<thinking> The tool has returned the result of summing the token counts. I will now provide the result to the user in JSON format as requested. </thinking>\n```\n{"total": 3640, "cost_usd": 0.002912}\n```'}], 'write': [{'text': '<thinking> The tool has successfully saved the draft with 12 words. I will now inform the user about the successful save. </thinking>\nThe brief containing the total token count and cost has been successfully saved as a draft. The draft contains 12 words.'}]}
+patched_status_seen_by_start={'calc': 'completed', 'write': 'pending'}
+final_workflow_status=running
+note=restart skips completed steps and cannot reach total_tasks, so start_workflow busy-loops; the replayed step never reran (save_draft stays at 1 call). Only a fresh delete + create would repeat the side effect, and there is no idempotency key to deduplicate it

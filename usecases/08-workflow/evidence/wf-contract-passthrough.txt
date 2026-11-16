@@ -1,0 +1,37 @@
+<thinking> The user has provided the necessary token counts and asked to call the sum_tokens tool with these values. I will proceed to call the tool with the given counts. </thinking>
+
+Tool #1: sum_tokens
+{"total": 3640, "cost_usd": 0.002912}<thinking> I need to call the 'save_draft' tool with the total and cost from the previous results. The total is 3640 and the cost_usd is 0.002912. I will format these values as a string to pass to the 'save_draft' tool. </thinking>
+
+Tool #1: save_draft
+<thinking> The 'save_draft' tool has successfully saved the draft with the total and cost. Now, I need to reply with the exact upstream text I was given, enclosed in <raw> tags. </thinking>
+
+<raw>Previous task results:
+Results from calc:
+{"total": 3640, "cost_usd": 0.002912}
+
+Current Task:
+Using the previous results, call save_draft with the total and cost. Then reply with the exact upstream text you were given, enclosed in <raw> tags.</raw>WROTE wf-contract-passthrough.json
+verified_on=2026-11-16 sdk=strands-agents 1.63.0 / strands-agents-tools 0.8.11 model=amazon.nova-pro-v1:0 (us-east-1)
+mode=passthrough workflow_status=completed
+task_status={'calc': 'completed', 'write': 'completed'}
+order=['calc', 'write'] overlaps=[]
+ledger=[{'tool': 'sum_tokens', 't': 1794798474.232044, 'total': 3640}, {'tool': 'save_draft', 't': 1794798477.6098711, 'words': 5, 'text': 'Total: 3640, Cost USD: 0.002912'}]
+--- first_prompt[calc] ---
+Call sum_tokens with [1180, 940, 1520] and reply with ONLY the raw JSON object, no prose and no code fence.
+--- first_prompt[write] ---
+Previous task results:
+Results from calc:
+{"total": 3640, "cost_usd": 0.002912}
+
+Current Task:
+Using the previous results, call save_draft with the total and cost. Then reply with the exact upstream text you were given, enclosed in <raw> tags.
+shape=calc -> write
+run={'created': {'status': 'success', 'content': [{'text': "✅ Created modern workflow 'wf-contract-passthrough' with 2 tasks"}]}, 'start_returned': {'status': 'success', 'content': [{'text': "🎉 Workflow 'wf-contract-passthrough' completed successfully! (2/2 tasks succeeded - 100.0%)"}]}, 'elapsed_s': 8.48, 'busy_loop': False, 'seconds_budget': 30}
+downstream_prompt_full=Previous task results:
+Results from calc:
+{"total": 3640, "cost_usd": 0.002912}
+
+Current Task:
+Using the previous results, call save_draft with the total and cost. Then reply with the exact upstream text you were given, enclosed in <raw> tags.
+note=downstream receives a rendered natural-language string built by execute_task, not a typed field

@@ -1,0 +1,33 @@
+<thinking> To fulfill the user's request, I need to call the `read_brief_input` tool to retrieve the fixed brief input, which includes the topic. </thinking>
+
+Tool #1: read_brief_input
+The topic is: "Why a three-node agent swarm costs more tokens than a single agent".<thinking> The user has provided a list of token counts for a three-node agent swarm. I need to call the sum_tokens tool with these counts to get the total token count. </thinking>
+
+Tool #1: sum_tokens
+<thinking> The sum_tokens tool has returned the total token count and the cost in USD. I will now provide the user with the JSON result verbatim. </thinking>
+
+The result from the sum_tokens tool is:
+```
+{
+  "total": 3640,
+  "cost_usd": 0.002912
+}
+```WROTE wf-contract-schema.json
+verified_on=2026-11-16 sdk=strands-agents 1.63.0 / strands-agents-tools 0.8.11 model=amazon.nova-pro-v1:0 (us-east-1)
+mode=schema workflow_status=completed
+task_status={'research': 'completed', 'calc': 'completed'}
+order=['research', 'calc'] overlaps=[]
+ledger=[{'tool': 'sum_tokens', 't': 1794798469.51914, 'total': 3640}]
+--- first_prompt[research] ---
+Call read_brief_input once and reply with the topic verbatim.
+--- first_prompt[calc] ---
+Previous task results:
+Results from research:
+The topic is: "Why a three-node agent swarm costs more tokens than a single agent".
+
+Current Task:
+Call sum_tokens with [1180, 940, 1520] and reply with its JSON verbatim.
+declared_extra_fields=['output_schema', 'returns', 'expects', 'validator']
+create_response={'status': 'success', 'content': [{'text': "✅ Created modern workflow 'wf-contract-schema' with 2 tasks"}]}
+persisted_task_keys={'research': ['dependencies', 'description', 'expects', 'output_schema', 'priority', 'returns', 'task_id', 'timeout', 'tools', 'validator'], 'calc': ['dependencies', 'description', 'output_schema', 'priority', 'task_id', 'timeout', 'tools']}
+note=create_workflow only checks task_id, description and that a dependency id exists; extra keys are copied verbatim and never read

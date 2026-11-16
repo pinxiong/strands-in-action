@@ -1,0 +1,35 @@
+{
+  "verified_on": "2026-11-16",
+  "sdk": "strands-agents 1.63.0 / strands-agents-tools 0.8.11",
+  "model": "amazon.nova-pro-v1:0 (us-east-1)",
+  "phase": "start",
+  "start": {
+    "returned": {
+      "status": "success",
+      "content": [
+        {
+          "text": "\ud83c\udf89 Workflow 'restart-probe' completed successfully! (2/2 tasks succeeded - 100.0%)"
+        }
+      ]
+    },
+    "elapsed_s": 7.75,
+    "busy_loop": false,
+    "seconds_budget": 14
+  },
+  "status_before": {
+    "a": "pending",
+    "b": "pending"
+  },
+  "workflow_status_after": "completed",
+  "status_after": {
+    "a": "completed",
+    "b": "completed"
+  },
+  "ledger_tools": [
+    "sum_tokens"
+  ],
+  "order": [
+    "a",
+    "b"
+  ]
+}

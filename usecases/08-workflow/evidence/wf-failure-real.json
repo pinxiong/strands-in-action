@@ -1,0 +1,69 @@
+{
+  "verified_on": "2026-11-16",
+  "sdk": "strands-agents 1.63.0 / strands-agents-tools 0.8.11",
+  "model": "amazon.nova-pro-v1:0 (us-east-1)",
+  "mode": "real",
+  "workflow_status": "running",
+  "task_status": {
+    "bad": "error",
+    "down": "pending"
+  },
+  "task_results": {
+    "bad": {
+      "status": "error",
+      "result": [
+        {
+          "text": "Error executing task bad: An error occurred (ValidationException) when calling the ConverseStream operation: The provided model identifier is invalid."
+        }
+      ],
+      "metrics": null
+    },
+    "down": {
+      "status": "pending",
+      "result": null,
+      "metrics": null
+    }
+  },
+  "order": [
+    "bad"
+  ],
+  "overlaps": [],
+  "timing": [
+    {
+      "task": "bad",
+      "start": 1794798501.904,
+      "stop": 1794798504.703
+    }
+  ],
+  "ledger": [],
+  "first_prompts": {
+    "bad": "Say hello.",
+    "down": "<task never ran>"
+  },
+  "extra": {
+    "shape": "bad -> down",
+    "run": {
+      "created": {
+        "status": "success",
+        "content": [
+          {
+            "text": "\u2705 Created modern workflow 'wf-failure-real' with 2 tasks"
+          }
+        ]
+      },
+      "start_returned": {
+        "status": "error",
+        "content": [
+          {
+            "text": "\u274c Error in workflow execution: start_workflow did not return within 18s\nTraceback (most recent call last):\n  File \"/Users/pinxiong/Documents/Important/strands-in-action/.venv/lib/python3.11/site-packages/strands_tools/workflow.py\", line 688, in start_workflow\n    time.sleep(0.1)\n  File \"/Users/pinxiong/Documents/Important/strands-in-action/usecases/08-workflow/src/common.py\", line 254, in on_alarm\n    raise TimeoutError(f\"start_workflow did not return within {seconds}s\")\nTimeoutError: start_workflow did not return within 18s\n"
+          }
+        ]
+      },
+      "elapsed_s": 18.03,
+      "busy_loop": true,
+      "seconds_budget": 18
+    },
+    "injected": "invalid Bedrock model id raises ValidationException inside execute_task",
+    "pause": null
+  }
+}

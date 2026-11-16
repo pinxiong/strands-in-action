@@ -1,0 +1,19 @@
+{
+  "verified_on": "2026-11-16",
+  "sdk": "strands-agents 1.63.0 / strands-agents-tools 0.8.11",
+  "model": "amazon.nova-pro-v1:0 (us-east-1)",
+  "phase": "create",
+  "create": {
+    "status": "success",
+    "content": [
+      {
+        "text": "\u2705 Created modern workflow 'restart-probe' with 2 tasks"
+      }
+    ]
+  },
+  "status_before": {},
+  "status_after": {
+    "a": "pending",
+    "b": "pending"
+  }
+}

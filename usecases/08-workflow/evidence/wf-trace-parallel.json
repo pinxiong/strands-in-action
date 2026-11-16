@@ -1,0 +1,123 @@
+{
+  "verified_on": "2026-11-16",
+  "sdk": "strands-agents 1.63.0 / strands-agents-tools 0.8.11",
+  "model": "amazon.nova-pro-v1:0 (us-east-1)",
+  "mode": "parallel",
+  "workflow_status": "completed",
+  "task_status": {
+    "p1": "completed",
+    "p2": "completed",
+    "p3": "completed"
+  },
+  "task_results": {
+    "p1": {
+      "status": "completed",
+      "result": [
+        {
+          "text": "p1 done"
+        }
+      ],
+      "metrics": "Event Loop Metrics Summary:\n\u251c\u2500 Cycles: total=2, avg_time=3.026s, total_time=6.053s\n\u251c\u2500 Tokens: in=984, out=63, total=1047\n\u251c\u2500 Bedrock Latency: 1191ms\n\u251c\u2500 Tool Usage:\n   \u2514\u2500 slow_step:\n      \u251c\u2500 Stats: calls=1, success=1\n      \u2502         errors=0, success_rate=100.0%\n      \u251c\u2500 Timing: avg=3.001s, total=3.001s\n      \u2514\u2500 Tool Calls:\n         \u251c\u2500 tooluse_1YqxR8lsijhWWoADsCIWSA: slow_step\n\u251c\u2500 Execution Trace:\n   \u2514\u2500 None - Duration: 5.3756s\n      \u2514\u2500 None - Duration: 2.3649s\n      \u2514\u2500 slow_step - tooluse_1YqxR8lsijhWWoADsCIWSA - Duration: 3.0014s\n      \u2514\u2500 None - Duration: 0.6774s\n   \u2514\u2500 None - Duration: 0.6773s\n      \u2514\u2500 None - Duration: 0.6770s"
+    },
+    "p2": {
+      "status": "completed",
+      "result": [
+        {
+          "text": "<thinking> The slow_step tool has completed its execution, sleeping for 3 seconds. Now I can reply to the user with 'p2 done' as instructed. </thinking>\np2 done"
+        }
+      ],
+      "metrics": "Event Loop Metrics Summary:\n\u251c\u2500 Cycles: total=2, avg_time=2.913s, total_time=5.825s\n\u251c\u2500 Tokens: in=969, out=86, total=1055\n\u251c\u2500 Bedrock Latency: 1259ms\n\u251c\u2500 Tool Usage:\n   \u2514\u2500 slow_step:\n      \u251c\u2500 Stats: calls=1, success=1\n      \u2502         errors=0, success_rate=100.0%\n      \u251c\u2500 Timing: avg=3.005s, total=3.005s\n      \u2514\u2500 Tool Calls:\n         \u251c\u2500 tooluse_GlaC6In1cTaanEd7YUXKjt: slow_step\n\u251c\u2500 Execution Trace:\n   \u2514\u2500 None - Duration: 4.8386s\n      \u2514\u2500 None - Duration: 1.8287s\n      \u2514\u2500 slow_step - tooluse_GlaC6In1cTaanEd7YUXKjt - Duration: 3.0056s\n      \u2514\u2500 None - Duration: 0.9869s\n   \u2514\u2500 None - Duration: 0.9868s\n      \u2514\u2500 None - Duration: 0.9864s"
+    },
+    "p3": {
+      "status": "completed",
+      "result": [
+        {
+          "text": "'p3 done'"
+        }
+      ],
+      "metrics": "Event Loop Metrics Summary:\n\u251c\u2500 Cycles: total=2, avg_time=3.083s, total_time=6.165s\n\u251c\u2500 Tokens: in=985, out=66, total=1051\n\u251c\u2500 Bedrock Latency: 1093ms\n\u251c\u2500 Tool Usage:\n   \u2514\u2500 slow_step:\n      \u251c\u2500 Stats: calls=1, success=1\n      \u2502         errors=0, success_rate=100.0%\n      \u251c\u2500 Timing: avg=3.006s, total=3.006s\n      \u2514\u2500 Tool Calls:\n         \u251c\u2500 tooluse_11UyP2IqUIASkuN4wtyUHk: slow_step\n\u251c\u2500 Execution Trace:\n   \u2514\u2500 None - Duration: 5.4809s\n      \u2514\u2500 None - Duration: 2.4717s\n      \u2514\u2500 slow_step - tooluse_11UyP2IqUIASkuN4wtyUHk - Duration: 3.0056s\n      \u2514\u2500 None - Duration: 0.6843s\n   \u2514\u2500 None - Duration: 0.6842s\n      \u2514\u2500 None - Duration: 0.6840s"
+    }
+  },
+  "order": [
+    "p1",
+    "p2",
+    "p3"
+  ],
+  "overlaps": [
+    [
+      "p1",
+      "p2"
+    ],
+    [
+      "p1",
+      "p3"
+    ],
+    [
+      "p2",
+      "p3"
+    ]
+  ],
+  "timing": [
+    {
+      "task": "p1",
+      "start": 1794798454.381,
+      "stop": 1794798460.633
+    },
+    {
+      "task": "p2",
+      "start": 1794798454.381,
+      "stop": 1794798460.933
+    },
+    {
+      "task": "p3",
+      "start": 1794798454.381,
+      "stop": 1794798460.64
+    }
+  ],
+  "ledger": [
+    {
+      "tool": "slow_step",
+      "t": 1794798459.940397,
+      "seconds": 3
+    },
+    {
+      "tool": "slow_step",
+      "t": 1794798459.943313,
+      "seconds": 3
+    },
+    {
+      "tool": "slow_step",
+      "t": 1794798459.94924,
+      "seconds": 3
+    }
+  ],
+  "first_prompts": {
+    "p1": "Call slow_step with seconds=3, then reply 'p1 done'.",
+    "p2": "Call slow_step with seconds=3, then reply 'p2 done'.",
+    "p3": "Call slow_step with seconds=3, then reply 'p3 done'."
+  },
+  "extra": {
+    "shape": "p1, p2, p3 (no dependencies)",
+    "run": {
+      "created": {
+        "status": "success",
+        "content": [
+          {
+            "text": "\u2705 Created modern workflow 'wf-trace-parallel' with 3 tasks"
+          }
+        ]
+      },
+      "start_returned": {
+        "status": "success",
+        "content": [
+          {
+            "text": "\ud83c\udf89 Workflow 'wf-trace-parallel' completed successfully! (3/3 tasks succeeded - 100.0%)"
+          }
+        ]
+      },
+      "elapsed_s": 6.66,
+      "busy_loop": false,
+      "seconds_budget": 30
+    }
+  }
+}

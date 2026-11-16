@@ -1,0 +1,91 @@
+{
+  "verified_on": "2026-11-16",
+  "sdk": "strands-agents 1.63.0 / strands-agents-tools 0.8.11",
+  "model": "amazon.nova-pro-v1:0 (us-east-1)",
+  "mode": "passthrough",
+  "workflow_status": "completed",
+  "task_status": {
+    "calc": "completed",
+    "write": "completed"
+  },
+  "task_results": {
+    "calc": {
+      "status": "completed",
+      "result": [
+        {
+          "text": "{\"total\": 3640, \"cost_usd\": 0.002912}"
+        }
+      ],
+      "metrics": "Event Loop Metrics Summary:\n\u251c\u2500 Cycles: total=2, avg_time=1.648s, total_time=3.297s\n\u251c\u2500 Tokens: in=1064, out=96, total=1160\n\u251c\u2500 Bedrock Latency: 1342ms\n\u251c\u2500 Tool Usage:\n   \u2514\u2500 sum_tokens:\n      \u251c\u2500 Stats: calls=1, success=1\n      \u2502         errors=0, success_rate=100.0%\n      \u251c\u2500 Timing: avg=0.002s, total=0.002s\n      \u2514\u2500 Tool Calls:\n         \u251c\u2500 tooluse_pHLydoj1gK08ozt8w2wwau: sum_tokens\n\u251c\u2500 Execution Trace:\n   \u2514\u2500 None - Duration: 2.3806s\n      \u2514\u2500 None - Duration: 2.3752s\n      \u2514\u2500 sum_tokens - tooluse_pHLydoj1gK08ozt8w2wwau - Duration: 0.0023s\n      \u2514\u2500 None - Duration: 0.9164s\n   \u2514\u2500 None - Duration: 0.9163s\n      \u2514\u2500 None - Duration: 0.9159s"
+    },
+    "write": {
+      "status": "completed",
+      "result": [
+        {
+          "text": "<thinking> The 'save_draft' tool has successfully saved the draft with the total and cost. Now, I need to reply with the exact upstream text I was given, enclosed in <raw> tags. </thinking>\n\n<raw>Previous task results:\nResults from calc:\n{\"total\": 3640, \"cost_usd\": 0.002912}\n\nCurrent Task:\nUsing the previous results, call save_draft with the total and cost. Then reply with the exact upstream text you were given, enclosed in <raw> tags.</raw>"
+        }
+      ],
+      "metrics": "Event Loop Metrics Summary:\n\u251c\u2500 Cycles: total=2, avg_time=2.207s, total_time=4.414s\n\u251c\u2500 Tokens: in=1125, out=227, total=1352\n\u251c\u2500 Bedrock Latency: 2085ms\n\u251c\u2500 Tool Usage:\n   \u2514\u2500 save_draft:\n      \u251c\u2500 Stats: calls=1, success=1\n      \u2502         errors=0, success_rate=100.0%\n      \u251c\u2500 Timing: avg=0.000s, total=0.000s\n      \u2514\u2500 Tool Calls:\n         \u251c\u2500 tooluse_BRiKU6r46qy33UXQtQ8QkT: save_draft\n\u251c\u2500 Execution Trace:\n   \u2514\u2500 None - Duration: 2.2060s\n      \u2514\u2500 None - Duration: 2.2036s\n      \u2514\u2500 save_draft - tooluse_BRiKU6r46qy33UXQtQ8QkT - Duration: 0.0006s\n      \u2514\u2500 None - Duration: 2.2083s\n   \u2514\u2500 None - Duration: 2.2082s\n      \u2514\u2500 None - Duration: 2.2079s"
+    }
+  },
+  "order": [
+    "calc",
+    "write"
+  ],
+  "overlaps": [],
+  "timing": [
+    {
+      "task": "calc",
+      "start": 1794798471.445,
+      "stop": 1794798475.153
+    },
+    {
+      "task": "write",
+      "start": 1794798475.257,
+      "stop": 1794798479.821
+    }
+  ],
+  "ledger": [
+    {
+      "tool": "sum_tokens",
+      "t": 1794798474.232044,
+      "total": 3640
+    },
+    {
+      "tool": "save_draft",
+      "t": 1794798477.6098711,
+      "words": 5,
+      "text": "Total: 3640, Cost USD: 0.002912"
+    }
+  ],
+  "first_prompts": {
+    "calc": "Call sum_tokens with [1180, 940, 1520] and reply with ONLY the raw JSON object, no prose and no code fence.",
+    "write": "Previous task results:\nResults from calc:\n{\"total\": 3640, \"cost_usd\": 0.002912}\n\nCurrent Task:\nUsing the previous results, call save_draft with the total and cost. Then reply with the exact upstream text you were given, enclosed in <raw> tags."
+  },
+  "extra": {
+    "shape": "calc -> write",
+    "run": {
+      "created": {
+        "status": "success",
+        "content": [
+          {
+            "text": "\u2705 Created modern workflow 'wf-contract-passthrough' with 2 tasks"
+          }
+        ]
+      },
+      "start_returned": {
+        "status": "success",
+        "content": [
+          {
+            "text": "\ud83c\udf89 Workflow 'wf-contract-passthrough' completed successfully! (2/2 tasks succeeded - 100.0%)"
+          }
+        ]
+      },
+      "elapsed_s": 8.48,
+      "busy_loop": false,
+      "seconds_budget": 30
+    },
+    "downstream_prompt_full": "Previous task results:\nResults from calc:\n{\"total\": 3640, \"cost_usd\": 0.002912}\n\nCurrent Task:\nUsing the previous results, call save_draft with the total and cost. Then reply with the exact upstream text you were given, enclosed in <raw> tags.",
+    "note": "downstream receives a rendered natural-language string built by execute_task, not a typed field"
+  }
+}

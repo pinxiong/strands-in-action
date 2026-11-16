@@ -1,0 +1,19 @@
+<thinking> I need to execute the slow_step tool with the specified argument to introduce a delay. After the tool completes, I will respond with 'done'. </thinking>
+
+Tool #1: slow_step
+<thinking> The slow_step tool has completed its execution. I will now respond to the user as instructed. </thinking>
+doneWROTE wf-limits-timeout.json
+verified_on=2026-11-16 sdk=strands-agents 1.63.0 / strands-agents-tools 0.8.11 model=amazon.nova-pro-v1:0 (us-east-1)
+mode=timeout workflow_status=completed
+task_status={'slow': 'completed'}
+order=['slow'] overlaps=[]
+ledger=[{'tool': 'slow_step', 't': 1794799046.356758, 'seconds': 3}]
+--- first_prompt[slow] ---
+Call slow_step with seconds=3, then reply 'done'.
+declared_timeout_s=1
+elapsed_s=7.06
+created={'status': 'success', 'content': [{'text': "✅ Created modern workflow 'wf-limits-timeout' with 1 tasks"}]}
+start={'status': 'success', 'content': [{'text': "🎉 Workflow 'wf-limits-timeout' completed successfully! (1/1 tasks succeeded - 100.0%)"}]}
+pause={'status': 'error', 'content': [{'text': "🚧 Action 'pause' is not yet implemented"}]}
+resume={'status': 'error', 'content': [{'text': "🚧 Action 'resume' is not yet implemented"}]}
+note=task['timeout'] is stored by create_workflow but never read by execute_task; there is no budget or pause hook at the workflow layer

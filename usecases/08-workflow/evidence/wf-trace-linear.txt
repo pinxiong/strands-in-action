@@ -1,0 +1,48 @@
+<thinking> To retrieve the topic sentence, I need to call the "read_brief_input" tool once. This tool will provide me with the fixed brief input, which includes the topic, raw points, and per-node token counts. From this input, I can extract the topic sentence verbatim. </thinking>
+
+Tool #1: read_brief_input
+The topic sentence is: "Why a three-node agent swarm costs more tokens than a single agent."<thinking> The task is to call the sum_tokens tool with the provided list of token counts [1180, 940, 1520]. This will sum the token counts and return the result. </thinking>
+
+Tool #1: sum_tokens
+The result from the sum_tokens tool is: 
+
+```json
+{
+  "total": 3640,
+  "cost_usd": 0.002912
+}
+```<thinking> I need to create a brief that includes the total tokens and the cost in USD, and ensure it is 100 words or fewer. The previous results provide the necessary information: 3640 tokens and a cost of $0.002912. I will construct a concise brief and then call the save_draft tool to save it. </thinking>
+
+Tool #1: save_draft
+The brief has been saved successfully. It contains the total tokens used (3640) and the cost in USD ($0.002912), and is within the 100-word limit.WROTE wf-trace-linear.json
+verified_on=2026-11-16 sdk=strands-agents 1.63.0 / strands-agents-tools 0.8.11 model=amazon.nova-pro-v1:0 (us-east-1)
+mode=linear workflow_status=completed
+task_status={'research': 'completed', 'calc': 'completed', 'write': 'completed'}
+order=['research', 'calc', 'write'] overlaps=[]
+ledger=[{'tool': 'sum_tokens', 't': 1794798449.4578948, 'total': 3640}, {'tool': 'save_draft', 't': 1794798452.6122491, 'words': 11, 'text': 'The total tokens used are 3640, with a cost of $0.002912.'}]
+--- first_prompt[research] ---
+Call read_brief_input once and reply with the topic sentence verbatim.
+--- first_prompt[calc] ---
+Previous task results:
+Results from research:
+The topic sentence is: "Why a three-node agent swarm costs more tokens than a single agent."
+
+Current Task:
+Call sum_tokens with [1180, 940, 1520] and reply with its JSON verbatim.
+--- first_prompt[write] ---
+Previous task results:
+Results from calc:
+The result from the sum_tokens tool is: 
+
+```json
+{
+  "total": 3640,
+  "cost_usd": 0.002912
+}
+```
+
+Current Task:
+Using the previous results, call save_draft with a brief of 100 words or fewer containing the total and the cost.
+shape=research -> calc -> write
+run={'created': {'status': 'success', 'content': [{'text': "✅ Created modern workflow 'wf-trace-linear' with 3 tasks"}]}, 'start_returned': {'status': 'success', 'content': [{'text': "🎉 Workflow 'wf-trace-linear' completed successfully! (3/3 tasks succeeded - 100.0%)"}]}, 'elapsed_s': 10.71, 'busy_loop': False, 'seconds_budget': 30}
+note=each step is a full Agent loop; there is no non-LLM step type

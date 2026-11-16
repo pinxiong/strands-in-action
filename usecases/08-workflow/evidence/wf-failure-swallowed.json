@@ -1,0 +1,88 @@
+{
+  "verified_on": "2026-11-16",
+  "sdk": "strands-agents 1.63.0 / strands-agents-tools 0.8.11",
+  "model": "amazon.nova-pro-v1:0 (us-east-1)",
+  "mode": "swallowed",
+  "workflow_status": "completed",
+  "task_status": {
+    "flaky": "completed",
+    "write": "completed"
+  },
+  "task_results": {
+    "flaky": {
+      "status": "completed",
+      "result": [
+        {
+          "text": "The explode tool was called, but it resulted in an error: \"Error: RuntimeError - injected tool failure\". This indicates that the tool always fails as intended."
+        }
+      ],
+      "metrics": "Event Loop Metrics Summary:\n\u251c\u2500 Cycles: total=2, avg_time=4.004s, total_time=8.008s\n\u251c\u2500 Tokens: in=895, out=64, total=959\n\u251c\u2500 Bedrock Latency: 982ms\n\u251c\u2500 Tool Usage:\n   \u2514\u2500 explode:\n      \u251c\u2500 Stats: calls=1, success=0\n      \u2502         errors=1, success_rate=0.0%\n      \u251c\u2500 Timing: avg=0.001s, total=0.001s\n      \u2514\u2500 Tool Calls:\n         \u251c\u2500 tooluse_Achj30E8C3sFyBtHmKPYT0: explode\n\u251c\u2500 Execution Trace:\n   \u2514\u2500 None - Duration: 1.4896s\n      \u2514\u2500 None - Duration: 1.4855s\n      \u2514\u2500 explode - tooluse_Achj30E8C3sFyBtHmKPYT0 - Duration: 0.0010s\n      \u2514\u2500 None - Duration: 6.5184s\n   \u2514\u2500 None - Duration: 6.5182s\n      \u2514\u2500 None - Duration: 6.5161s"
+    },
+    "write": {
+      "status": "completed",
+      "result": [
+        {
+          "text": "<thinking> The sum_tokens tool has returned the result. I will now report the result verbatim as requested by the user. </thinking>\n\nThe result from the sum_tokens tool is: `{\"total\": 3640, \"cost_usd\": 0.002912}`"
+        }
+      ],
+      "metrics": "Event Loop Metrics Summary:\n\u251c\u2500 Cycles: total=2, avg_time=5.392s, total_time=10.785s\n\u251c\u2500 Tokens: in=1140, out=131, total=1271\n\u251c\u2500 Bedrock Latency: 1404ms\n\u251c\u2500 Tool Usage:\n   \u2514\u2500 sum_tokens:\n      \u251c\u2500 Stats: calls=1, success=1\n      \u2502         errors=0, success_rate=100.0%\n      \u251c\u2500 Timing: avg=0.002s, total=0.002s\n      \u2514\u2500 Tool Calls:\n         \u251c\u2500 tooluse_h2hgXs6xA1zNexN46tqXZg: sum_tokens\n\u251c\u2500 Execution Trace:\n   \u2514\u2500 None - Duration: 2.9838s\n      \u2514\u2500 None - Duration: 2.9792s\n      \u2514\u2500 sum_tokens - tooluse_h2hgXs6xA1zNexN46tqXZg - Duration: 0.0019s\n      \u2514\u2500 None - Duration: 7.8014s\n   \u2514\u2500 None - Duration: 7.8012s\n      \u2514\u2500 None - Duration: 7.8005s"
+    }
+  },
+  "order": [
+    "flaky",
+    "write"
+  ],
+  "overlaps": [],
+  "timing": [
+    {
+      "task": "flaky",
+      "start": 1794798480.809,
+      "stop": 1794798489.693
+    },
+    {
+      "task": "write",
+      "start": 1794798489.799,
+      "stop": 1794798501.024
+    }
+  ],
+  "ledger": [
+    {
+      "tool": "explode",
+      "t": 1794798483.1697931
+    },
+    {
+      "tool": "sum_tokens",
+      "t": 1794798493.216736,
+      "total": 3640
+    }
+  ],
+  "first_prompts": {
+    "flaky": "Call explode once, then briefly report what happened.",
+    "write": "Previous task results:\nResults from flaky:\nThe explode tool was called, but it resulted in an error: \"Error: RuntimeError - injected tool failure\". This indicates that the tool always fails as intended.\n\nCurrent Task:\nUsing the previous results, call sum_tokens with [1180, 940, 1520] and reply with its JSON verbatim."
+  },
+  "extra": {
+    "shape": "flaky -> write",
+    "run": {
+      "created": {
+        "status": "success",
+        "content": [
+          {
+            "text": "\u2705 Created modern workflow 'wf-failure-swallowed' with 2 tasks"
+          }
+        ]
+      },
+      "start_returned": {
+        "status": "success",
+        "content": [
+          {
+            "text": "\ud83c\udf89 Workflow 'wf-failure-swallowed' completed successfully! (2/2 tasks succeeded - 100.0%)"
+          }
+        ]
+      },
+      "elapsed_s": 20.32,
+      "busy_loop": false,
+      "seconds_budget": 30
+    },
+    "injected": "explode() raises RuntimeError"
+  }
+}
