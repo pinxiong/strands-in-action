@@ -34,7 +34,8 @@ For production work needing contracts or replay, I would orchestrate in my own P
 
 - Round 1, two independent read-only agents with no shared context: `verifier-a` (facts / source / line-level, 11 required checks) → `RESULT: PASS`; `verifier-b` (pasteability / wording / scope / length, 12 required checks) → `RESULT: PASS`. verifier-a re-grepped `workflow.py` and `strands/multiagent/` itself instead of trusting the probe output file, and verified all `file:line` citations.
 - Adopted from round 1: wording tightened for Pin's "简洁明了一点" request; "symbol" → "identifier"; the GraphBuilder design assertion replaced by the verifier-proposed source-anchored sentence "the 0.8.11 workflow does not wire it into task output validation"; probe reproducibility note added (3 byte-identical runs, sha256 `96c34a99…`).
-- Round 2, a **new** independent final verifier doing a full re-check of the revised text (not just the delta): pending.
+- Round 2, a **new** independent final verifier doing a full re-check of the revised text (not just the delta): `RESULT: PASS`, 12/12 items, 0 mandatory fixes. It re-grepped `workflow.py` itself (GraphBuilder / structured_output / pydantic / BaseModel / validator / output_schema / model_validate / returns / expects all 0 hits), checked `graph.py:491-503`, `:760-770`, `:289-309` to confirm those are topology checks rather than output-schema validation, and verified byte-for-byte identity between the paste-ready text and the archived Reply section.
+- Final: 185 words, 10 sentences, 3 paragraphs, 1233 chars, no Markdown syntax in the paste-ready version. Pushed as `8f01213` (and the verification note as a follow-up commit); the `tree/master/outreach/uc08-comments` link and all four blob links return 200.
 
 ## Scope limits
 
