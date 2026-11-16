@@ -12,7 +12,7 @@ cover:
 > Verified on 2026-11-16 against `strands-agents` 1.63.0,
 > `strands-agents-tools` 0.8.11, Python 3.11 and Bedrock in `us-east-1`.
 > Every number below came out of a run. The scripts and raw output live in
-> <https://github.com/pinxiong/strands-in-action/tree/master/usecases/08-workflow>.
+> https://github.com/pinxiong/strands-in-action/tree/master/usecases/08-workflow.
 > The model is `amazon.nova-pro-v1:0`.
 
 The last two posts in this series ran the same task on a swarm and on a graph.
@@ -488,7 +488,7 @@ export AWS_DEFAULT_REGION=us-east-1
 ```
 
 The full source, the fixed fixture and all raw evidence are in
-<https://github.com/pinxiong/strands-in-action/tree/master/usecases/08-workflow>.
+https://github.com/pinxiong/strands-in-action/tree/master/usecases/08-workflow.
 Use Python 3.11 for the venv. The scripts hard-code `us-east-1` and
 `amazon.nova-pro-v1:0` in `src/common.py` and pass the region explicitly to
 `BedrockModel`, so `AWS_DEFAULT_REGION` is only a boto3 default and cannot

@@ -1,12 +1,12 @@
 # UC08 · Orchestrating Agents: Less Freedom for the Model, More Certainty for You
 
-状态：**在制品** — 正文、9 组实验、HTML 预览、三类独立评审与发布物料已就绪，待 2026-11-16（周一）21:30–22:30 GMT+8 窗口上线。
+状态：**已发布** — 主站 / AWS Builder Center / Dev.to 三渠道 2026-11-16 已上线（线上封面核验 `ALL AUTOMATED CHANNELS PASS`）；Medium 物料齐备，待手动 Import。
 
 | 渠道 | 线上地址 |
 |---|---|
-| 主站（canonical） | https://xiongpin.dev/posts/orchestrating-workflow/ （发布后生效） |
-| AWS Builder Center | `<BC_URL>` — 发布后回填 |
-| Dev.to | `<DEVTO_URL>` — 发布后回填 |
+| 主站（canonical） | https://xiongpin.dev/posts/orchestrating-workflow/ — 200，`draft: false`，og:image 深蓝 `cover.png` |
+| AWS Builder Center | https://builder.aws.com/content/3MBSAPbU1zpRZTXGz7LfqJ22Jst/orchestrating-agents-less-freedom-for-the-model-more-certainty-for-you — 200，hero 深蓝 `cove.webp` |
+| Dev.to | https://dev.to/aws-builders/orchestrating-agents-less-freedom-for-the-model-more-certainty-for-you-4nl1 — 已发布（id 5046802，org AWS Community Builders，canonical 指回主站） |
 | Medium | <MEDIUM_URL> — 待手动 Import（物料已齐：Medium 手册 + Slack 文案 + 1400×788 16:9 封面） |
 
 > Verified on 2026-11-16 against `strands-agents` 1.63.0,
