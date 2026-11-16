@@ -215,7 +215,7 @@ self.store_workflow(workflow_id, workflow)
 time.sleep(0.1)
 ```
 
-`completed_tasks` is a fresh empty set on every call. The only `add` to it happens after a future submitted by this call returns, as the second block shows. A step that was already `completed` when the call began is skipped by `get_ready_tasks`, so it never produces a future and never reaches that `add`. If a workflow has any history, the set cannot reach `total_tasks`. With nothing ready and no active futures, each iteration only stores the state again and sleeps 0.1 seconds, as the third block shows. That is the spin the guard has to stop.
+`completed_tasks` is a fresh empty set on every call. Its `add` calls happen only after a future submitted by this call returns, as the second block shows. A step that was already `completed` when the call began is skipped by `get_ready_tasks`, so it never produces a future and never reaches an `add`. If a workflow has any history, the set cannot reach `total_tasks`. With nothing ready and no active futures, each iteration only stores the state again and sleeps 0.1 seconds, as the third block shows. That is the spin the guard has to stop.
 
 I tested that across three separate processes sharing one state directory. The first process only called `create`, leaving both steps `pending`. The second process loaded that JSON from disk and ran both steps in 7.75 seconds, reporting 2/2 succeeded, so file persistence itself works. The third process loaded the same, now fully `completed`, workflow and called `start` again. It did not return within 14 seconds. Its trace shows an empty execution order. Both steps were still `completed` and the workflow was still `running`. `start` is not a resume.
 
@@ -320,7 +320,7 @@ Each script writes its own `evidence/*.txt` and `evidence/*.json`. Three runs de
 2. `create_workflow` validates two keys and a dependency id. Anything else you declare, including an output schema, is stored and ignored.
 3. A downstream step receives rendered natural-language text, not typed data. Prose, thinking traces and Markdown fences all travel with it.
 4. A tool exception can become prose, leaving the step `completed` and the run reporting 100 percent success. Only an `error` status changes anything.
-5. An `error` step leaves its dependants `pending` forever, and `start_workflow` never returns because `completed_tasks` starts empty on every call.
+5. An `error` step leaves its dependants `pending` forever, so the loop has nothing ready and `start_workflow` never returns. A restart stalls for a different reason: `completed_tasks` is rebuilt empty on each call.
 6. `pause` and `resume` are not implemented; editing the state JSON is overwritten by the in-memory singleton. Recovery is a full delete and rerun, which repeats side effects.
 7. The per-task `timeout` is never read, so no step is ever marked timed out and there is no timed-out turn to record separately. The only accounting is a human-readable metrics string. On this fixture three steps used 3944 tokens, with no workflow-level total or budget field.
 8. There is no validator step and no budget checkpoint at this layer. Put structured handoffs, idempotency keys and cost ceilings outside the tool.

@@ -316,10 +316,10 @@ self.store_workflow(workflow_id, workflow)
 time.sleep(0.1)
 ```
 
-`completed_tasks` is a fresh empty set on every call. The only `add` to it
-happens after a future submitted by this call returns, as the second block
+`completed_tasks` is a fresh empty set on every call. Its `add` calls happen
+only after a future submitted by this call returns, as the second block
 shows. A step that was already `completed` when the call began is skipped by
-`get_ready_tasks`, so it never produces a future and never reaches that `add`.
+`get_ready_tasks`, so it never produces a future and never reaches an `add`.
 If a workflow has any history, the set cannot reach `total_tasks`. With nothing
 ready and no active futures, each iteration only stores the state again and
 sleeps 0.1 seconds, as the third block shows. That is the spin the guard has to
@@ -535,8 +535,9 @@ Do not run those three without the guard. The exact upstream text a step receive
    Prose, thinking traces and Markdown fences all travel with it.
 4. A tool exception can become prose, leaving the step `completed` and the run
    reporting 100 percent success. Only an `error` status changes anything.
-5. An `error` step leaves its dependants `pending` forever, and `start_workflow`
-   never returns because `completed_tasks` starts empty on every call.
+5. An `error` step leaves its dependants `pending` forever, so the loop has
+   nothing ready and `start_workflow` never returns. A restart stalls for a
+   different reason: `completed_tasks` is rebuilt empty on each call.
 6. `pause` and `resume` are not implemented; editing the state JSON is
    overwritten by the in-memory singleton. Recovery is a full delete and rerun,
    which repeats side effects.
