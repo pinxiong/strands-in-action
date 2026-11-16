@@ -1,0 +1,36 @@
+=== ENV ===
+strands-agents 1.63.0
+strands-agents-tools 0.8.11
+pydantic 2.14.2
+workflow.py /Users/pinxiong/Documents/Important/strands-in-action/.venv/lib/python3.11/site-packages/strands_tools/workflow.py
+=== A1 workflow.py integration symbols ===
+structured_output: 0 hits []
+GraphBuilder: 0 hits []
+BaseModel: 0 hits []
+pydantic: 0 hits []
+output_schema: 0 hits []
+validator: 0 hits []
+=== A2 step boundary is rendered text ===
+425: context.append(f"Results from {dep_id}:\n" + "\n".join(dep_content))
+444: result = task_agent(task_prompt)
+Agent.structured_output (self, output_model: type[~T], prompt: str | list[strands.types.content.ContentBlock] | list[strands.types.interrupt.InterruptResponseContent] | list[strands.types.content.Message] | None = None) -> ~T
+=== A3 multiagent schema symbols ===
+structured_output: 0 hits []
+BaseModel: 0 hits []
+model_validate: 0 hits []
+pydantic: 0 hits []
+output_schema: 0 hits []
+=== B recorded downstream prompt ===
+prompt_bytes: 243
+prompt_repr: 'Previous task results:\nResults from calc:\n{"total": 3640, "cost_usd": 0.002912}\n\nCurrent Task:\nUsing the previous results, call save_draft with the total and cost. Then reply with the exact upstream text you were given, enclosed in <raw> tags.'
+=== B1 json.loads on the whole rendered prompt ===
+PARSE: JSONDecodeError: Expecting value at pos 0
+=== B2 extract embedded JSON object then Pydantic validate ===
+extracted: '{"total": 3640, "cost_usd": 0.002912}'
+validated: {'total': 3640, 'cost_usd': 0.002912}
+=== B3 wrong type is rejected by Pydantic ===
+BAD: ValidationError: int_parsing loc= ('total',)
+=== BOUNDED CONCLUSION ===
+workflow.py has no structured_output/BaseModel/pydantic/output_schema/validator symbol
+the step boundary is a rendered string; a Pydantic wrapper must parse it itself
+this probe did not run a new Bedrock workflow; input is the UC08 recorded prompt
