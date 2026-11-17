@@ -8,10 +8,13 @@ https://builder.aws.com/content/3MBSAPbU1zpRZTXGz7LfqJ22Jst/orchestrating-agents
 Deliverable: `reply-artem-tokarev-bc.txt` (plain text, no backticks or fences, ready to paste on Builder Center). Do not auto-post.
 
 Detailed edition assembled 2026-11-17 from the same already-verified material, with
-probe code, raw stdout and verbatim UC08 evidence lines: paste-ready
-`reply-artem-tokarev-detailed-bc.txt` and reading/archive copy
-`reply-artem-tokarev-detailed.md`. Its first three paragraphs are byte-for-byte
-the verified short reply; no new experiment or verification was run.
+probe code, raw stdout and verbatim UC08 evidence lines: Markdown version
+`reply-artem-tokarev-detailed.md` and plain-text version
+`reply-artem-tokarev-detailed-bc.txt`. Both files contain only the reply body
+(no headings, no metadata, no editorial notes); their text is identical apart
+from code fences. The first three paragraphs are byte-for-byte the verified short
+reply; no new experiment or verification was run. This file is the internal
+archive and is not meant to be pasted.
 
 ## Reply
 
