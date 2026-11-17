@@ -7,6 +7,12 @@ https://builder.aws.com/content/3MBSAPbU1zpRZTXGz7LfqJ22Jst/orchestrating-agents
 
 Deliverable: `reply-artem-tokarev-bc.txt` (plain text, no backticks or fences, ready to paste on Builder Center). Do not auto-post.
 
+Detailed edition assembled 2026-11-17 from the same already-verified material, with
+probe code, raw stdout and verbatim UC08 evidence lines: paste-ready
+`reply-artem-tokarev-detailed-bc.txt` and reading/archive copy
+`reply-artem-tokarev-detailed.md`. Its first three paragraphs are byte-for-byte
+the verified short reply; no new experiment or verification was run.
+
 ## Reply
 
 Hi Artem, good question. Short answer: they are different layers. structured_output is Agent-level; workflow 0.8.11 just calls task_agent(task_prompt) and hands the next step a rendered string. workflow.py has no structured_output, BaseModel, pydantic or validator identifier, and the output_schema, returns, expects and validator keys I declared were stored but never read. GraphBuilder gives topology and state, but the 0.8.11 workflow does not wire it into task output validation.
