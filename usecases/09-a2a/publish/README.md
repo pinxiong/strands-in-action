@@ -1,11 +1,11 @@
 # UC09 · Orchestrating Agents: Your Agent Leaves the Process
 
-状态：**部分发布（2026-11-18 14:47 GMT+8）** — 主站 `draft: false` 线上 200、Dev.to 已发布；AWS Builder Center 因登录态过期需人工 MFA 登录后补发（链接仍为占位）；Medium 物料待手动 Import。正文与 9 组真实证据已落盘，Medium 手册、Slack 文案、三套深蓝封面齐备。
+状态：**自动三渠道已发布（2026-11-18 14:46–21:43 GMT+8）** — 主站 `draft: false` 线上 200、Dev.to 已发布、AWS Builder Center 21:43 补发完成（正式 URL 200 + 标题 + og:image 三判据通过）；Medium 物料齐备，待手动 Import。正文与 9 组真实证据已落盘，Medium 手册、Slack 文案、三套深蓝封面齐备。
 
 | 渠道 | 线上地址 |
 |---|---|
 | 主站（canonical） | https://xiongpin.dev/posts/orchestrating-a2a/ — 稿件 `content/posts/orchestrating-a2a.md`，发布时置 `draft: false` |
-| AWS Builder Center | https://builder.aws.com/content/<BC_ID>/orchestrating-agents-your-agent-leaves-the-process — 占位，发布后回填 |
+| AWS Builder Center | https://builder.aws.com/content/3MHYKAujtiW2qbSm3yQsbkQUtQc/orchestrating-agents-your-agent-leaves-the-process — 2026-11-18 21:43 GMT+8 补发，正式 URL 200 / 标题 / og:image 三判据通过 |
 | Dev.to | https://dev.to/aws-builders/orchestrating-agents-your-agent-leaves-the-process-2l2d — id 5062466，2026-11-18 14:46 GMT+8 已发布 |
 | Medium | <MEDIUM_URL> — 待手动 Import（物料已齐：Medium 手册 + Slack 文案 + 1400×788 16:9 封面） |
 
