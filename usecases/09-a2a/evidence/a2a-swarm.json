@@ -1,0 +1,28 @@
+{
+  "verified_on": "2026-11-18",
+  "sdk": "strands-agents 1.63.0 / a2a-sdk 0.3.26 / fastapi 0.163.2",
+  "model": "amazon.nova-pro-v1:0 (us-east-1)",
+  "python": "3.11",
+  "mode": "swarm",
+  "endpoint": "http://127.0.0.1:9152",
+  "caller_pid": 52325,
+  "is_agent_instance": false,
+  "a2a_agent_bases": [
+    "A2AAgent",
+    "AgentBase",
+    "Protocol",
+    "Generic"
+  ],
+  "attempts": [
+    {
+      "name": "Swarm(nodes=[A2AAgent])",
+      "outcome": "rejected",
+      "detail": "AttributeError: 'A2AAgent' object has no attribute '_session_manager'"
+    },
+    {
+      "name": "GraphBuilder.add_node(A2AAgent)",
+      "outcome": "accepted",
+      "detail": "<strands.multiagent.graph.Graph object at 0x10d65a390>"
+    }
+  ]
+}

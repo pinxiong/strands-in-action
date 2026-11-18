@@ -1,0 +1,83 @@
+{
+  "verified_on": "2026-11-18",
+  "sdk": "strands-agents 1.63.0 / a2a-sdk 0.3.26 / fastapi 0.163.2",
+  "model": "amazon.nova-pro-v1:0 (us-east-1)",
+  "python": "3.11",
+  "mode": "cost",
+  "endpoint": "http://127.0.0.1:9151",
+  "caller_pid": 52475,
+  "local_usage": {
+    "accumulated_usage": {
+      "inputTokens": 2126,
+      "outputTokens": 187,
+      "totalTokens": 2313
+    },
+    "cycle_count": 3,
+    "tool_metrics": {
+      "sum_tokens": "ToolMetrics(tool={'toolUseId': 'tooluse_MQz9G3sgEp8DhCKzL1tSa1', 'name': 'sum_tokens', 'input': {'counts': [1180, 940, 1520]}}, call_count=1, success_count=1, error_count=0, total_time=0.003294541995273903)",
+      "save_draft": "ToolMetrics(tool={'toolUseId': 'tooluse_zAoLb6EotETt8FrNKuh8xx', 'name': 'save_draft', 'input': {'text': 'The total number of tokens is 3640 and the cost is $0.002912.', 'key': 'uc09-cost'}}, call_count=1, success_count=1, error_count=0, total_time=0.0019319590064696968)"
+    }
+  },
+  "local_stop_reason": "end_turn",
+  "local_receipts": [
+    {
+      "receipt": "R-001",
+      "key": "uc09-cost",
+      "words": 12,
+      "text": "The total number of tokens is 3640 and the cost is $0.002912.",
+      "pid": 52475,
+      "t": 1794974414.229
+    }
+  ],
+  "remote_pid": 52539,
+  "caller_usage": {
+    "accumulated_usage": {
+      "inputTokens": 0,
+      "outputTokens": 0,
+      "totalTokens": 0
+    },
+    "cycle_count": 0,
+    "tool_metrics": {}
+  },
+  "caller_result": {
+    "stop_reason": "end_turn",
+    "message_role": "assistant",
+    "content_blocks": [
+      {
+        "text": "The receipt id is R-001.\n"
+      }
+    ],
+    "text": "The receipt id is R-001.\n",
+    "metrics": "EventLoopMetrics(cycle_count=0, tool_metrics={}, cycle_durations=[], agent_invocations=[], traces=[], accumulated_usage={'inputTokens': 0, 'outputTokens': 0, 'totalTokens': 0}, accumulated_metrics={'latencyMs': 0})",
+    "structured_output": null,
+    "state": {
+      "a2a_task_state": "completed"
+    }
+  },
+  "remote_side_usage": [
+    {
+      "pid": 52539,
+      "usage_blocks": [],
+      "accumulated_usage": {
+        "inputTokens": 2176,
+        "outputTokens": 193,
+        "totalTokens": 2369
+      },
+      "cycle_count": 3
+    }
+  ],
+  "converter_source": "/Users/pinxiong/Documents/Important/strands-in-action/.venv/lib/python3.11/site-packages/strands/multiagent/a2a/executor.py",
+  "converter_term_hits": {
+    "usage": 0,
+    "token": 0,
+    "metric": 0
+  },
+  "converter_total_hits": 0,
+  "receipts": [
+    {
+      "receipt": "R-001",
+      "key": "uc09-cost",
+      "pid": 52539
+    }
+  ]
+}

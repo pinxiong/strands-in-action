@@ -1,0 +1,30 @@
+{
+  "verified_on": "2026-11-18",
+  "sdk": "strands-agents 1.63.0 / a2a-sdk 0.3.26 / fastapi 0.163.2",
+  "model": "amazon.nova-pro-v1:0 (us-east-1)",
+  "python": "3.11",
+  "mode": "tool_raise",
+  "endpoint": "http://127.0.0.1:9146",
+  "caller_pid": 50493,
+  "prompt": "Call explode once and report its result verbatim.",
+  "caller_key": "uc09-happy",
+  "remote_pid": 50495,
+  "result": {
+    "stop_reason": "end_turn",
+    "message_role": "assistant",
+    "content_blocks": [
+      {
+        "text": "\"Error: RuntimeError - injected tool failure\"\n"
+      }
+    ],
+    "text": "\"Error: RuntimeError - injected tool failure\"\n",
+    "metrics": "EventLoopMetrics(cycle_count=0, tool_metrics={}, cycle_durations=[], agent_invocations=[], traces=[], accumulated_usage={'inputTokens': 0, 'outputTokens': 0, 'totalTokens': 0}, accumulated_metrics={'latencyMs': 0})",
+    "structured_output": null,
+    "state": {
+      "a2a_task_state": "completed"
+    }
+  },
+  "elapsed_s": 2.86,
+  "on_disk_receipts": [],
+  "receipt_count": 0
+}

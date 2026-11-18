@@ -1,0 +1,19 @@
+verified_on = 2026-11-18
+sdk = strands-agents 1.63.0 / a2a-sdk 0.3.26 / fastapi 0.163.2
+model = amazon.nova-pro-v1:0 (us-east-1)
+python = 3.11
+mode = agent_raise
+endpoint = http://127.0.0.1:9148
+caller_pid = 51975
+remote_pid = 51982
+prompt = Call sum_tokens with [1180, 940, 1520]. Then call save_draft with a brief under 100 words containing the total and the cost, using key 'uc09-happy'. Report the tool result verbatim.
+outcome = returned
+result.stop_reason = end_turn
+result.message_role = assistant
+result.content_blocks = [{"text": "Agent execution failed"}]
+result.text = Agent execution failed
+result.metrics = EventLoopMetrics(cycle_count=0, tool_metrics={}, cycle_durations=[], agent_invocations=[], traces=[], accumulated_usage={'inputTokens': 0, 'outputTokens': 0, 'totalTokens': 0}, accumulated_metrics={'latencyMs': 0})
+result.structured_output = None
+result.state.a2a_task_state = failed
+receipts = []
+elapsed_s = 1.97

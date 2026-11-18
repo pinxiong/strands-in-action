@@ -1,0 +1,14 @@
+verified_on = 2026-11-18
+sdk = strands-agents 1.63.0 / a2a-sdk 0.3.26 / fastapi 0.163.2
+model = amazon.nova-pro-v1:0 (us-east-1)
+python = 3.11
+mode = readback
+endpoint = http://127.0.0.1:9150
+caller_pid = 52063
+remote_pid = 52065
+prompt = Call sum_tokens with [1180, 940, 1520]. Then call save_draft with a brief under 100 words containing the total and the cost, using key 'uc09-happy'. Report the tool result verbatim.
+calls = [{"attempt": 1, "text": "<thinking> The draft has been saved successfully. I will report the result verbatim as requested. </thinking> {\"toolResult\": [{\"tool_name\": \"save_draft\", \"result\": \"{\"receipt\": \"R-001\", \"duplicate\": false}\"}]}}\n", "stop_reason": "end_turn", "state": {"a2a_task_state": "completed"}, "receipt_count_after": 1}, {"attempt": 2, "text": "<thinking> The save_draft tool has been called, and the result indicates that the draft was saved successfully, although it was a duplicate. I will report the result verbatim as requested. </thinking>\nThe draft has been saved successfully, although it was a duplicate. Receipt ID: R-001.\n", "stop_reason": "end_turn", "state": {"a2a_task_state": "completed"}, "receipt_count_after": 1}]
+receipts = [{"receipt": "R-001", "key": "uc09-happy", "words": 5, "text": "Total tokens: 3640, cost: $0.002912", "pid": 52065, "t": 1794974353.954}]
+receipt_count = 1
+same_key_wrote_once = True
+elapsed_s = 8.6
