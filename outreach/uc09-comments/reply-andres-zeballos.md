@@ -2,7 +2,7 @@ Hi Andres,
 
 Thanks, and good question. This is the one piece I deliberately left unbuilt in the post, so let me give you a concrete answer. Short version: you cannot read those counts back from result.metrics. On the caller side the converter hard-codes metrics=EventLoopMetrics() (_converters.py:194-199), so that object is empty by construction. You have to publish the number yourself through a channel you own.
 
-I probed three options against strands-agents 1.63.0 / a2a-sdk 0.3.26. These are deterministic objects fed through the real converter, with no server process and no Bedrock call. The two obvious ones do not work: DataPart and artifact.metadata both reach the artifact, but _extract_text_parts only keeps parts that have a .text field (_converters.py:93-106), so the caller still sees zero. Measured in probe-output.txt:
+I probed four channels against strands-agents 1.63.0 / a2a-sdk 0.3.26, using deterministic objects and the real converter, with no server process and no Bedrock call. Two do not work: DataPart and artifact.metadata both reach the artifact, but _extract_text_parts only keeps parts that have a .text field (_converters.py:93-106), so the caller still sees zero. Measured in probe-output.txt:
 
 B1 2369 reachable from caller result: False
 B2 2369 reachable from caller result: False
@@ -35,11 +35,11 @@ caller text parts = ['The receipt id is R-001.', '{"usage": {"inputTokens": 2176
 recovered totalTokens = 2369
 ```
 
-The other thing that works is the sidecar ledger E8 already used: an AfterInvocationEvent hook in the server writes accumulated_usage to a store keyed by the idempotency key, and the caller reads it back (common.py:68-100). That is the safer one for a bill, because it survives the timeout case in E6 where the reply never arrives but the write already happened. I verified the readback in probe-output.txt:
+The other thing that works is the sidecar ledger E8 already used: an AfterInvocationEvent hook in the server appends accumulated_usage to a JSONL file, and the caller reads it back (common.py:62-65, 68-100). E8's real ledger has no key column; the key in my C2 case is one I added in the probe. For a bill I would key it by the same idempotency key as the receipt store, following the E6/E7 pattern where a write can be on disk even when the reply is lost. I verified the readback in probe-output.txt:
 
 C2 totalTokens recovered = 2369
 
-Scope note: this probe is converter-level with deterministic objects. It does not start two OS processes or call Bedrock, and the 2369 is the number E8 measured on a real run, reused here as a fixture. I did not test a custom executor that emits the extra part end to end.
+Scope note: this probe is converter-level with deterministic objects. It does not start two OS processes or call Bedrock, and the 2369 is the number E8 measured on a real run, reused here as a fixture. I did not test a custom executor that emits the extra part, or a keyed usage ledger, end to end.
 
 Probe, minimal repro and raw output: https://github.com/pinxiong/strands-in-action/tree/master/outreach/uc09-comments
 
