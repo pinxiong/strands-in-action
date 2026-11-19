@@ -1,0 +1,3 @@
+caller.metrics.accumulated_usage = {'inputTokens': 0, 'outputTokens': 0, 'totalTokens': 0}
+caller text parts = ['The receipt id is R-001.', '{"usage": {"inputTokens": 2176, "outputTokens": 193, "totalTokens": 2369}}']
+recovered totalTokens = 2369

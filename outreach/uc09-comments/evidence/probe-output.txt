@@ -1,0 +1,47 @@
+=== UC09 comment probe: token usage across the A2A boundary ===
+strands-agents = 1.63.0
+a2a-sdk = 0.3.26
+converter = strands/multiagent/a2a/_converters.py :: convert_response_to_agent_result
+no server process, no Bedrock call; real SDK objects through the real converter
+
+--- A1 control: default artifact = one TextPart(str(result)) ---
+A1 caller.accumulated_usage = {"inputTokens": 0, "outputTokens": 0, "totalTokens": 0}
+A1 caller.texts = ["The receipt id is R-001."]
+A1 caller.state = {}
+
+--- B1: add DataPart(data=USAGE); metadata untouched ---
+B1 artifact.parts[1].root.data = {"accumulated_usage": {"inputTokens": 2176, "outputTokens": 193, "totalTokens": 2369}}
+B1 caller.accumulated_usage = {"inputTokens": 0, "outputTokens": 0, "totalTokens": 0}
+B1 caller.texts = ["The receipt id is R-001."]
+B1 caller.state = {}
+
+--- B2: add artifact.metadata=USAGE; parts unchanged (control's one TextPart) ---
+B2 artifact.metadata = {"accumulated_usage": {"inputTokens": 2176, "outputTokens": 193, "totalTokens": 2369}}
+B2 caller.accumulated_usage = {"inputTokens": 0, "outputTokens": 0, "totalTokens": 0}
+B2 caller.texts = ["The receipt id is R-001."]
+B2 caller.state = {}
+
+--- C1: append a second TextPart carrying a JSON usage line ---
+C1 caller.accumulated_usage = {"inputTokens": 0, "outputTokens": 0, "totalTokens": 0}
+C1 caller.texts = ["The receipt id is R-001.", "{\"usage\": {\"inputTokens\": 2176, \"outputTokens\": 193, \"totalTokens\": 2369}}"]
+C1 caller.state = {}
+C1 caller json.loads -> usage = {"inputTokens": 2176, "outputTokens": 193, "totalTokens": 2369}
+C1 totalTokens recovered = 2369
+
+--- C2: server writes a usage ledger; caller reads it back by key ---
+C2 ledger line = {"pid": 52539, "key": "uc09-cost", "accumulated_usage": {"inputTokens": 2176, "outputTokens": 193, "totalTokens": 2369}}
+C2 caller readback by key 'uc09-cost' = {"accumulated_usage": {"inputTokens": 2176, "outputTokens": 193, "totalTokens": 2369}, "key": "uc09-cost", "pid": 52539}
+C2 totalTokens recovered = 2369
+
+=== BOUNDED CONCLUSION ===
+A1 usage all zero: True
+B1 DataPart reached artifact: True
+B1 2369 reachable from caller result: False
+B1 caller usage still all zero: True
+B2 metadata reached artifact: True
+B2 2369 reachable from caller result: False
+B2 caller.state has no usage key: True
+C1 usage recovered from a TextPart: True
+C2 usage recovered from side ledger by key: True
+Scope: converter-level, deterministic objects; no live server, no Bedrock,
+no claim about answer quality or about a full two-process run here.
