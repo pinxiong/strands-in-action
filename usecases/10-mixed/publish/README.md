@@ -1,14 +1,14 @@
 # UC10 · Orchestrating Agents: Three Orchestrators, One Process
 
-状态：**在制品，待发布（2026-11-20 10:30 档）**。正文、9 组真实 Bedrock 实验、19 个逐字 SDK 源码块、三套深蓝封面与两件发布物料已落盘；三类独立评审与全套门禁通过后发布。
+状态：**主站 + Dev.to 已发布（2026-11-21 10:51/10:55 GMT+8）；Builder Center 待补发**。正文、9 组真实 Bedrock 实验、19 个逐字 SDK 源码块、三套深蓝封面与两件发布物料已落盘；三类独立评审全 PASS、门禁 17/17 + 全套检查全绿。BC 平台正文上限 40000 字符，本篇 44855 字符被表单校验拦下，草稿正文 / 标题 / 深蓝 1400×788 封面均已就绪，待内容形态决策后补发。
 
 > 按 Pin 2026-11-18 永久政策：**对外分发只发 Dev.to + Builder Center 两个渠道**，不再写 Medium 版本、不做 Import、不回填 `<MEDIUM_URL>`。主站是单一真相源与 canonical 目标，照常 push，不算对外分发版本。
 
 | 渠道 | 线上地址 |
 |---|---|
-| 主站（canonical） | https://xiongpin.dev/posts/orchestrating-mixed/ — 稿件 `content/posts/orchestrating-mixed.md`，发布时置 `draft: false` |
-| AWS Builder Center | `https://builder.aws.com/content/<BC_ID>/orchestrating-agents-three-orchestrators-one-process` — 发布后回填 |
-| Dev.to | `https://dev.to/aws-builders/<DEVTO_SLUG>` — 发布后回填 |
+| 主站（canonical） | https://xiongpin.dev/posts/orchestrating-mixed/ — `draft: false`，线上 200，og:image 深蓝 `cover.png` 1400×788 |
+| AWS Builder Center | `https://builder.aws.com/content/<BC_ID>/orchestrating-agents-three-orchestrators-one-process` — 占位（带渠道域名）；因平台 40000 字符上限待补发，发布后回填 |
+| Dev.to | https://dev.to/aws-builders/orchestrating-agents-three-orchestrators-one-process-4agc — id `5085508`，2026-11-21 10:55 GMT+8 上线，组织 AWS Community Builders，canonical 指回主站 |
 
 > Verified on 2026-11-20 against `strands-agents` 1.63.0,
 > `strands-agents-tools` 0.8.11, Python 3.11 and Bedrock in `us-east-1`.
