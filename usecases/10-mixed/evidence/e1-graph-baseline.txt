@@ -1,0 +1,61 @@
+verified_on = 2026-11-20
+sdk = strands-agents 1.63.0 / strands-agents-tools 0.8.11
+model = amazon.nova-pro-v1:0 (us-east-1)
+python = 3.11
+mode = E1 pure Graph baseline (control)
+pid = 84395
+fixture = data/brief-input.json (byte-identical to usecases/09-a2a)
+status = completed
+execution_order = ["researcher", "calculator", "writer"]
+total_nodes = 3
+completed_nodes = 3
+failed_nodes = 0
+execution_time_ms = 10179
+wall_clock_s = 10.179
+tokens_total.inputTokens = 4455
+tokens_total.outputTokens = 374
+tokens_total.totalTokens = 4829
+model_calls_total = 6
+per_node.researcher.model_calls = 2
+per_node.researcher.inputTokens = 1464
+per_node.researcher.outputTokens = 106
+per_node.researcher.totalTokens = 1570
+per_node.researcher.status = completed
+per_node.researcher.wall_ms = 2731
+per_node.calculator.model_calls = 2
+per_node.calculator.inputTokens = 1534
+per_node.calculator.outputTokens = 125
+per_node.calculator.totalTokens = 1659
+per_node.calculator.status = completed
+per_node.calculator.wall_ms = 3909
+per_node.writer.model_calls = 2
+per_node.writer.inputTokens = 1457
+per_node.writer.outputTokens = 143
+per_node.writer.totalTokens = 1600
+per_node.writer.status = completed
+per_node.writer.wall_ms = 3536
+node_turns = [{"node": "researcher", "duration_s": 2.731}, {"node": "calculator", "duration_s": 3.909}, {"node": "writer", "duration_s": 3.536}]
+first_inputs.researcher = Produce the brief described in data/brief-input.json. Research first, then compute the totals, then write the brief.
+first_inputs.calculator = Original Task: Produce the brief described in data/brief-input.json. Research first, then compute the totals, then write the brief.
+
+Inputs from previous nodes:
+
+From researcher:
+  - Agent: The three main points are: Each node rebuilds its own prompt from scratch, every handoff message is paid for again in the next node's input, and shared context is re-serialized into every downstream prompt.
+
+first_inputs.writer = Original Task: Produce the brief described in data/brief-input.json. Research first, then compute the totals, then write the brief.
+
+Inputs from previous nodes:
+
+From calculator:
+  - Agent: The total token count is 3640 and the cost is $0.002912.
+
+results_text.researcher = The three main points are: Each node rebuilds its own prompt from scratch, every handoff message is paid for again in the next node's input, and shared context is re-serialized into every downstream prompt.
+
+results_text.calculator = The total token count is 3640 and the cost is $0.002912.
+
+results_text.writer = <thinking> The draft has been saved successfully. I will now stop as instructed. </thinking>
+
+ledger = [{"tool": "sum_tokens", "t": 1795143252.9838169, "total": 3640, "cost_usd": 0.002912}, {"tool": "save_draft", "t": 1795143256.89662, "words": 6, "text": "Total token count: 3640. Cost: $0.002912."}]
+build_warnings = []
+run_warnings = []

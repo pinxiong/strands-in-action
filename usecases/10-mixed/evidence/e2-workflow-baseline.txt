@@ -1,0 +1,111 @@
+verified_on = 2026-11-20
+sdk = strands-agents 1.63.0 / strands-agents-tools 0.8.11
+model = amazon.nova-pro-v1:0 (us-east-1)
+python = 3.11
+mode = E2 pure Workflow (vended workflow tool)
+pid = 84839
+fixture = data/brief-input.json (byte-identical to usecases/09-a2a)
+workflow_status = completed
+start_return_type = dict
+start_return_top_level_keys = ["content", "status"]
+start_return_content_keys = [["text"]]
+start_return_has_only_text_blocks = True
+start_text = 🎉 Workflow 'e2-wf-linear' completed successfully! (3/3 tasks succeeded - 100.0%)
+created_return.status = success
+created_return.content = [{"text": "\u2705 Created modern workflow 'e2-wf-linear' with 3 tasks"}]
+timed_out = False
+downstream_can_classify_each_task_from_return = False
+per_task_id_appears_in_return.researcher = False
+per_task_id_appears_in_return.calculator = False
+per_task_id_appears_in_return.writer = False
+return_carries_no_per_task_status_boolean = True
+task_status_on_disk.researcher = completed
+task_status_on_disk.calculator = completed
+task_status_on_disk.writer = completed
+task_result_text_on_disk.researcher = The three points are: Each node rebuilds its own prompt from scratch, every handoff message is paid for again in the next node's input, and shared context is re-serialized into every downstream prompt.
+task_result_text_on_disk.calculator = The total token count is 3640, and the cost is $0.002912.
+task_result_text_on_disk.writer = <thinking> The brief has been saved successfully. I will now stop. </thinking>
+task_metrics_on_disk.researcher = Event Loop Metrics Summary:
+├─ Cycles: total=2, avg_time=1.747s, total_time=3.495s
+├─ Tokens: in=1459, out=104, total=1563
+├─ Bedrock Latency: 1293ms
+├─ Tool Usage:
+   └─ read_brief_input:
+      ├─ Stats: calls=1, success=1
+      │         errors=0, success_rate=100.0%
+      ├─ Timing: avg=0.003s, total=0.003s
+      └─ Tool Calls:
+         ├─ tooluse_yai0Qgk5oi1tzG5ZJuUat3: read_brief_input
+├─ Execution Trace:
+   └─ None - Duration: 2.4976s
+      └─ None - Duration: 2.4915s
+      └─ read_brief_input - tooluse_yai0Qgk5oi1tzG5ZJuUat3 - Duration: 0.0027s
+      └─ None - Duration: 0.9975s
+   └─ None - Duration: 0.9973s
+      └─ None - Duration: 0.9971s
+task_metrics_on_disk.calculator = Event Loop Metrics Summary:
+├─ Cycles: total=2, avg_time=1.266s, total_time=2.532s
+├─ Tokens: in=1540, out=100, total=1640
+├─ Bedrock Latency: 1344ms
+├─ Tool Usage:
+   └─ sum_tokens:
+      ├─ Stats: calls=1, success=1
+      │         errors=0, success_rate=100.0%
+      ├─ Timing: avg=0.001s, total=0.001s
+      └─ Tool Calls:
+         ├─ tooluse_2TVWSOwLIYrfKHCsF2k4JW: sum_tokens
+├─ Execution Trace:
+   └─ None - Duration: 1.6662s
+      └─ None - Duration: 1.6635s
+      └─ sum_tokens - tooluse_2TVWSOwLIYrfKHCsF2k4JW - Duration: 0.0013s
+      └─ None - Duration: 0.8661s
+   └─ None - Duration: 0.8661s
+      └─ None - Duration: 0.8658s
+task_metrics_on_disk.writer = Event Loop Metrics Summary:
+├─ Cycles: total=2, avg_time=1.255s, total_time=2.509s
+├─ Tokens: in=1439, out=125, total=1564
+├─ Bedrock Latency: 1559ms
+├─ Tool Usage:
+   └─ save_draft:
+      ├─ Stats: calls=1, success=1
+      │         errors=0, success_rate=100.0%
+      ├─ Timing: avg=0.001s, total=0.001s
+      └─ Tool Calls:
+         ├─ tooluse_UANu7vbLqpBLt8OkvUyddV: save_draft
+├─ Execution Trace:
+   └─ None - Duration: 1.4631s
+      └─ None - Duration: 1.4603s
+      └─ save_draft - tooluse_UANu7vbLqpBLt8OkvUyddV - Duration: 0.0007s
+      └─ None - Duration: 1.0461s
+   └─ None - Duration: 1.0460s
+      └─ None - Duration: 1.0455s
+per_task_tokens.researcher.inputTokens = 1459
+per_task_tokens.researcher.outputTokens = 104
+per_task_tokens.researcher.totalTokens = 1563
+per_task_tokens.calculator.inputTokens = 1540
+per_task_tokens.calculator.outputTokens = 100
+per_task_tokens.calculator.totalTokens = 1640
+per_task_tokens.writer.inputTokens = 1439
+per_task_tokens.writer.outputTokens = 125
+per_task_tokens.writer.totalTokens = 1564
+tokens_total = 4767
+model_calls.researcher = 2
+model_calls.calculator = 2
+model_calls.writer = 2
+model_calls_total = 6
+workflow_elapsed_s = 11.11
+task_timing = [{"task": "researcher", "duration_s": 4.461}, {"task": "calculator", "duration_s": 3.542}, {"task": "writer", "duration_s": 2.795}]
+first_prompts.researcher = Call read_brief_input exactly once. State the three points in one short sentence. Do not call any other tool.
+first_prompts.calculator = Previous task results:
+Results from researcher:
+The three points are: Each node rebuilds its own prompt from scratch, every handoff message is paid for again in the next node's input, and shared context is re-serialized into every downstream prompt.
+
+Current Task:
+Call sum_tokens with the per-node token counts [1180, 940, 1520]. Report the total and the cost in one short sentence. Do not call any other tool.
+first_prompts.writer = Previous task results:
+Results from calculator:
+The total token count is 3640, and the cost is $0.002912.
+
+Current Task:
+Call save_draft with a brief of at most 40 words that includes the total token count and the cost in USD. Then stop.
+ledger = [{"tool": "sum_tokens", "t": 1795143319.29428, "total": 3640, "cost_usd": 0.002912}, {"tool": "save_draft", "t": 1795143322.011422, "words": 6, "text": "Total token count: 3640. Cost: $0.002912."}]

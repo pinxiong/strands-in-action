@@ -1,0 +1,111 @@
+{
+  "verified_on": "2026-11-20",
+  "sdk": "strands-agents 1.63.0 / strands-agents-tools 0.8.11",
+  "model": "amazon.nova-pro-v1:0 (us-east-1)",
+  "python": "3.11",
+  "mode": "E2 pure Workflow (vended workflow tool)",
+  "pid": 84839,
+  "fixture": "data/brief-input.json (byte-identical to usecases/09-a2a)",
+  "workflow_status": "completed",
+  "start_return_type": "dict",
+  "start_return_top_level_keys": [
+    "content",
+    "status"
+  ],
+  "start_return_content_keys": [
+    [
+      "text"
+    ]
+  ],
+  "start_return_has_only_text_blocks": true,
+  "start_text": "\ud83c\udf89 Workflow 'e2-wf-linear' completed successfully! (3/3 tasks succeeded - 100.0%)",
+  "created_return": {
+    "status": "success",
+    "content": [
+      {
+        "text": "\u2705 Created modern workflow 'e2-wf-linear' with 3 tasks"
+      }
+    ]
+  },
+  "timed_out": false,
+  "downstream_can_classify_each_task_from_return": false,
+  "per_task_id_appears_in_return": {
+    "researcher": false,
+    "calculator": false,
+    "writer": false
+  },
+  "return_carries_no_per_task_status_boolean": true,
+  "task_status_on_disk": {
+    "researcher": "completed",
+    "calculator": "completed",
+    "writer": "completed"
+  },
+  "task_result_text_on_disk": {
+    "researcher": "The three points are: Each node rebuilds its own prompt from scratch, every handoff message is paid for again in the next node's input, and shared context is re-serialized into every downstream prompt.",
+    "calculator": "The total token count is 3640, and the cost is $0.002912.",
+    "writer": "<thinking> The brief has been saved successfully. I will now stop. </thinking>"
+  },
+  "task_metrics_on_disk": {
+    "researcher": "Event Loop Metrics Summary:\n\u251c\u2500 Cycles: total=2, avg_time=1.747s, total_time=3.495s\n\u251c\u2500 Tokens: in=1459, out=104, total=1563\n\u251c\u2500 Bedrock Latency: 1293ms\n\u251c\u2500 Tool Usage:\n   \u2514\u2500 read_brief_input:\n      \u251c\u2500 Stats: calls=1, success=1\n      \u2502         errors=0, success_rate=100.0%\n      \u251c\u2500 Timing: avg=0.003s, total=0.003s\n      \u2514\u2500 Tool Calls:\n         \u251c\u2500 tooluse_yai0Qgk5oi1tzG5ZJuUat3: read_brief_input\n\u251c\u2500 Execution Trace:\n   \u2514\u2500 None - Duration: 2.4976s\n      \u2514\u2500 None - Duration: 2.4915s\n      \u2514\u2500 read_brief_input - tooluse_yai0Qgk5oi1tzG5ZJuUat3 - Duration: 0.0027s\n      \u2514\u2500 None - Duration: 0.9975s\n   \u2514\u2500 None - Duration: 0.9973s\n      \u2514\u2500 None - Duration: 0.9971s",
+    "calculator": "Event Loop Metrics Summary:\n\u251c\u2500 Cycles: total=2, avg_time=1.266s, total_time=2.532s\n\u251c\u2500 Tokens: in=1540, out=100, total=1640\n\u251c\u2500 Bedrock Latency: 1344ms\n\u251c\u2500 Tool Usage:\n   \u2514\u2500 sum_tokens:\n      \u251c\u2500 Stats: calls=1, success=1\n      \u2502         errors=0, success_rate=100.0%\n      \u251c\u2500 Timing: avg=0.001s, total=0.001s\n      \u2514\u2500 Tool Calls:\n         \u251c\u2500 tooluse_2TVWSOwLIYrfKHCsF2k4JW: sum_tokens\n\u251c\u2500 Execution Trace:\n   \u2514\u2500 None - Duration: 1.6662s\n      \u2514\u2500 None - Duration: 1.6635s\n      \u2514\u2500 sum_tokens - tooluse_2TVWSOwLIYrfKHCsF2k4JW - Duration: 0.0013s\n      \u2514\u2500 None - Duration: 0.8661s\n   \u2514\u2500 None - Duration: 0.8661s\n      \u2514\u2500 None - Duration: 0.8658s",
+    "writer": "Event Loop Metrics Summary:\n\u251c\u2500 Cycles: total=2, avg_time=1.255s, total_time=2.509s\n\u251c\u2500 Tokens: in=1439, out=125, total=1564\n\u251c\u2500 Bedrock Latency: 1559ms\n\u251c\u2500 Tool Usage:\n   \u2514\u2500 save_draft:\n      \u251c\u2500 Stats: calls=1, success=1\n      \u2502         errors=0, success_rate=100.0%\n      \u251c\u2500 Timing: avg=0.001s, total=0.001s\n      \u2514\u2500 Tool Calls:\n         \u251c\u2500 tooluse_UANu7vbLqpBLt8OkvUyddV: save_draft\n\u251c\u2500 Execution Trace:\n   \u2514\u2500 None - Duration: 1.4631s\n      \u2514\u2500 None - Duration: 1.4603s\n      \u2514\u2500 save_draft - tooluse_UANu7vbLqpBLt8OkvUyddV - Duration: 0.0007s\n      \u2514\u2500 None - Duration: 1.0461s\n   \u2514\u2500 None - Duration: 1.0460s\n      \u2514\u2500 None - Duration: 1.0455s"
+  },
+  "per_task_tokens": {
+    "researcher": {
+      "inputTokens": 1459,
+      "outputTokens": 104,
+      "totalTokens": 1563
+    },
+    "calculator": {
+      "inputTokens": 1540,
+      "outputTokens": 100,
+      "totalTokens": 1640
+    },
+    "writer": {
+      "inputTokens": 1439,
+      "outputTokens": 125,
+      "totalTokens": 1564
+    }
+  },
+  "tokens_total": 4767,
+  "model_calls": {
+    "researcher": 2,
+    "calculator": 2,
+    "writer": 2
+  },
+  "model_calls_total": 6,
+  "workflow_elapsed_s": 11.11,
+  "task_timing": [
+    {
+      "task": "researcher",
+      "duration_s": 4.461
+    },
+    {
+      "task": "calculator",
+      "duration_s": 3.542
+    },
+    {
+      "task": "writer",
+      "duration_s": 2.795
+    }
+  ],
+  "first_prompts": {
+    "researcher": "Call read_brief_input exactly once. State the three points in one short sentence. Do not call any other tool.",
+    "calculator": "Previous task results:\nResults from researcher:\nThe three points are: Each node rebuilds its own prompt from scratch, every handoff message is paid for again in the next node's input, and shared context is re-serialized into every downstream prompt.\n\nCurrent Task:\nCall sum_tokens with the per-node token counts [1180, 940, 1520]. Report the total and the cost in one short sentence. Do not call any other tool.",
+    "writer": "Previous task results:\nResults from calculator:\nThe total token count is 3640, and the cost is $0.002912.\n\nCurrent Task:\nCall save_draft with a brief of at most 40 words that includes the total token count and the cost in USD. Then stop."
+  },
+  "ledger": [
+    {
+      "tool": "sum_tokens",
+      "t": 1795143319.29428,
+      "total": 3640,
+      "cost_usd": 0.002912
+    },
+    {
+      "tool": "save_draft",
+      "t": 1795143322.011422,
+      "words": 6,
+      "text": "Total token count: 3640. Cost: $0.002912."
+    }
+  ]
+}

@@ -1,0 +1,36 @@
+verified_on = 2026-11-20
+sdk = strands-agents 1.63.0 / strands-agents-tools 0.8.11
+model = amazon.nova-pro-v1:0 (us-east-1)
+python = 3.11
+mode = E8 failure injection: Workflow failure vs Graph condition predicate
+pid = 91625
+fixture = data/brief-input.json (byte-identical to usecases/09-a2a)
+graph_status = completed
+execution_order = ["wf_stage", "ok_writer"]
+branch_taken = ok_writer
+wall_clock_s = 59.75
+inner_workflow_reported = 🎉 Workflow 'uc10-inner-swallowed-91625' completed successfully! (3/3 tasks succeeded - 100.0%)
+inner_workflow_reports_100pct_success = True
+inner_workflow_status = completed
+inner_task_status_on_disk.researcher = completed
+inner_task_status_on_disk.calculator = completed
+inner_task_status_on_disk.writer = completed
+inner_error_marker_in_researcher_disk_text = True
+inner_researcher_disk_text = The explode tool failed with an error: "RuntimeError - injected tool failure."
+inner_actually_failed = True
+wf_stage_node_text = The workflow 'uc10-inner-swallowed-91625' completed successfully! (3/3 tasks succeeded - 100.0%)
+
+inner_error_marker_in_wf_stage_node_text = False
+predicate_log = [{"edge": "wf_stage->fallback", "expect": "'injected tool failure' in state.results text", "hit": false, "excerpt": "The workflow 'uc10-inner-swallowed-91625' completed successfully! (3/3 tasks succeeded - 100.0%)\n"}, {"edge": "wf_stage->ok_writer", "expect": "'injected tool failure' NOT in state.results text", "hit": true, "excerpt": "The workflow 'uc10-inner-swallowed-91625' completed successfully! (3/3 tasks succeeded - 100.0%)\n"}, {"edge": "wf_stage->ok_writer", "expect": "'injected tool failure' NOT in state.results text", "hit": true, "excerpt": "The workflow 'uc10-inner-swallowed-91625' completed successfully! (3/3 tasks succeeded - 100.0%)\n"}]
+predicate_eval_count = 3
+predicate_saw_inner_failure_marker = False
+condition_could_classify_inner_failure = False
+ok_writer_first_input = Original Task: Produce the brief described in data/brief-input.json. Research first, then compute the totals, then write the brief.
+
+Inputs from previous nodes:
+
+From wf_stage:
+  - Agent: The workflow 'uc10-inner-swallowed-91625' completed successfully! (3/3 tasks succeeded - 100.0%)
+
+uc08_contrast = UC08: a swallowed tool failure is reported by the workflow as 100% success. E8: because the vended tool returns only one raw TEXT sentence, the Graph's condition predicate (which reads state.results text) cannot see the inner failure marker that sits only on the workflow's disk state. It routes to ok_writer.
+ledger = [{"tool": "explode", "t": 1795144159.118387}, {"tool": "sum_tokens", "t": 1795144166.7695649, "total": 3640, "cost_usd": 0.002912}, {"tool": "save_draft", "t": 1795144176.201379, "words": 6, "text": "Total token count: 3640. Cost: $0.002912."}, {"tool": "sum_tokens", "t": 1795144195.270336, "total": 3640, "cost_usd": 0.002912}, {"tool": "save_draft", "t": 1795144202.473253, "words": 8, "text": "Total token count: 3640. Cost in USD: $0.002912."}, {"tool": "save_draft", "t": 1795144204.6543272, "words": 18, "text": "A three-node agent swarm costs 3640 tokens, totaling $0.002912 due to prompt rebuilding, message handoffs, and context re-serialization."}, {"tool": "save_draft", "t": 1795144210.911055, "words": 49, "text": "A three-node agent swarm costs more tokens than a single agent because each node rebuilds its own prompt from scratch, every handoff message is paid for again in the next node's input, and shared context is re-serialized into every downstream prompt. The total token count is 3640, costing $0.002912."}]

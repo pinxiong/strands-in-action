@@ -1,0 +1,149 @@
+{
+  "verified_on": "2026-11-20",
+  "sdk": "strands-agents 1.63.0 / strands-agents-tools 0.8.11",
+  "model": "amazon.nova-pro-v1:0 (us-east-1)",
+  "python": "3.11",
+  "mode": "E5 mixed B: Graph top level + node-embedded Workflow sub-process",
+  "pid": 89028,
+  "fixture": "data/brief-input.json (byte-identical to usecases/09-a2a)",
+  "workflow_is_graph_node": false,
+  "workflow_embedded_via": "Graph node Agent calls run_brief_pipeline (a @tool wrapping workflow create+start)",
+  "status": "completed",
+  "execution_order": [
+    "intake",
+    "wf_stage",
+    "review"
+  ],
+  "graph_accumulated_usage": {
+    "inputTokens": 8829,
+    "outputTokens": 443,
+    "totalTokens": 9272
+  },
+  "inner_workflow_task_tokens": {
+    "researcher": {
+      "inputTokens": 1459,
+      "outputTokens": 104,
+      "totalTokens": 1563
+    },
+    "calculator": {
+      "inputTokens": 1550,
+      "outputTokens": 110,
+      "totalTokens": 1660
+    },
+    "writer": {
+      "inputTokens": 1461,
+      "outputTokens": 183,
+      "totalTokens": 1644
+    }
+  },
+  "inner_workflow_tokens_total": 4867,
+  "inner_workflow_model_calls": {
+    "researcher": 2,
+    "calculator": 2,
+    "writer": 2
+  },
+  "inner_workflow_model_calls_total": 6,
+  "graph_results_keys": [
+    "intake",
+    "review",
+    "wf_stage"
+  ],
+  "inner_task_ids_present_as_graph_nodes": false,
+  "graph_usage_equals_sum_of_its_own_nodes": true,
+  "inner_workflow_usage_metered_in_separate_agents": true,
+  "inner_task_model_calls_in_graph_results": false,
+  "inner_result_text_refed_into_graph_node": "wf_stage",
+  "wf_stage_input_tokens": 4094,
+  "true_total_tokens_graph_plus_inner": 14139,
+  "true_total_model_calls": 13,
+  "graph_model_calls_total": 7,
+  "inner_start_text": "\ud83c\udf89 Workflow 'uc10-inner-happy-89028' completed successfully! (3/3 tasks succeeded - 100.0%)",
+  "inner_workflow_status": "completed",
+  "inner_task_status": {
+    "researcher": "completed",
+    "calculator": "completed",
+    "writer": "completed"
+  },
+  "wall_clock_s": 30.779,
+  "execution_time_ms": 30779,
+  "per_node": {
+    "intake": {
+      "inputTokens": 3954,
+      "outputTokens": 305,
+      "totalTokens": 4259,
+      "status": "completed",
+      "wall_ms": 9195
+    },
+    "wf_stage": {
+      "inputTokens": 4094,
+      "outputTokens": 109,
+      "totalTokens": 4203,
+      "status": "completed",
+      "wall_ms": 18499
+    },
+    "review": {
+      "inputTokens": 781,
+      "outputTokens": 29,
+      "totalTokens": 810,
+      "status": "completed",
+      "wall_ms": 3083
+    }
+  },
+  "node_turns": [
+    {
+      "node": "intake",
+      "duration_s": 9.196
+    },
+    {
+      "node": "wf_stage",
+      "duration_s": 18.499
+    },
+    {
+      "node": "review",
+      "duration_s": 3.083
+    }
+  ],
+  "first_inputs": {
+    "intake": "Produce the brief described in data/brief-input.json. Research first, then compute the totals, then write the brief.",
+    "wf_stage": "Original Task: Produce the brief described in data/brief-input.json. Research first, then compute the totals, then write the brief.\n\nInputs from previous nodes:\n\nFrom intake:\n  - Agent: The brief has been successfully saved. It explains why a three-node agent swarm costs more tokens than a single agent, with a total token count of 3640 and a cost of approximately $0.0029 USD. The brief is 41 words long.\n",
+    "review": "Original Task: Produce the brief described in data/brief-input.json. Research first, then compute the totals, then write the brief.\n\nInputs from previous nodes:\n\nFrom wf_stage:\n  - Agent: The result of running the brief pipeline in 'happy' mode is: \"\ud83c\udf89 Workflow 'uc10-inner-happy-89028' completed successfully! (3/3 tasks succeeded - 100.0%)\"\n"
+  },
+  "results_text": {
+    "intake": "The brief has been successfully saved. It explains why a three-node agent swarm costs more tokens than a single agent, with a total token count of 3640 and a cost of approximately $0.0029 USD. The brief is 41 words long.\n",
+    "wf_stage": "The result of running the brief pipeline in 'happy' mode is: \"\ud83c\udf89 Workflow 'uc10-inner-happy-89028' completed successfully! (3/3 tasks succeeded - 100.0%)\"\n",
+    "review": "<thinking> The upstream stage reported that the brief pipeline was successfully completed in 'happy' mode, with all tasks succeeding. </thinking>\n"
+  },
+  "e1_control": {
+    "tokens": 4829,
+    "model_calls": 6
+  },
+  "graph_tokens_delta_vs_e1": 4443,
+  "true_total_tokens_delta_vs_e1": 9310,
+  "ledger": [
+    {
+      "tool": "sum_tokens",
+      "t": 1795143782.327821,
+      "total": 3640,
+      "cost_usd": 0.002912
+    },
+    {
+      "tool": "save_draft",
+      "t": 1795143785.1231182,
+      "words": 41,
+      "text": "A three-node agent swarm costs more tokens than a single agent due to each node rebuilding its own prompt, every handoff message being paid for again, and shared context being re-serialized. The total token count is 3640, costing approximately $0.0029 USD."
+    },
+    {
+      "tool": "sum_tokens",
+      "t": 1795143796.1151202,
+      "total": 3640,
+      "cost_usd": 0.002912
+    },
+    {
+      "tool": "save_draft",
+      "t": 1795143802.1555252,
+      "words": 8,
+      "text": "Total token count: 3640. Cost in USD: $0.002912."
+    }
+  ],
+  "run_warnings": []
+}

@@ -1,0 +1,48 @@
+verified_on = 2026-11-20
+sdk = strands-agents 1.63.0 / strands-agents-tools 0.8.11
+model = amazon.nova-pro-v1:0 (us-east-1)
+python = 3.11
+mode = E7 failure injection: inner Swarm failure vs outer Graph status
+pid = 91601
+fixture = data/brief-input.json (byte-identical to usecases/09-a2a)
+swallowed.mode = swallowed
+swallowed.graph_raised = 
+swallowed.inner_swarm_status = completed
+swallowed.graph_status = completed
+swallowed.execution_order = ["swarm_src", "sink"]
+swallowed.completed_nodes = 2
+swallowed.failed_nodes = 0
+swallowed.downstream_sink_ran = True
+swallowed.inner_error_marker_in_graph_node_text = True
+swallowed.inner_error_marker_reaches_sink_prompt = True
+swallowed.sink_first_input = Original Task: Produce the brief described in data/brief-input.json. Research first, then compute the totals, then write the brief.
+
+Inputs from previous nodes:
+
+From swarm_src:
+  - Agent: The explode tool failed with an error: "RuntimeError - injected tool failure".
+
+swallowed.graph_node_text_swarm_src = scout: The explode tool failed with an error: "RuntimeError - injected tool failure".
+swallowed.graph_treated_inner_failure_as_success = True
+swallowed.wall_clock_s = 5.701
+swallowed.ledger = [{"tool": "explode", "t": 1795144147.895412}]
+agent_raise.mode = agent_raise
+agent_raise.graph_raised = 
+agent_raise.inner_swarm_status = failed
+agent_raise.graph_status = failed
+agent_raise.execution_order = ["swarm_src"]
+agent_raise.completed_nodes = 0
+agent_raise.failed_nodes = 1
+agent_raise.downstream_sink_ran = False
+agent_raise.inner_error_marker_in_graph_node_text = False
+agent_raise.inner_error_marker_reaches_sink_prompt = False
+agent_raise.sink_first_input = <node never ran>
+agent_raise.graph_node_text_swarm_src = scout: injected agent-level failure
+agent_raise.graph_treated_inner_failure_as_success = False
+agent_raise.wall_clock_s = 2.425
+agent_raise.ledger = []
+uc08_contrast = UC08: a tool that raises is swallowed by the agent loop and the workflow still reports 100% success. E7 shows the same swallowed failure crossing a Swarm node boundary: the outer Graph reports COMPLETED. Only an agent-level exception (escaping the loop) turns the inner Swarm FAILED and makes the Graph FAIL + prune its branch.
+swallowed_graph_status = completed
+swallowed_treated_as_success = True
+agent_raise_graph_status = failed
+agent_raise_downstream_ran = False

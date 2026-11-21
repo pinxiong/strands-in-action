@@ -1,0 +1,112 @@
+{
+  "verified_on": "2026-11-20",
+  "sdk": "strands-agents 1.63.0 / strands-agents-tools 0.8.11",
+  "model": "amazon.nova-pro-v1:0 (us-east-1)",
+  "python": "3.11",
+  "mode": "E3 pure Swarm (three-node handoff)",
+  "pid": 84958,
+  "fixture": "data/brief-input.json (byte-identical to usecases/09-a2a)",
+  "status": "completed",
+  "execution_count": 3,
+  "handoff_order_node_history": [
+    "researcher",
+    "calculator",
+    "writer"
+  ],
+  "shared_context_final": {
+    "researcher": {
+      "raw_counts": [
+        1180,
+        940,
+        1520
+      ],
+      "points_found": 3
+    },
+    "calculator": {
+      "total": 3640,
+      "cost_usd": 0.002912
+    }
+  },
+  "shared_context_final_keys": {
+    "researcher": [
+      "points_found",
+      "raw_counts"
+    ],
+    "calculator": [
+      "cost_usd",
+      "total"
+    ]
+  },
+  "wall_clock_s": 21.795,
+  "execution_time_ms": 21794,
+  "tokens_total": {
+    "inputTokens": 7502,
+    "outputTokens": 732,
+    "totalTokens": 8234
+  },
+  "model_calls_total": 8,
+  "per_node": {
+    "researcher": {
+      "model_calls": 3,
+      "inputTokens": 1960,
+      "outputTokens": 327,
+      "totalTokens": 2287,
+      "status": "completed",
+      "wall_ms": 8142
+    },
+    "calculator": {
+      "model_calls": 3,
+      "inputTokens": 3557,
+      "outputTokens": 286,
+      "totalTokens": 3843,
+      "status": "completed",
+      "wall_ms": 8377
+    },
+    "writer": {
+      "model_calls": 2,
+      "inputTokens": 1985,
+      "outputTokens": 119,
+      "totalTokens": 2104,
+      "status": "completed",
+      "wall_ms": 5273
+    }
+  },
+  "node_turns": [
+    {
+      "node": "researcher",
+      "duration_s": 8.142
+    },
+    {
+      "node": "calculator",
+      "duration_s": 8.377
+    },
+    {
+      "node": "writer",
+      "duration_s": 5.274
+    }
+  ],
+  "first_inputs": {
+    "researcher": "Context:\nUser Request: Produce the brief described in data/brief-input.json. Research first, then compute the totals, then write the brief.\n\nOther agents available for collaboration:\nAgent name: calculator.\nAgent name: writer.\n\nYou have access to swarm coordination tools if you need help from other agents. If you don't hand off to another agent, the swarm will consider the task complete.\n\n",
+    "calculator": "Context:\nHandoff Message: The three findings are: 1. Each node rebuilds its own prompt from scratch, contributing to higher token counts. 2. Every handoff message is paid for again in the next node's input, leading to increased costs. 3. Shared context is re-serialized into every downstream prompt, further inflating token usage. The raw numbers for per-node token counts are 1180, 940, and 1520.\n\nUser Request: Produce the brief described in data/brief-input.json. Research first, then compute the totals, then write the brief.\n\nPrevious agents who worked on this: researcher\n\nShared knowledge from previous agents:\n\u2022 researcher: {'raw_counts': [1180, 940, 1520], 'points_found': 3}\n\nOther agents available for collaboration:\nAgent name: researcher.\nAgent name: writer.\n\nYou have access to swarm coordination tools if you need help from other agents. If you don't hand off to another agent, the swarm will consider the task complete.\n\n",
+    "writer": "Context:\nHandoff Message: The total token count is 3640, with a cost of $0.002912. Please proceed with writing the brief.\n\nUser Request: Produce the brief described in data/brief-input.json. Research first, then compute the totals, then write the brief.\n\nPrevious agents who worked on this: researcher \u2192 calculator\n\nShared knowledge from previous agents:\n\u2022 researcher: {'raw_counts': [1180, 940, 1520], 'points_found': 3}\n\u2022 calculator: {'total': 3640, 'cost_usd': 0.002912}\n\nOther agents available for collaboration:\nAgent name: researcher.\nAgent name: calculator.\n\nYou have access to swarm coordination tools if you need help from other agents. If you don't hand off to another agent, the swarm will consider the task complete.\n\n"
+  },
+  "results_text": {
+    "researcher": "<thinking> The handoff to the 'calculator' agent has been successfully initiated. The task is now with the 'calculator' agent to proceed with the next steps. </thinking>\n",
+    "calculator": "I have successfully handed off to the 'writer' agent with the total token count and cost included in the message. The writer agent will now proceed with writing the brief.\n",
+    "writer": "The brief has been successfully saved. It states that the total token count is 3640, with a cost of $0.002912.\n"
+  },
+  "ledger": [
+    {
+      "tool": "sum_tokens",
+      "t": 1795143337.960795,
+      "total": 3640,
+      "cost_usd": 0.002912
+    },
+    {
+      "tool": "save_draft",
+      "t": 1795143344.8649018,
+      "words": 11,
+      "text": "The total token count is 3640, with a cost of $0.002912."
+    }
+  ]
+}

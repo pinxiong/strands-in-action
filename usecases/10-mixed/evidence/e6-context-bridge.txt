@@ -1,0 +1,66 @@
+verified_on = 2026-11-20
+sdk = strands-agents 1.63.0 / strands-agents-tools 0.8.11
+model = amazon.nova-pro-v1:0 (us-east-1)
+python = 3.11
+mode = E6 context bridge: three paradigm data channels, enumerated
+pid = 91275
+fixture = data/brief-input.json (byte-identical to usecases/09-a2a)
+graph_status = completed
+execution_order = ["swarm_src", "wf_mid", "sink"]
+wall_clock_s = 40.381
+sentinel_swarm = SWARM-7Q2
+structured_reachability.graph_noderesult_has_status = True
+structured_reachability.graph_noderesult_has_accumulated_usage = True
+structured_reachability.graph_noderesult_has_shared_context = False
+structured_reachability.swarmresult_has_shared_context = False
+structured_reachability.swarmresult_has_node_history = True
+structured_reachability.graph_noderesult_has_task_results = False
+structured_reachability.wf_agentresult_has_task_results = False
+channel_graph_state_results.object = GraphState.results : dict[str, NodeResult]
+channel_graph_state_results.keys = ["sink", "swarm_src", "wf_mid"]
+channel_graph_state_results.node_result_fields = ["accumulated_metrics", "accumulated_usage", "execution_count", "execution_time", "interrupts", "result", "status"]
+channel_graph_state_results.predicate_eval_count = 2
+channel_graph_state_results.fields_predicate_read.swarm_src.node_result_fields = ["accumulated_metrics", "accumulated_usage", "execution_count", "execution_time", "interrupts", "result", "status"]
+channel_graph_state_results.fields_predicate_read.swarm_src.status = completed
+channel_graph_state_results.fields_predicate_read.swarm_src.accumulated_usage_totalTokens = 4385
+channel_graph_state_results.fields_predicate_read.swarm_src.execution_time = 7606
+channel_graph_state_results.reaches_condition_predicate = True
+channel_graph_state_results.reaches_downstream_node_prompt_as_structure = False
+channel_graph_state_results.what_crosses_to_next_node = str(NodeResult) TEXT only
+channel_swarm_shared_context.object = Swarm.shared_context.context : dict[node_id][key]
+channel_swarm_shared_context.keys.scout = ["raw_counts", "sentinel"]
+channel_swarm_shared_context.value.scout.sentinel = SWARM-7Q2
+channel_swarm_shared_context.value.scout.raw_counts = [1180, 940, 1520]
+channel_swarm_shared_context.sentinel_written = True
+channel_swarm_shared_context.reaches_graph_as_structured_field = False
+channel_swarm_shared_context.what_crosses_to_next_node = str(SwarmResult) TEXT = per-node final text
+channel_workflow.object = persisted task_results + start return
+channel_workflow.task_result_fields.researcher = ["completed_at", "metrics", "model_provider", "priority", "result", "status", "tools"]
+channel_workflow.task_result_fields.calculator = ["completed_at", "metrics", "model_provider", "priority", "result", "status", "tools"]
+channel_workflow.task_result_fields.writer = ["completed_at", "metrics", "model_provider", "priority", "result", "status", "tools"]
+channel_workflow.start_return_fields = ["content", "status"]
+channel_workflow.start_text = 🎉 Workflow 'uc10-inner-happy-91275' completed successfully! (3/3 tasks succeeded - 100.0%)
+channel_workflow.per_task_status_on_disk.researcher = completed
+channel_workflow.per_task_status_on_disk.calculator = completed
+channel_workflow.per_task_status_on_disk.writer = completed
+channel_workflow.reaches_graph_as_structured_field = False
+channel_workflow.what_crosses_to_next_node = one raw TEXT sentence
+visibility_checks.sentinel_string_in_graph_results_text = False
+visibility_checks.sentinel_string_in_sink_prompt = False
+visibility_checks.task_results_word_in_graph_results_text = False
+visibility_checks.graph_structured_field_names_in_sink_prompt = False
+visibility_checks.note = A raw string appearing in a message (tool-use / tool-result text) is not a structured field an orchestrator can branch on.
+cross_boundary_matrix = [{"from": "Graph state.results", "to": "condition predicate", "reaches": ["accumulated_metrics", "accumulated_usage", "execution_count", "execution_time", "interrupts", "result", "status"], "loses": []}, {"from": "Graph state.results", "to": "downstream Graph node prompt", "reaches": ["str(NodeResult) TEXT"], "loses": ["status", "accumulated_usage", "accumulated_metrics", "execution_time", "execution_count"]}, {"from": "Swarm SharedContext", "to": "Graph state.results", "reaches": [], "loses": ["shared_context.context", "sentinel SWARM-7Q2", "node_history", "handoff_message"]}, {"from": "Workflow task_results", "to": "Graph state.results", "reaches": [], "loses": ["task_results.status", "task_results.result", "task_results.metrics", "per-task success bool"]}]
+sink_first_input = Original Task: Produce the brief described in data/brief-input.json. Research first, then compute the totals, then write the brief.
+
+Inputs from previous nodes:
+
+From wf_mid:
+  - Agent: The workflow 'uc10-inner-happy-91275' completed successfully with all tasks succeeding and the brief being saved.
+
+results_text.swarm_src = scout: <thinking> The task has been successfully handed off to the analyst. </thinking>
+analyst: <thinking> Based on the provided context, the task is to summarize three research findings in one sentence. The context mentions a three-node a
+results_text.wf_mid = The workflow 'uc10-inner-happy-91275' completed successfully with all tasks succeeding and the brief being saved.
+
+results_text.sink = <thinking> The upstream stage, identified as 'wf_mid', has reported that the workflow 'uc10-inner-happy-91275' completed successfully with all tasks succeeding and the brief being saved. This indicates that the research, computation of tota
+ledger = [{"tool": "sum_tokens", "t": 1795144124.296182, "total": 3640, "cost_usd": 0.002912}, {"tool": "save_draft", "t": 1795144128.7463849, "words": 6, "text": "Total token count: 3640. Cost: $0.002912."}, {"tool": "save_draft", "t": 1795144130.302397, "words": 10, "text": "Total token count: 3640. Cost: $0.002912. Cost per token: $0.0000007999."}, {"tool": "save_draft", "t": 1795144131.7356648, "words": 19, "text": "Task: Save brief with total token count and cost. Total token count: 3640. Cost: $0.002912. Cost per token: $0.0000007999."}, {"tool": "save_draft", "t": 1795144133.796994, "words": 20, "text": "Task completed: Saved brief with total token count and cost. Total token count: 3640. Cost: $0.002912. Cost per token: $0.0000007999."}, {"tool": "save_draft", "t": 1795144135.914745, "words": 17, "text": "Summary: Saved brief with total token count (3640) and cost ($0.002912). Cost per token: $0.0000007999. Task completed."}, {"tool": "save_draft", "t": 1795144138.2062988, "words": 15, "text": "Final note: Successfully saved brief with total token count (3640) and cost ($0.002912). Task completed."}]
