@@ -10,93 +10,60 @@ cover:
 
 > Verified on 2026-11-20 against `strands-agents` 1.63.0,
 > `strands-agents-tools` 0.8.11, Python 3.11 and Bedrock in `us-east-1`.
-> Every number below came out of a real run. E9 aggregates those runs and says
-> so. The scripts and raw output live in
+> Every number below came from a real run. E9 aggregates those runs. The
+> scripts and raw output live in
 > https://github.com/pinxiong/strands-in-action/tree/master/usecases/10-mixed.
 > The model is `amazon.nova-pro-v1:0`.
 
-The task in this post is the same small task from the last four posts. A fixture
-holds three invented per-node token counts. An agent has to add them with a
-`sum_tokens` tool and save a short brief with a `save_draft` tool. Earlier posts
-ran that task on a swarm, a graph, a workflow tool and a second OS process
-reached over A2A. This post puts three orchestrators in one process at the same
-time. A Graph fixes the order, the vended Workflow tool runs a deterministic
-sub-process and a Swarm handles one layer of research. There is no socket and no
-second process. Here "orchestrating" means composing these three pieces into one
-run, not coordinating agents by hand.
+This post puts a Graph, the vended Workflow tool and a Swarm in one process.
+There is no socket and no second process. The task comes from the last four
+posts. A fixture holds three invented per-node token counts. An agent adds them
+with a `sum_tokens` tool and saves a brief with a `save_draft` tool.
 
-Three orchestrators in one process do not share one context. A Graph hands a
-node the text of its parents' results. A Workflow tool hands the next task a
-rendered string. A Swarm hands its members a key-value `SharedContext`. The
-composition works only because I wrote the adapters. The orchestrators compose
-at the API level and do not compose at the data level. That is the whole
-finding: the adapters are the work.
+They do not share one context. A Graph hands a node the text of its parents'
+results. A Workflow tool hands the next task a rendered string. A Swarm hands
+its members a key-value `SharedContext`. They compose at the API level, not at
+the data level. The adapters are the work. Nine experiments ask which fields
+cross, how an inner failure is marked and what mixing costs. Only text crosses.
+An inner tool failure can be reported as success. The two mixed runs use 74.5%
+and 192.8% more model tokens than the pure Graph baseline E1. Inside one
+process the boundary is a rendering step, not a network.
 
-The title is a claim about evidence. Inside one process you can still inspect
-each object in memory, so the boundary is not a network. It is a rendering
-step. This post answers three questions with nine experiments: which fields
-cross from one orchestrator into the next, how an inner failure is marked on
-the outer result and what the composition costs. The short answer is that only
-text crosses, an inner tool failure can be reported as success and the two
-mixed runs use 74.5% and 192.8% more model tokens than the pure Graph
-baseline E1.
+Eight runs reach Bedrock and share one fixture and one process. E9 only reads
+their evidence and makes no model call. That is a bench for inspecting a
+boundary, not production traffic. The numbers say nothing about answer quality.
 
-One scope note before the trace. This is the open-source Strands Agents SDK, a
-Python library that runs inside your own process. Bedrock supplies the model.
-The eight runs that reach Bedrock share one fixture, short prompts and one
-process; E9 only reads their evidence and makes no model call. That is a bench
-for inspecting a boundary, not a sample of production traffic. The numbers
-describe what the runtime reports. They say nothing about answer quality.
-
-One naming note before the source. `GraphState.results` holds one `NodeResult`
-per completed node. A condition predicate is a function the Graph calls to
-decide whether an edge fires. `SharedContext` is the Swarm's nested dictionary
-of keys per node. `task_results` is the Workflow tool's persisted record of each
-task. `MultiAgentBase` is the SDK base class that both `Swarm` and `Graph`
-inherit from, so a Graph node can take one as its executor. `@tool` is the SDK
-decorator that turns a plain Python function into a tool an Agent can call. An
-adapter is code I wrote to move a value from one of those structures into a
-message the next orchestrator can read. A sentinel is a value I planted to see
-whether it survives the crossing. I call a failure swallowed when a tool raises
-and the agent loop turns the exception into text. I call a failure agent-level
-when the exception escapes that loop. Two different numbers here carry the word
-"tokens". `accumulated_usage.totalTokens` is what the runtime says a run spent,
-such as 4829 for E1. The 3640 in each brief is a fixture figure: `sum_tokens` adds
-three invented per-node counts from `data/brief-input.json`. That number belongs
-to the task, not to a measurement of model use. The four earlier posts each end
-with a list of what their paradigm gives up. This post starts from those lists
-and does not restate the shared task.
+`MultiAgentBase` is the SDK base class that both `Swarm` and `Graph` inherit
+from, so a Graph node can take one as its executor. `@tool` is the SDK
+decorator that turns a plain Python function into a tool an Agent can call.
+`GraphState.results` holds one `NodeResult` per completed node; a condition
+predicate decides whether an edge fires; `SharedContext` is the Swarm's nested
+dictionary of keys per node; `task_results` is the Workflow tool's persisted
+record of each task. An adapter moves a value from one of those structures into
+a message the next orchestrator can read. A sentinel is a value I planted to
+see whether it survives. A swallowed failure is one where the agent loop turns
+a tool exception into text; an agent-level failure escapes that loop. Two
+numbers carry the word "tokens". `accumulated_usage.totalTokens` is what the
+runtime says a run spent, such as 4829 for E1. The 3640 in each brief is a
+fixture figure from `sum_tokens` adding three invented per-node counts in
+`data/brief-input.json`, not a measurement of model use.
 
 ## When not to use this
 
-Do not mix orchestrators when a downstream step has to branch on a result. E6
-below shows that a condition predicate can read structured `NodeResult` fields,
-but a downstream node prompt gets only `str(NodeResult)` text. E8 shows that a
-condition predicate cannot see a failure that lives in the Workflow tool's
-`task_results`. A branch that needs a status, a token count or a per-task
-success flag has to read them from a structure it owns. A mixed run does not
-give it one.
+Do not mix orchestrators when a downstream step must branch on a result or when
+the inner failure must be auditable. E6 shows a condition predicate can read
+structured `NodeResult` fields, but a downstream node prompt gets only
+`str(NodeResult)` text. E7 shows a tool that raises inside a nested Swarm
+leaving the outer Graph `completed`. E8 shows the Workflow tool reporting
+`100.0%` success while one of its tasks recorded an error on disk. Only an
+agent-level exception made the Graph fail.
 
-Do not mix them when the inner failure has to be auditable. E7 shows a tool
-that raises inside a nested Swarm leaving the outer Graph `completed`. E8 shows
-the Workflow tool reporting `100.0%` success while one of its tasks recorded an
-error on disk. Only an agent-level exception made the outer Graph fail. A
-compliance gate cannot sit on a text string that says success.
-
-Do not mix them on a linear chain. In E1, E2, E3, E4 and E5 the ledger records
-the same two fixture numbers every time: 3640 tokens and $0.002912. The briefs
-differ in wording but carry no new fact. E9 shows the two mixed runs using
-74.5% and 192.8% more model tokens than the pure Graph baseline E1, with wall
-clock up to 3.02x longer. I had planned a parallel research layer inside the
-Swarm. The run produced a serial handoff, not parallel work. That was the
-first sign the composition was decorative.
-
-There is one thing mixing buys. A Graph can schedule a Swarm as a node, so a
-deterministic state machine can contain one layer of autonomous handoffs.
-None of the three pure baselines did that. A Swarm refused to host a Graph node
-and the Workflow tool is not a Graph node at all. If you need exactly that
-shape, and you accept a text-only boundary that you cannot audit, mixing is a
-real option. It is not a way to get more data power or more reliability.
+Do not mix them on a linear chain. In E1 to E5 the ledger records the same two
+fixture numbers: 3640 tokens and $0.002912. The two mixed runs cost 74.5% and
+192.8% more model tokens than E1 with wall clock up to 3.02x longer. I planned
+parallel research inside the Swarm; the run produced a serial handoff. Mixing
+buys one capability: a Graph can schedule a Swarm as a node. None of the three
+pure baselines did that. Use it only if you accept a text-only boundary.
 
 ## Three channels, one process
 
@@ -521,13 +488,10 @@ workflow_elapsed_s = 11.11
 ```
 
 The disk holds one record per task with a status and an `Event Loop Metrics
-Summary` for each. The return value holds one sentence with a percentage. A
-caller that reads the return value cannot tell which task succeeded. E2 is the
-cheapest run, 62 model tokens below E1. That gap is noise from model wording,
-not a saving the tool produced, so E1 stays the baseline for every percentage
-below.
-
-E3 runs a pure Swarm with the same three roles.
+Summary` for each. The return value holds one sentence with a percentage, so a
+caller cannot tell which task succeeded. E2 is the cheapest run, 62 model
+tokens below E1. That gap is noise from model wording, not a saving the tool
+produced, so E1 stays the baseline for every percentage below.
 
 ```text
 e3-swarm-baseline.txt (E3), selected fields rewrapped for this page:
@@ -547,12 +511,6 @@ The Swarm is the only one of the three that keeps typed values. It also costs
 70.5% more tokens than E1 and takes 2.14x as long. Each handoff rebuilds a
 prompt that carries the earlier nodes' shared knowledge as text. The typed
 dictionary is real. It does not leave the Swarm.
-
-## Two ways to nest
-
-E4 puts a Swarm directly into a Graph node. The SDK accepts it because `Swarm`
-inherits from `MultiAgentBase`. This is the one composition that a pure
-baseline could not express.
 
 ```python
 # usecases/10-mixed/src/e4_mixed_graph_swarm.py:55-65 -- verbatim, this bench
@@ -591,10 +549,9 @@ tokens_delta_vs_e1 = 3599
 The Graph ran the Swarm as one node and the Swarm handed off from `scout` to
 `analyst`. That is a serial handoff, not parallel research. The Graph's usage
 does include the nested Swarm's 4778 tokens, so one ledger covers this
-composition. What the next Graph node received is visible in the calculator's
-first prompt: two lines of `scout:` and `analyst:` text. The `SharedContext`
-keys never became a field the Graph could read. E4 cost 74.5% more tokens than
-E1 and took 2.29x as long.
+composition. The next Graph node received two lines of `scout:` and `analyst:`
+text, and the `SharedContext` keys never became a field the Graph could read.
+E4 cost 74.5% more tokens than E1 and took 2.29x as long.
 
 E5 needs an adapter. The vended Workflow tool is a `@tool` function, not a
 `MultiAgentBase`, so it cannot be a Graph node. I wrapped `create` and `start`
@@ -649,11 +606,8 @@ Two ledgers, not one. The Graph reports 9272 tokens for its own three nodes.
 The inner Workflow tasks ran in separate Agents and used 4867 tokens. The SDK
 does not add them together. I added them to get 14139, and I am saying so
 plainly: that number is my sum of two real measurements, not a total any
-runtime reported. The Graph's `state.results` has three keys, `intake`,
-`wf_stage` and `review`. It has no key for any inner task. The `wf_stage` node
-text is the success sentence from `start`, quoted inside an agent's answer.
-
-## What actually crosses
+runtime reported. The Graph's `state.results` has three keys and no key for any
+inner task.
 
 E6 plants a sentinel and asks a direct question. I told the `scout` to write
 `SWARM-7Q2` into `SharedContext` and told the `analyst` not to repeat it. Then
@@ -704,23 +658,14 @@ Four crossings, one rule. A condition predicate reads `state.results` directly
 and gets all seven `NodeResult` fields with nothing lost. In this run it read
 `status=completed`, `accumulated_usage.totalTokens=4385` and
 `execution_time=7606`. A downstream Graph node prompt gets `str(NodeResult)`
-text and loses `status`, `accumulated_usage`, `accumulated_metrics`,
-`execution_time` and `execution_count`. A Swarm's `SharedContext` reaches the
-Graph as no structured field at all, losing the sentinel, `node_history` and
-the handoff message. A Workflow tool's `task_results` reaches the Graph as no
-structured field either, losing each task's `status`, `result`, `metrics` and
-per-task success flag.
-
-The sentinel was written. It did not appear in the Graph results text and it
-did not appear in the sink's prompt. A raw string inside a message is not a
-field an orchestrator can branch on. This is the answer to the question readers
-asked about an earlier post: after a boundary, the caller has to own the
-channel that carries the evidence.
-
-## A failure the outer Graph cannot see
-
-E7 injects a tool that raises inside a Swarm node and compares two kinds of
-exception.
+text and loses five of them. A Swarm's `SharedContext` reaches the Graph as no
+structured field at all, losing the sentinel, `node_history` and the handoff
+message. A Workflow tool's `task_results` reaches the Graph as no structured
+field either, losing each task's `status`, `result`, `metrics` and per-task
+success flag. The sentinel was written. It did not appear in the Graph results
+text or in the sink's prompt. A raw string is not a field an orchestrator can
+branch on. After a boundary, the caller has to own the channel that carries the
+evidence.
 
 ```text
 e7-failure-inner-swarm.txt (E7), selected fields rewrapped for this page:
@@ -843,12 +788,6 @@ inside a pure workflow. E7 and E8 show it surviving two more boundaries. The
 composition did not add a failure channel. It added two places where the
 failure becomes text.
 
-## What mixing costs
-
-E9 puts E1 to E5 side by side. It reads the five evidence files that were
-already written by real Bedrock runs. It does not re-run them and makes no
-model call.
-
 ```text
 e9-cost-capability.txt (E9), five runs side by side:
 E1  Graph only          4829 tokens    6 model calls   10.179 s   1.00x
@@ -883,78 +822,55 @@ I did not execute the rejected cases. Acceptance at construction time is not
 evidence that a node runs. E4 is the executed case: the Graph scheduled the
 Swarm and the nested node produced a `SwarmResult`.
 
-The verdict is narrow. Mixing buys one capability, a Graph that schedules a
+The verdict is narrow. Mixing buys one capability: a Graph that schedules a
 Swarm as a node. On this linear task it buys no usable data power, because E6
 shows every structured field trapped behind a text boundary and E7 and E8 show
 an inner failure reported as success or invisible to a predicate. Each of the
 five brief-producing runs, E1 to E5, wrote the same fixture figure of 3640
-tokens and $0.002912 into its ledger, whatever the brief's wording. Meanwhile
-the two mixed runs used 74.5% and 192.8% more model tokens than the pure Graph
-baseline E1, with wall clock up to 3.02x. Mix only when you need one
-orchestrator nested inside a Graph and you accept a text-only boundary.
+tokens and $0.002912 into its ledger. Meanwhile the two mixed runs used 74.5%
+and 192.8% more model tokens than the pure Graph baseline E1, with wall clock
+up to 3.02x. Mix only when you need one orchestrator nested inside a Graph and
+you accept a text-only boundary. Composition added a layer without removing
+one: E4 used 8428 tokens against E3's 8234.
 
 ## What surprised me
 
-I expected the mixed run to be cheaper than the pure Swarm, because the Graph
-would replace most of the handoffs. E4 used 8428 tokens against E3's 8234. The
-Graph kept its own node prompts and paid for the nested Swarm on top. Composition
-added a layer without removing one.
-
-I also expected the "parallel research" layer to show overlapping work. E4's
-inner Swarm handed off from `scout` to `analyst` in sequence. A Swarm is a
-handoff chain, not a worker pool. That single observation is why the
-`When not to use this` section sits at the front of this post rather than at
-the end.
-
-The third surprise was E5's two ledgers. I went looking for one token total and
-found that no runtime holds it. The Graph meters its own nodes. The Workflow
-tool's task Agents meter themselves. A cost ceiling on the Graph's
-`accumulated_usage` reads 9272 for a run that used 14139. That is the same
-shape as the zero-token caller in the A2A post, one layer closer to home.
+I expected the mixed run to be cheaper than the pure Swarm. E4 used 8428 tokens
+against E3's 8234: the Graph kept its own node prompts and paid for the nested
+Swarm on top, so composition added a layer without removing one. I also expected
+parallel research, but E4's Swarm handed off from `scout` to `analyst` in
+sequence; a Swarm is a handoff chain, not a worker pool. The third surprise was
+E5's two ledgers: the Graph meters its own nodes, the Workflow task Agents meter
+themselves. No runtime holds the 14139 total. I added two real numbers by
+hand.
 
 ## What this experiment does not cover
 
 This experiment does not cover authentication or SigV4, multi-tenant context
 isolation, real network partitions, streaming artifact schemas, provider-side
 ledger reconciliation or answer quality and cost per useful result. It does not
-cover a genuinely parallel Swarm research layer, because E4's inner Swarm ran
-one handoff at a time. It does not cover executing a Graph inside a Swarm or
-running the Workflow tool as a direct Graph node. The E9 probe rejected the
-first at construction time and accepted the second at construction time, and I
-executed neither. It does not cover a mixed run on a branching graph where a
-predicate gates a side effect.
-
-The three questions about what crosses the boundary, how an inner failure is
-marked and what mixing costs are not in this list. E6, E7, E8 and E9 measure
-them. I put that sentence in because readers of an earlier post asked whether
-the interesting failures had been left out of the scope note.
+cover a genuinely parallel Swarm research layer, a Graph inside a Swarm or the
+Workflow tool as a direct Graph node. The E9 probe rejected one and accepted
+the other at construction time; I executed neither. It does not cover a
+branching graph where a predicate gates a side effect. The three questions
+about what crosses the boundary, how an inner failure is marked and what mixing
+costs are not in this list. E6, E7, E8 and E9 measure them.
 
 ## How I measured
 
 All numbers come from nine experiments on 2026-11-20, with `strands-agents`
 1.63.0, `strands-agents-tools` 0.8.11, `amazon.nova-pro-v1:0` in `us-east-1`,
-Python 3.11 and one OS process per run. The fixture
-`data/brief-input.json` is byte-for-byte the file used in the earlier posts in
-this series. E1 to E8 reach Bedrock. E9 aggregates the five already-run
-experiments and adds a construction-time probe; it makes no model call. The
-token columns come from `accumulated_usage` on real results. The 3640 in each
-brief is a fixture figure that `sum_tokens` computes, not a model measurement.
-E2 counts the per-task Agents. E5 adds two separate real ledgers by hand, and
-the text says so.
-Wall-clock time is measured around the call. Each experiment writes its own
-`evidence/*.txt` and `evidence/*.json`.
-
-Every SDK source block above is sliced verbatim from the installed
-site-packages, then dedented so the first code line is flush left. The three
-blocks from this bench are sliced from `src/` the same way. The `# path:lines`
-header is at column 0 and the line numbers are 1-based from the installed
-file. The full set of 19 SDK blocks and the generator are in
-`evidence/source-blocks.md` and `src/gen_source_blocks.py`. The text blocks above rewrap selected fields for
-the page width, so the byte-exact lines live in the evidence files. Model
-output varies between runs. The wording of each brief is an observation of
-these runs, not a benchmark. Every failure run has a control: a swallowed tool
-error against an agent-level exception, and a failing inner Workflow against
-its own reported success sentence.
+Python 3.11 and one OS process per run. E1 to E8 reach Bedrock. E9 aggregates
+the five already-run experiments and adds a construction-time probe; it makes
+no model call. The token columns come from `accumulated_usage` on real results.
+The 3640 in each brief is a fixture figure that `sum_tokens` computes, not a
+model measurement. E2 counts the per-task Agents. E5 adds two separate real
+ledgers by hand, and the text says so. Every SDK source block above is sliced
+verbatim from the installed site-packages and dedented so the first code line
+is flush left; the 19 blocks and the generator are in
+`evidence/source-blocks.md` and `src/gen_source_blocks.py`. The text blocks
+rewrap selected fields for the page width, so the byte-exact lines live in the
+evidence files. Model output varies between runs.
 
 ## Try it yourself
 
@@ -966,14 +882,13 @@ pip install strands-agents==1.63.0 strands-agents-tools==0.8.11 boto3
 export AWS_DEFAULT_REGION=us-east-1
 ```
 
-The full source, the fixed fixture and all raw evidence are in
-https://github.com/pinxiong/strands-in-action/tree/master/usecases/10-mixed.
+The full source, the fixed fixture and all raw evidence are in the repository
+at https://github.com/pinxiong/strands-in-action/tree/master/usecases/10-mixed.
 Use Python 3.11 for the venv. The scripts hard-code `us-east-1` and
 `amazon.nova-pro-v1:0` in `src/common.py` and pass the region explicitly to
-`BedrockModel`, so `AWS_DEFAULT_REGION` is only a boto3 default and cannot
-redirect these calls. Provide credentials through `aws configure`, `AWS_PROFILE`
-or environment variables. Enable model access for `amazon.nova-pro-v1:0` in
-that region first. Bedrock will reject the call otherwise. Then run the nine
+`BedrockModel`, so `AWS_DEFAULT_REGION` cannot redirect these calls. Provide
+credentials through `aws configure`, `AWS_PROFILE` or environment variables.
+Enable model access for `amazon.nova-pro-v1:0` first. Then run the nine
 experiments:
 
 ```bash
@@ -988,38 +903,23 @@ experiments:
 .venv/bin/python src/e9_cost_capability.py
 ```
 
-Each script creates its own `STRANDS_WORKFLOW_DIR` under a temporary path at
-import time, so persisted Workflow state cannot leak between experiments. Set
-`UC10_STATE_DIR` if you want to keep that state. The scripts clear the shared
-tool ledger at startup, so run them one at a time. E9 reads the five evidence
-files that E1 to E5 wrote, so run it last. `src/gen_source_blocks.py` rebuilds
-the verbatim source blocks from your installed packages; the line numbers will
-shift if you install a different version. E8 takes about a minute because its
-inner Workflow runs a failing task and then a full Graph. Read `first_prompt`
-or `first_inputs` in each JSON before comparing your numbers with mine: the
-exact words the model produces differ between runs, while `status`,
-`execution_order`, the sentinel checks and the token counters do not.
+Each script creates its own `STRANDS_WORKFLOW_DIR` under a temporary path, so
+persisted Workflow state cannot leak between experiments. The scripts clear the
+shared tool ledger at startup, so run them one at a time. E9 reads the five
+evidence files that E1 to E5 wrote, so run it last. `src/gen_source_blocks.py`
+rebuilds the verbatim source blocks from your installed packages; the line
+numbers shift if you install a different version. Read `first_prompt` or
+`first_inputs` in each JSON before comparing numbers with mine: model wording
+differs between runs, while `status`, `execution_order`, the sentinel checks
+and the token counters do not.
 
 ## Takeaways
 
-1. Three orchestrators compose at the API level. A Graph accepts a `Swarm` as a
-   node because `Swarm` is a `MultiAgentBase`.
-2. The Workflow tool is a `@tool` function, not a Graph node. E5 embedded it
-   through an adapter that wraps `create` and `start`.
-3. A Graph condition predicate reads all seven `NodeResult` fields. A
-   downstream node prompt gets `str(NodeResult)` text and loses five of them.
-4. `SharedContext` and `task_results` reach the outer Graph as no structured
-   field at all. The sentinel `SWARM-7Q2` was written and never arrived.
-5. A swallowed tool failure inside a nested Swarm left the outer Graph
-   `completed` and ran the sink. Only an agent-level exception made it fail and
-   prune the branch.
-6. E8's inner Workflow reported `100.0%` success while its researcher task
-   recorded the injected error on disk. The predicate evaluated three times
-   and never saw the marker.
-7. E5 has two ledgers, not one. The Graph reported 9272 tokens and the inner
-   Workflow used 4867. The 14139 total is my sum, not a runtime number.
-8. E1 used 4829 model tokens. E4 used 8428 and E5 used 14139. Each of E1 to E5
-   wrote the fixture's 3640 tokens and $0.002912 into its ledger. Mixing added
-   cost, not data power.
-9. The adapters are the whole finding. If a downstream step must branch on a
-   result or audit a failure, own the channel that carries that evidence.
+1. Three orchestrators compose at the API level, not at the data level. A Graph
+   accepts a `Swarm` as a node because `Swarm` is a `MultiAgentBase`.
+2. A downstream node prompt gets `str(NodeResult)` text and loses five of the
+   seven `NodeResult` fields. `SharedContext` and `task_results` arrive as no
+   structured field at all.
+3. A swallowed inner failure left the outer Graph `completed`. E8 reported
+   `100.0%` success with an error on disk. E5 has two ledgers: 9272 plus 4867,
+   and the 14139 total is my sum. The adapters are the whole finding.
